@@ -10,10 +10,10 @@ const dashboard = {
     type: 'group',
     children: [
         {
-            id: 'accounts',
-            title: 'Accounts',
+            id: 'projects',
+            title: 'Projects',
             type: 'item',
-            url: '/accounts',
+            url: '/projects',
             icon: IconBrandInstagram,
             breadcrumbs: false
         },

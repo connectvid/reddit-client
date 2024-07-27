@@ -28,7 +28,7 @@ export const AWS_API = {
 export const BASE_PATH = '';
 
 // export const DASHBOARD_PATH = '/dashboard/default';
-export const DASHBOARD_PATH = '/accounts';
+export const DASHBOARD_PATH = '/projects';
 export const SUBSCRIPTION_PATH = '/subscription';
 export const SETTING_PATH = '/settings';
 export const EXPIRED_PATH = '/expired';
