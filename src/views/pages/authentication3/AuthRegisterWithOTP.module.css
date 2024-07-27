@@ -1,0 +1,15 @@
+.registerOTPfield input {
+    font-size: 50px;
+    padding: 0 15px;
+    height: 70px;
+    letter-spacing: 35px;
+    text-align: center;
+}
+
+.registerOTPfield input::placeholder {
+    font-size: 40px;
+    letter-spacing: 4px;
+    /* padding: 0 15px;
+    height: 70px;
+    text-align: center; */
+}
