@@ -17,19 +17,35 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 import axios from 'utils/axios';
 import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 import ProjectsTable from './ProjectsTable';
+import project, { getProducts } from 'features/project/project';
+import { useSelector } from 'react-redux';
 
 const Projects = () => {
+    const { getAccessToken, dbUser } = useAuth();
     const [open, setOpen] = React.useState(false);
-    const [projects, setProjects] = React.useState(null);
+    // const [loading, setLoading] = React.useState(false);
+    const [pro, setProjects] = React.useState(null);
+    const { loading, projects } = useSelector((state) => state.project);
     const handleClose = () => {
         setOpen((p) => !p);
     };
+    useEffect(() => {
+        const fetchProjects = async () => {
+            try {
+                const token = await getAccessToken();
+                getProducts(dbUser._id, token)();
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        fetchProjects();
+    }, []);
 
     return (
         <>

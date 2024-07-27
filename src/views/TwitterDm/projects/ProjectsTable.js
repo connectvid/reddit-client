@@ -72,22 +72,38 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
             loading={loading}
             columns={[
                 {
-                    field: 'accountName',
+                    field: 'brandName',
                     minWidth: 200,
-                    headerName: 'Account Name',
+                    headerName: 'Brand Name',
                     align: 'center',
                     headerAlign: 'center',
                     sortable: false
                 },
                 {
-                    field: 'status',
-                    flex: 0.5,
+                    field: 'domain',
+                    minWidth: 200,
+                    headerName: 'Domain',
                     align: 'center',
                     headerAlign: 'center',
-                    headerName: 'Status',
-                    minWidth: 200,
                     sortable: false
                 },
+                {
+                    field: 'shortDescription',
+                    minWidth: 200,
+                    headerName: 'Short Description',
+                    align: 'center',
+                    headerAlign: 'center',
+                    sortable: false
+                },
+                // {
+                //     field: 'status',
+                //     flex: 0.5,
+                //     align: 'center',
+                //     headerAlign: 'center',
+                //     headerName: 'Status',
+                //     minWidth: 200,
+                //     sortable: false
+                // },
                 {
                     field: 'actions',
                     flex: 0.5,
