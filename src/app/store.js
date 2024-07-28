@@ -8,7 +8,7 @@ import menuSlice from 'features/menu/menuSlice';
 import snackbarSlice from 'features/snackbar/snackbar';
 // import cartSlice from 'features/cart/cart';
 import planSlice from 'features/plan/plan';
-import projectSlice from 'features/project/project';
+import projectSlice from 'features/project/projectSlice';
 import subscriptionSlice from 'features/subscription/subscription';
 import scrapResultsSlice from 'features/scrap/scrapSlice';
 

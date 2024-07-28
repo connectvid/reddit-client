@@ -4,6 +4,7 @@ import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
 const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
+const Keywords = Loadable(lazy(() => import('views/TwitterDm/keywords')));
 const Lists = Loadable(lazy(() => import('views/TwitterDm/lists')));
 const CampaignSettings = Loadable(lazy(() => import('views/TwitterDm/campaign-settings')));
 const MessageTemplates = Loadable(lazy(() => import('views/TwitterDm/message-tempates')));
@@ -28,16 +29,20 @@ const MainRoutes = {
     ),
     children: [
         {
+            path: '/projects',
+            element: <Projects />
+        },
+        {
+            path: '/keywords',
+            element: <Keywords />
+        },
+        {
             path: '/expired',
             element: <Expired />
         },
         {
             path: '/audience',
             element: <Audience />
-        },
-        {
-            path: '/projects',
-            element: <Projects />
         },
         {
             path: '/lists',
