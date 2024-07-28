@@ -15,7 +15,6 @@ import { openDrawer } from 'features/menu/menuSlice';
 import { IconArrowLeft } from '@tabler/icons';
 import useAuth from 'hooks/useAuth';
 import { useLocation } from 'react-router-dom';
-import { DASHBOARD_PATH, URL_TO_TITLE, SUBSCRIPTION_PATH, SETTING_PATH, DEFAULT_BUTTON_COLOR_CODE } from 'config';
 
 // import { CopyAll } from '@mui/icons-material';
 
@@ -25,6 +24,8 @@ const Header = () => {
     const theme = useTheme();
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
+
+    const { loading, projects } = useSelector((state) => state.project);
     // let btnTxt = '';
     // if (pathname?.includes?.(DASHBOARD_PATH)) {
     //     btnTxt = URL_TO_TITLE[DASHBOARD_PATH];
@@ -68,6 +69,21 @@ const Header = () => {
                     {/* <IconMenu2 stroke={1.5} size="1.3rem" /> */}
                     <IconArrowLeft style={{ transform: `rotate(${drawerOpen ? `` : '18'}0deg)` }} />
                 </Avatar>
+            </Box>
+            <Box
+                sx={{
+                    // width: 228,
+                    display: 'flex',
+                    [theme.breakpoints.down('md')]: {
+                        width: 'auto'
+                    }
+                }}
+            >
+                {projects?.map?.(({ _id, brandName }) => (
+                    <Box key={_id} component="div" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
+                        {brandName}
+                    </Box>
+                ))}
             </Box>
 
             {/* <Box sx={{ flexGrow: 1 }} /> */}

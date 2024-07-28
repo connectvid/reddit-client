@@ -3,7 +3,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 
-const Accounts = Loadable(lazy(() => import('views/TwitterDm/accounts')));
+const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
 const Lists = Loadable(lazy(() => import('views/TwitterDm/lists')));
 const CampaignSettings = Loadable(lazy(() => import('views/TwitterDm/campaign-settings')));
 const MessageTemplates = Loadable(lazy(() => import('views/TwitterDm/message-tempates')));
@@ -11,7 +11,6 @@ const Dm = Loadable(lazy(() => import('views/TwitterDm/dm')));
 const CampaignDetails = Loadable(lazy(() => import('views/TwitterDm/campaignDetails')));
 const CreateNewCampaign = Loadable(lazy(() => import('views/TwitterDm/createNewCampaign')));
 const ListDetails = Loadable(lazy(() => import('views/TwitterDm/listDetails')));
-// const Proxy = Loadable(lazy(() => import('views/TwitterDm/proxy')));
 const Subscription = Loadable(lazy(() => import('views/TwitterDm/subscription')));
 const Audience = Loadable(lazy(() => import('views/TwitterDm/audience')));
 const Settings = Loadable(lazy(() => import('views/TwitterDm/Settings')));
@@ -37,8 +36,8 @@ const MainRoutes = {
             element: <Audience />
         },
         {
-            path: '/accounts',
-            element: <Accounts />
+            path: '/projects',
+            element: <Projects />
         },
         {
             path: '/lists',
