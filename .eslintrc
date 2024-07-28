@@ -22,8 +22,8 @@
     },
     "plugins": ["prettier", "react", "react-hooks"],
     "rules": {
-        // "class-methods-use-this": false,
-        // "spaced-comment": 0,
+        "spaced-comment": 0,
+        "arrow-body-style": 0,
         "react/jsx-filename-extension": 0,
         "no-param-reassign": 0,
         "react/prop-types": 1,

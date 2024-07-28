@@ -61,7 +61,7 @@ export const FirebaseProvider = ({ children }) => {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(accountReducer, initialState);
     const [dbUser, setDbUser] = useState({});
-    const [isExpired, setIsExpired] = useState(false);
+    const [isExpired] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
     const [accessToken, setAccessToken] = useState(ReactSession.get('token') || '');
