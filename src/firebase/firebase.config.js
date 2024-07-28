@@ -3,17 +3,12 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-    apiKey: 'AIzaSyAs4Jr-6nPIVqrmxQqPxyiHrKy2I5UrXOc',
-
-    authDomain: 'twitter-dm-1423a.firebaseapp.com',
-
-    projectId: 'twitter-dm-1423a',
-
-    storageBucket: 'twitter-dm-1423a.appspot.com',
-
-    messagingSenderId: '537864803672',
-
-    appId: '1:537864803672:web:b22a02ec6e8adfad2e812d'
+    apiKey: 'AIzaSyCKiGchwJyYQOAOlie3rjueG4gVvuG_e4A',
+    authDomain: 'bizreply-app.firebaseapp.com',
+    projectId: 'bizreply-app',
+    storageBucket: 'bizreply-app.appspot.com',
+    messagingSenderId: '577668839443',
+    appId: '1:577668839443:web:296008cc845c9aafefe7e6'
 };
 
 /*
