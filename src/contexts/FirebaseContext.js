@@ -34,6 +34,9 @@ import { FIREBASE_API, DASHBOARD_PATH } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
+import { useDispatch } from 'react-redux';
+import { settingAccessToken, settingUser } from 'features/auth/authSlice';
+import { getProjects } from 'features/project/projectActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -61,10 +64,11 @@ export const FirebaseProvider = ({ children }) => {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(accountReducer, initialState);
     const [dbUser, setDbUser] = useState({});
-    const [isExpired, setIsExpired] = useState(false);
+    const [isExpired] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
     const [accessToken, setAccessToken] = useState(ReactSession.get('token') || '');
+    const reduxDispatch = useDispatch();
 
     async function refreshToken() {
         const user = auth?.currentUser;
@@ -136,6 +140,7 @@ export const FirebaseProvider = ({ children }) => {
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     const token = user.accessToken;
+                    reduxDispatch(settingAccessToken(token));
                     const email = user.email;
                     const uid = user.uid;
                     setAccessToken(token);
@@ -147,8 +152,12 @@ export const FirebaseProvider = ({ children }) => {
                         .then(async ({ data }) => {
                             console.log(data, 'data =========================================');
                             data.user.token = token;
-                            console.log(data.user, 'data user');
-                            setDbUser(data.user);
+                            const userData = data.user;
+                            console.log(userData, 'data user');
+                            setDbUser(userData);
+                            reduxDispatch(settingUser(userData));
+                            // reduxDispatch(settingUser(userData));
+                            getProjects(userData._id, token)();
                             dispatch({
                                 type: LOGIN,
                                 payload: {
@@ -163,7 +172,7 @@ export const FirebaseProvider = ({ children }) => {
                             });
                         })
                         .catch(async (e) => {
-                            console.log('error')
+                            console.log('error');
                             await logout();
                             if (e?.response?.status !== 404) {
                                 console.log(e, '=================================error========================================');
@@ -355,7 +364,7 @@ export const FirebaseProvider = ({ children }) => {
         await sendPasswordResetEmail(email);
     };
 
-    const updateProfile = () => { };
+    const updateProfile = () => {};
     if (state.isInitialized !== undefined && !state.isInitialized) {
         return <Loader />;
     }

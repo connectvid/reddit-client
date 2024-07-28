@@ -18,29 +18,45 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-            id: 'audience',
-            title: 'Audience',
+            id: 'keywords',
+            title: 'Keywords',
             type: 'item',
-            url: '/audience',
-            icon: IconUsers,
+            url: '/keywords',
+            icon: IconBrandInstagram,
             breadcrumbs: false
         },
         {
-            id: 'lists',
-            title: 'Lists',
+            id: 'mentions',
+            title: 'Mentions',
             type: 'item',
-            url: '/lists',
-            icon: IconCheckupList,
+            url: '/mentions',
+            icon: IconBrandInstagram,
             breadcrumbs: false
-        },
-        {
-            id: 'dm',
-            title: 'Direct Message',
-            type: 'item',
-            url: '/dm',
-            icon: IconMessage,
-            breadcrumbs: false
-        },
+        }
+        // {
+        //     id: 'audience',
+        //     title: 'Audience',
+        //     type: 'item',
+        //     url: '/audience',
+        //     icon: IconUsers,
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'lists',
+        //     title: 'Lists',
+        //     type: 'item',
+        //     url: '/lists',
+        //     icon: IconCheckupList,
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'dm',
+        //     title: 'Direct Message',
+        //     type: 'item',
+        //     url: '/dm',
+        //     icon: IconMessage,
+        //     breadcrumbs: false
+        // },
         // {
         //     id: 'proxy',
         //     title: 'Proxy',
@@ -49,22 +65,22 @@ const dashboard = {
         //     icon: IconShare,
         //     breadcrumbs: false
         // },
-        {
-            id: 'campaign-settings',
-            title: 'Campaign Settings',
-            type: 'item',
-            url: '/campaign-settings',
-            icon: IconMoonStars,
-            breadcrumbs: false
-        },
-        {
-            id: 'message-templates',
-            title: 'Message templates',
-            type: 'item',
-            url: '/message-templates',
-            icon: IconTemplate,
-            breadcrumbs: false
-        }
+        // {
+        //     id: 'campaign-settings',
+        //     title: 'Campaign Settings',
+        //     type: 'item',
+        //     url: '/campaign-settings',
+        //     icon: IconMoonStars,
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'message-templates',
+        //     title: 'Message templates',
+        //     type: 'item',
+        //     url: '/message-templates',
+        //     icon: IconTemplate,
+        //     breadcrumbs: false
+        // }
     ]
 };
 

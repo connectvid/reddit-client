@@ -6,14 +6,10 @@ import Snackbar from 'ui-component/extended/Snackbar';
 import ThemeCustomization from 'themes';
 import 'react-toastify/dist/ReactToastify.css';
 import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
-import { useState } from 'react';
-import { getAuth, onIdTokenChanged } from 'firebase/auth';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
-    const [state, setState] = useState('');
-
     return (
         <ThemeCustomization>
             {/* RTL layout */}

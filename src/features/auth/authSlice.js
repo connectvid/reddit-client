@@ -10,6 +10,7 @@ import auth from '../../firebase/firebase.config';
 import axios from 'axios';
 
 const initialState = {
+    accessToken: '',
     user: {
         // name: '',
         // email: '',
@@ -45,22 +46,6 @@ export const getUser = createAsyncThunk('auth/getUser', async ({ token }) => {
 
     return res;
 });
-
-// export const getUser = createAsyncThunk('auth/getUser', async ({ accessToken, email }) => {
-//     const res = await fetch(`${process.env.NEXT_PUBLIC_DEV_URL}/user/getUser/${email}`, {
-//         headers: {
-//             'Content-Type': 'application/json',
-//             Authorization: `Bearer ${accessToken}`
-//         }
-//     });
-
-//     const data = await res.json();
-
-//     if (data?.isSuccess && data?.user) {
-//         return data.user;
-//     }
-//     return 0;
-// });
 
 export const loginUser = createAsyncThunk('auth/loginUser', async ({ email, password }) => {
     const data = await signInWithEmailAndPassword(auth, email, password);
@@ -103,6 +88,9 @@ const authSlice = createSlice({
             state.isError = false;
             state.error = '';
         },
+        settingUser: (state, { payload }) => {
+            state.user = payload;
+        },
         setUserDetails: (state, { payload }) => {
             state.user.name = payload.name;
             state.user.role = payload.role;
@@ -121,6 +109,9 @@ const authSlice = createSlice({
         },
         toggleLoading: (state) => {
             state.isLoading = !state.isLoading;
+        },
+        settingAccessToken: (state, action) => {
+            state.accessToken = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -223,5 +214,4 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-
-export const { logout, setUser, toggleLoading } = authSlice.actions;
+export const { logout, setUser, toggleLoading, settingAccessToken, settingUser } = authSlice.actions;
