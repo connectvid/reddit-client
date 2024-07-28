@@ -35,6 +35,9 @@ const projectSlice = createSlice({
 
         addNewProject(state, action) {
             const { item } = action.payload;
+            if (!state.project) {
+                state.project = item;
+            }
             state.projects.push(item);
         },
         updateSingleProject(state, action) {
