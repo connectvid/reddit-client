@@ -24,6 +24,14 @@ const dashboard = {
             url: '/keywords',
             icon: IconBrandInstagram,
             breadcrumbs: false
+        },
+        {
+            id: 'mentions',
+            title: 'Mentions',
+            type: 'item',
+            url: '/mentions',
+            icon: IconBrandInstagram,
+            breadcrumbs: false
         }
         // {
         //     id: 'audience',

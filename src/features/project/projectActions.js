@@ -9,8 +9,12 @@ import {
     addProjectLoading,
     toggleProjectCreateModal,
     addNewProject,
-    addKeywordForSave
+    addKeywordForSave,
+    updateProjectLoading,
+    updateSingleProject,
+    updateSuccess
 } from './projectSlice'; // Import actions from the slice
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const getProjects = (userId, token) => async () => {
     try {
@@ -48,20 +52,24 @@ export const addProject =
     };
 
 export const updateProject =
-    (token, data = {}) =>
+    (token, id, data = {}) =>
     async () => {
         try {
-            dispatch(addProjectLoading(true));
-            const response = await axios.post(`projects`, data, {
+            dispatch(updateProjectLoading(true));
+            const response = await axios.put(`projects/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            dispatch(fetchProjects(response.data));
+            dispatch(updateSingleProject(response.data));
+            dispatch(updateSuccess(true));
+            setTimeout(() => {
+                dispatch(updateSuccess(false));
+            }, 2000);
         } catch (error) {
             dispatch(hasError(error));
         } finally {
-            dispatch(addProjectLoading(false));
+            dispatch(updateProjectLoading(false));
         }
     };
 
@@ -82,3 +90,19 @@ export const addingKeywordForSave =
     () => {
         dispatch(addKeywordForSave(keyword));
     };
+export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', async (_, { getState, dispatch }) => {
+    const state = getState();
+    const { accessToken, user } = state.auth;
+
+    try {
+        const response = await axios.get(`projects/${user._id}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
+        return response.data;
+    } catch (e) {
+        dispatch(hasError(e.response));
+        throw e;
+    }
+});

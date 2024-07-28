@@ -13,7 +13,7 @@ This is material design template created based on materially structure
 
 <!--  -->
 
-# Change note by FoysalBN
+# Change note by
 
 react-scripts:4.0.3
 
@@ -46,3 +46,33 @@ react-scripts:4.0.3
     3. keywords
 
 https://serper.dev/playground
+
+// src/features/user/userThunks.js
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchUserData = createAsyncThunk(
+'user/fetchUserData',
+async (\_, { getState, dispatch }) => {
+const state = getState();
+const { accessToken } = state.user;
+
+    try {
+      const response = await axios.get('https://api.example.com/user', {
+        headers: {
+          Authorization: Bearer ${accessToken},
+        },
+      });
+      return response.data;
+    } catch (error) {
+      dispatch(setError(error.message));
+      throw error;
+    }
+
+}
+);
+
+zawwadsami@gmail.com
+12345678
+
+Serper.dev ei account use koiren @Abu Taher bhai

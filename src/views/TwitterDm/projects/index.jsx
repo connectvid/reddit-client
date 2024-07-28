@@ -40,7 +40,7 @@ const Projects = () => {
                 console.log(e);
             }
         };
-        fetchProjects();
+        // fetchProjects();
     }, []);
 
     return (
