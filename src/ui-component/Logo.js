@@ -21,7 +21,7 @@ import logo from 'assets/images/logo.svg';
 const Logo = ({ width }) => {
     const theme = useTheme();
     return (
-        <img src={theme.palette.mode === 'dark' ? logoDark : logo} alt="TwitterDm" width={width ? width : 250} />
+        <img src={theme.palette.mode === 'dark' ? logoDark : logo} alt="BizReply" width={width ? width : 250} />
         /**
          * if you want to use image instead of svg uncomment following, and comment out <svg> element.
          *

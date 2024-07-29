@@ -1,21 +1,21 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable consistent-return */
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
+import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
-import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { addingKeywordForSave, getProjects, toggleProjectCreateModalCtrl, updateProject } from 'features/project/projectActions';
-import { IconPlus, IconTrash } from 'tabler-icons';
 import axios from 'utils/axios';
+import { IconBrandReddit, IconExternalLink } from 'tabler-icons';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
 
 const MentionCard = ({ item, singelArr }) => {
-    const { getAccessToken, dbUser } = useAuth();
+    const { getAccessToken } = useAuth();
     const { project } = useSelector((state) => state.project);
     const [reply, setReply] = useState('');
     const [generatingReply, setGeneratingReply] = useState(false);
@@ -30,7 +30,6 @@ const MentionCard = ({ item, singelArr }) => {
             projectDescription: project.shortDescription
         };
         try {
-            // console.log(body);
             const token = await getAccessToken();
             const response = await axios.post(`/mentions/replyMention`, body, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -41,18 +40,47 @@ const MentionCard = ({ item, singelArr }) => {
         }
         setGeneratingReply(false);
     };
+    const spil = item.title?.split?.(`: r/`);
+    const last = spil ? spil[spil.length - 1] : '';
     return (
         <Card sx={{ mb: 4 }}>
-            <CardContent style={{}}>
+            <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
-                        <Typography style={{}}>{item.date}</Typography>
-                        <Typography style={{}}>{singelArr.keyword}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }}>{item.date}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }}>{singelArr.keyword}</Typography>
                     </Box>
-                    <Typography style={{}}>{item.snippet}</Typography>
-                    <Typography style={{}}>
-                        <a href={item.link} target="_blank" style={{ textDecoration: 'none' }}>
-                            View
+                    <Typography sx={{ color: '#000' }}>{item.snippet}</Typography>
+                    {/* <Typography>{last}</Typography> */}
+                    <Typography sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Typography
+                            component="span"
+                            sx={{
+                                height: '18px',
+                                width: '18px',
+                                borderRadius: '50%',
+                                bgcolor: '#ff4500',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}
+                        >
+                            <IconBrandReddit size={12} color="#fff" />
+                        </Typography>
+                        <a
+                            href={item.link}
+                            target="_blank"
+                            style={{
+                                textDecoration: 'none',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                border: '1px solid #ddd',
+                                padding: '5px 18px',
+                                borderRadius: '4px',
+                                gap: '4px'
+                            }}
+                        >
+                            View <IconExternalLink />
                         </a>
                     </Typography>
                     <Button onClick={handleGenerateReply} variant="contained" sx={{ mt: 2 }}>
@@ -61,8 +89,9 @@ const MentionCard = ({ item, singelArr }) => {
                     {reply && (
                         <div style={{ marginTop: '20px' }}>
                             Generate Reply:
-                            <br />
-                            {reply}
+                            <CopyToClipboard text={reply} onCopy={() => toast.success(`Coppied!`)}>
+                                <TextField variant="outlined" multiline value={reply} sx={{ cursor: 'copy' }} fullWidth />
+                            </CopyToClipboard>
                         </div>
                     )}
                     {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}

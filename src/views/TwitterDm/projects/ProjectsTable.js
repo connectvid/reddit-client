@@ -1,3 +1,6 @@
+/* eslint-disable camelcase */
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-alert */
 /* eslint-disable consistent-return */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -6,12 +9,15 @@
 import { Box } from '@mui/system';
 import { DataGrid } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
+import { projectRemoving } from 'features/project/projectActions';
 // import TwitterDMConfig from 'TwitterDMConfig';
 
 import useAuth from 'hooks/useAuth';
 import React from 'react';
 import { toast } from 'react-toastify';
 import axios from 'utils/axios';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
+import redditFeeds from 'assets/images/reddit-feeds.jpg';
 
 const ProjectTable = ({ setProjects, projects = [] }) => {
     // const BASE_URL = TwitterDMConfig.getNodeUrl();
@@ -19,6 +25,7 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
     const [loading, setLoading] = React.useState(false);
 
     const deleteProject = async (id) => {
+        if (!confirm(`Are you sure to delete the Project?`)) return;
         const token = await getAccessToken();
         axios
             .delete(`projects/${id}`, {
@@ -26,8 +33,7 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
             })
             .then(() => {
                 toast('Project deleted successfully!', { autoClose: 2500, type: 'success' });
-                const filteredData = projects.filter((data) => data._id !== id);
-                setProjects?.(filteredData);
+                projectRemoving(id)();
             })
             .catch(async (e) => {
                 console.log(e);
@@ -35,104 +41,64 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
             });
     };
 
-    // const getAccounts = async () => {
-    //     try {
-    //         setLoading(!loading);
-    //         const token = await getAccessToken();
-    //         const {
-    //             data: { items = [] }
-    //         } = await axios.get(`accounts/${dbUser._id}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         console.log(items);
-    //         setProjects?.(items);
-    //     } catch (e) {
-    //         const status = e?.response?.status || 500;
-    //         let message = `Something Went Wrong!`;
-    //         if (status < 500) {
-    //             message = e?.response?.data?.message || e.message;
-    //         }
-    //         toast.error(message);
-    //         console.log(e);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
-    React.useEffect(() => {
-        // getAccounts();
-    }, []);
     return (
-        <DataGrid
-            sx={{ minHeight: { md: '70vh', sm: '50vh' } }}
-            autoHeight
-            rows={projects || []}
-            loading={loading}
-            columns={[
-                {
-                    field: 'brandName',
-                    minWidth: 200,
-                    headerName: 'Brand Name',
-                    align: 'center',
-                    headerAlign: 'center',
-                    sortable: false
-                },
-                {
-                    field: 'domain',
-                    minWidth: 200,
-                    headerName: 'Domain',
-                    align: 'center',
-                    headerAlign: 'center',
-                    sortable: false
-                },
-                {
-                    field: 'shortDescription',
-                    minWidth: 200,
-                    headerName: 'Short Description',
-                    align: 'center',
-                    headerAlign: 'center',
-                    sortable: false
-                },
-                // {
-                //     field: 'status',
-                //     flex: 0.5,
-                //     align: 'center',
-                //     headerAlign: 'center',
-                //     headerName: 'Status',
-                //     minWidth: 200,
-                //     sortable: false
-                // },
-                {
-                    field: 'actions',
-                    flex: 0.5,
-                    align: 'center',
-                    headerAlign: 'center',
-                    headerName: 'Actions',
-                    minWidth: 200,
-                    sortable: false,
-                    renderCell: ({ row }) => (
-                        <Box sx={{ textAlign: 'center', display: 'flex', gap: '5px', justifyContent: 'center' }}>
-                            {/* <Link to={`/campaigns/${row._id}`} style={{}}>
-                                <IconEye />
-                            </Link>
-                            <Link onClick={() => handleEditCampaign(row)}>
-                                <IconSettings />
-                            </Link> */}
-                            {/* <div style={{ cursor: 'pointer' }} onClick={() => showWorkingPopup(row._id)}>
-                                <IconEye />
-                            </div> */}
-                            <div style={{ cursor: 'pointer' }} onClick={() => deleteProject(row._id)}>
-                                <IconTrash />
-                            </div>
-                        </Box>
-                    )
-                }
-            ]}
-            getRowId={({ _id }) => _id}
-        />
+        <Box>
+            <Grid container spacing={2}>
+                {projects?.map?.((item) => (
+                    <Grid key={item._id} item xs={12} sm={6} md={4}>
+                        <ProjectCard {...item} deleteProject={deleteProject} />
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     );
 };
 
 export default ProjectTable;
+
+// material-ui
+
+// ==============================|| SKELETON - EARNING CARD ||============================== //
+
+const ProjectCard = ({ brandName, domain, shortDescription, deleteProject, _id }) => (
+    <Card>
+        <CardContent sx={{ p: 0 }}>
+            <Box sx={{ position: 'relative' }}>
+                <img src={redditFeeds} alt="Reddit Feeds" style={{ maxWidth: '100%' }} />
+                <Typography
+                    style={{
+                        cursor: 'pointer',
+                        position: 'absolute',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        height: '25px',
+                        width: '25px',
+                        alignItems: 'center',
+                        top: '10px',
+                        right: '10px',
+                        background: ' #ddd',
+                        color: 'red',
+                        borderRadius: '50%'
+                    }}
+                    onClick={() => deleteProject(_id)}
+                >
+                    <IconTrash size={16} />
+                </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 3 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography sx={{ fontWeight: 'bold' }}>Brand Name :</Typography>
+                    <Typography>{brandName}</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography sx={{ fontWeight: 'bold' }}>Domain :</Typography>
+                    <Typography>{domain}</Typography>
+                </Box>
+                <Box sx={{ display: '', justifyContent: 'space-between' }}>
+                    <Typography sx={{ fontWeight: 'bold', mb: 2 }}>Description :</Typography>
+                    <Typography>{shortDescription}</Typography>
+                </Box>
+            </Box>
+        </CardContent>
+    </Card>
+);

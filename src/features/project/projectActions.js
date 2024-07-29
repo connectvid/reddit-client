@@ -12,9 +12,30 @@ import {
     addKeywordForSave,
     updateProjectLoading,
     updateSingleProject,
-    updateSuccess
+    updateSuccess,
+    projectCreated,
+    projectRemove
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
+export const setSingleProjectSelect = (id) => () => {
+    dispatch(setSingleProjectSelectSuccess({ id }));
+};
+
+export const toggleShowProjects = () => () => {
+    dispatch(toggleShowProjectsList());
+};
+
+export const toggleProjectCreateModalCtrl = () => () => {
+    dispatch(toggleProjectCreateModal());
+};
+
+export const projectCreatedStatus = (status) => () => {
+    dispatch(projectCreated(status));
+};
+export const projectRemoving = (id) => () => {
+    dispatch(projectRemove({ id }));
+};
 
 export const getProjects = (userId, token) => async () => {
     try {
@@ -43,6 +64,7 @@ export const addProject =
                 }
             });
             dispatch(addNewProject(response.data));
+            projectCreatedStatus(true)();
             dispatch(toggleProjectCreateModal(false));
         } catch (error) {
             dispatch(hasError(error));
@@ -72,18 +94,6 @@ export const updateProject =
             dispatch(updateProjectLoading(false));
         }
     };
-
-export const setSingleProjectSelect = (id) => () => {
-    dispatch(setSingleProjectSelectSuccess({ id }));
-};
-
-export const toggleShowProjects = () => () => {
-    dispatch(toggleShowProjectsList());
-};
-
-export const toggleProjectCreateModalCtrl = () => () => {
-    dispatch(toggleProjectCreateModal());
-};
 
 export const addingKeywordForSave =
     (keyword = '') =>

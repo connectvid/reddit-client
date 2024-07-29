@@ -26,8 +26,10 @@ export const AWS_API = {
 // like '/berry-material-react/react/default'
 export const BASE_PATH = '';
 
-// export const DASHBOARD_PATH = '/dashboard/default';
-export const DASHBOARD_PATH = '/projects';
+export const PROJECT_PATH = '/projects';
+export const KEYWORD_PATH = '/keywords';
+export const MENTION_PATH = '/mentions';
+export const DASHBOARD_PATH = PROJECT_PATH;
 export const SUBSCRIPTION_PATH = '/subscription';
 export const SETTING_PATH = '/settings';
 export const EXPIRED_PATH = '/expired';
