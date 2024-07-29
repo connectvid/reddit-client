@@ -2,6 +2,7 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
+import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH } from 'config';
 
 const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
 const Keywords = Loadable(lazy(() => import('views/TwitterDm/keywords')));
@@ -30,15 +31,15 @@ const MainRoutes = {
     ),
     children: [
         {
-            path: '/projects',
+            path: PROJECT_PATH,
             element: <Projects />
         },
         {
-            path: '/keywords',
+            path: KEYWORD_PATH,
             element: <Keywords />
         },
         {
-            path: '/mentions',
+            path: MENTION_PATH,
             element: <Mentions />
         },
         {

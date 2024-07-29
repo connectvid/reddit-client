@@ -76,3 +76,28 @@ zawwadsami@gmail.com
 12345678
 
 Serper.dev ei account use koiren @Abu Taher bhai
+
+project
+
+1. cart 3 nos
+
+name, url, desc
+
+keyword white box er votore sob content hobe
+keyword
+
+mentions font bold size chnge
+
+keyword remove
+max limit keyword allow
+duplicate keyword not allow
+
+<!-- task
+1. logo change change alignment of project select button
+2. SEO conent change
+3. after creating project redirect keywords page
+4. design project card list
+5. keyword color change
+6
+
+ -->

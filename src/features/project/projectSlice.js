@@ -7,7 +7,10 @@ const initialState = {
     suggestedKeywords: [],
     project: null,
     loading: false,
+    projectDeleting: false,
+    projectDeleted: false,
     createLoading: false,
+    projectCreated: false,
     updateLoading: false,
     updateSuccess: false,
     showProjectsList: false,
@@ -35,8 +38,9 @@ const projectSlice = createSlice({
 
         addNewProject(state, action) {
             const { item } = action.payload;
-            if (!state.project) {
-                state.project = item;
+            state.project = item;
+            if (state.suggestedKeywords?.length) {
+                state.suggestedKeywords = [];
             }
             state.projects.push(item);
         },
@@ -54,7 +58,9 @@ const projectSlice = createSlice({
 
         setSingleProjectSelectSuccess(state, action) {
             const { id } = action.payload;
-            state.project = state.projects.find((item) => item._id === id);
+            const project = state.projects.find((item) => item._id === id);
+            state.project = project;
+            state.suggestedKeywords = project?.suggestedKeywords || [];
         },
 
         setSingleProjectDiselectSuccess(state) {
@@ -79,6 +85,19 @@ const projectSlice = createSlice({
         },
         updateSuccess(state, action) {
             state.updateSuccess = action.payload;
+        },
+        projectCreated(state, action) {
+            state.projectCreated = action.payload;
+        },
+        projectDeleted(state, action) {
+            state.projectDeleted = action.payload;
+        },
+        projectDeleting(state, action) {
+            state.projectDeleting = action.payload;
+        },
+        projectRemove(state, action) {
+            const { id } = action.payload;
+            state.projects = state.projects.filter((item) => item._id !== id);
         }
     }
 
@@ -115,7 +134,11 @@ export const {
     resetCardSuccess,
     loadingCotrl,
     addKeywordForSave,
-    updateSuccess
+    updateSuccess,
+    projectCreated,
+    projectDeleted,
+    projectDeleting,
+    projectRemove
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

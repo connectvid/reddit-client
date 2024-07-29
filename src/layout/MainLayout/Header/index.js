@@ -13,20 +13,34 @@ import { openDrawer } from 'features/menu/menuSlice';
 // assets
 import { IconArrowLeft } from '@tabler/icons';
 // import useAuth from 'hooks/useAuth';
-// import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IconPlus, IconTriangle } from 'tabler-icons';
-import { toggleShowProjects, setSingleProjectSelect, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import {
+    toggleShowProjects,
+    setSingleProjectSelect,
+    toggleProjectCreateModalCtrl,
+    projectCreatedStatus
+} from 'features/project/projectActions';
 import NewProject from 'views/TwitterDm/projects/NewProject';
-// import { CopyAll } from '@mui/icons-material';
+import './header.css';
+import React from 'react';
+import { KEYWORD_PATH } from 'config';
 
 const Header = () => {
-    // const { pathname } = useLocation();
-    // const { dbUser } = useAuth();
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
 
-    const { projects, project, showProjectsList, showProjectCreateModal } = useSelector((state) => state.project);
+    const { projects, project, showProjectsList, showProjectCreateModal, projectCreated } = useSelector((state) => state.project);
+    React.useEffect(() => {
+        if (projectCreated && pathname !== KEYWORD_PATH) {
+            projectCreatedStatus(false)();
+            navigate(KEYWORD_PATH);
+        }
+    }, [projectCreated]);
+    console.log({ projectCreated }, pathname === KEYWORD_PATH);
 
     return (
         <>
@@ -39,8 +53,14 @@ const Header = () => {
                     }
                 }}
             >
-                <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
-                    <LogoSection width={180} />
+                <Box component="span" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, alignItems: 'center' }}>
+                    <LogoSection width={30} />{' '}
+                    <Box
+                        component="span"
+                        sx={{ fontWeight: 700, fontSize: '24px', fontFamily: 'Poppins', color: 'rgba(58, 26, 85,1)', ml: '4px' }}
+                    >
+                        BizReply.co
+                    </Box>
                 </Box>
                 <Avatar
                     variant="rounded"
@@ -65,6 +85,7 @@ const Header = () => {
             <Box
                 sx={{
                     position: 'relative',
+                    ml: 1,
                     [theme.breakpoints.down('md')]: {
                         width: 'auto'
                     }
