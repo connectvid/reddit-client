@@ -98,6 +98,6 @@ duplicate keyword not allow
 3. after creating project redirect keywords page
 4. design project card list
 5. keyword color change
-6
+6. reply copy with clipboard
 
  -->

@@ -58,7 +58,7 @@ const Keywords = () => {
                             {!project ? (
                                 <Typography>Please Select a Project</Typography>
                             ) : (
-                                <Box sx={{ display: { md: 'flex', sm: 'block' } }}>
+                                <Box sx={{ display: { md: 'flex', xs: 'block' } }}>
                                     <Box sx={{ width: '50%' }}>
                                         <Typography
                                             component="h3"
@@ -75,9 +75,19 @@ const Keywords = () => {
 
                                         <Box sx={{ pl: '50px', color: '#000000', fontWeight: 500 }}>
                                             {suggestedKeywords?.map((keyword, i) => (
-                                                <Typography sx={{ cursor: 'pointer', lineHeight: 1.8 }} key={i} component="h5">
-                                                    {keyword}
-                                                    {/* <IconTrash size={14} /> */}
+                                                <Typography
+                                                    sx={{
+                                                        cursor: 'pointer',
+                                                        lineHeight: 1.8,
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        width: { sm: '50%', xs: '100%' }
+                                                    }}
+                                                    key={i}
+                                                    component="h5"
+                                                >
+                                                    <span>{keyword}</span>
+                                                    <IconTrash size={14} />
                                                 </Typography>
                                             ))}
                                         </Box>
@@ -111,6 +121,7 @@ const Keywords = () => {
                                             {project?.keywords?.map((keyword, i) => (
                                                 <Typography
                                                     onClick={() => {
+                                                        if (suggestedKeywords?.includes?.(keyword)) return;
                                                         addingKeywordForSave(keyword)();
                                                     }}
                                                     sx={{ cursor: 'pointer', lineHeight: 1.8 }}
