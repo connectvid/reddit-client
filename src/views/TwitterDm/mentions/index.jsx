@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { addingKeywordForSave, getProjects, toggleProjectCreateModalCtrl, updateProject } from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
 import axios from 'utils/axios';
+import MentionCard from './MentionCard';
 
 const Mentions = () => {
     const { getAccessToken, dbUser } = useAuth();
@@ -54,22 +55,26 @@ const Mentions = () => {
             </Card>
             {mentionsData?.map?.((singelArr, idx) => {
                 return singelArr.datas?.map((item, i) => (
-                    <Card sx={{ mb: 4 }} key={`${idx}.${i}`}>
-                        <CardContent style={{}}>
-                            <Box sx={{ lineHeight: 2 }}>
-                                <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
-                                    <Typography style={{}}>{item.date}</Typography>
-                                    <Typography style={{}}>{singelArr.keyword}</Typography>
-                                </Box>
-                                <Typography style={{}}>{item.snippet}</Typography>
-                                <Typography style={{}}>
-                                    <a href={item.link} target="_blank" style={{ textDecoration: 'none' }}>
-                                        View
-                                    </a>
-                                </Typography>
-                            </Box>
-                        </CardContent>
-                    </Card>
+                    <MentionCard key={`${idx}.${i}`} item={item} singelArr={singelArr} />
+                    // <Card sx={{ mb: 4 }} key={`${idx}.${i}`}>
+                    //     <CardContent style={{}}>
+                    //         <Box sx={{ lineHeight: 2 }}>
+                    //             <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
+                    //                 <Typography style={{}}>{item.date}</Typography>
+                    //                 <Typography style={{}}>{singelArr.keyword}</Typography>
+                    //             </Box>
+                    //             <Typography style={{}}>{item.snippet}</Typography>
+                    //             <Typography style={{}}>
+                    //                 <a href={item.link} target="_blank" style={{ textDecoration: 'none' }}>
+                    //                     View
+                    //                 </a>
+                    //             </Typography>
+                    //             <Button variant="contained" sx={{ mt: 2 }}>
+                    //                 Generate Reply
+                    //             </Button>
+                    //         </Box>
+                    //     </CardContent>
+                    // </Card>
                 ));
             })}
             {/* {!projects?.length ? (
