@@ -8,53 +8,129 @@
 import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
-import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
-import { IconBrandReddit, IconExternalLink } from 'tabler-icons';
+import { IconBrandReddit, IconCopy, IconExternalLink, IconTrash } from 'tabler-icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 
-const MentionCard = ({ item, singelArr }) => {
+const MentionCard = ({ project, date, title, keyword, snippet, link, projectId, _id, reply = '', setMentionsData }) => {
     const { getAccessToken } = useAuth();
-    const { project } = useSelector((state) => state.project);
-    const [reply, setReply] = useState('');
+    const [editReply, setEditReply] = useState(reply);
     const [generatingReply, setGeneratingReply] = useState(false);
 
     const handleGenerateReply = async () => {
         setGeneratingReply(true);
         const body = {
-            title: item.title,
-            snippet: item.snippet,
+            title,
+            snippet,
+            projectId,
             projectName: project.brandName,
             projectDomain: project.domain,
             projectDescription: project.shortDescription
         };
         try {
             const token = await getAccessToken();
-            const response = await axios.post(`/mentions/replyMention`, body, {
+            const response = await axios.post(`/mentions/${_id}/generate-reply`, body, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setReply(response.data.reply);
+            const responseReply = response.data.reply;
+            setEditReply(responseReply);
+            setMentionsData((p) =>
+                p.map((item) => {
+                    if (item._id === _id) {
+                        item.reply = responseReply;
+                    }
+                    return item;
+                })
+            );
         } catch (e) {
             console.log(e);
         }
         setGeneratingReply(false);
     };
-    const spil = item.title?.split?.(`: r/`);
-    const last = spil ? spil[spil.length - 1] : '';
+    // const spil = item.title?.split?.(`: r/`);
+    // const last = spil ? spil[spil.length - 1] : '';
     return (
         <Card sx={{ mb: 4 }}>
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
-                        <Typography sx={{ fontWeight: 'bold' }}>{item.date}</Typography>
-                        <Typography sx={{ fontWeight: 'bold' }}>{singelArr.keyword}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
+                        <Typography sx={{ fontWeight: 'bold' }}>{keyword}</Typography>
                     </Box>
                     <Typography variant="h4" sx={{ mb: 1, fontSize: '20px' }}>
-                        {item.title}
+                        {title}
                     </Typography>
-                    <Typography sx={{ color: '#000', fontSize: '16px' }}>{item.snippet}</Typography>
-                    <Typography sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Typography sx={{ color: '#000', fontSize: '16px' }}>{snippet}</Typography>
+                    {reply && (
+                        <Box style={{ marginTop: '20px' }}>
+                            Generated Reply:
+                            <Box sx={{ border: '', borderRadius: 4, position: 'relative' }}>
+                                {/* <Typography
+                                    sx={{
+                                        position: 'absolute',
+                                        top: '-33px',
+                                        right: '4px',
+                                        cursor: 'copy',
+                                        border: '1px solid #ddd',
+                                        p: '3px 5px 0',
+                                        borderRadius: '6px'
+                                    }}
+                                >
+                                    <CopyToClipboard text={reply} onCopy={() => toast.success(`Coppied!`)}>
+                                        <IconCopy size={18} />
+                                    </CopyToClipboard>
+                                </Typography> */}
+                                {/* <Typography
+                                    sx={{
+                                        color: '#000',
+                                        fontSize: '16px'
+                                    }}
+                                >
+                                    {editReply}
+                                </Typography> */}
+                                <TextField multiline fullWidth value={editReply || ''} onChange={(e) => setEditReply(e.target.value)} />
+                                <Box
+                                    display={{ sm: 'flex' }}
+                                    sx={{ mt: 0, justifyContent: 'end', bottom: '-36px', position: 'absolute', right: '15px', gap: 3 }}
+                                >
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ borderTopLeftRadius: '0', borderTopRightRadius: '0', borderColor: '#ddd' }}
+                                    >
+                                        <CopyToClipboard text={reply} onCopy={() => toast.success(`Coppied!`)}>
+                                            <Typography component="span" display="flex">
+                                                <IconCopy size={18} /> Copy
+                                            </Typography>
+                                        </CopyToClipboard>
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ borderTopLeftRadius: '0', borderTopRightRadius: '0', borderColor: '#ddd' }}
+                                    >
+                                        <IconTrash /> Reply
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ borderTopLeftRadius: '0', borderTopRightRadius: '0', borderColor: '#ddd' }}
+                                    >
+                                        <IconTrash /> Reply
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        sx={{ borderTopLeftRadius: '0', borderTopRightRadius: '0', borderColor: '#ddd' }}
+                                    >
+                                        <IconTrash /> Reply
+                                    </Button>
+                                </Box>
+                            </Box>
+                        </Box>
+                    )}
+                    {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
+                    <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Button onClick={handleGenerateReply} variant="contained">
+                            Generate Reply
+                        </Button>
                         <Typography
                             component="span"
                             sx={{
@@ -70,7 +146,7 @@ const MentionCard = ({ item, singelArr }) => {
                             <IconBrandReddit size={12} color="#fff" />
                         </Typography>
                         <a
-                            href={item.link}
+                            href={link}
                             target="_blank"
                             style={{
                                 textDecoration: 'none',
@@ -84,19 +160,7 @@ const MentionCard = ({ item, singelArr }) => {
                         >
                             View <IconExternalLink />
                         </a>
-                    </Typography>
-                    <Button onClick={handleGenerateReply} variant="contained" sx={{ mt: 2 }}>
-                        Generate Reply
-                    </Button>
-                    {reply && (
-                        <div style={{ marginTop: '20px' }}>
-                            Generate Reply:
-                            <CopyToClipboard text={reply} onCopy={() => toast.success(`Coppied!`)}>
-                                <TextField variant="outlined" multiline value={reply} sx={{ cursor: 'copy' }} fullWidth />
-                            </CopyToClipboard>
-                        </div>
-                    )}
-                    {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
+                    </Box>
                 </Box>
             </CardContent>
         </Card>

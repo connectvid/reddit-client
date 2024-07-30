@@ -46,9 +46,9 @@ const Mentions = () => {
                     </Typography>
                 </CardContent>
             </Card>
-            {mentionsData?.map?.((singelArr, idx) => {
-                return singelArr.datas?.map((item, i) => <MentionCard key={`${idx}.${i}`} item={item} singelArr={singelArr} />);
-            })}
+            {mentionsData?.map?.((item) => (
+                <MentionCard key={item._id} {...item} {...{ project, setMentionsData }} />
+            ))}
         </>
     );
 };

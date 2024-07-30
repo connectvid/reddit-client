@@ -109,7 +109,9 @@ export const FirebaseProvider = ({ children }) => {
                     if (user) {
                         try {
                             const token = await user.getIdToken(); // Force refresh
+
                             setDbUser((prevUser) => ({ ...prevUser, token }));
+                            reduxDispatch(settingAccessToken(token));
                             return token;
                         } catch (error) {
                             console.error('Error refreshing token:', error); // Debug
