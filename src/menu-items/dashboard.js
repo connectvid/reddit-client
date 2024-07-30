@@ -33,15 +33,15 @@ const dashboard = {
             url: MENTION_PATH,
             icon: IconShare,
             breadcrumbs: false
-        },
-        {
-            id: REPLY_PATH.replace('/', ''),
-            title: 'Replies',
-            type: 'item',
-            url: REPLY_PATH,
-            icon: IconMessage,
-            breadcrumbs: false
         }
+        // ,{
+        //     id: REPLY_PATH.replace('/', ''),
+        //     title: 'Replies',
+        //     type: 'item',
+        //     url: REPLY_PATH,
+        //     icon: IconMessage,
+        //     breadcrumbs: false
+        // }
     ]
 };
 
