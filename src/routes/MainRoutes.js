@@ -2,11 +2,12 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
-import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH } from 'config';
+import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
 
 const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
 const Keywords = Loadable(lazy(() => import('views/TwitterDm/keywords')));
 const Mentions = Loadable(lazy(() => import('views/TwitterDm/mentions')));
+const Reply = Loadable(lazy(() => import('views/TwitterDm/reply')));
 const Lists = Loadable(lazy(() => import('views/TwitterDm/lists')));
 const CampaignSettings = Loadable(lazy(() => import('views/TwitterDm/campaign-settings')));
 const MessageTemplates = Loadable(lazy(() => import('views/TwitterDm/message-tempates')));
@@ -42,6 +43,11 @@ const MainRoutes = {
             path: MENTION_PATH,
             element: <Mentions />
         },
+        {
+            path: REPLY_PATH,
+            element: <Reply />
+        },
+
         {
             path: '/expired',
             element: <Expired />

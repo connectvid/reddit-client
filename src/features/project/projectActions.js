@@ -14,7 +14,8 @@ import {
     updateSingleProject,
     updateSuccess,
     projectCreated,
-    projectRemove
+    projectRemove,
+    removeKeywordForSave
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -100,6 +101,12 @@ export const addingKeywordForSave =
     () => {
         dispatch(addKeywordForSave(keyword));
     };
+export const removingKeywordForSave =
+    (keyword = '') =>
+    () => {
+        dispatch(removeKeywordForSave(keyword));
+    };
+
 export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', async (_, { getState, dispatch }) => {
     const state = getState();
     const { accessToken, user } = state.auth;

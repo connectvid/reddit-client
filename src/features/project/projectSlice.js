@@ -60,7 +60,7 @@ const projectSlice = createSlice({
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
             state.project = project;
-            state.suggestedKeywords = project?.suggestedKeywords || [];
+            // state.suggestedKeywords = project?.suggestedKeywords || [];
         },
 
         setSingleProjectDiselectSuccess(state) {
@@ -75,7 +75,9 @@ const projectSlice = createSlice({
             state.suggestedKeywords.push(action.payload);
             // console.log(action.payload);
         },
-
+        removeKeywordForSave(state, action) {
+            state.suggestedKeywords.shift(action.payload);
+        },
         toggleProjectCreateModal(state) {
             state.showProjectCreateModal = !state.showProjectCreateModal;
         },
@@ -138,7 +140,8 @@ export const {
     projectCreated,
     projectDeleted,
     projectDeleting,
-    projectRemove
+    projectRemove,
+    removeKeywordForSave
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

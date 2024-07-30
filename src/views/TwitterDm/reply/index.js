@@ -9,9 +9,9 @@ import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
-import MentionCard from './PostCard';
+import MentionCard from '../mentions/PostCard';
 
-const Mentions = () => {
+const Reply = () => {
     const { getAccessToken } = useAuth();
     const [mentionsData, setMentionsData] = useState([]);
     const { project } = useSelector((state) => state.project);
@@ -21,7 +21,7 @@ const Mentions = () => {
         const fetchProjectMentions = async (projectid) => {
             try {
                 const token = await getAccessToken();
-                const { data } = await axios.get(`mentions/projects/${projectid}`, {
+                const { data } = await axios.get(`mentions/projects/${projectid}?fetch=reply-only`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -41,7 +41,7 @@ const Mentions = () => {
             <Card sx={{ mb: 5 }}>
                 <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h2" style={{ marginRight: 'auto' }}>
-                        Mentions
+                        Replies
                     </Typography>
                 </CardContent>
             </Card>
@@ -52,4 +52,4 @@ const Mentions = () => {
     );
 };
 
-export default Mentions;
+export default Reply;
