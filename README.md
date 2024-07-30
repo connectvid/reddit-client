@@ -93,11 +93,5 @@ max limit keyword allow
 duplicate keyword not allow
 
 <!-- task
-1. logo change change alignment of project select button
-2. SEO conent change
-3. after creating project redirect keywords page
-4. design project card list
-5. keyword color change
-6. reply copy with clipboard
 
  -->

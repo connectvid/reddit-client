@@ -50,8 +50,10 @@ const MentionCard = ({ item, singelArr }) => {
                         <Typography sx={{ fontWeight: 'bold' }}>{item.date}</Typography>
                         <Typography sx={{ fontWeight: 'bold' }}>{singelArr.keyword}</Typography>
                     </Box>
-                    <Typography sx={{ color: '#000' }}>{item.snippet}</Typography>
-                    {/* <Typography>{last}</Typography> */}
+                    <Typography variant="h4" sx={{ mb: 1, fontSize: '20px' }}>
+                        {item.title}
+                    </Typography>
+                    <Typography sx={{ color: '#000', fontSize: '16px' }}>{item.snippet}</Typography>
                     <Typography sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Typography
                             component="span"
