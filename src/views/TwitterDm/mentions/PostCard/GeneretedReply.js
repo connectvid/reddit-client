@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
@@ -24,7 +25,7 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
     </form>
 );
 
-const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleUpdateReply, editOpen, setEditOpen }) => (
+const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleUpdateReply, editOpen, setEditOpen, link }) => (
     <Box style={{ marginTop: '20px' }}>
         Generated Reply:
         <Box
@@ -68,7 +69,7 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
                         </Typography>
                     </CopyToClipboard>
                 </Button>
-                <Button
+                {/* <Button
                     variant="outlined"
                     sx={{
                         borderTopLeftRadius: '0',
@@ -78,8 +79,23 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
                         alignItems: 'center'
                     }}
                 >
-                    <IconExternalLink size={18} /> Reply
-                </Button>
+                    <a
+                        href={link}
+                        target="_blank"
+                        style={{
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            border: '1px solid #ddd',
+                            padding: '5px 18px',
+                            borderRadius: '4px',
+                            gap: '4px'
+                        }}
+                        rel="noreferrer"
+                    >
+                        <IconExternalLink size={18} /> Publish
+                    </a>
+                </Button> */}
                 <Button
                     variant="outlined"
                     sx={{

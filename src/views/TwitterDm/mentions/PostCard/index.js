@@ -97,7 +97,8 @@ const PostCard = ({ project, date, title, keyword, snippet, link, projectId, _id
                                 handleUpdateReply,
                                 editOpen,
                                 setEditOpen,
-                                setUpdatingReply
+                                setUpdatingReply,
+                                link
                             }}
                         />
                     )}
