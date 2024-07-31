@@ -25,16 +25,20 @@ const NewProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)' })
             toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
             return;
         }
+        let domainValue = values.domain;
+        if (!domainValue.startsWith('https://')) {
+            domainValue = `https://${domainValue}`;
+        }
 
         try {
             const body = {
                 brandName: values.brandName,
-                domain: values.domain,
+                domain: domainValue,
                 shortDescription: values.shortDescription,
                 userId: dbUser._id
             };
 
-            // console.log(body, values);
+            console.log(body, values);
 
             const token = await getAccessToken();
             addProject(token, body)();

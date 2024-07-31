@@ -60,11 +60,11 @@ export default ProjectTable;
 
 // ==============================|| SKELETON - EARNING CARD ||============================== //
 
-const ProjectCard = ({ brandName, domain, shortDescription, deleteProject, _id }) => (
+const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id }) => (
     <Card>
         <CardContent sx={{ p: 0 }}>
             <Box sx={{ position: 'relative' }}>
-                <img src={redditFeeds} alt="Reddit Feeds" style={{ maxWidth: '100%' }} />
+                <img src={thumbnail} alt="Reddit Feeds" style={{ maxWidth: '100%' }} />
                 <Typography
                     style={{
                         cursor: 'pointer',
