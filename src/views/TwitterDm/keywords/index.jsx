@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
+import { Link } from 'react-router-dom';
+import { KEYWORD_PATH } from 'config';
 
 const Keywords = () => {
     // const { getAccessToken } = useAuth();
@@ -40,6 +42,40 @@ const Keywords = () => {
                             ) : project.Suggestedkeywords?.length ? (
                                 <>
                                     <Grid container spacing={2}>
+                                        <Grid item xs={12} sm={6} md={4}>
+                                            <Card sx={{ border: '1px solid #ddd' }}>
+                                                <CardContent sx={{}}>
+                                                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                                                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                            <Typography sx={{ color: 'transparent', fontWeight: 'bold' }}>title</Typography>
+                                                        </Box>
+                                                        <Box>
+                                                            <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                                                                <Link to={`${KEYWORD_PATH}/add`} style={{ textDecoration: 'none' }}>
+                                                                    Add Keyword
+                                                                </Link>
+                                                            </Typography>
+                                                            <Box
+                                                                sx={{
+                                                                    display: 'flex',
+                                                                    justifyContent: 'space-between',
+                                                                    color: 'transparent'
+                                                                }}
+                                                            >
+                                                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                    <Typography>Last month:</Typography>
+                                                                    <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                                                                </Box>{' '}
+                                                                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                    <Typography>Last 24h:</Typography>
+                                                                    <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                                                                </Box>
+                                                            </Box>
+                                                        </Box>
+                                                    </Box>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
                                         {project.Suggestedkeywords.map?.((item) => (
                                             <Grid key={item._id} item xs={12} sm={6} md={4}>
                                                 <KeywordCard {...item} />
@@ -63,36 +99,14 @@ export default Keywords;
 const KeywordCard = ({ _id, projectId, title, search }) => (
     <Card sx={{ border: '1px solid #ddd' }}>
         <CardContent sx={{}}>
-            <Box sx={{ position: 'relative' }}>
-                {/* <img src={redditFeeds} alt="Reddit Feeds" style={{ maxWidth: '100%' }} /> */}
-                {/* <Typography
-                    style={{
-                        cursor: 'pointer',
-                        // position: 'absolute',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        height: '25px',
-                        width: '25px',
-                        alignItems: 'center',
-                        top: '10px',
-                        right: '10px',
-                        background: ' #ddd',
-                        color: 'red',
-                        borderRadius: '50%'
-                    }}
-                    // onClick={() => deleteProject(_id)}
-                >
-                    <IconTrash size={16} />
-                </Typography> */}
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 3 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
                     <Typography>
                         <IconTrash size={16} />
                     </Typography>
                 </Box>
-                <Box sx={{}}>
+                <Box>
                     <Typography sx={{ fontWeight: 'bold' }}>Replies</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>

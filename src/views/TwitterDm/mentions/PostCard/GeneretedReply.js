@@ -17,7 +17,7 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
             fullWidth
             multiline
             onChange={(e) => setEditReply(e.target.value || '')}
-            sx={{ mb: 2, borderRadius: `0 !important`, textarea: { borderRadius: `0 !important` } }}
+            sx={{ mb: 2, borderRadius: `0 !important`, textarea: { borderRadius: `0 !important`, fontSize: '16px' } }}
         />
         <Button type="submit" variant="contained" disabled={updatingReply}>
             Save {updatingReply && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
@@ -39,14 +39,21 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
             {editOpen ? (
                 <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
             ) : (
-                <Typography
-                    sx={{
-                        color: '#000',
-                        fontSize: '16px'
-                    }}
-                >
-                    {editReply}
-                </Typography>
+                <Box>
+                    {editReply &&
+                        editReply.split('\n\n').map((item, i) => (
+                            <Typography
+                                key={i}
+                                sx={{
+                                    color: '#000',
+                                    fontSize: '16px',
+                                    mb: 1
+                                }}
+                            >
+                                {item}
+                            </Typography>
+                        ))}
+                </Box>
             )}
 
             <Box
