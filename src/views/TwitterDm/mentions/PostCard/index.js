@@ -13,7 +13,7 @@ import axios from 'utils/axios';
 import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
 
-const PostCard = ({ project, date, title, keyword, snippet, link, projectId, _id, reply = '', setMentionsData }) => {
+const PostCard = ({ project, platform, date, title, keyword, snippet, link, projectId, _id, reply = '', setMentionsData }) => {
     const { getAccessToken } = useAuth();
     const [editReply, setEditReply] = useState(reply);
     const [generatingReply, setGeneratingReply] = useState(false);
@@ -28,7 +28,8 @@ const PostCard = ({ project, date, title, keyword, snippet, link, projectId, _id
             projectId,
             projectName: project.brandName,
             projectDomain: project.domain,
-            projectDescription: project.shortDescription
+            projectDescription: project.shortDescription,
+            platform
         };
         try {
             const token = await getAccessToken();
@@ -103,7 +104,7 @@ const PostCard = ({ project, date, title, keyword, snippet, link, projectId, _id
                         />
                     )}
                     {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
-                    <PostCardFooter {...{ generatingReply, handleGenerateReply, link }} />
+                    <PostCardFooter {...{ generatingReply, handleGenerateReply, link, platform }} />
                 </Box>
             </CardContent>
         </Card>

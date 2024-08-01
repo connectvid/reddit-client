@@ -6,28 +6,23 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable consistent-return */
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
-import { IconBrandReddit, IconExternalLink } from 'tabler-icons';
+import { IconBrandLinkedin, IconBrandReddit, IconExternalLink } from 'tabler-icons';
+import { FaQuora, FaXTwitter } from 'react-icons/fa6';
 
-const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
+const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }) => {
+    const icons = {
+        'reddit.com': <RedditIcon />,
+        'linkedin.com': <IconBrandLinkedin size={22} color="#0a66c2" />,
+        'quora.com': <FaQuora size={17} color="rgb(245, 41, 54)" />,
+        'twitter.com': <FaXTwitter size={16} />
+    };
+
     return (
         <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
             <Button onClick={handleGenerateReply} variant="contained" disabled={generatingReply}>
                 Generate Reply {generatingReply && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
             </Button>
-            <Typography
-                component="span"
-                sx={{
-                    height: '18px',
-                    width: '18px',
-                    borderRadius: '50%',
-                    bgcolor: '#ff4500',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}
-            >
-                <IconBrandReddit size={12} color="#fff" />
-            </Typography>
+            {platform && icons[platform]}
             <a
                 href={link}
                 target="_blank"
@@ -48,3 +43,20 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
 };
 
 export default PostCardFooter;
+
+export const RedditIcon = () => (
+    <Typography
+        component="span"
+        sx={{
+            height: '18px',
+            width: '18px',
+            borderRadius: '50%',
+            bgcolor: '#ff4500',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}
+    >
+        <IconBrandReddit size={12} color="#fff" />
+    </Typography>
+);
