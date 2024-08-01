@@ -1,22 +1,34 @@
-import { Box, Button, Typography } from '@mui/material';
-import { useEffect } from 'react';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import useAuth from 'hooks/useAuth';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { addingKeywordForSave, removingKeywordForSave, updateProject } from 'features/project/projectActions';
+import {
+    addingCustomKeywordForSave,
+    addingKeywordForSave,
+    removingKeywordForSave,
+    updateProject,
+    removingCustomKeywordForSave
+} from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
 import { useNavigate } from 'react-router-dom';
 import { MENTION_PATH } from 'config';
+import PropTypes from 'prop-types';
 
 const AddKeyword = () => {
     const { getAccessToken } = useAuth();
-    const { project, suggestedKeywords, updateLoading, updateSuccess } = useSelector((state) => state.project);
+    const { project, suggestedKeywords, updateLoading, updateSuccess, customKeywords: cKeys } = useSelector((state) => state.project);
+    const [customKeywords, setCustomKeywords] = React.useState([]);
     const navigate = useNavigate();
+
     useEffect(() => {
         if (updateSuccess) {
             navigate(MENTION_PATH);
         }
+
+        return () => setCustomKeywords([]);
     }, [updateSuccess]);
+
     return (
         <Box sx={{ display: { md: 'flex', xs: 'block' } }}>
             <Box sx={{ width: '50%' }}>
@@ -52,14 +64,23 @@ const AddKeyword = () => {
                         </Typography>
                     ))}
                 </Box>
+                <AddCustomKeyword {...{ updateLoading, customKeywords, setCustomKeywords }} />
                 <Button
                     type="button"
                     variant="contained"
                     sx={{ mt: '15px' }}
-                    disabled={!suggestedKeywords?.length || updateLoading}
+                    disabled={
+                        (!suggestedKeywords?.length && !Object.values(cKeys || {})?.filter?.((item) => item.trim())?.length) ||
+                        updateLoading
+                    }
                     onClick={async () => {
                         const token = await getAccessToken();
-                        updateProject(token, project._id, { suggestedKeywords })();
+                        updateProject(token, project._id, {
+                            suggestedKeywords: [
+                                ...suggestedKeywords.filter((item) => item.trim()),
+                                ...Object.values(cKeys).filter((item) => item.trim())
+                            ]
+                        })();
                     }}
                 >
                     Save
@@ -99,3 +120,55 @@ const AddKeyword = () => {
 };
 
 export default AddKeyword;
+
+const AddCustomKeyword = ({ updateLoading, customKeywords, setCustomKeywords }) => {
+    return (
+        <Box>
+            {customKeywords.map((item) => (
+                <Box key={item} sx={{ display: { sm: 'flex' }, alignItems: 'center', mb: 1, gap: 1 }}>
+                    <TextField
+                        name={item.toString()}
+                        sx={{
+                            display: 'block',
+                            input: {
+                                py: '4px',
+                                px: 1
+                            },
+                            fieldset: {
+                                borderRadius: '3px'
+                            }
+                        }}
+                        type="text"
+                        onChange={({ target: { value = '' } }) => addingCustomKeywordForSave(value, item)()}
+                    />
+                    <Button
+                        type="button"
+                        sx={{ py: '4px', borderColor: 'tomato' }}
+                        variant="outlined"
+                        onClick={() => {
+                            removingCustomKeywordForSave(item)();
+                            setCustomKeywords((p) => p.filter((im) => im !== item));
+                        }}
+                    >
+                        <IconTrash size={18} color="tomato" />
+                    </Button>
+                </Box>
+            ))}
+            <Button
+                type="button"
+                variant="contained"
+                sx={{ mt: '15px', display: 'block', py: '3px' }}
+                disabled={updateLoading}
+                onClick={() => setCustomKeywords((p) => [...p, p.length])}
+            >
+                Add New Keyword
+            </Button>
+        </Box>
+    );
+};
+
+AddCustomKeyword.propTypes = {
+    updateLoading: PropTypes.bool,
+    customKeywords: PropTypes.arrayOf(PropTypes.number).isRequired,
+    setCustomKeywords: PropTypes.func.isRequired
+};

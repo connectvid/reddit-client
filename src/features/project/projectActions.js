@@ -15,7 +15,9 @@ import {
     updateSuccess,
     projectCreated,
     projectRemove,
-    removeKeywordForSave
+    removeKeywordForSave,
+    removeCustomKeywordForSave,
+    addCustomKeywordForSave
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -97,14 +99,25 @@ export const updateProject =
     };
 
 export const addingKeywordForSave =
-    (keyword = '') =>
+    (keyword = '', index) =>
     () => {
-        dispatch(addKeywordForSave(keyword));
+        dispatch(addKeywordForSave({ keyword, index }));
+    };
+
+export const addingCustomKeywordForSave =
+    (keyword = '', index) =>
+    () => {
+        dispatch(addCustomKeywordForSave({ keyword, index }));
     };
 export const removingKeywordForSave =
     (keyword = '') =>
     () => {
         dispatch(removeKeywordForSave(keyword));
+    };
+export const removingCustomKeywordForSave =
+    (index = '') =>
+    () => {
+        dispatch(removeCustomKeywordForSave(index));
     };
 
 export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', async (_, { getState, dispatch }) => {

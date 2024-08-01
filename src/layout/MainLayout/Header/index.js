@@ -40,7 +40,7 @@ const Header = () => {
             navigate(KEYWORD_PATH);
         }
     }, [projectCreated]);
-    console.log({ projectCreated }, pathname === KEYWORD_PATH);
+    // console.log({ projectCreated }, pathname === KEYWORD_PATH);
 
     return (
         <>

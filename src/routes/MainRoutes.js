@@ -6,6 +6,7 @@ import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
 
 const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
 const Keywords = Loadable(lazy(() => import('views/TwitterDm/keywords')));
+const AddNewKeyword = Loadable(lazy(() => import('views/TwitterDm/keywords/AddNewKeyword')));
 const Mentions = Loadable(lazy(() => import('views/TwitterDm/mentions')));
 const Reply = Loadable(lazy(() => import('views/TwitterDm/reply')));
 const Lists = Loadable(lazy(() => import('views/TwitterDm/lists')));
@@ -34,6 +35,10 @@ const MainRoutes = {
         {
             path: PROJECT_PATH,
             element: <Projects />
+        },
+        {
+            path: `${KEYWORD_PATH}/add`,
+            element: <AddNewKeyword />
         },
         {
             path: KEYWORD_PATH,

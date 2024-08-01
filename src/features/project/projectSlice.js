@@ -5,6 +5,7 @@ const initialState = {
     error: null,
     projects: [],
     suggestedKeywords: [],
+    customKeywords: {},
     project: null,
     loading: false,
     projectDeleting: false,
@@ -24,6 +25,7 @@ const projectSlice = createSlice({
         hasError(state, action) {
             state.error = action.payload;
         },
+
         fetchProjects(state, action) {
             const items = action.payload.items;
             state.projects = items;
@@ -72,11 +74,24 @@ const projectSlice = createSlice({
         },
 
         addKeywordForSave(state, action) {
-            state.suggestedKeywords.push(action.payload);
-            // console.log(action.payload);
+            const { keyword } = action.payload;
+            state.suggestedKeywords.push(keyword);
+            // if (typeof index === 'number') {
+            //     state.suggestedKeywords[index] = keyword;
+            // } else state.suggestedKeywords.push(keyword);
+        },
+        addCustomKeywordForSave(state, action) {
+            const { keyword, index } = action.payload;
+            state.customKeywords[index] = keyword;
         },
         removeKeywordForSave(state, action) {
             state.suggestedKeywords.shift(action.payload);
+        },
+        removeCustomKeywordForSave(state, action) {
+            const idx = action.payload;
+            const copy = JSON.parse(JSON.stringify(state.customKeywords));
+            delete copy[idx];
+            state.customKeywords = copy;
         },
         toggleProjectCreateModal(state) {
             state.showProjectCreateModal = !state.showProjectCreateModal;
@@ -141,7 +156,9 @@ export const {
     projectDeleted,
     projectDeleting,
     projectRemove,
-    removeKeywordForSave
+    removeKeywordForSave,
+    removeCustomKeywordForSave,
+    addCustomKeywordForSave
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
