@@ -51,7 +51,7 @@ const projectSlice = createSlice({
         updateSingleProject(state, action) {
             // const { _id } = action.payload;
             // state.project = state.projects.find((item) => item._id === id);
-            state.project = action.payload.item;
+            // state.project = action.payload.item;
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;
