@@ -1,10 +1,3 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable consistent-return */
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { IconBrandLinkedin, IconBrandReddit, IconExternalLink } from 'tabler-icons';
 import { FaQuora, FaXTwitter } from 'react-icons/fa6';
@@ -35,8 +28,9 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }
                     borderRadius: '4px',
                     gap: '4px'
                 }}
+                rel="noreferrer"
             >
-                View <IconExternalLink />
+                Visit post <IconExternalLink />
             </a>
         </Box>
     );

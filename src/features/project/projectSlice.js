@@ -15,7 +15,8 @@ const initialState = {
     updateLoading: false,
     updateSuccess: false,
     showProjectsList: false,
-    showProjectCreateModal: false
+    showProjectCreateModal: false,
+    selectedPlatform: ''
 };
 
 const projectSlice = createSlice({
@@ -32,6 +33,7 @@ const projectSlice = createSlice({
             const firstItem = items?.[0];
             if (firstItem) {
                 state.project = firstItem;
+                state.selectedPlatform = firstItem.platforms?.[0];
                 if (firstItem.suggestedKeywords?.length) {
                     state.suggestedKeywords = firstItem.suggestedKeywords;
                 }
@@ -62,6 +64,7 @@ const projectSlice = createSlice({
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
             state.project = project;
+            state.selectedPlatform = project.platforms?.[0];
             // state.suggestedKeywords = project?.suggestedKeywords || [];
         },
 
@@ -112,9 +115,20 @@ const projectSlice = createSlice({
         projectDeleting(state, action) {
             state.projectDeleting = action.payload;
         },
+
+        selectedPlatform(state, action) {
+            state.selectedPlatform = action.payload;
+        },
+
         projectRemove(state, action) {
             const { id } = action.payload;
-            state.projects = state.projects.filter((item) => item._id !== id);
+            const items = state.projects.filter((item) => item._id !== id);
+            state.projects = items;
+            const firstItem = items?.[0];
+            if (firstItem) {
+                state.project = firstItem;
+                state.selectedPlatform = firstItem.platforms?.[0];
+            }
         }
     }
 
@@ -158,7 +172,8 @@ export const {
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
-    addCustomKeywordForSave
+    addCustomKeywordForSave,
+    selectedPlatform
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

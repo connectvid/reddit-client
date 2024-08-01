@@ -43,7 +43,7 @@ const Keywords = () => {
                                 <>
                                     <Grid container spacing={2}>
                                         <Grid item xs={12} sm={6} md={4}>
-                                            <Card sx={{ border: '1px solid #ddd' }}>
+                                            <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
                                                 <CardContent sx={{}}>
                                                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -63,12 +63,12 @@ const Keywords = () => {
                                                                 }}
                                                             >
                                                                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                    <Typography>Last month:</Typography>
-                                                                    <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                                                                    <Typography>xxxxxxxxxxx</Typography>
+                                                                    <Typography sx={{ fontWeight: 'bold' }}> xx</Typography>
                                                                 </Box>{' '}
                                                                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                    <Typography>Last 24h:</Typography>
-                                                                    <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                                                                    <Typography>xxxxxxxxxxxxxxx</Typography>
+                                                                    <Typography sx={{ fontWeight: 'bold' }}> xxxx</Typography>
                                                                 </Box>
                                                             </Box>
                                                         </Box>
@@ -97,25 +97,25 @@ const Keywords = () => {
 export default Keywords;
 
 const KeywordCard = ({ _id, projectId, title, search }) => (
-    <Card sx={{ border: '1px solid #ddd' }}>
+    <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
         <CardContent sx={{}}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
+                    <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>{title}</Typography>
                     <Typography>
                         <IconTrash size={16} />
                     </Typography>
                 </Box>
-                <Box>
-                    <Typography sx={{ fontWeight: 'bold' }}>Replies</Typography>
+                <Box sx={{ color: 'rgba(0,0,0,0.8)' }}>
+                    <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>Replies</Typography>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography>Last month:</Typography>
-                            <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
+                            <Typography sx={{ color: 'rgba(0,0,0,0.8)' }}>Last month:</Typography>
+                            <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}> 0</Typography>
                         </Box>{' '}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Typography>Last 24h:</Typography>
-                            <Typography sx={{ fontWeight: 'bold' }}> 0</Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
+                            <Typography sx={{ color: 'rgba(0,0,0,0.8)' }}>Last 24h:</Typography>
+                            <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}> 0</Typography>
                         </Box>
                     </Box>
                 </Box>

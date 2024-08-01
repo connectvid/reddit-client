@@ -17,10 +17,14 @@ import {
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
-    addCustomKeywordForSave
+    addCustomKeywordForSave,
+    selectedPlatform
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
+export const changePlatform = (platform) => () => {
+    dispatch(selectedPlatform(platform));
+};
 export const setSingleProjectSelect = (id) => () => {
     dispatch(setSingleProjectSelectSuccess({ id }));
 };

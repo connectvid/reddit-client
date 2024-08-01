@@ -13,7 +13,21 @@ import axios from 'utils/axios';
 import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
 
-const PostCard = ({ project, platform, date, title, keyword, snippet, link, projectId, _id, reply = '', setMentionsData }) => {
+const PostCard = ({
+    project,
+    platform,
+    date,
+    title,
+    keyword,
+    snippet,
+    link,
+    projectId,
+    _id,
+    reply = '',
+    // setMentionsData,
+    setObjItems,
+    selectedPlatform
+}) => {
     const { getAccessToken } = useAuth();
     const [editReply, setEditReply] = useState(reply);
     const [generatingReply, setGeneratingReply] = useState(false);
@@ -38,14 +52,17 @@ const PostCard = ({ project, platform, date, title, keyword, snippet, link, proj
             });
             const responseReply = response.data.reply;
             setEditReply(responseReply);
-            setMentionsData((p) =>
-                p.map((item) => {
-                    if (item._id === _id) {
-                        item.reply = responseReply;
-                    }
-                    return item;
-                })
-            );
+
+            setObjItems((p) => {
+                const changed =
+                    p[selectedPlatform]?.map?.((item) => {
+                        if (item._id === _id) {
+                            item.reply = responseReply;
+                        }
+                        return item;
+                    }) || [];
+                return { ...p, [selectedPlatform]: changed };
+            });
         } catch (e) {
             console.log(e);
         }
@@ -61,14 +78,17 @@ const PostCard = ({ project, platform, date, title, keyword, snippet, link, proj
                 headers: { Authorization: `Bearer ${token}` }
             });
             setEditReply(editVal);
-            setMentionsData((p) =>
-                p.map((item) => {
-                    if (item._id === _id) {
-                        item.reply = editVal;
-                    }
-                    return item;
-                })
-            );
+
+            setObjItems((p) => {
+                const changed =
+                    p[selectedPlatform]?.map?.((item) => {
+                        if (item._id === _id) {
+                            item.reply = editVal;
+                        }
+                        return item;
+                    }) || [];
+                return { ...p, [selectedPlatform]: changed };
+            });
         } catch (e) {
             console.log(e);
         }

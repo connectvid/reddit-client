@@ -45,7 +45,7 @@ const AddKeyword = () => {
                     Add keywords
                 </Typography>
 
-                <Box sx={{ pl: '50px', color: '#000000', fontWeight: 500 }}>
+                <Box sx={{ color: '#000000', fontWeight: 500 }}>
                     {suggestedKeywords?.map((keyword, i) => (
                         <Typography
                             sx={{
@@ -81,6 +81,10 @@ const AddKeyword = () => {
                                 ...Object.values(cKeys).filter((item) => item.trim())
                             ]
                         })();
+                        // console.log([
+                        //     ...suggestedKeywords.filter((item) => item.trim()),
+                        //     ...Object.values(cKeys).filter((item) => item.trim())
+                        // ]);
                     }}
                 >
                     Save

@@ -25,6 +25,7 @@ import NewProject from 'views/TwitterDm/projects/NewProject';
 import './header.css';
 import React from 'react';
 import { KEYWORD_PATH } from 'config';
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 const Header = () => {
     const { pathname } = useLocation();
@@ -93,14 +94,16 @@ const Header = () => {
             >
                 <Button variant="outlined" onClick={toggleShowProjects()}>
                     {project ? project.brandName : `Select`}
-                    <Box component="span">
-                        <IconTriangle
+                    <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+                        {showProjectsList ? <FaAngleUp color="rgb(58, 26, 85)" /> : <FaAngleDown color="rgb(58, 26, 85)" />}
+
+                        {/* <IconTriangle
                             style={{
                                 transform: 'rotate(180deg)',
                                 color: theme.palette.mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark
                             }}
                             size={10}
-                        />
+                        /> */}
                     </Box>
                 </Button>
 
@@ -135,7 +138,6 @@ const Header = () => {
                                 toggleShowProjects()();
                             }}
                         >
-                            {/*  display: 'flex', justifyContent: 'center', alignItems: 'center', */}
                             {brandName}
                         </Box>
                     ))}
