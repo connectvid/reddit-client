@@ -6,10 +6,7 @@ import MinimalLayout from 'layout/MinimalLayout';
 import NavMotion from 'layout/NavMotion';
 import Loadable from 'ui-component/Loadable';
 
-// login routing
-// TwitterDm auth
 const Login3 = Loadable(lazy(() => import('views/pages/authentication3/Login3')));
-// const Register3 = Loadable(lazy(() => import('views/pages/authentication3/Register3')));
 const RegisterWithOTP = Loadable(lazy(() => import('views/pages/authentication3/RegisterWithOTP')));
 const ForgetPassword = Loadable(lazy(() => import('views/pages/authentication3/ForgotPassword3')));
 

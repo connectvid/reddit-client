@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -55,7 +56,7 @@ const initialState = {
     isInitialized: false,
     user: null
 };
-
+let isRegister = false;
 // ==============================|| FIREBASE CONTEXT & PROVIDER ||============================== //
 
 const FirebaseContext = createContext(null);
@@ -64,12 +65,13 @@ export const FirebaseProvider = ({ children }) => {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(accountReducer, initialState);
     const [dbUser, setDbUser] = useState({});
+    // const [isRegister, setIsRegister] = useState(false);
     const [isExpired] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
     const [accessToken, setAccessToken] = useState(ReactSession.get('token') || '');
     const reduxDispatch = useDispatch();
-
+    console.log({ isRegister });
     async function refreshToken() {
         const user = auth?.currentUser;
         console.log('Current user:', user); // Debug
@@ -137,65 +139,68 @@ export const FirebaseProvider = ({ children }) => {
     //   });
 
     // executes when logged in user comes to the website
-    useEffect(
-        () =>
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    const token = user.accessToken;
-                    reduxDispatch(settingAccessToken(token));
-                    const email = user.email;
-                    const uid = user.uid;
-                    setAccessToken(token);
-                    ReactSession.set('token', token);
-                    axios
-                        .get(`user/get-user-by-email-and-uid/${email}/${uid}`, {
-                            headers: { Authorization: `Bearer ${token}` }
-                        })
-                        .then(async ({ data }) => {
-                            console.log(data, 'data =========================================');
-                            data.user.token = token;
-                            const userData = data.user;
-                            console.log(userData, 'data user');
-                            setDbUser(userData);
-                            reduxDispatch(settingUser(userData));
-                            // reduxDispatch(settingUser(userData));
-                            getProjects(userData._id, token)();
-                            dispatch({
-                                type: LOGIN,
-                                payload: {
-                                    isLoggedIn: true,
-                                    user: {
-                                        id: user.uid,
-                                        email: user.email,
-                                        name: user.displayName,
-                                        image: user.photoURL
-                                    }
+    useEffect(() => {
+        if (isLoading) return;
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const token = user.accessToken;
+                reduxDispatch(settingAccessToken(token));
+                const email = user.email;
+                const uid = user.uid;
+                setAccessToken(token);
+                ReactSession.set('token', token);
+                // console.log({ email, uid, token });
+                axios
+                    .get(`user/get-user-by-email-and-uid/${email}/${uid}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    })
+                    .then(async ({ data }) => {
+                        console.log(data, 'data =========================================');
+                        data.user.token = token;
+                        const userData = data.user;
+                        console.log(userData, 'data user');
+                        setDbUser(userData);
+                        reduxDispatch(settingUser(userData));
+                        getProjects(userData._id, token)();
+                        dispatch({
+                            type: LOGIN,
+                            payload: {
+                                isLoggedIn: true,
+                                user: {
+                                    id: user.uid,
+                                    email: user.email,
+                                    name: user.displayName,
+                                    image: user.photoURL
                                 }
-                            });
-                        })
-                        .catch(async (e) => {
-                            console.log('error');
-                            await logout();
-                            if (e?.response?.status !== 404) {
-                                console.log(e, '=================================error========================================');
-                                localStorage.clear();
-                                await logout();
-                                toast(e.message || `Something went wrong`, {
-                                    autoClose: 2500,
-                                    type: 'error'
-                                });
                             }
                         });
-                } else {
-                    dispatch({
-                        type: LOGOUT
+                        // if (isRegister) setIsRegister(false);
+                    })
+                    .catch(async (e) => {
+                        console.log('error', e?.response?.data || e.message, { isRegister });
+                        if (isRegister === false) {
+                            console.log({ isRegister }, 'isRegisterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+                            localStorage.clear();
+                            await logout();
+                            signOut(auth);
+                        }
+                        if (e?.response?.status !== 404) {
+                            console.log(e, '===error==========');
+                            toast(e.message || `Something went wrong`, {
+                                autoClose: 2500,
+                                type: 'error'
+                            });
+                        }
                     });
-                    localStorage.clear();
-                    signOut(auth);
-                }
-            }),
-        []
-    );
+            } else {
+                dispatch({
+                    type: LOGOUT
+                });
+                localStorage.clear();
+                signOut(auth);
+            }
+        });
+    }, []);
 
     const logout = () => {
         const logedOut = signOut(auth);
@@ -206,6 +211,9 @@ export const FirebaseProvider = ({ children }) => {
     // using this function to login by firebase, and fetch logged in users data from database.
     const firebaseEmailPasswordSignIn = ({ email, password }) => {
         setIsLoading(true);
+        isRegister = true;
+        console.log({ isRegister }, email);
+
         signInWithEmailAndPassword(auth, email, password)
             .then(async (result) => {
                 const token = await result._tokenResponse.idToken;
@@ -234,18 +242,21 @@ export const FirebaseProvider = ({ children }) => {
                                 }
                             }
                         });
+
                         data.user.token = token;
                         setDbUser(data.user);
-                        return navigate(DASHBOARD_PATH);
+                        setIsLoading(false);
+                        // return navigate(DASHBOARD_PATH);
                     })
                     .catch(async (e) => {
                         await logout();
+                        setIsLoading(false);
+                        isRegister = false;
                         toast(e.message || 'Something went wrong', {
                             autoClose: 2500,
                             type: 'error'
                         });
-                    })
-                    .finally(() => setIsLoading(false));
+                    });
             })
             .catch((e1) => {
                 console.log(JSON.stringify(e1), '===');
@@ -256,11 +267,13 @@ export const FirebaseProvider = ({ children }) => {
                     type: 'error'
                 });
                 setIsLoading(false);
+                isRegister = false;
             });
     };
 
     const firebaseGoogleLoginOrSignup = async () => {
         setIsLoading(true);
+        isRegister = true;
         const googleProvider = new GoogleAuthProvider();
         const data = await signInWithPopup(auth, googleProvider);
         const body = {
@@ -294,22 +307,25 @@ export const FirebaseProvider = ({ children }) => {
                         }
                     }
                 });
-                return navigate(DASHBOARD_PATH);
+                setIsLoading(false);
+                // setIsRegister(false);
+                // return navigate(DASHBOARD_PATH);
             })
             .catch(async (eRR) => {
                 localStorage.clear();
-                // if (UID) {
-                //     await auth.currentUser.delete();
-                // }
+                if (isRegister) {
+                    isRegister = false;
+                }
                 await logout();
+                setIsLoading(false);
                 setGeneralError(eRR.response?.data?.message || eRR.message || 'Something went wrong');
-            })
-            .finally(() => setIsLoading(false));
+            });
     };
 
     // using this function to register user at firsbase and create user at out database.
     const firebaseRegisterWithOTP = (values) => {
         setIsLoading(true);
+        isRegister = true;
         const { email, name, password } = values;
 
         createUserWithEmailAndPassword(auth, email, password)
@@ -342,24 +358,27 @@ export const FirebaseProvider = ({ children }) => {
                                 }
                             }
                         });
-                        return navigate(DASHBOARD_PATH);
+                        setIsLoading(false);
+                        // return navigate(DASHBOARD_PATH);
                     })
                     .catch(async (eRR) => {
                         localStorage.clear();
+                        isRegister = false;
                         if (UID) {
                             await auth.currentUser.delete();
                         }
                         await logout();
+                        setIsLoading(false);
                         setGeneralError(eRR.response?.data?.message || eRR.message || 'Something went wrong');
-                    })
-                    .finally(() => setIsLoading(false));
+                    });
             })
             .catch((error) => {
                 let msg = 'Something wont wrong';
                 if (error.code === 'auth/email-already-in-use') msg = 'User already register';
                 setGeneralError(msg);
-            })
-            .finally(() => setIsLoading(false));
+                setIsLoading(false);
+                isRegister = false;
+            });
     };
 
     const resetPassword = async (email) => {

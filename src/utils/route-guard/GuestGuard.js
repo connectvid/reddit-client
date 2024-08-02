@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // project imports
 import useAuth from 'hooks/useAuth';
@@ -14,16 +14,17 @@ import { DASHBOARD_PATH } from 'config';
  */
 
 const GuestGuard = ({ children }) => {
-    const { isLoggedIn, isTwitterAuth } = useAuth();
+    const { isLoggedIn } = useAuth();
     const navigate = useNavigate();
+    const { pathname } = useLocation();
 
     useEffect(() => {
-        if (isLoggedIn && isTwitterAuth) {
+        if (isLoggedIn) {
             navigate(DASHBOARD_PATH, { replace: true });
-        } else if (isLoggedIn && isTwitterAuth === false) {
-            navigate('/unauthenticated', { replace: true });
+        } else if (isLoggedIn) {
+            navigate(pathname, { replace: true });
         }
-    }, [isLoggedIn, isTwitterAuth, navigate]);
+    }, [isLoggedIn, navigate]);
 
     return children;
 };
