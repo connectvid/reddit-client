@@ -6,6 +6,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
 import { IconCheck, IconCopy, IconPencil, IconTrash } from 'tabler-icons';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }) => (
     <form
@@ -131,23 +132,27 @@ const GeneretedReply = ({
 );
 export default GeneretedReply;
 
-const MarkBtn = ({ handleUpdateReply, markReply, updatingReply }) => (
-    <Button
-        variant="outlined"
-        sx={{
-            borderTopLeftRadius: '0',
-            borderTopRightRadius: '0',
-            borderColor: '#ddd',
-            color: markReply === 'marked' ? '' : '#00000080',
-            display: 'flex',
-            alignItems: 'center'
-        }}
-        disabled={updatingReply}
-        onClick={() => handleUpdateReply({ update_on: 'markReply', markReply: markReply === 'marked' ? null : 'marked' })}
-    >
-        <IconCheck size={18} /> Mark Replied
-    </Button>
-);
+const MarkBtn = ({ handleUpdateReply, markReply, updatingReply }) => {
+    // const { pathname } = useLocation();
+    return (
+        <Button
+            variant="outlined"
+            sx={{
+                borderTopLeftRadius: '0',
+                borderTopRightRadius: '0',
+                borderColor: '#ddd',
+                color: markReply === 'marked' ? '' : '#00000080',
+                display: 'flex',
+                alignItems: 'center'
+            }}
+            disabled={updatingReply}
+            onClick={() => handleUpdateReply({ update_on: 'markReply', markReply: markReply === 'marked' ? null : 'marked' })}
+        >
+            <IconCheck size={18} /> Mark Replied
+        </Button>
+    );
+};
+
 const markReply = PropTypes.oneOf(['marked', 'unmarked', null, undefined]),
     updatingReply = PropTypes.bool.isRequired,
     handleUpdateReply = PropTypes.func.isRequired,

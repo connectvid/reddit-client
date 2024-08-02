@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
-import MentionCard from '../mentions/PostCard';
+import PostCard from '../mentions/PostCard';
 
 const Reply = () => {
     const { getAccessToken } = useAuth();
@@ -46,7 +46,7 @@ const Reply = () => {
                 </CardContent>
             </Card>
             {mentionsData?.map?.((item) => (
-                <MentionCard key={item._id} {...item} {...{ project, setMentionsData }} />
+                <PostCard key={item._id} {...item} {...{ project, setObjItems: setMentionsData }} />
             ))}
         </>
     );

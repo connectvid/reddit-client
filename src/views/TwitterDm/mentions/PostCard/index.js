@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable camelcase */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/jsx-no-target-blank */
@@ -13,6 +14,8 @@ import axios from 'utils/axios';
 
 import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
+import { useLocation } from 'react-router-dom';
+import { REPLY_PATH } from 'config';
 
 const PostCard = ({
     project,
@@ -37,7 +40,7 @@ const PostCard = ({
     const [generatingReply, setGeneratingReply] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
-
+    const { pathname } = useLocation();
     const handleGenerateReply = async () => {
         setGeneratingReply(true);
         const body = {
@@ -75,13 +78,14 @@ const PostCard = ({
     const handleUpdateReply = async ({ update_on = 'reply', isDelete = false, markReply }) => {
         setUpdatingReply(true);
         const editVal = isDelete ? '' : editReply;
+        const upData = { update_on };
+        if (update_on === 'reply') {
+            upData.reply = editVal;
+        } else if (update_on === 'markReply') {
+            upData.markReply = markReply;
+        }
+
         try {
-            const upData = { update_on };
-            if (update_on === 'reply') {
-                upData.reply = editVal;
-            } else if (update_on === 'markReply') {
-                upData.markReply = markReply;
-            }
             const token = await getAccessToken();
             await axios.put(`/mentions/${_id}/update-reply`, upData, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -89,19 +93,33 @@ const PostCard = ({
             if (update_on === 'reply') {
                 setEditReply(editVal);
             }
-
-            setObjItems((p) => {
-                const changed =
-                    p[selectedPlatform]?.map?.((item) => {
-                        if (item._id === _id) {
-                            if (update_on === 'reply') {
-                                upData.reply = editVal;
-                            } else if (update_on === 'markReply') item.markReply = markReply;
-                        }
-                        return item;
-                    }) || [];
-                return { ...p, [selectedPlatform]: changed };
-            });
+            if (pathname === REPLY_PATH) {
+                setObjItems((p) => {
+                    const changed =
+                        p?.map?.((item) => {
+                            if (item._id === _id) {
+                                if (update_on === 'reply') {
+                                    upData.reply = editVal;
+                                } else if (update_on === 'markReply') item.markReply = markReply;
+                            }
+                            return item;
+                        }) || [];
+                    return changed;
+                });
+            } else {
+                setObjItems((p) => {
+                    const changed =
+                        p[selectedPlatform]?.map?.((item) => {
+                            if (item._id === _id) {
+                                if (update_on === 'reply') {
+                                    upData.reply = editVal;
+                                } else if (update_on === 'markReply') item.markReply = markReply;
+                            }
+                            return item;
+                        }) || [];
+                    return { ...p, [selectedPlatform]: changed };
+                });
+            }
         } catch (e) {
             console.log(e);
         }

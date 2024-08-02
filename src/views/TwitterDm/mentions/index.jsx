@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
-import MentionCard from './PostCard';
+import PostCard from './PostCard';
 import { changePlatform } from 'features/project/projectActions';
 import reddit from 'assets/images/platforms/reddit.png';
 import linkedin from 'assets/images/platforms/linkedin.png';
@@ -93,7 +93,7 @@ const Mentions = () => {
             </Card>
             {selectedPlatform &&
                 mentionsDataObj[selectedPlatform]?.map?.((item) => (
-                    <MentionCard
+                    <PostCard
                         key={item._id}
                         {...item}
                         {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
