@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -7,7 +8,7 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { deleteKeywordFromDB, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
 import { Link } from 'react-router-dom';
@@ -16,6 +17,7 @@ import { KEYWORD_PATH } from 'config';
 const Keywords = () => {
     // const { getAccessToken } = useAuth();
     const { project, projects } = useSelector((state) => state.project);
+    const { accessToken } = useSelector((state) => state.auth);
 
     return (
         <>
@@ -77,7 +79,7 @@ const Keywords = () => {
                                     </Grid>
                                     {project.Suggestedkeywords.map?.((item) => (
                                         <Grid key={item._id} item xs={12} sm={6} md={4}>
-                                            <KeywordCard {...item} />
+                                            <KeywordCard {...item} {...{ accessToken }} />
                                         </Grid>
                                     ))}
                                 </Grid>
@@ -94,13 +96,20 @@ const Keywords = () => {
 
 export default Keywords;
 
-const KeywordCard = ({ _id, projectId, title, search }) => (
+const KeywordCard = ({ _id, title, accessToken }) => (
     <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
         <CardContent sx={{}}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>{title}</Typography>
-                    <Typography>
+                    <Typography
+                        sx={{ cursor: 'pointer' }}
+                        onClick={async () => {
+                            // eslint-disable-next-line no-alert
+                            if (!confirm(`Are you sure to delete keyword with associated mentions?`)) return;
+                            deleteKeywordFromDB(accessToken, _id)();
+                        }}
+                    >
                         <IconTrash size={16} />
                     </Typography>
                 </Box>

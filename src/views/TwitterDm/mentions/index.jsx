@@ -10,9 +10,6 @@ import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import MentionCard from './PostCard';
-import { RedditIcon } from './PostCard/PostCardFooter';
-import { IconBrandLinkedin } from 'tabler-icons';
-import { FaQuora, FaXTwitter } from 'react-icons/fa6';
 import { changePlatform } from 'features/project/projectActions';
 import reddit from 'assets/images/platforms/reddit.png';
 import linkedin from 'assets/images/platforms/linkedin.png';
@@ -23,7 +20,7 @@ const Mentions = () => {
     const { getAccessToken } = useAuth();
     // const [mentionsData, setMentionsData] = useState([]);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
-    const { project, selectedPlatform } = useSelector((state) => state.project);
+    const { project, selectedPlatform, projectCreated } = useSelector((state) => state.project);
     // const [selectedPlatform, setSelectedPlatform] = useState('');
 
     // console.log(mentionsDataObj?.[selectedPlatform]);
@@ -33,6 +30,7 @@ const Mentions = () => {
     //         setSelectedPlatform(project?.platforms[0]);
     //     }
     // }, [project?.platforms?.length]);
+    useEffect(() => {}, [projectCreated]);
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -95,7 +93,11 @@ const Mentions = () => {
             </Card>
             {selectedPlatform &&
                 mentionsDataObj[selectedPlatform]?.map?.((item) => (
-                    <MentionCard key={item._id} {...item} {...{ project, setObjItems: setMentionsDataObj, selectedPlatform }} />
+                    <MentionCard
+                        key={item._id}
+                        {...item}
+                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                    />
                 ))}
             {/* {mentionsData?.map?.((item) => (
                 <MentionCard key={item._id} {...item} {...{ project, setMentionsData }} />

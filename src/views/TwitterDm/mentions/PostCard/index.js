@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -24,12 +25,15 @@ const PostCard = ({
     projectId,
     _id,
     reply = '',
+    markReply,
     // setMentionsData,
     setObjItems,
-    selectedPlatform
+    selectedPlatform,
+    showMarkRepliedBtn
 }) => {
     const { getAccessToken } = useAuth();
-    const [editReply, setEditReply] = useState(reply);
+    const filteredReply = reply ? reply.replace(/[*#]/g, '') : reply;
+    const [editReply, setEditReply] = useState(filteredReply);
     const [generatingReply, setGeneratingReply] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
@@ -68,22 +72,31 @@ const PostCard = ({
         }
         setGeneratingReply(false);
     };
-    const handleUpdateReply = async (isDelete = false) => {
+    const handleUpdateReply = async ({ update_on = 'reply', isDelete = false, markReply }) => {
         setUpdatingReply(true);
         const editVal = isDelete ? '' : editReply;
         try {
-            const upData = { reply: editVal };
+            const upData = { update_on };
+            if (update_on === 'reply') {
+                upData.reply = editVal;
+            } else if (update_on === 'markReply') {
+                upData.markReply = markReply;
+            }
             const token = await getAccessToken();
             await axios.put(`/mentions/${_id}/update-reply`, upData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setEditReply(editVal);
+            if (update_on === 'reply') {
+                setEditReply(editVal);
+            }
 
             setObjItems((p) => {
                 const changed =
                     p[selectedPlatform]?.map?.((item) => {
                         if (item._id === _id) {
-                            item.reply = editVal;
+                            if (update_on === 'reply') {
+                                upData.reply = editVal;
+                            } else if (update_on === 'markReply') item.markReply = markReply;
                         }
                         return item;
                     }) || [];
@@ -94,8 +107,7 @@ const PostCard = ({
         }
         setUpdatingReply(false);
     };
-    // const spil = item.title?.split?.(`: r/`);
-    // const last = spil ? spil[spil.length - 1] : '';
+
     return (
         <Card sx={{ mb: 4 }}>
             <CardContent>
@@ -104,10 +116,10 @@ const PostCard = ({
                         <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
                         <Typography sx={{ fontWeight: 'bold' }}>{keyword}</Typography>
                     </Box>
-                    <Typography variant="h4" sx={{ mb: 1, fontSize: '20px' }}>
+                    <Typography variant="h4" sx={{ mb: 1, fontSize: '20px', fontWeight: 'bold' }}>
                         {title}
                     </Typography>
-                    <Typography sx={{ color: '#000', fontSize: '16px' }}>{snippet}</Typography>
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 'bold' }}>{snippet}</Typography>
                     {reply && (
                         <GeneretedReply
                             {...{
@@ -119,7 +131,9 @@ const PostCard = ({
                                 editOpen,
                                 setEditOpen,
                                 setUpdatingReply,
-                                link
+                                link,
+                                showMarkRepliedBtn,
+                                markReply
                             }}
                         />
                     )}

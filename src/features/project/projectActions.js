@@ -102,6 +102,26 @@ export const updateProject =
         }
     };
 
+export const deleteKeywordFromDB = (token, id) => async () => {
+    try {
+        // dispatch(updateProjectLoading(true));
+        const response = await axios.delete(`keywords/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        // dispatch(updateSingleProject(response.data));
+        // dispatch(updateSuccess(true));
+        // setTimeout(() => {
+        //     dispatch(updateSuccess(false));
+        // }, 2000);
+    } catch (error) {
+        dispatch(hasError(error));
+    } finally {
+        // dispatch(updateProjectLoading(false));
+    }
+};
+
 export const addingKeywordForSave =
     (keyword = '', index) =>
     () => {

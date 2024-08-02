@@ -14,7 +14,7 @@ import { openDrawer } from 'features/menu/menuSlice';
 import { IconArrowLeft } from '@tabler/icons';
 // import useAuth from 'hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { IconPlus, IconTriangle } from 'tabler-icons';
+import { IconPlus } from 'tabler-icons';
 import {
     toggleShowProjects,
     setSingleProjectSelect,
@@ -23,24 +23,24 @@ import {
 } from 'features/project/projectActions';
 import NewProject from 'views/TwitterDm/projects/NewProject';
 import './header.css';
-import React from 'react';
-import { KEYWORD_PATH } from 'config';
+// import React from 'react';
+// import { KEYWORD_PATH } from 'config';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 const Header = () => {
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
+    // const { pathname } = useLocation();
+    // const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
 
     const { projects, project, showProjectsList, showProjectCreateModal, projectCreated } = useSelector((state) => state.project);
-    React.useEffect(() => {
-        if (projectCreated && pathname !== KEYWORD_PATH) {
-            projectCreatedStatus(false)();
-            navigate(KEYWORD_PATH);
-        }
-    }, [projectCreated]);
+    // React.useEffect(() => {
+    //     if (projectCreated && pathname !== KEYWORD_PATH) {
+    //         // projectCreatedStatus(false)();
+    //         navigate(KEYWORD_PATH);
+    //     }
+    // }, [projectCreated]);
     // console.log({ projectCreated }, pathname === KEYWORD_PATH);
 
     return (

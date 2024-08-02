@@ -8,17 +8,26 @@ import React from 'react';
 import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
-import { addProject, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { KEYWORD_PATH } from 'config';
 
-const NewProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)' }) => {
-    const { createLoading } = useSelector((state) => state.project);
+const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
+    const { createLoading, projectCreated } = useSelector((state) => state.project);
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
     const [values, setValues] = React.useState({
         brandName: '',
         domain: '',
         shortDescription: ''
     });
     const { getAccessToken, dbUser } = useAuth();
-
+    React.useEffect(() => {
+        if (projectCreated && pathname !== KEYWORD_PATH) {
+            projectCreatedStatus(false)();
+            navigate(KEYWORD_PATH);
+        }
+    }, [projectCreated]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!values.brandName || !values?.domain || !values?.shortDescription) {

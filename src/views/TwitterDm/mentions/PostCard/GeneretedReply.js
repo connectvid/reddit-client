@@ -1,15 +1,18 @@
+/* eslint-disable one-var */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
-import { IconCheck, IconCopy, IconExternalLink, IconPencil, IconTrash } from 'tabler-icons';
+import { IconCheck, IconCopy, IconPencil, IconTrash } from 'tabler-icons';
+import PropTypes from 'prop-types';
 
 const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }) => (
     <form
         style={{}}
         onSubmit={(e) => {
             e.preventDefault();
-            handleUpdateReply();
+            handleUpdateReply({ update_on: 'reply' });
         }}
     >
         <TextField
@@ -25,7 +28,18 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
     </form>
 );
 
-const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleUpdateReply, editOpen, setEditOpen, link }) => (
+const GeneretedReply = ({
+    editReply,
+    setEditReply,
+    reply,
+    updatingReply,
+    handleUpdateReply,
+    editOpen,
+    setEditOpen,
+    link,
+    markReply,
+    showMarkRepliedBtn
+}) => (
     <Box style={{ marginTop: '20px' }}>
         Generated Reply:
         <Box
@@ -76,45 +90,9 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
                         </Typography>
                     </CopyToClipboard>
                 </Button>
-                {/* <Button
-                    variant="outlined"
-                    sx={{
-                        borderTopLeftRadius: '0',
-                        borderTopRightRadius: '0',
-                        borderColor: '#ddd',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                >
-                    <a
-                        href={link}
-                        target="_blank"
-                        style={{
-                            textDecoration: 'none',
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            border: '1px solid #ddd',
-                            padding: '5px 18px',
-                            borderRadius: '4px',
-                            gap: '4px'
-                        }}
-                        rel="noreferrer"
-                    >
-                        <IconExternalLink size={18} /> Publish
-                    </a>
-                </Button> */}
-                <Button
-                    variant="outlined"
-                    sx={{
-                        borderTopLeftRadius: '0',
-                        borderTopRightRadius: '0',
-                        borderColor: '#ddd',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                >
-                    <IconCheck size={18} /> Mark Published
-                </Button>
+
+                {(showMarkRepliedBtn || markReply === 'marked') && <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />}
+
                 <Button
                     variant="outlined"
                     sx={{
@@ -139,11 +117,11 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
                     }}
                     disabled={updatingReply}
                     onClick={() => {
-                        if (!updatingReply) handleUpdateReply(true);
+                        if (!updatingReply) handleUpdateReply({ isDelete: true });
                     }}
                 >
                     <Typography sx={{ color: 'tomato', display: 'flex', alignItems: 'center' }}>
-                        {updatingReply ? <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} /> : <IconTrash size={18} />}{' '}
+                        {/* {updatingReply ? <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} /> : <IconTrash size={18} />}{' '} */}
                         Remove
                     </Typography>
                 </Button>
@@ -152,3 +130,46 @@ const GeneretedReply = ({ editReply, setEditReply, reply, updatingReply, handleU
     </Box>
 );
 export default GeneretedReply;
+
+const MarkBtn = ({ handleUpdateReply, markReply, updatingReply }) => (
+    <Button
+        variant="outlined"
+        sx={{
+            borderTopLeftRadius: '0',
+            borderTopRightRadius: '0',
+            borderColor: '#ddd',
+            color: markReply === 'marked' ? '' : '#00000080',
+            display: 'flex',
+            alignItems: 'center'
+        }}
+        disabled={updatingReply}
+        onClick={() => handleUpdateReply({ update_on: 'markReply', markReply: markReply === 'marked' ? null : 'marked' })}
+    >
+        <IconCheck size={18} /> Mark Replied
+    </Button>
+);
+const markReply = PropTypes.oneOf(['marked', 'unmarked', null, undefined]),
+    updatingReply = PropTypes.bool.isRequired,
+    handleUpdateReply = PropTypes.func.isRequired,
+    editReply = PropTypes.oneOfType([PropTypes.oneOf([null, undefined, '']), 'string']),
+    setEditReply = PropTypes.func.isRequired;
+
+EditReply.propTypes = { editReply, setEditReply, updatingReply, handleUpdateReply };
+
+GeneretedReply.propTypes = {
+    editReply,
+    setEditReply,
+    reply: PropTypes.oneOfType([PropTypes.oneOf([null, undefined, '']), 'string']),
+    showMarkRepliedBtn: PropTypes.oneOfType([PropTypes.oneOf([undefined]), PropTypes.bool]),
+    setEditOpen: PropTypes.func.isRequired,
+    link: PropTypes.string.isRequired,
+    updatingReply: PropTypes.bool.isRequired,
+    editOpen: PropTypes.bool.isRequired,
+    handleUpdateReply: PropTypes.func.isRequired,
+    markReply
+};
+MarkBtn.propTypes = {
+    updatingReply: PropTypes.bool.isRequired,
+    handleUpdateReply: PropTypes.func.isRequired,
+    markReply
+};
