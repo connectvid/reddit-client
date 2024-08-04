@@ -36,7 +36,6 @@ const Mentions = () => {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                // setMentionsData(data.items);
 
                 const platfms = project?.platforms?.reduce((a, c) => {
                     a[c] = [];
@@ -51,7 +50,6 @@ const Mentions = () => {
                         if (a[c.platform]) {
                             a[c.platform].push(c);
                         }
-
                         return a;
                     }
                     if (a[c.platform]) {
