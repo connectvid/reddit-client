@@ -1,10 +1,6 @@
-/* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
+/* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import { Box, Card, CardContent, Typography } from '@mui/material';
+import { Autocomplete, Box, Card, CardContent, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -16,11 +12,14 @@ import linkedin from 'assets/images/platforms/linkedin.png';
 import quora from 'assets/images/platforms/quora.png';
 import twitter from 'assets/images/platforms/twitter.png';
 import removeEndingSubstring from 'utils/removeEndingSubstring';
+import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 
 const Mentions = () => {
     const { getAccessToken } = useAuth();
-    // const [mentionsData, setMentionsData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
+    const [selectedKeyword, setSelectedKeyword] = useState('All');
+
     const {
         project,
         selectedPlatform // projectCreated
@@ -29,6 +28,8 @@ const Mentions = () => {
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
+            setLoading(true);
+            setSelectedKeyword('All');
             try {
                 const token = await getAccessToken();
                 const { data } = await axios.get(`mentions/projects/${projectid}`, {
@@ -42,6 +43,7 @@ const Mentions = () => {
                     return a;
                 }, {});
                 const reduced = data.items?.reduce((a, c) => {
+                    c.view = true;
                     if (c.platform === 'reddit.com') {
                         const link = removeEndingSubstring(c.link, '/');
                         if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
@@ -59,73 +61,162 @@ const Mentions = () => {
                     return a;
                 }, platfms);
                 setMentionsDataObj(reduced);
+                setLoading(false);
             } catch (e) {
                 console.log(e);
+
+                setLoading(false);
             }
         };
         if (projectId) {
             fetchProjectMentions(projectId);
         }
     }, [project?._id]);
+
     const platformsSrc = {
         'reddit.com': reddit,
         'linkedin.com': linkedin,
         'quora.com': quora,
         'twitter.com': twitter
     };
+
     return (
         <>
             <Card sx={{ mb: 5 }}>
-                <CardContent style={{ display: 'flex', justifyContent: '', alignItems: 'center', gap: '200px' }}>
-                    <Typography variant="h2" style={{}}>
-                        Mentions
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                        {project?.platforms?.map?.((platform) => (
-                            <Typography
-                                key={platform}
-                                component="div"
-                                sx={{
-                                    cursor: 'pointer',
-                                    p: 0,
-                                    maxWidth: '70px',
-                                    border: selectedPlatform === platform && `1px solid rgb(33, 150, 243)`,
-                                    minHeight: '35px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    borderRadius: '5px'
-                                }}
-                                onClick={() => {
-                                    if (selectedPlatform !== platform) changePlatform(platform)();
-                                }}
-                            >
-                                {/* {platformsSrc[platform]} */}
-                                <img
-                                    src={platformsSrc[platform]}
-                                    alt={platform}
-                                    style={{
-                                        width: '85%' // platform === 'linkedin.com' ? '85%' : '100%'
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        justifyContent: '',
+                        alignItems: 'center',
+                        gap: { xs: '10px', md: '20px' },
+                        flexDirection: { xs: 'column', md: 'row' }
+                    }}
+                >
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            justifyContent: 'space-between',
+                            // justifyContent: { xs: 'normal', sm: 'space-between' },
+                            alignItems: 'center',
+                            width: '100%'
+                        }}
+                    >
+                        <Typography
+                            variant="h2"
+                            sx={{
+                                width: { xs: '100%', md: '' },
+                                textAlign: { xs: 'center', md: '' }
+                            }}
+                        >
+                            Mentions
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, width: { xs: '100%', md: '50%' } }}>
+                            {project?.platforms?.map?.((platform) => (
+                                <Typography
+                                    key={platform}
+                                    component="div"
+                                    sx={{
+                                        cursor: 'pointer',
+                                        p: 0,
+                                        maxWidth: '70px',
+                                        border: selectedPlatform === platform && '1px solid rgb(33, 150, 243)',
+                                        minHeight: '35px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        borderRadius: '5px'
                                     }}
-                                />
-                            </Typography>
-                        ))}
+                                    onClick={() => {
+                                        if (selectedPlatform !== platform) changePlatform(platform)();
+                                    }}
+                                >
+                                    {/* {platformsSrc[platform]} */}
+                                    <img
+                                        src={platformsSrc[platform]}
+                                        alt={platform}
+                                        style={{
+                                            width: '85%'
+                                        }}
+                                    />
+                                </Typography>
+                            ))}
+                        </Box>
                     </Box>
+                    {/*  */}
+                    <PostFilter {...{ keywords: project?.Suggestedkeywords, label: project?.brandName, setSelectedKeyword }} />
                 </CardContent>
             </Card>
+            {loading && <PostPlaceholder />}
             {selectedPlatform &&
-                mentionsDataObj[selectedPlatform]?.map?.((item) => (
-                    <PostCard
-                        key={item._id}
-                        {...item}
-                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
-                    />
-                ))}
-            {/* {mentionsData?.map?.((item) => (
-                <MentionCard key={item._id} {...item} {...{ project, setMentionsData }} />
-            ))} */}
+                mentionsDataObj[selectedPlatform]?.map?.((item) => {
+                    if (selectedKeyword === 'All')
+                        return (
+                            <PostCard
+                                key={item._id}
+                                {...item}
+                                {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                            />
+                        );
+                    if (selectedKeyword === item.keyword)
+                        return (
+                            <PostCard
+                                key={item._id}
+                                {...item}
+                                {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                            />
+                        );
+                })}
         </>
     );
 };
 
 export default Mentions;
+
+const PostFilter = ({ keywords, label, setSelectedKeyword }) => {
+    // platform
+    return (
+        <Box sx={{ width: { xs: '100%', md: '33%' } }}>
+            {keywords?.length && (
+                <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={keywords}
+                    sx={{
+                        py: 0
+                    }}
+                    fullWidth
+                    getOptionLabel={(item) => item.title}
+                    onChange={(_, v) => {
+                        const title = v?.title || 'All';
+                        setSelectedKeyword(title);
+                    }}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label={label}
+                            sx={
+                                {
+                                    // '.MuiOutlinedInput-root': { py: '0 !important' },
+                                    // py: '0 !important',
+                                    // label: {
+                                    //     mt: '-9px',
+                                    //     '&:focus': {
+                                    //         mt: 0
+                                    //     }
+                                    // },
+                                    // input: {
+                                    //     py: 0
+                                    // },
+                                    // fieldset: {
+                                    //     py: 0
+                                    // }
+                                }
+                            }
+                        />
+                    )}
+                />
+            )}
+        </Box>
+    );
+};
