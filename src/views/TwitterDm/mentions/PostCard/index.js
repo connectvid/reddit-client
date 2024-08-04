@@ -1,12 +1,3 @@
-/* eslint-disable no-unreachable */
-/* eslint-disable camelcase */
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable consistent-return */
 import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
@@ -16,6 +7,7 @@ import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
 import { useLocation } from 'react-router-dom';
 import { REPLY_PATH } from 'config';
+import removeLastSentenceIfEllipsis from 'utils/removeLastSentenceIfEllipsis';
 
 const PostCard = ({
     project,
@@ -127,7 +119,7 @@ const PostCard = ({
     };
 
     return (
-        <Card sx={{ mb: 4 }}>
+        <Card sx={{ mb: 4 }} id={_id}>
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
@@ -137,13 +129,15 @@ const PostCard = ({
                     <Typography variant="h4" sx={{ mb: 1, fontSize: '20px', fontWeight: 'bold' }}>
                         {title}
                     </Typography>
-                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 'bold' }}>{snippet}</Typography>
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 'bold' }} title={snippet}>
+                        {removeLastSentenceIfEllipsis(snippet)}
+                    </Typography>
                     {reply && (
                         <GeneretedReply
                             {...{
                                 editReply,
                                 setEditReply,
-                                reply,
+                                reply: filteredReply,
                                 updatingReply,
                                 handleUpdateReply,
                                 editOpen,

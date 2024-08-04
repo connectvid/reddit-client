@@ -4,7 +4,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable consistent-return */
-import { Box, Button, Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -15,22 +15,17 @@ import reddit from 'assets/images/platforms/reddit.png';
 import linkedin from 'assets/images/platforms/linkedin.png';
 import quora from 'assets/images/platforms/quora.png';
 import twitter from 'assets/images/platforms/twitter.png';
+import removeEndingSubstring from 'utils/removeEndingSubstring';
 
 const Mentions = () => {
     const { getAccessToken } = useAuth();
     // const [mentionsData, setMentionsData] = useState([]);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
-    const { project, selectedPlatform, projectCreated } = useSelector((state) => state.project);
-    // const [selectedPlatform, setSelectedPlatform] = useState('');
+    const {
+        project,
+        selectedPlatform // projectCreated
+    } = useSelector((state) => state.project);
 
-    // console.log(mentionsDataObj?.[selectedPlatform]);
-    // console.log(selectedPlatform, 'selectedPlatform');
-    // useEffect(() => {
-    //     if (!selectedPlatform && project?.platforms?.length) {
-    //         setSelectedPlatform(project?.platforms[0]);
-    //     }
-    // }, [project?.platforms?.length]);
-    useEffect(() => {}, [projectCreated]);
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -48,7 +43,21 @@ const Mentions = () => {
                     return a;
                 }, {});
                 const reduced = data.items?.reduce((a, c) => {
-                    a[c.platform].push(c);
+                    if (c.platform === 'reddit.com') {
+                        const link = removeEndingSubstring(c.link, '/');
+                        if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
+                            return a;
+                        }
+                        if (a[c.platform]) {
+                            a[c.platform].push(c);
+                        }
+
+                        return a;
+                    }
+                    if (a[c.platform]) {
+                        a[c.platform].push(c);
+                    }
+
                     return a;
                 }, platfms);
                 setMentionsDataObj(reduced);
@@ -77,15 +86,30 @@ const Mentions = () => {
                         {project?.platforms?.map?.((platform) => (
                             <Typography
                                 key={platform}
-                                variant=""
-                                type="button"
-                                sx={{ cursor: 'pointer', p: 0, maxWidth: '100px' }}
+                                component="div"
+                                sx={{
+                                    cursor: 'pointer',
+                                    p: 0,
+                                    maxWidth: '70px',
+                                    border: selectedPlatform === platform && `1px solid rgb(33, 150, 243)`,
+                                    minHeight: '35px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    borderRadius: '5px'
+                                }}
                                 onClick={() => {
                                     if (selectedPlatform !== platform) changePlatform(platform)();
                                 }}
                             >
                                 {/* {platformsSrc[platform]} */}
-                                <img src={platformsSrc[platform]} alt={platform} style={{ width: '100%' }} />
+                                <img
+                                    src={platformsSrc[platform]}
+                                    alt={platform}
+                                    style={{
+                                        width: '85%' // platform === 'linkedin.com' ? '85%' : '100%'
+                                    }}
+                                />
                             </Typography>
                         ))}
                     </Box>

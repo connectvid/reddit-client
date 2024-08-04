@@ -22,8 +22,9 @@
     },
     "plugins": ["prettier", "react", "react-hooks"],
     "rules": {
+        "camelcase": 0,
         "react-hooks/exhaustive-deps": 0,
-        "no-underscore-dangle":0,
+        "no-underscore-dangle": 0,
         "spaced-comment": 0,
         "arrow-body-style": 0,
         "react/jsx-filename-extension": 0,

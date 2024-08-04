@@ -1,6 +1,7 @@
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { IconBrandLinkedin, IconBrandReddit, IconExternalLink } from 'tabler-icons';
 import { FaQuora, FaXTwitter } from 'react-icons/fa6';
+import removeEndingSubstring from 'utils/removeEndingSubstring';
 
 const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }) => {
     const icons = {
@@ -17,7 +18,8 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }
             </Button>
             {platform && icons[platform]}
             <a
-                href={link}
+                // title={link}
+                href={removeEndingSubstring(link)}
                 target="_blank"
                 style={{
                     textDecoration: 'none',

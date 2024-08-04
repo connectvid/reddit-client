@@ -141,7 +141,7 @@ const MarkBtn = ({ handleUpdateReply, markReply, updatingReply }) => {
                 borderTopLeftRadius: '0',
                 borderTopRightRadius: '0',
                 borderColor: '#ddd',
-                color: markReply === 'marked' ? '' : '#00000080',
+                color: markReply === 'marked' ? '#00000080' : '',
                 display: 'flex',
                 alignItems: 'center'
             }}
