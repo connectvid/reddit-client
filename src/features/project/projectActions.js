@@ -29,8 +29,8 @@ export const setSingleProjectSelect = (id) => () => {
     dispatch(setSingleProjectSelectSuccess({ id }));
 };
 
-export const toggleShowProjects = () => () => {
-    dispatch(toggleShowProjectsList());
+export const toggleShowProjects = (v) => () => {
+    dispatch(toggleShowProjectsList(v));
 };
 
 export const toggleProjectCreateModalCtrl = () => () => {

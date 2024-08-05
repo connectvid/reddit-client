@@ -87,8 +87,10 @@ const projectSlice = createSlice({
             state.project = null;
         },
 
-        toggleShowProjectsList(state) {
-            state.showProjectsList = !state.showProjectsList;
+        toggleShowProjectsList(state, { payload }) {
+            if (typeof payload === 'boolean') {
+                state.showProjectsList = payload;
+            } else state.showProjectsList = !state.showProjectsList;
         },
 
         addKeywordForSave(state, action) {

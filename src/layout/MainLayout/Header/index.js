@@ -86,8 +86,14 @@ const Header = () => {
                         width: 'auto'
                     }
                 }}
+                onBlur={() => {
+                    if (showProjectsList)
+                        setTimeout(() => {
+                            toggleShowProjects(false)();
+                        }, 500);
+                }}
             >
-                <Button variant="outlined" onClick={toggleShowProjects()} onBlur={() => showProjectsList && toggleShowProjects()()}>
+                <Button variant="outlined" onClick={toggleShowProjects()}>
                     {project ? project.brandName : `Select`}
                     <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                         {showProjectsList ? <FaAngleUp color="rgb(58, 26, 85)" /> : <FaAngleDown color="rgb(58, 26, 85)" />}
