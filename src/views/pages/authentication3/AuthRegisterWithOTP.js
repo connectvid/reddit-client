@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -23,7 +24,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 
-const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, setFormTitle, ...others }) => {
+const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const [showPassword, setShowPassword] = React.useState(false);

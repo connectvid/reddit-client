@@ -1,8 +1,4 @@
 /* eslint-disable consistent-return */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable camelcase */
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';

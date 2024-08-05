@@ -5,7 +5,6 @@ import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import AuthRegisterWithOTP from './AuthRegisterWithOTP';
 import AuthRegisterOTPForm from './AuthRegisterOTPForm';
 import useAuth from 'hooks/useAuth';
-// import TwitterDMConfig from 'TwitterDMConfig';
 import Logo from 'ui-component/Logo';
 import axios from 'utils/axios';
 
@@ -14,7 +13,7 @@ import axios from 'utils/axios';
 
 const RegisterWithOTP = () => {
     const theme = useTheme();
-    const { isLoggedIn, firebaseRegisterWithOTP, generalError, setGeneralError, setDbUser } = useAuth();
+    const { isLoggedIn, firebaseRegisterWithOTP, generalError, setGeneralError } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
     const [formTitle, setFormTitle] = useState('Sign up');
@@ -69,7 +68,7 @@ const RegisterWithOTP = () => {
         setSendingOTP(true);
         axios
             .post(`email/send-otp-email`, { name: userObject.name, email: userObject.email })
-            .then(({ data }) => {
+            .then(() => {
                 setFormTitle('Verify OTP');
                 setShowRegisterForm(false);
             })
@@ -126,7 +125,7 @@ const RegisterWithOTP = () => {
                                     <Grid item xs={5}>
                                         {/* {responseOTP === !true ? ( */}
                                         {showRegisterForm === true ? (
-                                            <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail, setFormTitle }} />
+                                            <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
                                         ) : (
                                             <AuthRegisterOTPForm
                                                 {...{

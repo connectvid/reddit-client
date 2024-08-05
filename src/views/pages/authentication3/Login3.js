@@ -2,14 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
 // import { useTheme } from '@mui/material/styles';
-import {
-    Divider,
-    Grid,
-    // Stack,
-    Typography,
-    useMediaQuery
-    // useMediaQuery
-} from '@mui/material';
+import { Grid, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // project imports

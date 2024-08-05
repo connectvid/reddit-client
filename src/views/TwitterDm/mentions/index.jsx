@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import { Autocomplete, Box, Card, CardContent, TextField, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Card, CardContent, CircularProgress, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -13,12 +13,15 @@ import quora from 'assets/images/platforms/quora.png';
 import twitter from 'assets/images/platforms/twitter.png';
 import removeEndingSubstring from 'utils/removeEndingSubstring';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
+import { toast } from 'react-toastify';
+import errorMsgHelper from 'utils/errorMsgHelper';
 
 const Mentions = () => {
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
+    const [moreLoading, setMoreLoading] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
-    const [selectedKeyword, setSelectedKeyword] = useState('All');
+    const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All' });
 
     const {
         project,
@@ -29,7 +32,7 @@ const Mentions = () => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             setLoading(true);
-            setSelectedKeyword('All');
+            setSelectedKeyword({ title: 'All' });
             try {
                 const token = await getAccessToken();
                 const { data } = await axios.get(`mentions/projects/${projectid}`, {
@@ -72,6 +75,55 @@ const Mentions = () => {
             fetchProjectMentions(projectId);
         }
     }, [project?._id]);
+
+    const loadMore = async () => {
+        const body = { keyword: selectedKeyword };
+        if (!selectedKeyword?._id || !selectedKeyword?.title || !selectedKeyword?.projectId) {
+            toast.error(`Someting going wrong!`);
+            return;
+        }
+        setMoreLoading(true);
+        try {
+            const token = await getAccessToken();
+            const {
+                data: { items }
+            } = await axios.post(`mentions/load-more`, body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            console.log(items);
+            // const platfms = project?.platforms?.reduce((a, c) => {
+            //     a[c] = [];
+            //     return a;
+            // }, {});
+            // const reduced = data.items?.reduce((a, c) => {
+            //     c.view = true;
+            //     if (c.platform === 'reddit.com') {
+            //         const link = removeEndingSubstring(c.link, '/');
+            //         if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
+            //             return a;
+            //         }
+            //         if (a[c.platform]) {
+            //             a[c.platform].push(c);
+            //         }
+            //         return a;
+            //     }
+            //     if (a[c.platform]) {
+            //         a[c.platform].push(c);
+            //     }
+
+            //     return a;
+            // }, platfms);
+            // setMentionsDataObj(reduced);
+            // setMoreLoading(false);
+        } catch (e) {
+            console.log(e);
+            toast.error(errorMsgHelper(e));
+
+            setMoreLoading(false);
+        }
+    };
 
     const platformsSrc = {
         'reddit.com': reddit,
@@ -150,7 +202,7 @@ const Mentions = () => {
             {loading && <PostPlaceholder />}
             {selectedPlatform &&
                 mentionsDataObj[selectedPlatform]?.map?.((item) => {
-                    if (selectedKeyword === 'All')
+                    if (selectedKeyword?.title === 'All')
                         return (
                             <PostCard
                                 key={item._id}
@@ -158,7 +210,7 @@ const Mentions = () => {
                                 {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
                             />
                         );
-                    if (selectedKeyword === item.keyword)
+                    if (selectedKeyword?.title === item.keyword)
                         return (
                             <PostCard
                                 key={item._id}
@@ -167,6 +219,16 @@ const Mentions = () => {
                             />
                         );
                 })}
+            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    variant="outlined"
+                    onClick={loadMore}
+                    disabled={selectedKeyword?.title === 'All' || moreLoading}
+                    title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
+                >
+                    Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
+                </Button>
+            </Box>
         </>
     );
 };
@@ -188,7 +250,7 @@ const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeywor
                     fullWidth
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {
-                        const title = v?.title || 'All';
+                        const title = v || { title: 'All' };
                         setSelectedKeyword(title);
                     }}
                     renderInput={(params) => (
