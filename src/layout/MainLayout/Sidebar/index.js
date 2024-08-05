@@ -3,7 +3,7 @@ import { memo, useMemo } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Box, Chip, Drawer, Stack, useMediaQuery } from '@mui/material';
+import { Box, Drawer, useMediaQuery } from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -20,20 +20,12 @@ import { drawerWidth } from 'features/constant';
 // import { useDispatch, useSelector } from 'features';
 import { useDispatch, useSelector } from 'react-redux';
 import { openDrawer } from 'features/menu/menuSlice';
-import useAuth from 'hooks/useAuth';
-
-// import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
-// import Header from './Header';
-// import Sidebar from './Sidebar';
-// // import Customization from '../Customization';
-// import navigation from 'menu-items';
-//
-// import { useDispatch, useSelector } from 'react-redux';
+// import useAuth from 'hooks/useAuth';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
 const Sidebar = () => {
-    const { dbUser } = useAuth();
+    // const { dbUser } = useAuth();
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -80,24 +72,6 @@ const Sidebar = () => {
                         }}
                     >
                         {drawerContent}
-                        {/* {(dbUser?._id && drawerOpen && (
-                            <Stack direction="row" justifyContent="center" sx={{ mb: 2, width: '100%' }}>
-                                <Chip
-                                    label={<>{dbUser.credit} : Credit(s) left</>}
-                                    chipcolor="primary"
-                                    sx={{
-                                        width: '100%',
-                                        fontSize: 12,
-                                        height: '50px',
-                                        'span.MuiChip-label': {
-                                            display: 'flex',
-                                            alignItems: 'center !important'
-                                        }
-                                    }}
-                                />
-                            </Stack>
-                        )) ||
-                            ''} */}
                     </PerfectScrollbar>
                 )}
             </>
@@ -133,7 +107,6 @@ const Sidebar = () => {
                 </Drawer>
             ) : (
                 <MiniDrawerStyled variant="permanent" open={drawerOpen}>
-                    {/* {logo} */}
                     <Box sx={{ height: `60px` }} />
                     {drawer}
                 </MiniDrawerStyled>

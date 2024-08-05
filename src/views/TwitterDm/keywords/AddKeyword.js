@@ -75,7 +75,8 @@ const AddKeyword = () => {
                     }
                     onClick={async () => {
                         const token = await getAccessToken();
-                        updateProject(token, project._id, {
+                        updateProject(token, {
+                            projectId: project._id,
                             suggestedKeywords: [
                                 ...suggestedKeywords.filter((item) => item.trim()),
                                 ...Object.values(cKeys).filter((item) => item.trim())

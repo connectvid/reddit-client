@@ -1,8 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable consistent-return */
 import { Button, Card, CardContent, Typography } from '@mui/material';
 import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 import ProjectsTable from './ProjectsTable';

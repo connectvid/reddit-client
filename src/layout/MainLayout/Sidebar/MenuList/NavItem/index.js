@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { forwardRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -17,9 +17,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
 const NavItem = ({ item, level }) => {
+    const { search } = useLocation();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
-
     const { borderRadius } = useConfig();
     const dispatch = useDispatch();
     const { openItem } = useSelector((state) => state.menu);
@@ -41,8 +41,10 @@ const NavItem = ({ item, level }) => {
     if (item.target) {
         itemTarget = '_blank';
     }
-
-    let listItemProps = { component: forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />) };
+    const dp = search?.includes?.(`dp=`) ? search : '';
+    let listItemProps = {
+        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${item.url}${dp}`} target={itemTarget} />)
+    };
     if (item?.external) {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }

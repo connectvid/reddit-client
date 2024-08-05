@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { createSlice } from '@reduxjs/toolkit';
 // import { fetchAllProjects } from './projectActions';
 
@@ -18,7 +19,17 @@ const initialState = {
     showProjectCreateModal: false,
     selectedPlatform: ''
 };
-
+const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
+    if (!findBy || !findKey) return null;
+    let data = null;
+    for (const item of datas) {
+        if (item[findBy] === findKey) {
+            data = item;
+            break;
+        }
+    }
+    return data;
+};
 const projectSlice = createSlice({
     name: 'project',
     initialState,
@@ -29,8 +40,12 @@ const projectSlice = createSlice({
 
         fetchProjects(state, action) {
             const items = action.payload.items;
+            const { search } = window.location;
+            const qs = new URLSearchParams(search);
+            const findKey = qs.get('dp');
+            const getDefault = getItem({ findKey, datas: items });
             state.projects = items;
-            const firstItem = items?.[0];
+            const firstItem = getDefault || items?.[0];
             if (firstItem) {
                 state.project = firstItem;
                 state.selectedPlatform = firstItem.platforms?.[0];

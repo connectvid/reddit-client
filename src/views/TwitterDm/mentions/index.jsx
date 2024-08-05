@@ -111,7 +111,8 @@ const Mentions = () => {
                         >
                             Mentions
                         </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3, width: { xs: '100%', md: '50%' } }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            {/* width: { xs: '100%', md: '50%' } */}
                             {project?.platforms?.map?.((platform) => (
                                 <Typography
                                     key={platform}
@@ -119,9 +120,9 @@ const Mentions = () => {
                                     sx={{
                                         cursor: 'pointer',
                                         p: 0,
-                                        maxWidth: '70px',
+                                        maxWidth: '125px',
                                         border: selectedPlatform === platform && '1px solid rgb(33, 150, 243)',
-                                        minHeight: '35px',
+                                        minHeight: '45px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
@@ -131,7 +132,6 @@ const Mentions = () => {
                                         if (selectedPlatform !== platform) changePlatform(platform)();
                                     }}
                                 >
-                                    {/* {platformsSrc[platform]} */}
                                     <img
                                         src={platformsSrc[platform]}
                                         alt={platform}
@@ -144,7 +144,7 @@ const Mentions = () => {
                         </Box>
                     </Box>
                     {/*  */}
-                    <PostFilter {...{ keywords: project?.Suggestedkeywords, label: project?.brandName, setSelectedKeyword }} />
+                    <PostFilter {...{ keywords: project?.Suggestedkeywords, setSelectedKeyword }} />
                 </CardContent>
             </Card>
             {loading && <PostPlaceholder />}
@@ -173,7 +173,7 @@ const Mentions = () => {
 
 export default Mentions;
 
-const PostFilter = ({ keywords, label, setSelectedKeyword }) => {
+const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeyword }) => {
     // platform
     return (
         <Box sx={{ width: { xs: '100%', md: '33%' } }}>

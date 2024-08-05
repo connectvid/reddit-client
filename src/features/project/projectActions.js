@@ -81,11 +81,11 @@ export const addProject =
     };
 
 export const updateProject =
-    (token, id, data = {}) =>
+    (token, data = {}) =>
     async () => {
         try {
             dispatch(updateProjectLoading(true));
-            const response = await axios.put(`projects/${id}`, data, {
+            const response = await axios.post(`keywords`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

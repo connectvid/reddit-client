@@ -15,12 +15,7 @@ import { IconArrowLeft } from '@tabler/icons';
 // import useAuth from 'hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IconPlus } from 'tabler-icons';
-import {
-    toggleShowProjects,
-    setSingleProjectSelect,
-    toggleProjectCreateModalCtrl,
-    projectCreatedStatus
-} from 'features/project/projectActions';
+import { toggleShowProjects, setSingleProjectSelect, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import NewProject from 'views/TwitterDm/projects/NewProject';
 import './header.css';
 // import React from 'react';
@@ -28,13 +23,13 @@ import './header.css';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 
 const Header = () => {
-    // const { pathname } = useLocation();
-    // const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
 
-    const { projects, project, showProjectsList, showProjectCreateModal, projectCreated } = useSelector((state) => state.project);
+    const { projects, project, showProjectsList, showProjectCreateModal } = useSelector((state) => state.project);
     // React.useEffect(() => {
     //     if (projectCreated && pathname !== KEYWORD_PATH) {
     //         // projectCreatedStatus(false)();
@@ -92,18 +87,10 @@ const Header = () => {
                     }
                 }}
             >
-                <Button variant="outlined" onClick={toggleShowProjects()}>
+                <Button variant="outlined" onClick={toggleShowProjects()} onBlur={() => showProjectsList && toggleShowProjects()()}>
                     {project ? project.brandName : `Select`}
                     <Box component="span" sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
                         {showProjectsList ? <FaAngleUp color="rgb(58, 26, 85)" /> : <FaAngleDown color="rgb(58, 26, 85)" />}
-
-                        {/* <IconTriangle
-                            style={{
-                                transform: 'rotate(180deg)',
-                                color: theme.palette.mode === 'dark' ? theme.palette.secondary.main : theme.palette.secondary.dark
-                            }}
-                            size={10}
-                        /> */}
                     </Box>
                 </Button>
 
@@ -136,6 +123,7 @@ const Header = () => {
                             onClick={() => {
                                 setSingleProjectSelect(_id)();
                                 toggleShowProjects()();
+                                navigate(`${pathname}?dp=${_id}`);
                             }}
                         >
                             {brandName}
