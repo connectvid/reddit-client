@@ -95,3 +95,5 @@ duplicate keyword not allow
 <!-- task
 
  -->
+<!-- Checkout and back -->
+git add . && git commit -m "push and back command" && git push && git checkout main && git push && git checkout taher_dev
