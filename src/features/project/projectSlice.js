@@ -12,6 +12,7 @@ const initialState = {
     projectDeleting: false,
     projectDeleted: false,
     createLoading: false,
+    updateProjectLoading: false,
     projectCreated: false,
     updateLoading: false,
     updateSuccess: false,
@@ -63,15 +64,26 @@ const projectSlice = createSlice({
             }
             state.projects.push(item);
         },
-        updateSingleProject(state, action) {
+        updateProject(state, action) {
+            const { item } = action.payload;
+            const projects = state.projects;
+            const items = [];
+            for (const im of projects) {
+                // im
+            }
+        },
+        createKeywords(state, action) {
             // const { _id } = action.payload;
             // state.project = state.projects.find((item) => item._id === id);
-            // state.project = action.payload.item;
+            state.project = { ...state.project, Suggestedkeywords: action.payload.items };
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;
         },
         updateProjectLoading(state, action) {
+            state.updateProjectLoading = action.payload;
+        },
+        createKeywordsLoading(state, action) {
             state.updateLoading = action.payload;
         },
 
@@ -173,8 +185,8 @@ export const {
     toggleProjectCreateModal,
     addNewProject,
     addProjectLoading,
-    updateProjectLoading,
-    updateSingleProject,
+    createKeywordsLoading,
+    createKeywords,
     hasError,
     fetchProjects,
     setSingleProjectSelectSuccess,
@@ -190,7 +202,9 @@ export const {
     removeKeywordForSave,
     removeCustomKeywordForSave,
     addCustomKeywordForSave,
-    selectedPlatform
+    selectedPlatform,
+    updateProject,
+    updateProjectLoading
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

@@ -1,8 +1,3 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable consistent-return */
 import { Button, CircularProgress, DialogActions, DialogContent, DialogTitle, FormControl, TextField } from '@mui/material';
 import React from 'react';
 import useAuth from 'hooks/useAuth';
@@ -13,7 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
 
 const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
-    const { createLoading, projectCreated } = useSelector((state) => state.project);
+    const { createLoading, projectCreated, project } = useSelector((state) => state.project);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [values, setValues] = React.useState({
@@ -25,7 +20,7 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
     React.useEffect(() => {
         if (projectCreated && pathname !== KEYWORD_PATH) {
             projectCreatedStatus(false)();
-            navigate(KEYWORD_PATH);
+            navigate(`${KEYWORD_PATH}?dp=${project._id}`);
         }
     }, [projectCreated]);
     const handleSubmit = async (e) => {

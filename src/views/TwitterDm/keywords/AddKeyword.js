@@ -7,23 +7,24 @@ import {
     addingCustomKeywordForSave,
     addingKeywordForSave,
     removingKeywordForSave,
-    updateProject,
+    createKeywordsApi,
     removingCustomKeywordForSave
 } from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MENTION_PATH } from 'config';
 import PropTypes from 'prop-types';
 
 const AddKeyword = () => {
     const { getAccessToken } = useAuth();
+    const { search } = useLocation();
     const { project, suggestedKeywords, updateLoading, updateSuccess, customKeywords: cKeys } = useSelector((state) => state.project);
     const [customKeywords, setCustomKeywords] = React.useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (updateSuccess) {
-            navigate(MENTION_PATH);
+            navigate(`${MENTION_PATH}${search}`);
         }
 
         return () => setCustomKeywords([]);
@@ -75,7 +76,7 @@ const AddKeyword = () => {
                     }
                     onClick={async () => {
                         const token = await getAccessToken();
-                        updateProject(token, {
+                        createKeywordsApi(token, {
                             projectId: project._id,
                             suggestedKeywords: [
                                 ...suggestedKeywords.filter((item) => item.trim()),

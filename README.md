@@ -96,4 +96,4 @@ duplicate keyword not allow
 
  -->
 <!-- Checkout and back -->
-git add . && git commit -m "roll back prev design" && git push && git checkout main && git merge taher_dev && git push && git checkout taher_dev
+git add . && git commit -m "add head scripts" && git push && git checkout main && git merge taher_dev && git push && git checkout taher_dev

@@ -9,16 +9,18 @@ import {
     addProjectLoading,
     toggleProjectCreateModal,
     addNewProject,
+    updateProject,
     addKeywordForSave,
-    updateProjectLoading,
-    updateSingleProject,
+    createKeywordsLoading,
+    createKeywords,
     updateSuccess,
     projectCreated,
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
     addCustomKeywordForSave,
-    selectedPlatform
+    selectedPlatform,
+    updateProjectLoading
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -80,21 +82,19 @@ export const addProject =
         }
     };
 
-export const updateProject =
-    (token, data = {}) =>
+export const updateProjectAPI =
+    (token, id, data = {}) =>
     async () => {
         try {
             dispatch(updateProjectLoading(true));
-            const response = await axios.post(`keywords`, data, {
+            const response = await axios.put(`projects/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            dispatch(updateSingleProject(response.data));
-            dispatch(updateSuccess(true));
-            setTimeout(() => {
-                dispatch(updateSuccess(false));
-            }, 2000);
+            dispatch(updateProject(response.data));
+            // projectCreatedStatus(true)();
+            dispatch(toggleProjectCreateModal(false));
         } catch (error) {
             dispatch(hasError(error));
         } finally {
@@ -102,9 +102,31 @@ export const updateProject =
         }
     };
 
+export const createKeywordsApi =
+    (token, data = {}) =>
+    async () => {
+        try {
+            dispatch(createKeywordsLoading(true));
+            const response = await axios.post(`keywords`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            dispatch(createKeywords(response.data));
+            dispatch(updateSuccess(true));
+            setTimeout(() => {
+                dispatch(updateSuccess(false));
+            }, 2000);
+        } catch (error) {
+            dispatch(hasError(error));
+        } finally {
+            dispatch(createKeywordsLoading(false));
+        }
+    };
+
 export const deleteKeywordFromDB = (token, id) => async () => {
     try {
-        // dispatch(updateProjectLoading(true));
+        // dispatch(createKeywordsLoading(true));
         const response = await axios.delete(`keywords/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -118,7 +140,7 @@ export const deleteKeywordFromDB = (token, id) => async () => {
     } catch (error) {
         dispatch(hasError(error));
     } finally {
-        // dispatch(updateProjectLoading(false));
+        // dispatch(createKeywordsLoading(false));
     }
 };
 

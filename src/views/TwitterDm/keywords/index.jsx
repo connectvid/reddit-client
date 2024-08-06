@@ -11,10 +11,11 @@ import { useSelector } from 'react-redux';
 import { deleteKeywordFromDB, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
 
 const Keywords = () => {
+    const { search } = useLocation();
     // const { getAccessToken } = useAuth();
     const { project, projects } = useSelector((state) => state.project);
     const { accessToken } = useSelector((state) => state.auth);
@@ -52,7 +53,7 @@ const Keywords = () => {
                                                     </Box>
                                                     <Box>
                                                         <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                                                            <Link to={`${KEYWORD_PATH}/add`} style={{ textDecoration: 'none' }}>
+                                                            <Link to={`${KEYWORD_PATH}/add${search}`} style={{ textDecoration: 'none' }}>
                                                                 Add Keyword
                                                             </Link>
                                                         </Typography>
