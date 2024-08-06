@@ -77,11 +77,11 @@ const Mentions = () => {
     }, [project?._id]);
 
     const loadMore = async () => {
-        const body = { keyword: selectedKeyword };
-        if (!selectedKeyword?._id || !selectedKeyword?.title || !selectedKeyword?.projectId) {
+        if (!selectedKeyword?._id || !selectedKeyword?.title || !selectedKeyword?.projectId || !selectedPlatform) {
             toast.error(`Someting going wrong!`);
             return;
         }
+        const body = { keyword: selectedKeyword, platform: selectedPlatform };
         setMoreLoading(true);
         try {
             const token = await getAccessToken();
@@ -92,31 +92,14 @@ const Mentions = () => {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(items);
-            // const platfms = project?.platforms?.reduce((a, c) => {
-            //     a[c] = [];
-            //     return a;
-            // }, {});
-            // const reduced = data.items?.reduce((a, c) => {
-            //     c.view = true;
-            //     if (c.platform === 'reddit.com') {
-            //         const link = removeEndingSubstring(c.link, '/');
-            //         if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
-            //             return a;
-            //         }
-            //         if (a[c.platform]) {
-            //             a[c.platform].push(c);
-            //         }
-            //         return a;
-            //     }
-            //     if (a[c.platform]) {
-            //         a[c.platform].push(c);
-            //     }
+            if (items?.length) {
+                setMentionsDataObj((p) => {
+                    p[selectedPlatform] = [...p[selectedPlatform], ...items];
+                    return p;
+                });
+            }
 
-            //     return a;
-            // }, platfms);
-            // setMentionsDataObj(reduced);
-            // setMoreLoading(false);
+            setMoreLoading(false);
         } catch (e) {
             console.log(e);
             toast.error(errorMsgHelper(e));
@@ -199,36 +182,41 @@ const Mentions = () => {
                     <PostFilter {...{ keywords: project?.Suggestedkeywords, setSelectedKeyword }} />
                 </CardContent>
             </Card>
-            {loading && <PostPlaceholder />}
-            {selectedPlatform &&
-                mentionsDataObj[selectedPlatform]?.map?.((item) => {
-                    if (selectedKeyword?.title === 'All')
-                        return (
-                            <PostCard
-                                key={item._id}
-                                {...item}
-                                {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
-                            />
-                        );
-                    if (selectedKeyword?.title === item.keyword)
-                        return (
-                            <PostCard
-                                key={item._id}
-                                {...item}
-                                {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
-                            />
-                        );
-                })}
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
-                    variant="outlined"
-                    onClick={loadMore}
-                    disabled={selectedKeyword?.title === 'All' || moreLoading}
-                    title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
-                >
-                    Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
-                </Button>
-            </Box>
+            {loading ? (
+                <PostPlaceholder />
+            ) : (
+                <>
+                    {selectedPlatform &&
+                        mentionsDataObj[selectedPlatform]?.map?.((item) => {
+                            if (selectedKeyword?.title === 'All')
+                                return (
+                                    <PostCard
+                                        key={item._id}
+                                        {...item}
+                                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                                    />
+                                );
+                            if (selectedKeyword?.title === item.keyword)
+                                return (
+                                    <PostCard
+                                        key={item._id}
+                                        {...item}
+                                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                                    />
+                                );
+                        })}
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                            variant="outlined"
+                            onClick={loadMore}
+                            disabled={selectedKeyword?.title === 'All' || moreLoading || !selectedPlatform}
+                            title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
+                        >
+                            Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
+                        </Button>
+                    </Box>
+                </>
+            )}
         </>
     );
 };

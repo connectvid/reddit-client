@@ -16,45 +16,73 @@ const plans = [
     {
         active: false,
         icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Basic',
+        title: 'One-Time',
         type: 'Month',
-        description: 'Get access to all basic TwitterDm features for the whole Month',
-        price: 10,
-        permission: [0],
+        description: 'Lifetime Deal',
+        price: 49,
+        permission: [0, 1, 2, 3, 4, 5, 6],
         plan_id: 1,
         id: 'price_1PH0nSCx996FZZga2JQ2JFsd',
-        product: 'prod_Q7FIRCKlFBNP8C'
+        product: 'prod_Q7FIRCKlFBNP8C',
+        stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
     },
     {
         active: true,
         icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Standard',
+        title: 'One-Time',
         type: 'Month',
-        description: 'Get access to all standard TwitterDm features for the whole Month',
-        price: 25,
-        permission: [0],
+        description: 'Lifetime Deal',
+        price: 99,
+        permission: [0, 1, 2, 3, 4, 5, 6],
         plan_id: 2,
         id: 'price_1PH0o2Cx996FZZga07qUoH4B',
-        product: 'prod_Q7FIB6UmqooAv0'
+        product: 'prod_Q7FIB6UmqooAv0',
+        stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
     },
     {
         active: false,
         icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Premium',
+        title: 'One-Time',
         type: 'Month',
-        description: 'Get access to all premium TwitterDm Features for the whole Month',
-        price: 55,
-        permission: [0],
+        description: 'Lifetime Deal',
+        price: 249,
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 3,
         id: 'price_1PH0odCx996FZZgaeOzSIThq',
-        product: 'prod_Q7FJLJLNf5osCf'
+        product: 'prod_Q7FJLJLNf5osCf',
+        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
     }
 ];
 
 const planList = [
-    ['100 credits', 'Export Leads to CSV'],
-    ['500 credits', 'Export Leads to CSV'],
-    ['2000 credits', 'Export Leads to CSV']
+    [
+        '5 Keywords Track',
+        '50 AI Replies/Month',
+        '3 Projects',
+        'Reddit, X & Linkedin',
+        'Analytics (Coming)',
+        'Integrations (Coming)',
+        'Prority Support (Coming)'
+    ],
+    [
+        '20 Keywords Track',
+        '200 AI Replies/Month',
+        '10 Projects',
+        'Reddit, X & Linkedin',
+        'Analytics (Coming)',
+        'Integrations (Coming)',
+        'Prority Support (Coming)'
+    ],
+    [
+        '200 Keywords Track',
+        'Unlimited AI Replies/Month',
+        '50 Projects',
+        'Reddit, X & Linkedin',
+        'Analytics (Coming)',
+        'Integrations (Coming)',
+        'Prority Support (Coming)',
+        'Bring Your GPT API Key'
+    ]
 ];
 
 const Subscription = () => {
@@ -187,7 +215,7 @@ const Subscription = () => {
                                                                         }
                                                                     }}
                                                                 >
-                                                                    {plan.title}
+                                                                    ${plan.price} {plan.title}
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
@@ -208,7 +236,7 @@ const Subscription = () => {
                                                                 >
                                                                     <sup>$</sup>
                                                                     {plan.price}
-                                                                    <span>/{plan.type}</span>
+                                                                    {/* <span>/{plan.type}</span> */}
                                                                 </Typography>
                                                             </Grid>
                                                             <Grid item xs={12}>
@@ -242,7 +270,13 @@ const Subscription = () => {
                                                                 </List>
                                                             </Grid>
                                                             <Grid item xs={12}>
-                                                                <Button variant="outlined" onClick={() => createSession(plan.id)}>
+                                                                <Button
+                                                                    variant="outlined"
+                                                                    onClick={() => {
+                                                                        // createSession(plan.id);
+                                                                        window.location.href = plan.stripePayLink;
+                                                                    }}
+                                                                >
                                                                     Subscribe
                                                                 </Button>
                                                             </Grid>
