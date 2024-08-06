@@ -85,7 +85,7 @@ const GeneretedReply = ({
                         alignItems: 'center'
                     }}
                 >
-                    <CopyToClipboard text={reply} onCopy={() => toast.success(`Coppied!`)}>
+                    <CopyToClipboard text={reply.split(`\n`).join('\n')} onCopy={() => toast.success(`Coppied!`)}>
                         <Typography component="span" display="flex">
                             <IconCopy size={18} /> Copy
                         </Typography>

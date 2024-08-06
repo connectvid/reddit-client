@@ -66,15 +66,17 @@ const projectSlice = createSlice({
         },
         updateProject(state, action) {
             const { item } = action.payload;
-            const projects = state.projects;
-            const items = [];
-            for (const im of projects) {
-                // im
-            }
+            state.projects = state.projects.map((project) => {
+                if (project._id === item._id) {
+                    project.shortDescription = item.shortDescription;
+                    if (project._id === state.project?._id) {
+                        state.project.shortDescription = item.shortDescription;
+                    }
+                }
+                return project;
+            });
         },
         createKeywords(state, action) {
-            // const { _id } = action.payload;
-            // state.project = state.projects.find((item) => item._id === id);
             state.project = { ...state.project, Suggestedkeywords: action.payload.items };
         },
         addProjectLoading(state, action) {
@@ -148,7 +150,6 @@ const projectSlice = createSlice({
         selectedPlatform(state, action) {
             state.selectedPlatform = action.payload;
         },
-
         projectRemove(state, action) {
             const { id } = action.payload;
             const items = state.projects.filter((item) => item._id !== id);

@@ -78,6 +78,7 @@ const Header = () => {
                     <IconArrowLeft style={{ transform: `rotate(${drawerOpen ? `` : '18'}0deg)` }} />
                 </Avatar>
             </Box>
+
             <Box
                 sx={{
                     position: 'relative',
@@ -112,29 +113,31 @@ const Header = () => {
                     }}
                 >
                     <Typography sx={{ padding: '0.25rem 1rem' }}>Your Projects</Typography>
-                    {projects?.map?.(({ _id, brandName }) => (
-                        <Box
-                            key={_id}
-                            component="div"
-                            sx={{
-                                flexGrow: 1,
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                '&:hover': {
-                                    background: theme.palette.mode === 'dark' ? theme.palette.secondary.light : theme.palette.dark.main,
-                                    color: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.secondary.light,
-                                    transition: 'all 0.3s ease-in-out'
-                                }
-                            }}
-                            onClick={() => {
-                                setSingleProjectSelect(_id)();
-                                toggleShowProjects()();
-                                navigate(`${pathname}?dp=${_id}`);
-                            }}
-                        >
-                            {brandName}
-                        </Box>
-                    ))}
+                    <Box sx={{ maxHeight: '250px', overflowY: 'scroll' }}>
+                        {projects?.map?.(({ _id, brandName }) => (
+                            <Box
+                                key={_id}
+                                component="div"
+                                sx={{
+                                    flexGrow: 1,
+                                    padding: '0.5rem 1rem',
+                                    cursor: 'pointer',
+                                    '&:hover': {
+                                        background: theme.palette.mode === 'dark' ? theme.palette.secondary.light : theme.palette.dark.main,
+                                        color: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.secondary.light,
+                                        transition: 'all 0.3s ease-in-out'
+                                    }
+                                }}
+                                onClick={() => {
+                                    setSingleProjectSelect(_id)();
+                                    toggleShowProjects()();
+                                    navigate(`${pathname}?dp=${_id}`);
+                                }}
+                            >
+                                {brandName}
+                            </Box>
+                        ))}
+                    </Box>
 
                     <Typography
                         onClick={() => {

@@ -18,7 +18,7 @@ import {
     Paper,
     Popper,
     Stack,
-    TextField,
+    // TextField,
     Typography
 } from '@mui/material';
 
@@ -255,7 +255,7 @@ const ProfileSection = () => {
 
                                                     <Divider sx={{ my: 2 }} />
 
-                                                    <TextField
+                                                    {/* <TextField
                                                         fullWidth
                                                         label="Write feedback"
                                                         size="small"
@@ -263,7 +263,7 @@ const ProfileSection = () => {
                                                         minRows={6}
                                                         value={feedback}
                                                         onChange={(e) => setFeedback(e.target.value)}
-                                                    />
+                                                    /> */}
                                                     <br />
                                                     <Button
                                                         sx={{ mt: 1 }}

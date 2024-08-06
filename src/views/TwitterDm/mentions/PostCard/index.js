@@ -8,6 +8,7 @@ import PostCardFooter from './PostCardFooter';
 import { useLocation } from 'react-router-dom';
 import { REPLY_PATH } from 'config';
 import removeLastSentenceIfEllipsis from 'utils/removeLastSentenceIfEllipsis';
+import replaceDomainWithLink from 'utils/replaceDomainWithLink';
 
 const PostCard = ({
     project,
@@ -27,7 +28,7 @@ const PostCard = ({
     showMarkRepliedBtn
 }) => {
     const { getAccessToken } = useAuth();
-    const filteredReply = reply ? reply.replace(/[*#]/g, '') : reply;
+    const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
     const [editReply, setEditReply] = useState(filteredReply);
     const [generatingReply, setGeneratingReply] = useState(false);
     const [editOpen, setEditOpen] = useState(false);

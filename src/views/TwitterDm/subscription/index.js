@@ -7,10 +7,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'features/constant';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
-import { toast, ToastContainer } from 'react-toastify';
 import useAuth from 'hooks/useAuth';
 import PaymentDashboard from './PaymentDashboard';
-import axios from 'utils/axios';
 
 const plans = [
     {
@@ -86,38 +84,42 @@ const planList = [
 ];
 
 const Subscription = () => {
-    const { dbUser, getAccessToken } = useAuth();
-    const [fetchSubscribeData, setFetchSubscribeData] = useState({
+    const {
+        dbUser // getAccessToken
+    } = useAuth();
+    const [
+        fetchSubscribeData // setFetchSubscribeData
+    ] = useState({
         status: 'success'
     });
-    const createSession = async (priceId) => {
-        console.log('function called');
-        if (!priceId) {
-            return 0;
-        }
-        const token = await getAccessToken();
-        console.log('creating session');
-        try {
-            const { data: response } = await axios.post(
-                `stripe/createSession`,
-                {
-                    priceId,
-                    email: dbUser.email
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            );
-            const url = response?.session?.url;
-            // console.log(response.session, 123, response, url);
-            window.location.href = url;
-        } catch (e) {
-            toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
-                autoClose: 5000,
-                type: 'warning'
-            });
-        }
-    };
+    // const createSession = async (priceId) => {
+    //     console.log('function called');
+    //     if (!priceId) {
+    //         return 0;
+    //     }
+    //     const token = await getAccessToken();
+    //     console.log('creating session');
+    //     try {
+    //         const { data: response } = await axios.post(
+    //             `stripe/createSession`,
+    //             {
+    //                 priceId,
+    //                 email: dbUser.email
+    //             },
+    //             {
+    //                 headers: { Authorization: `Bearer ${token}` }
+    //             }
+    //         );
+    //         const url = response?.session?.url;
+    //         // console.log(response.session, 123, response, url);
+    //         window.location.href = url;
+    //     } catch (e) {
+    //         toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
+    //             autoClose: 5000,
+    //             type: 'warning'
+    //         });
+    //     }
+    // };
 
     const theme = useTheme();
     const priceListDisable = {
@@ -292,9 +294,6 @@ const Subscription = () => {
                     )}
                 </>
             )}
-            {/* Toastify container */}
-
-            <ToastContainer position="bottom-right" autoClose={2000} />
         </Box>
     );
 };
