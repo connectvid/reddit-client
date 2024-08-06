@@ -32,7 +32,7 @@ const Mentions = () => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             setLoading(true);
-            setSelectedKeyword({ title: 'All' });
+            setSelectedKeyword(project?.Suggestedkeywords[0]);
             try {
                 const token = await getAccessToken();
                 const { data } = await axios.get(`mentions/projects/${projectid}`, {
@@ -77,11 +77,11 @@ const Mentions = () => {
     }, [project?._id]);
 
     const loadMore = async () => {
-        if (!selectedKeyword?._id || !selectedKeyword?.title || !selectedKeyword?.projectId || !selectedPlatform) {
+        if (!selectedKeyword?._id || !selectedPlatform) {
             toast.error(`Someting going wrong!`);
             return;
         }
-        const body = { keyword: selectedKeyword, platform: selectedPlatform };
+        const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
         setMoreLoading(true);
         try {
             const token = await getAccessToken();
@@ -119,28 +119,31 @@ const Mentions = () => {
         <>
             <Card sx={{ mb: 5 }}>
                 <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: '',
-                        alignItems: 'center',
-                        gap: { xs: '10px', md: '20px' },
-                        flexDirection: { xs: 'column', md: 'row' }
-                    }}
+                    sx={
+                        {
+                            // display: 'flex',
+                            // justifyContent: '',
+                            // alignItems: 'center',
+                            // gap: { xs: '10px', md: '20px' },
+                            // flexDirection: { xs: 'column', md: 'row' }
+                        }
+                    }
                 >
                     <Box
                         sx={{
                             display: 'flex',
                             flexDirection: { xs: 'column', sm: 'row' },
-                            justifyContent: 'space-between',
+                            gap: 6,
+                            alignItems: 'center'
+                            // justifyContent: 'space-between',
                             // justifyContent: { xs: 'normal', sm: 'space-between' },
-                            alignItems: 'center',
-                            width: '100%'
+                            // ,width: '100%'
                         }}
                     >
                         <Typography
                             variant="h2"
                             sx={{
-                                width: { xs: '100%', md: '' },
+                                // width: { xs: '100%', md: '' },
                                 textAlign: { xs: 'center', md: '' }
                             }}
                         >
@@ -178,8 +181,34 @@ const Mentions = () => {
                             ))}
                         </Box>
                     </Box>
-                    {/*  */}
-                    <PostFilter {...{ keywords: project?.Suggestedkeywords, setSelectedKeyword }} />
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            flexDirection: { xs: 'column', sm: 'row' },
+                            gap: 7,
+                            alignItems: 'center',
+                            mt: 3
+                        }}
+                    >
+                        <Typography variant="h3" sx={{ opacity: 0 }}>
+                            Keywords
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                            {project?.Suggestedkeywords?.map?.((keyword) => (
+                                <Button
+                                    onClick={() => {
+                                        setSelectedKeyword(keyword);
+                                    }}
+                                    variant={selectedKeyword._id === keyword._id ? 'contained' : 'outlined'}
+                                    key={keyword._id}
+                                    sx={{ fontWeight: 'bold' }}
+                                >
+                                    {keyword.title}
+                                </Button>
+                            ))}
+                        </Box>
+                    </Box>
+                    {/* <PostFilter {...{ keywords: project?.Suggestedkeywords, setSelectedKeyword, loading }} /> */}
                 </CardContent>
             </Card>
             {loading ? (
@@ -223,11 +252,11 @@ const Mentions = () => {
 
 export default Mentions;
 
-const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeyword }) => {
+const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeyword, loading }) => {
     // platform
     return (
         <Box sx={{ width: { xs: '100%', md: '33%' } }}>
-            {keywords?.length && (
+            {!loading && keywords?.length && (
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
@@ -235,6 +264,7 @@ const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeywor
                     sx={{
                         py: 0
                     }}
+                    defaultValue={keywords[0]}
                     fullWidth
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {
