@@ -2,33 +2,46 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import useAuth from 'hooks/useAuth';
 // import ProjectsTable from './ProjectsTable';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     addingCustomKeywordForSave,
     addingKeywordForSave,
     removingKeywordForSave,
     createKeywordsApi,
-    removingCustomKeywordForSave
+    removingCustomKeywordForSave,
+    createdKeywordSuccess
 } from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MENTION_PATH } from 'config';
 import PropTypes from 'prop-types';
+import axios from 'utils/axios';
+import { createKeywords, hasError } from 'features/project/projectSlice';
 
 const AddKeyword = () => {
     const { getAccessToken } = useAuth();
     const { search } = useLocation();
-    const { project, suggestedKeywords, updateLoading, updateSuccess, customKeywords: cKeys } = useSelector((state) => state.project);
+    const {
+        project,
+        suggestedKeywords,
+        updateLoading,
+        createKeywordSuccess,
+        customKeywords: cKeys
+    } = useSelector((state) => state.project);
     const [customKeywords, setCustomKeywords] = React.useState([]);
+    const [createKeywordsLoading, setCreateKeywordsLoading] = React.useState(false);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        if (updateSuccess) {
-            navigate(`${MENTION_PATH}${search}`);
-        }
+        // if (createKeywordSuccess) {
+        //     createdKeywordSuccess(false)();
+        //     navigate(`${MENTION_PATH}${search}`);
+        // }
 
         return () => setCustomKeywords([]);
-    }, [updateSuccess]);
+    }, []); // createKeywordSuccess
 
     return (
         <Box sx={{ display: { md: 'flex', xs: 'block' } }}>
@@ -75,14 +88,31 @@ const AddKeyword = () => {
                         updateLoading
                     }
                     onClick={async () => {
+                        setCreateKeywordsLoading(false);
                         const token = await getAccessToken();
-                        createKeywordsApi(token, {
+                        // createKeywordsApi(token,
+                        const body = {
                             projectId: project._id,
                             suggestedKeywords: [
                                 ...suggestedKeywords.filter((item) => item.trim()),
                                 ...Object.values(cKeys).filter((item) => item.trim())
                             ]
-                        })();
+                        };
+                        try {
+                            const response = await axios.post(`keywords`, body, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`
+                                }
+                            });
+                            dispatch(createKeywords(response.data));
+                            setCustomKeywords([]);
+                            navigate(`${MENTION_PATH}${search}`);
+                        } catch (error) {
+                            dispatch(hasError(error));
+                        } finally {
+                            setCreateKeywordsLoading(false);
+                        }
+                        // )();
                         // console.log([
                         //     ...suggestedKeywords.filter((item) => item.trim()),
                         //     ...Object.values(cKeys).filter((item) => item.trim())

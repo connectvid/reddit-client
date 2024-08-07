@@ -13,9 +13,10 @@ const initialState = {
     projectDeleted: false,
     createLoading: false,
     updateProjectLoading: false,
+    updateProjectSuccess: false,
     projectCreated: false,
     updateLoading: false,
-    updateSuccess: false,
+    createKeywordSuccess: false,
     showProjectsList: false,
     showProjectCreateModal: false,
     selectedPlatform: ''
@@ -134,8 +135,11 @@ const projectSlice = createSlice({
         loadingCotrl(state, action) {
             state.loading = action.payload;
         },
-        updateSuccess(state, action) {
-            state.updateSuccess = action.payload;
+        createKeywordSuccess(state, action) {
+            state.createKeywordSuccess = action.payload;
+        },
+        updateProjectSuccess(state, action) {
+            state.updateProjectSuccess = action.payload;
         },
         projectCreated(state, action) {
             state.projectCreated = action.payload;
@@ -195,7 +199,7 @@ export const {
     resetCardSuccess,
     loadingCotrl,
     addKeywordForSave,
-    updateSuccess,
+    createKeywordSuccess,
     projectCreated,
     projectDeleted,
     projectDeleting,
@@ -205,7 +209,8 @@ export const {
     addCustomKeywordForSave,
     selectedPlatform,
     updateProject,
-    updateProjectLoading
+    updateProjectLoading,
+    updateProjectSuccess
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

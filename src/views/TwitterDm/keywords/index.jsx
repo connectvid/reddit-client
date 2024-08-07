@@ -23,7 +23,7 @@ const Keywords = () => {
     return (
         <>
             <Card sx={{ mb: 5, minHeight: '75vh' }}>
-                <CardContent style={{}}>
+                <CardContent>
                     <Box mb={4}>
                         <Typography
                             variant="h2"

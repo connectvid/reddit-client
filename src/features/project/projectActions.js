@@ -13,19 +13,23 @@ import {
     addKeywordForSave,
     createKeywordsLoading,
     createKeywords,
-    updateSuccess,
+    createKeywordSuccess,
     projectCreated,
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
     addCustomKeywordForSave,
     selectedPlatform,
-    updateProjectLoading
+    updateProjectLoading,
+    updateProjectSuccess
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
+};
+export const updaterProjectSuccess = (value) => () => {
+    dispatch(updateProjectSuccess(value));
 };
 export const setSingleProjectSelect = (id) => () => {
     dispatch(setSingleProjectSelectSuccess({ id }));
@@ -44,6 +48,9 @@ export const projectCreatedStatus = (status) => () => {
 };
 export const projectRemoving = (id) => () => {
     dispatch(projectRemove({ id }));
+};
+export const createdKeywordSuccess = (value) => () => {
+    dispatch(createKeywordSuccess(value));
 };
 
 export const getProjects = (userId, token) => async () => {
@@ -112,10 +119,9 @@ export const createKeywordsApi =
                     Authorization: `Bearer ${token}`
                 }
             });
-            dispatch(createKeywords(response.data));
-            dispatch(updateSuccess(true));
+            createdKeywordSuccess(true)();
             setTimeout(() => {
-                dispatch(updateSuccess(false));
+                dispatch(createKeywords(response.data));
             }, 2000);
         } catch (error) {
             dispatch(hasError(error));
