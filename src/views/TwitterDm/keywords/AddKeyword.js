@@ -7,9 +7,11 @@ import {
     addingCustomKeywordForSave,
     addingKeywordForSave,
     removingKeywordForSave,
-    createKeywordsApi,
     removingCustomKeywordForSave,
-    createdKeywordSuccess
+    createKeywordsApi
+    // createKeywordsApi,
+    // createdKeywordSuccess,
+    // addingKeywords
 } from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -25,7 +27,7 @@ const AddKeyword = () => {
         project,
         suggestedKeywords,
         updateLoading,
-        createKeywordSuccess,
+        // createKeywordSuccess,
         customKeywords: cKeys
     } = useSelector((state) => state.project);
     const [customKeywords, setCustomKeywords] = React.useState([]);
@@ -33,7 +35,6 @@ const AddKeyword = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     useEffect(() => {
         // if (createKeywordSuccess) {
         //     createdKeywordSuccess(false)();
@@ -88,7 +89,7 @@ const AddKeyword = () => {
                         updateLoading
                     }
                     onClick={async () => {
-                        setCreateKeywordsLoading(false);
+                        // setCreateKeywordsLoading(false);
                         const token = await getAccessToken();
                         // createKeywordsApi(token,
                         const body = {
@@ -98,25 +99,23 @@ const AddKeyword = () => {
                                 ...Object.values(cKeys).filter((item) => item.trim())
                             ]
                         };
-                        try {
-                            const response = await axios.post(`keywords`, body, {
-                                headers: {
-                                    Authorization: `Bearer ${token}`
-                                }
-                            });
-                            dispatch(createKeywords(response.data));
-                            setCustomKeywords([]);
-                            navigate(`${MENTION_PATH}${search}`);
-                        } catch (error) {
-                            dispatch(hasError(error));
-                        } finally {
-                            setCreateKeywordsLoading(false);
-                        }
+                        createKeywordsApi(token, body)();
+                        // try {
+                        //     const response = await axios.post(`keywords`, body, {
+                        //         headers: {
+                        //             Authorization: `Bearer ${token}`
+                        //         }
+                        //     });
+                        //     // dispatch(createKeywords(response.data));
+                        //     setCustomKeywords([]);
+                        //     navigate(`${MENTION_PATH}${search}`);
+                        // } catch (e) {
+                        //     console.log(e);
+                        //     dispatch(hasError(e));
+                        // } finally {
+                        //     setCreateKeywordsLoading(false);
+                        // }
                         // )();
-                        // console.log([
-                        //     ...suggestedKeywords.filter((item) => item.trim()),
-                        //     ...Object.values(cKeys).filter((item) => item.trim())
-                        // ]);
                     }}
                 >
                     Save

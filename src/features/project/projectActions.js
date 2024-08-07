@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import axios from 'utils/axios';
 import { dispatch } from 'app/store';
 import {
@@ -109,6 +110,10 @@ export const updateProjectAPI =
         }
     };
 
+export const addingKeywords = (data) => () => {
+    dispatch(createKeywords(data));
+};
+
 export const createKeywordsApi =
     (token, data = {}) =>
     async () => {
@@ -120,9 +125,10 @@ export const createKeywordsApi =
                 }
             });
             createdKeywordSuccess(true)();
-            setTimeout(() => {
-                dispatch(createKeywords(response.data));
-            }, 2000);
+            dispatch(createKeywords(response.data));
+            // setTimeout(() => {
+            // }, 2000);
+            return response.data;
         } catch (error) {
             dispatch(hasError(error));
         } finally {

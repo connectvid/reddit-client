@@ -77,8 +77,8 @@ const projectSlice = createSlice({
                 return project;
             });
         },
-        createKeywords(state, action) {
-            state.project = { ...state.project, Suggestedkeywords: action.payload.items };
+        createKeywords(state, { payload }) {
+            state.project = { ...state.project, Suggestedkeywords: [...state.project.Suggestedkeywords, ...payload.items] };
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;
@@ -95,7 +95,6 @@ const projectSlice = createSlice({
             const project = state.projects.find((item) => item._id === id);
             state.project = project;
             state.selectedPlatform = project.platforms?.[0];
-            // state.suggestedKeywords = project?.suggestedKeywords || [];
         },
 
         setSingleProjectDiselectSuccess(state) {
@@ -114,6 +113,10 @@ const projectSlice = createSlice({
             // if (typeof index === 'number') {
             //     state.suggestedKeywords[index] = keyword;
             // } else state.suggestedKeywords.push(keyword);
+        },
+        addKeywordForSave2(state, action) {
+            // const { keyword } = action.payload;
+            console.log(state, 'state');
         },
         addCustomKeywordForSave(state, action) {
             const { keyword, index } = action.payload;
@@ -210,7 +213,8 @@ export const {
     selectedPlatform,
     updateProject,
     updateProjectLoading,
-    updateProjectSuccess
+    updateProjectSuccess,
+    addKeywordForSave2
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
