@@ -78,7 +78,11 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
-            state.project = { ...state.project, Suggestedkeywords: [...state.project.Suggestedkeywords, ...payload.items] };
+            console.log(payload, 'createKeywords');
+            const { Suggestedkeywords = [], ...rest } = state.project;
+            const data = { ...rest, Suggestedkeywords: [...Suggestedkeywords, ...payload.items] };
+            console.log(data, 'createKeywords');
+            state.project = data;
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;

@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-children-prop */
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -32,8 +34,11 @@ const Header = () => {
     const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
-    const { drawerOpen } = useSelector((state) => state.menu);
-
+    const {
+        menu: { drawerOpen },
+        subscription: { subscription }
+    } = useSelector((state) => state);
+    const repliesCredits = subscription?.remainingCredit;
     const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess } = useSelector((state) => state.project);
     React.useEffect(() => {
         if (createKeywordSuccess) {
@@ -41,7 +46,6 @@ const Header = () => {
             navigate(`${MENTION_PATH}${search}`);
         }
     }, [createKeywordSuccess]);
-    // console.log({ projectCreated }, pathname === KEYWORD_PATH);
 
     return (
         <>
@@ -159,7 +163,31 @@ const Header = () => {
                 </Box>
             </Box>
 
-            {/* <Box sx={{ flexGrow: 1 }} /> */}
+            <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
+            <Box
+                sx={{
+                    // position: 'relative',
+                    ml: 1,
+                    [theme.breakpoints.down('md')]: {
+                        width: 'auto'
+                    },
+                    border: `1px solid ${theme.palette.grey[400]}`,
+                    borderRadius: '8px'
+                }}
+            >
+                {(repliesCredits &&
+                    Object.keys(repliesCredits).map((item) => {
+                        const val = repliesCredits[item];
+                        if (val !== 'Unlimited')
+                            return (
+                                <Button key={item} variant="">
+                                    <strong>{item}: </strong> <Typography ml={1}>{val}</Typography>
+                                </Button>
+                            );
+                    })) ||
+                    ''}
+            </Box>
+
             <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
             <ProfileSection />
             {/* mobile header */}

@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import axios from 'utils/axios';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import redditFeeds from 'assets/images/reddit-feeds.jpg';
+import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 
 const ProjectTable = ({ setProjects, projects = [] }) => {
     // const BASE_URL = TwitterDMConfig.getNodeUrl();
@@ -34,6 +35,8 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
             .then(() => {
                 toast('Project deleted successfully!', { autoClose: 2500, type: 'success' });
                 projectRemoving(id)();
+
+                subsctriptionCreditsSetter({ projects: 1 })();
             })
             .catch(async (e) => {
                 console.log(e);

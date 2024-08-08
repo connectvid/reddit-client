@@ -10,36 +10,38 @@ import MainCard from 'ui-component/cards/MainCard';
 import useAuth from 'hooks/useAuth';
 // import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
+import { SUBSCRIPTION_PATH } from 'config';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const Settings = () => {
     const navigate = useNavigate();
     const { twitter, dbUser, isExpired } = useAuth();
+    const { subscription } = useSelector((state) => state.subscription);
+    const repliesCredits = subscription?.remainingCredit;
+    console.log({ subscription });
+    // replies
     // const [plan, setPlan] = useState({
     //     title: '',
     //     description: ''
     // });
     // const [subscribeInfo, setSubscribeInfo] = useState();
-    let plan = {
-        title: '',
+    const plan = {
+        title: `You are on ${subscription?.type}`,
         description: ''
     };
-    if (dbUser?.selectedPlan !== 'none') {
-        if (dbUser?.selectedPlan === 'trial') {
-            plan = {
-                title: `You are ${dbUser.selectedPlan}!`,
-                expiry: dbUser?.endDate && new Date(dbUser.endDate) > Date.now() ? dbUser?.endDate : `Trial has been expired!`
-            };
-        } else {
-            plan = {
-                title: `You are choosing ${dbUser.selectedPlan} plan!`,
-                expiry:
-                    dbUser?.endDate && new Date(dbUser.endDate) > Date.now()
-                        ? dbUser?.endDate
-                        : `${dbUser.selectedPlan} plan has been expired!`
-            };
-        }
-    }
+    // if (dbUser?.selectedPlan === 'trial') {
+    //     plan = {
+    //         // title: `You are ${subscription?.type}!`,
+    //         expiry: subscription?.expire ? new Date(subscription?.expire) > Date.now() : `Trial has been expired!`
+    //     };
+    // } else {
+    //     plan = {
+    //         // title: `You are choosing ${subscription?.type} plan!`,
+    //         expiry: subscription?.expire ? new Date(subscription?.expire) > Date.now() : `${subscription?.type} `
+    //     };
+    // }
 
     const theme = useTheme();
 
@@ -103,34 +105,15 @@ const Settings = () => {
                     </Typography>
                     <Typography
                         sx={{
-                            color: theme.palette.grey[400]
+                            color: theme.palette.grey[900]
                         }}
                     >
-                        {plan?.expiry}
+                        <string>Expiry:</string> {subscription?.expire ? moment(subscription?.expire).format('YYYY-MM-DD, HH:ss') : ''}
                     </Typography>
-                    {/* <Typography
-                        sx={{
-                            color: theme.palette.grey[400]
-                        }}
-                    >
-                        {isExpired === true ||
-                        (subscribeInfo?.current_period_end && new Date(subscribeInfo.current_period_end) < Date.now())
-                            ? 'Please Subscribe To A New Plan. Your Current Subscription/Trial Has Expired.'
-                            : plan?.description}
-                    </Typography> */}
-                    {/* <Typography
-                        sx={{
-                            color: theme.palette.grey[400]
-                        }}
-                    >
-                        Subscription Left :
-                        {subscribeInfo?.current_period_end
-                            ? moment.duration(moment(subscribeInfo?.current_period_end).diff(moment())).asDays()
-                            : 0}
-                        days
-                    </Typography> */}
                 </Box>
-                {isExpired === true || (dbUser?.current_period_end && new Date(dbUser?.endDate) < Date.now()) ? (
+                {subscription?.expire && moment(subscription?.expire).valueOf > Date.now() ? (
+                    ``
+                ) : (
                     <Typography
                         sx={{
                             color: theme.palette.grey[400],
@@ -138,12 +121,10 @@ const Settings = () => {
                             marginRight: '0'
                         }}
                     >
-                        <Button onClick={() => navigate('/subscription')} variant="outlined">
+                        <Button onClick={() => navigate(SUBSCRIPTION_PATH)} variant="outlined">
                             Subscribe Now
                         </Button>
                     </Typography>
-                ) : (
-                    ''
                 )}
             </Box>
         </MainCard>

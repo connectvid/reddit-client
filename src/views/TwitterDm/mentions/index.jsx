@@ -27,7 +27,8 @@ const Mentions = () => {
         project,
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
-
+    // const { subscription } = useSelector((state) => state.subscription);
+    // const repliesCredits = subscription?.remainingCredit?.replies;
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -176,7 +177,7 @@ const Mentions = () => {
                                         }}
                                     />
                                 </Typography>
-                            ))}
+                            )) || ''}
                         </Box>
                     </Box>
                     {/*  */}
@@ -194,7 +195,12 @@ const Mentions = () => {
                                     <PostCard
                                         key={item._id}
                                         {...item}
-                                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                                        {...{
+                                            project,
+                                            setObjItems: setMentionsDataObj,
+                                            selectedPlatform,
+                                            showMarkRepliedBtn: true
+                                        }}
                                     />
                                 );
                             if (selectedKeyword?.title === item.keyword)
@@ -202,7 +208,12 @@ const Mentions = () => {
                                     <PostCard
                                         key={item._id}
                                         {...item}
-                                        {...{ project, setObjItems: setMentionsDataObj, selectedPlatform, showMarkRepliedBtn: true }}
+                                        {...{
+                                            project,
+                                            setObjItems: setMentionsDataObj,
+                                            selectedPlatform,
+                                            showMarkRepliedBtn: true
+                                        }}
                                     />
                                 );
                         })}

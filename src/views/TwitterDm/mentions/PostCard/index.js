@@ -9,6 +9,8 @@ import { useLocation } from 'react-router-dom';
 import { REPLY_PATH } from 'config';
 import removeLastSentenceIfEllipsis from 'utils/removeLastSentenceIfEllipsis';
 import replaceDomainWithLink from 'utils/replaceDomainWithLink';
+import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
+import { toast } from 'react-toastify';
 
 const PostCard = ({
     project,
@@ -25,7 +27,8 @@ const PostCard = ({
     // setMentionsData,
     setObjItems,
     selectedPlatform,
-    showMarkRepliedBtn
+    showMarkRepliedBtn,
+    repliesCredits
 }) => {
     const { getAccessToken } = useAuth();
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
@@ -35,6 +38,10 @@ const PostCard = ({
     const [updatingReply, setUpdatingReply] = useState(false);
     const { pathname } = useLocation();
     const handleGenerateReply = async () => {
+        if (repliesCredits !== 'Unlimited' && repliesCredits < 1) {
+            toast.error(`Reply limit is over!`);
+            return;
+        }
         setGeneratingReply(true);
         const body = {
             title,
@@ -54,15 +61,26 @@ const PostCard = ({
             setEditReply(responseReply);
 
             setObjItems((p) => {
+                if (selectedPlatform) {
+                    const changed =
+                        p[selectedPlatform]?.map?.((item) => {
+                            if (item._id === _id) {
+                                item.reply = responseReply;
+                            }
+                            return item;
+                        }) || [];
+                    return { ...p, [selectedPlatform]: changed };
+                }
                 const changed =
-                    p[selectedPlatform]?.map?.((item) => {
+                    p?.map?.((item) => {
                         if (item._id === _id) {
                             item.reply = responseReply;
                         }
                         return item;
                     }) || [];
-                return { ...p, [selectedPlatform]: changed };
+                return changed;
             });
+            subsctriptionCreditsSetter({ replies: -1 })();
         } catch (e) {
             console.log(e);
         }
@@ -151,7 +169,7 @@ const PostCard = ({
                         />
                     )}
                     {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
-                    <PostCardFooter {...{ generatingReply, handleGenerateReply, link, platform }} />
+                    <PostCardFooter {...{ generatingReply, handleGenerateReply, link, platform, repliesCredits }} />
                 </Box>
             </CardContent>
         </Card>

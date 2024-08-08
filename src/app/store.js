@@ -9,7 +9,7 @@ import snackbarSlice from 'features/snackbar/snackbar';
 // import cartSlice from 'features/cart/cart';
 import planSlice from 'features/plan/plan';
 import projectSlice from 'features/project/projectSlice';
-import subscriptionSlice from 'features/subscription/subscription';
+import subscriptionSlice from 'features/subscription/subscriptionSlice';
 import scrapResultsSlice from 'features/scrap/scrapSlice';
 
 // configure app store

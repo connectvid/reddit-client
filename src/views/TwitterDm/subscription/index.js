@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
 import React, { useState } from 'react';
 // material-ui
@@ -9,6 +10,7 @@ import { gridSpacing } from 'features/constant';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import useAuth from 'hooks/useAuth';
 import PaymentDashboard from './PaymentDashboard';
+// import { callOthers } from 'features/project/projectActions';
 
 const plans = [
     {
@@ -136,6 +138,7 @@ const Subscription = () => {
                     <CircularProgress />
                 </Box>
             )} */}
+            {/* <button onClick={() => callOthers({ types: ['replies'], values: { replies: -1 } })()}>Call Me</button> */}
 
             {fetchSubscribeData.status === 'success' && (
                 <>

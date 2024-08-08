@@ -2,8 +2,11 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { IconBrandLinkedin, IconBrandReddit, IconExternalLink } from 'tabler-icons';
 import { FaQuora, FaXTwitter } from 'react-icons/fa6';
 import removeEndingSubstring from 'utils/removeEndingSubstring';
+import { useSelector } from 'react-redux';
 
 const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }) => {
+    const { subscription } = useSelector((state) => state.subscription);
+    const repliesCredits = subscription?.remainingCredit?.replies;
     const icons = {
         'reddit.com': <RedditIcon />,
         'linkedin.com': <IconBrandLinkedin size={22} color="#0a66c2" />,
@@ -13,7 +16,11 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link, platform }
 
     return (
         <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Button onClick={handleGenerateReply} variant="contained" disabled={generatingReply}>
+            <Button
+                onClick={handleGenerateReply}
+                variant="contained"
+                disabled={generatingReply || (repliesCredits !== 'Unlimited' && repliesCredits < 1)}
+            >
                 Generate Reply {generatingReply && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
             </Button>
             {platform && icons[platform]}

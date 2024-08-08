@@ -25,6 +25,8 @@ import {
     updateProjectSuccess
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
+import errorMsgHelper from 'utils/errorMsgHelper';
 
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
@@ -70,6 +72,8 @@ export const getProjects = (userId, token) => async () => {
     }
 };
 
+export const callOthers = (v) => subsctriptionCreditsSetter(v);
+
 export const addProject =
     (token, data = {}) =>
     async () => {
@@ -81,6 +85,7 @@ export const addProject =
                 }
             });
             dispatch(addNewProject(response.data));
+            subsctriptionCreditsSetter({ projects: -1 })();
             projectCreatedStatus(true)();
             dispatch(toggleProjectCreateModal(false));
         } catch (error) {
@@ -124,13 +129,15 @@ export const createKeywordsApi =
                     Authorization: `Bearer ${token}`
                 }
             });
+            const keywords = data?.suggestedKeywords?.length;
+            subsctriptionCreditsSetter({ keywords: -keywords })();
             createdKeywordSuccess(true)();
-            dispatch(createKeywords(response.data));
+            addingKeywords(response.data)();
             // setTimeout(() => {
             // }, 2000);
             return response.data;
-        } catch (error) {
-            dispatch(hasError(error));
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
         } finally {
             dispatch(createKeywordsLoading(false));
         }
@@ -144,6 +151,8 @@ export const deleteKeywordFromDB = (token, id) => async () => {
                 Authorization: `Bearer ${token}`
             }
         });
+        console.log(response);
+        subsctriptionCreditsSetter({ keywords: 1 })();
         // dispatch(updateSingleProject(response.data));
         // dispatch(updateSuccess(true));
         // setTimeout(() => {
