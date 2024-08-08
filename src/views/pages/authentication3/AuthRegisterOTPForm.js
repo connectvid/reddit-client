@@ -38,50 +38,58 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, OTPError, setOTPError, handleOPTS
                 </Grid>
             </Grid>
             <form onSubmit={handleOPTSubmit}>
-                <TextField
-                    className={csses.registerOTPfield}
-                    id="outlined-adornment-otp-register"
-                    required
-                    value={OTPValue}
-                    onChange={(e) => {
-                        const val = e.target.value;
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <Typography sx={{ marginBottom: '10px' }} variant="h4">
+                            Please check the requested email ({signUpUser.email}) for OTP
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            className={csses.registerOTPfield}
+                            id="outlined-adornment-otp-register"
+                            required
+                            value={OTPValue}
+                            onChange={(e) => {
+                                const val = e.target.value;
 
-                        if (val?.length < 7) {
-                            setOTPValue(val);
-                            setOTPError('');
-                        }
-                        if (isNaN(val)) {
-                            setOTPError(`OTP must be numeric`);
-                        } else if (val?.length < 6) {
-                            setOTPError(`OTP must be 6 digits`);
-                        }
-                    }}
-                    fullWidth
-                    placeholder="OTP"
-                />
-                {OTPError ? (
-                    <Typography color="error" variant="h5">
-                        {OTPError}
-                    </Typography>
-                ) : (
-                    ''
-                )}
-
-                <Box sx={{ mt: 2 }}>
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            disabled={isOTPVerifying || isLoading}
+                                if (val?.length < 7) {
+                                    setOTPValue(val);
+                                    setOTPError('');
+                                }
+                                if (isNaN(val)) {
+                                    setOTPError(`OTP must be numeric`);
+                                } else if (val?.length < 6) {
+                                    setOTPError(`OTP must be 6 digits`);
+                                }
+                            }}
                             fullWidth
-                            size="large"
-                            type="submit"
-                            variant="outlined"
-                            color="secondary"
-                        >
-                            {isLoading || isOTPVerifying ? 'Verify up...' : 'Verify'}
-                        </Button>
-                    </AnimateButton>
-                </Box>
+                            placeholder="OTP"
+                        />
+                        {OTPError && (
+                            <Typography color="error" variant="h5">
+                                {OTPError}
+                            </Typography>
+                        )}
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Box sx={{ mt: 2 }}>
+                            <AnimateButton>
+                                <Button
+                                    disableElevation
+                                    disabled={isOTPVerifying || isLoading}
+                                    fullWidth
+                                    size="large"
+                                    type="submit"
+                                    variant="outlined"
+                                    color="secondary"
+                                >
+                                    {isLoading || isOTPVerifying ? 'Verify...' : 'Verify'}
+                                </Button>
+                            </AnimateButton>
+                        </Box>
+                    </Grid>
+                </Grid>
             </form>
         </>
     );

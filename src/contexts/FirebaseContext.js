@@ -385,7 +385,7 @@ export const FirebaseProvider = ({ children }) => {
         await sendPasswordResetEmail(email);
     };
 
-    const updateProfile = () => {};
+    const updateProfile = () => { };
     if (state.isInitialized !== undefined && !state.isInitialized) {
         return <Loader />;
     }
