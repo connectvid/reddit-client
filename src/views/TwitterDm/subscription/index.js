@@ -3,16 +3,30 @@
 import React, { useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, Button, Divider, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    Button,
+    CircularProgress,
+    Divider,
+    Grid,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Typography
+} from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'features/constant';
 
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import useAuth from 'hooks/useAuth';
 import PaymentDashboard from './PaymentDashboard';
+import axios from 'utils/axios';
+import { toast } from 'react-toastify';
 // import { callOthers } from 'features/project/projectActions';
 
-const plans = [
+const plansDev = [
     {
         active: false,
         icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
@@ -22,8 +36,8 @@ const plans = [
         price: 49,
         permission: [0, 1, 2, 3, 4, 5, 6],
         plan_id: 1,
-        id: 'price_1PH0nSCx996FZZga2JQ2JFsd',
-        product: 'prod_Q7FIRCKlFBNP8C',
+        product: 'prod_QcQz1eRj0C3Ibp',
+        id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
         stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
     },
     {
@@ -35,8 +49,8 @@ const plans = [
         price: 99,
         permission: [0, 1, 2, 3, 4, 5, 6],
         plan_id: 2,
-        id: 'price_1PH0o2Cx996FZZga07qUoH4B',
-        product: 'prod_Q7FIB6UmqooAv0',
+        product: 'prod_QcR0SMlSjbppbT',
+        id: 'price_1PlC8EDku3fWB0uA9uOByAUW',
         stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
     },
     {
@@ -48,8 +62,50 @@ const plans = [
         price: 249,
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 3,
-        id: 'price_1PH0odCx996FZZgaeOzSIThq',
-        product: 'prod_Q7FJLJLNf5osCf',
+        product: 'prod_QcR0DJDmXAVIOT',
+        id: 'price_1PlC8qDku3fWB0uALzWDJx0G',
+        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
+    }
+];
+
+const plans = [
+    {
+        active: false,
+        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'One-Time',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 49,
+        permission: [0, 1, 2, 3, 4, 5, 6],
+        plan_id: 1,
+        product: 'prod_Qava0JlfF41pNh',
+        id: 'price_1Pjjj2Dku3fWB0uA5ZrHPfcy',
+        stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
+    },
+    {
+        active: true,
+        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'One-Time',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 99,
+        permission: [0, 1, 2, 3, 4, 5, 6],
+        plan_id: 2,
+        id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
+        product: 'prod_QavmbQShCaPyRj',
+        stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
+    },
+    {
+        active: false,
+        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'One-Time',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 249,
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
+        plan_id: 3,
+        id: 'price_1PjjvTDku3fWB0uA7GoaIaVn',
+        product: 'prod_QavnUqEY4bSjcu',
         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
     }
 ];
@@ -86,42 +142,46 @@ const planList = [
 ];
 
 const Subscription = () => {
-    const {
-        dbUser // getAccessToken
-    } = useAuth();
+    const { dbUser, getAccessToken } = useAuth();
     const [
         fetchSubscribeData // setFetchSubscribeData
     ] = useState({
         status: 'success'
     });
-    // const createSession = async (priceId) => {
-    //     console.log('function called');
-    //     if (!priceId) {
-    //         return 0;
-    //     }
-    //     const token = await getAccessToken();
-    //     console.log('creating session');
-    //     try {
-    //         const { data: response } = await axios.post(
-    //             `stripe/createSession`,
-    //             {
-    //                 priceId,
-    //                 email: dbUser.email
-    //             },
-    //             {
-    //                 headers: { Authorization: `Bearer ${token}` }
-    //             }
-    //         );
-    //         const url = response?.session?.url;
-    //         // console.log(response.session, 123, response, url);
-    //         window.location.href = url;
-    //     } catch (e) {
-    //         toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
-    //             autoClose: 5000,
-    //             type: 'warning'
-    //         });
-    //     }
-    // };
+    const [
+        price_Id,
+        setPrice_Id // setFetchSubscribeData
+    ] = useState(null);
+    const createSession = async (priceId) => {
+        if (!priceId) {
+            return 0;
+        }
+        setPrice_Id(priceId);
+        const token = await getAccessToken();
+        console.log('creating session');
+        try {
+            const { data: response } = await axios.post(
+                `subscriptions/stripe/payment-with-auth`,
+                {
+                    priceId,
+                    email: dbUser.email
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            const url = response?.url;
+            // console.log(response.session, 123, response, url);
+            window.location.href = url;
+        } catch (e) {
+            toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
+                autoClose: 5000,
+                type: 'warning'
+            });
+        } finally {
+            setPrice_Id(null);
+        }
+    };
 
     const theme = useTheme();
     const priceListDisable = {
@@ -159,7 +219,7 @@ const Subscription = () => {
                                     }
                                 >
                                     <>
-                                        {plans.map((plan, index) => {
+                                        {plansDev.map((plan, index) => {
                                             const darkBorder =
                                                 theme.palette.mode === 'dark'
                                                     ? theme.palette.background.default
@@ -277,12 +337,18 @@ const Subscription = () => {
                                                             <Grid item xs={12}>
                                                                 <Button
                                                                     variant="outlined"
+                                                                    disabled={price_Id}
                                                                     onClick={() => {
-                                                                        // createSession(plan.id);
-                                                                        window.location.href = plan.stripePayLink;
+                                                                        createSession(plan.id);
+                                                                        // window.location.href = plan.stripePayLink;
                                                                     }}
                                                                 >
-                                                                    Subscribe
+                                                                    Buy
+                                                                    {price_Id === plan.id ? (
+                                                                        <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />
+                                                                    ) : (
+                                                                        ''
+                                                                    )}
                                                                 </Button>
                                                             </Grid>
                                                         </Grid>

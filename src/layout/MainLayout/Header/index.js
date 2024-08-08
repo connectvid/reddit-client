@@ -178,7 +178,7 @@ const Header = () => {
                 {(repliesCredits &&
                     Object.keys(repliesCredits).map((item) => {
                         const val = repliesCredits[item];
-                        if (val !== 'Unlimited')
+                        if (item !== 'searches')
                             return (
                                 <Button key={item} variant="">
                                     <strong>{item}: </strong> <Typography ml={1}>{val}</Typography>
