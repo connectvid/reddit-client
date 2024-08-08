@@ -1,9 +1,19 @@
 /* eslint-disable consistent-return */
 import axios from 'utils/axios';
 import { dispatch } from 'app/store';
-import { hasError, createKeywords, getSubscriptionLoading, setSubsctription, setSubsctriptionCredits } from './subscriptionSlice'; // Import actions from the slice
+import {
+    hasError,
+    createKeywords,
+    getSubscriptionLoading,
+    setSubsctription,
+    setSubsctriptionCredits,
+    subscriptionInit
+} from './subscriptionSlice'; // Import actions from the slice
 import errorMsgHelper from 'utils/errorMsgHelper';
 
+export const subscriptionClear = () => () => {
+    dispatch(subscriptionInit());
+};
 export const subsctriptionSetter = (vals) => () => {
     dispatch(setSubsctription(vals));
 };

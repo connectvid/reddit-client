@@ -22,7 +22,8 @@ import {
     addCustomKeywordForSave,
     selectedPlatform,
     updateProjectLoading,
-    updateProjectSuccess
+    updateProjectSuccess,
+    projectInit
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -30,6 +31,9 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
+};
+export const projectClear = () => () => {
+    dispatch(projectInit());
 };
 export const updaterProjectSuccess = (value) => () => {
     dispatch(updateProjectSuccess(value));

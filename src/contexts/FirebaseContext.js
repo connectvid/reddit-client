@@ -37,8 +37,8 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
 import { useDispatch } from 'react-redux';
 import { settingAccessToken, settingUser } from 'features/auth/authSlice';
-import { getProjects } from 'features/project/projectActions';
-import { getMySubscriptionAPI, subsctriptionSetter } from 'features/subscription/subscriptionActions';
+import { getProjects, projectClear } from 'features/project/projectActions';
+import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -207,6 +207,8 @@ export const FirebaseProvider = ({ children }) => {
     const logout = () => {
         const logedOut = signOut(auth);
         setDbUser({});
+        projectClear()();
+        subscriptionClear()();
         return logedOut;
     };
 

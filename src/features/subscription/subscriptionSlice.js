@@ -1,6 +1,6 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-restricted-syntax */
 import { createSlice } from '@reduxjs/toolkit';
-// import { fetchAllProjects } from './projectActions';
 
 const initialState = {
     error: null,
@@ -8,14 +8,18 @@ const initialState = {
     loading: false
 };
 
-const projectSlice = createSlice({
-    name: 'project',
+const subscriptionSlice = createSlice({
+    name: 'subscription',
     initialState,
     reducers: {
         hasError(state, action) {
             state.error = action.payload;
         },
-
+        subscriptionInit(state) {
+            Object.keys(initialState).map((k) => {
+                state[k] = initialState[k];
+            });
+        },
         getSubscriptionLoading(state, { payload }) {
             state.loading = payload;
         },
@@ -55,6 +59,7 @@ const projectSlice = createSlice({
     }
 });
 
-export const { hasError, createKeywords, getSubscriptionLoading, setSubsctription, setSubsctriptionCredits } = projectSlice.actions;
+export const { hasError, createKeywords, getSubscriptionLoading, setSubsctription, setSubsctriptionCredits, subscriptionInit } =
+    subscriptionSlice.actions;
 
-export default projectSlice.reducer;
+export default subscriptionSlice.reducer;

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-restricted-syntax */
 import { createSlice } from '@reduxjs/toolkit';
 // import { fetchAllProjects } from './projectActions';
@@ -39,7 +40,11 @@ const projectSlice = createSlice({
         hasError(state, action) {
             state.error = action.payload;
         },
-
+        projectInit(state) {
+            Object.keys(initialState).map((k) => {
+                state[k] = initialState[k];
+            });
+        },
         fetchProjects(state, action) {
             const items = action.payload.items;
             const { search } = window.location;
@@ -218,7 +223,8 @@ export const {
     updateProject,
     updateProjectLoading,
     updateProjectSuccess,
-    addKeywordForSave2
+    addKeywordForSave2,
+    projectInit
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
