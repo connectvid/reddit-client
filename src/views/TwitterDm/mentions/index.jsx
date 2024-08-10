@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 import { Autocomplete, Box, Button, Card, CardContent, CircularProgress, TextField, Typography } from '@mui/material';
@@ -19,8 +20,10 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 const Mentions = () => {
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
+    const [haveData, setHaveData] = useState(false);
     const [moreLoading, setMoreLoading] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
+    const [filteredData, setFilteredData] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All' });
 
     const {
@@ -33,10 +36,13 @@ const Mentions = () => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             setLoading(true);
-            setSelectedKeyword(project?.Suggestedkeywords[0]);
+            const first = project?.Suggestedkeywords[0];
+            setSelectedKeyword(first);
             try {
                 const token = await getAccessToken();
-                const { data } = await axios.get(`mentions/projects/${projectid}`, {
+                const {
+                    data: { items }
+                } = await axios.get(`mentions/projects/${projectid}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -46,7 +52,7 @@ const Mentions = () => {
                     a[c] = [];
                     return a;
                 }, {});
-                const reduced = data.items?.reduce((a, c) => {
+                const reduced = items?.reduce((a, c) => {
                     c.view = true;
                     if (c.platform === 'reddit.com') {
                         const link = removeEndingSubstring(c.link, '/');
@@ -65,6 +71,16 @@ const Mentions = () => {
                     return a;
                 }, platfms);
                 setMentionsDataObj(reduced);
+                const [platform] = project?.platforms || [];
+                const title = first?.title;
+                console.log(reduced, first);
+                if (platform && title) {
+                    const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
+                    setFilteredData(filtered);
+                }
+                if (items?.length) {
+                    setHaveData(true);
+                }
                 setLoading(false);
             } catch (e) {
                 console.log(e);
@@ -116,6 +132,18 @@ const Mentions = () => {
         'quora.com': quora,
         'twitter.com': twitter
     };
+
+    useEffect(() => {
+        const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
+            if (selectedKeyword?.title === 'All') {
+                return item;
+            }
+            if (selectedKeyword?.title === item.keyword) {
+                return item;
+            }
+        });
+        setFilteredData(filtered);
+    }, [selectedKeyword?.title, selectedPlatform]);
 
     return (
         <>
@@ -184,13 +212,39 @@ const Mentions = () => {
                     <PostFilter {...{ keywords: project?.Suggestedkeywords, setSelectedKeyword, loading }} />
                 </CardContent>
             </Card>
+            {!loading && !filteredData?.length ? (
+                <Card sx={{ mb: 1 }}>
+                    <CardContent>
+                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                            Sorry, there seems to be no posts
+                            {selectedKeyword.title === 'All' ? '' : <strong>for your suggested {selectedKeyword.title}</strong>}!
+                        </Typography>
+                    </CardContent>
+                </Card>
+            ) : (
+                ''
+            )}
             {loading ? (
                 <PostPlaceholder />
             ) : (
                 <>
-                    {selectedPlatform &&
+                    {filteredData?.map?.((item) => {
+                        return (
+                            <PostCard
+                                key={item._id}
+                                {...item}
+                                {...{
+                                    project,
+                                    setObjItems: setMentionsDataObj,
+                                    selectedPlatform,
+                                    showMarkRepliedBtn: true
+                                }}
+                            />
+                        );
+                    })}
+                    {/* {selectedPlatform &&
                         mentionsDataObj[selectedPlatform]?.map?.((item) => {
-                            if (selectedKeyword?.title === 'All')
+                            if (selectedKeyword?.title === 'All') {
                                 return (
                                     <PostCard
                                         key={item._id}
@@ -203,7 +257,8 @@ const Mentions = () => {
                                         }}
                                     />
                                 );
-                            if (selectedKeyword?.title === item.keyword)
+                            }
+                            if (selectedKeyword?.title === item.keyword) {
                                 return (
                                     <PostCard
                                         key={item._id}
@@ -216,17 +271,22 @@ const Mentions = () => {
                                         }}
                                     />
                                 );
-                        })}
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <Button
-                            variant="outlined"
-                            onClick={loadMore}
-                            disabled={selectedKeyword?.title === 'All' || moreLoading || !selectedPlatform}
-                            title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
-                        >
-                            Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
-                        </Button>
-                    </Box>
+                            }
+                        })} */}
+                    {filteredData?.length ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Button
+                                variant="outlined"
+                                onClick={loadMore}
+                                disabled={selectedKeyword?.title === 'All' || moreLoading || !selectedPlatform}
+                                title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
+                            >
+                                Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
+                            </Button>
+                        </Box>
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </>

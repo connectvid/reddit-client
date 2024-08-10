@@ -18,6 +18,7 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
     >
         <TextField
             value={editReply}
+            required
             fullWidth
             multiline
             onChange={(e) => setEditReply(e.target.value || '')}

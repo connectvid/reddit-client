@@ -23,14 +23,22 @@ import {
     selectedPlatform,
     updateProjectLoading,
     updateProjectSuccess,
-    projectInit
+    projectInit,
+    clearError,
+    keywordRemove
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
+export const keywordRemoving = (value) => () => {
+    dispatch(keywordRemove(value));
+};
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
+};
+export const clearingError = () => () => {
+    dispatch(clearError());
 };
 export const projectClear = () => () => {
     dispatch(projectInit());
@@ -69,8 +77,8 @@ export const getProjects = (userId, token) => async () => {
             }
         });
         dispatch(fetchProjects(response.data));
-    } catch (error) {
-        dispatch(hasError(error));
+    } catch (e) {
+        dispatch(hasError(errorMsgHelper(e)));
     } finally {
         dispatch(loadingCotrl(false));
     }
@@ -92,8 +100,8 @@ export const addProject =
             subsctriptionCreditsSetter({ projects: -1 })();
             projectCreatedStatus(true)();
             dispatch(toggleProjectCreateModal(false));
-        } catch (error) {
-            dispatch(hasError(error));
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
         } finally {
             dispatch(addProjectLoading(false));
         }
@@ -147,23 +155,18 @@ export const createKeywordsApi =
         }
     };
 
-export const deleteKeywordFromDB = (token, id) => async () => {
+export const deleteKeywordAPI = (token, id) => async () => {
     try {
         // dispatch(createKeywordsLoading(true));
-        const response = await axios.delete(`keywords/${id}`, {
+        await axios.delete(`keywords/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         });
-        console.log(response);
         subsctriptionCreditsSetter({ keywords: 1 })();
-        // dispatch(updateSingleProject(response.data));
-        // dispatch(updateSuccess(true));
-        // setTimeout(() => {
-        //     dispatch(updateSuccess(false));
-        // }, 2000);
-    } catch (error) {
-        dispatch(hasError(error));
+        keywordRemoving({ id })();
+    } catch (e) {
+        dispatch(hasError(errorMsgHelper(e)));
     } finally {
         // dispatch(createKeywordsLoading(false));
     }
@@ -203,7 +206,7 @@ export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', asy
         });
         return response.data;
     } catch (e) {
-        dispatch(hasError(e.response));
+        dispatch(hasError(errorMsgHelper(e)));
         throw e;
     }
 });

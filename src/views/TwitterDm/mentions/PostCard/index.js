@@ -11,6 +11,7 @@ import removeLastSentenceIfEllipsis from 'utils/removeLastSentenceIfEllipsis';
 import replaceDomainWithLink from 'utils/replaceDomainWithLink';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import { toast } from 'react-toastify';
+import errorMsgHelper from 'utils/errorMsgHelper';
 
 const PostCard = ({
     project,
@@ -81,8 +82,10 @@ const PostCard = ({
                 return changed;
             });
             subsctriptionCreditsSetter({ replies: -1 })();
+            toast.success(`Reply has been generated!`);
         } catch (e) {
             console.log(e);
+            toast.error(errorMsgHelper(e));
         }
         setGeneratingReply(false);
     };
@@ -101,7 +104,9 @@ const PostCard = ({
             await axios.put(`/mentions/${_id}/update-reply`, upData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            if (update_on === 'reply') {
+            if (isDelete) {
+                setEditReply('');
+            } else if (update_on === 'reply') {
                 setEditReply(editVal);
             }
             if (pathname === REPLY_PATH) {
@@ -109,7 +114,9 @@ const PostCard = ({
                     const changed =
                         p?.map?.((item) => {
                             if (item._id === _id) {
-                                if (update_on === 'reply') {
+                                if (isDelete) {
+                                    upData.reply = '';
+                                } else if (update_on === 'reply') {
                                     upData.reply = editVal;
                                 } else if (update_on === 'markReply') item.markReply = markReply;
                             }
@@ -122,7 +129,9 @@ const PostCard = ({
                     const changed =
                         p[selectedPlatform]?.map?.((item) => {
                             if (item._id === _id) {
-                                if (update_on === 'reply') {
+                                if (isDelete) {
+                                    upData.reply = '';
+                                } else if (update_on === 'reply') {
                                     upData.reply = editVal;
                                 } else if (update_on === 'markReply') item.markReply = markReply;
                             }
@@ -131,8 +140,18 @@ const PostCard = ({
                     return { ...p, [selectedPlatform]: changed };
                 });
             }
+            let successMsg = '';
+            if (update_on === 'markReply') {
+                successMsg = `Reply has been marked`;
+            } else if (isDelete) {
+                successMsg = `Reply has been deleted!`;
+            } else {
+                successMsg = `Reply has been updated!`;
+            }
+            toast.success(successMsg);
         } catch (e) {
             console.log(e);
+            toast.error(errorMsgHelper(e));
         }
         setUpdatingReply(false);
     };
@@ -151,12 +170,12 @@ const PostCard = ({
                     <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 'bold' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)}
                     </Typography>
-                    {reply && (
+                    {editReply && (
                         <GeneretedReply
                             {...{
                                 editReply,
                                 setEditReply,
-                                reply: filteredReply,
+                                reply: editReply,
                                 updatingReply,
                                 handleUpdateReply,
                                 editOpen,

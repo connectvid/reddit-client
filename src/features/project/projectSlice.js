@@ -11,8 +11,11 @@ const initialState = {
     project: null,
     loading: false,
     projectDeleting: false,
+    keywordDeleting: false,
     projectDeleted: false,
     createLoading: false,
+    keywordCreateLoading: false,
+    createKeywordsLoading: false,
     updateProjectLoading: false,
     updateProjectSuccess: false,
     projectCreated: false,
@@ -39,6 +42,9 @@ const projectSlice = createSlice({
     reducers: {
         hasError(state, action) {
             state.error = action.payload;
+        },
+        clearError(state) {
+            state.error = null;
         },
         projectInit(state) {
             Object.keys(initialState).map((k) => {
@@ -96,9 +102,8 @@ const projectSlice = createSlice({
             state.updateProjectLoading = action.payload;
         },
         createKeywordsLoading(state, action) {
-            state.updateLoading = action.payload;
+            state.createKeywordsLoading = action.payload;
         },
-
         setSingleProjectSelectSuccess(state, action) {
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
@@ -175,6 +180,24 @@ const projectSlice = createSlice({
                 state.project = firstItem;
                 state.selectedPlatform = firstItem.platforms?.[0];
             }
+        },
+        keywordRemove(state, { payload }) {
+            const { id } = payload;
+            const Suggestedkeywords = state.project.Suggestedkeywords.filter((item) => item._id !== id);
+            state.project = { ...state.project, Suggestedkeywords };
+            const items = [];
+            for (const item of state.projects) {
+                if (item._id === state.project._id) {
+                    console.log(`Match`);
+                    item.Suggestedkeywords = Suggestedkeywords;
+                }
+                items.push(item);
+            }
+            state.projects = items;
+        },
+        keywordAdding(state, { payload }) {
+            const { items } = payload;
+            state.project = { ...state.project, Suggestedkeywords: [...state.project.Suggestedkeywords, ...items] };
         }
     }
 
@@ -224,7 +247,9 @@ export const {
     updateProjectLoading,
     updateProjectSuccess,
     addKeywordForSave2,
-    projectInit
+    projectInit,
+    clearError,
+    keywordRemove
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

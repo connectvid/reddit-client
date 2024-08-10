@@ -63,7 +63,7 @@ export const addingKeywords = (data) => () => {
     dispatch(createKeywords(data));
 };
 
-export const deleteKeywordFromDB = (token, id) => async () => {
+export const deleteKeywordAPI = (token, id) => async () => {
     try {
         // dispatch(createKeywordsLoading(true));
         const response = await axios.delete(`keywords/${id}`, {

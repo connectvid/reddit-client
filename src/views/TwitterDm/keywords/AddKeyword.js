@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import useAuth from 'hooks/useAuth';
 // import ProjectsTable from './ProjectsTable';
@@ -9,32 +9,29 @@ import {
     removingKeywordForSave,
     removingCustomKeywordForSave,
     createKeywordsApi
-    // createKeywordsApi,
-    // createdKeywordSuccess,
-    // addingKeywords
 } from 'features/project/projectActions';
 import { IconPlus, IconTrash } from 'tabler-icons';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { MENTION_PATH } from 'config';
+// import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import axios from 'utils/axios';
-import { createKeywords, hasError } from 'features/project/projectSlice';
+// import { MENTION_PATH } from 'config';
+// import axios from 'utils/axios';
+// import { createKeywords, hasError } from 'features/project/projectSlice';
 
 const AddKeyword = () => {
     const { getAccessToken } = useAuth();
-    const { search } = useLocation();
+    // const { search } = useLocation();
     const {
         project,
         suggestedKeywords,
         updateLoading,
-        // createKeywordSuccess,
+        createKeywordsLoading,
         customKeywords: cKeys
     } = useSelector((state) => state.project);
     const [customKeywords, setCustomKeywords] = React.useState([]);
-    const [createKeywordsLoading, setCreateKeywordsLoading] = React.useState(false);
+    // const [createKeywordsLoading, setCreateKeywordsLoading] = React.useState(false);
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
+    // const navigate = useNavigate();
+    // const dispatch = useDispatch();
     useEffect(() => {
         // if (createKeywordSuccess) {
         //     createdKeywordSuccess(false)();
@@ -65,33 +62,33 @@ const AddKeyword = () => {
                         <Typography
                             sx={{
                                 cursor: 'pointer',
-                                lineHeight: 1.8,
+                                my: 1,
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 width: { sm: '50%', xs: '100%' }
                             }}
                             key={i}
                             component="h5"
-                            onClick={() => removingKeywordForSave(keyword)()}
                         >
-                            <span>{keyword}</span>
-                            <IconTrash size={14} />
+                            <Typography component="span">{keyword}</Typography>
+                            <Typography component="span" onClick={() => removingKeywordForSave(keyword)()}>
+                                <IconTrash size={14} />
+                            </Typography>
                         </Typography>
                     ))}
                 </Box>
-                <AddCustomKeyword {...{ updateLoading, customKeywords, setCustomKeywords }} />
+                <AddCustomKeyword {...{ updateLoading, customKeywords, setCustomKeywords, createKeywordsLoading, defaultValues: cKeys }} />
                 <Button
                     type="button"
                     variant="contained"
                     sx={{ mt: '15px' }}
                     disabled={
                         (!suggestedKeywords?.length && !Object.values(cKeys || {})?.filter?.((item) => item.trim())?.length) ||
-                        updateLoading
+                        createKeywordsLoading
                     }
                     onClick={async () => {
-                        // setCreateKeywordsLoading(false);
                         const token = await getAccessToken();
-                        // createKeywordsApi(token,
+                        // setCreateKeywordsLoading(false);
                         const body = {
                             projectId: project._id,
                             suggestedKeywords: [
@@ -100,25 +97,9 @@ const AddKeyword = () => {
                             ]
                         };
                         createKeywordsApi(token, body)();
-                        // try {
-                        //     const response = await axios.post(`keywords`, body, {
-                        //         headers: {
-                        //             Authorization: `Bearer ${token}`
-                        //         }
-                        //     });
-                        //     // dispatch(createKeywords(response.data));
-                        //     setCustomKeywords([]);
-                        //     navigate(`${MENTION_PATH}${search}`);
-                        // } catch (e) {
-                        //     console.log(e);
-                        //     dispatch(hasError(e));
-                        // } finally {
-                        //     setCreateKeywordsLoading(false);
-                        // }
-                        // )();
                     }}
                 >
-                    Save
+                    Save {(createKeywordsLoading && <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />) || ''}
                 </Button>
             </Box>
             <Box sx={{ width: '50%' }}>
@@ -138,8 +119,10 @@ const AddKeyword = () => {
                     {project?.keywords?.map((keyword, i) => (
                         <Typography
                             onClick={() => {
-                                if (suggestedKeywords?.includes?.(keyword)) return;
-                                addingKeywordForSave(keyword)();
+                                // addingKeywordForSave(keyword)();
+                                const len = customKeywords?.length;
+                                addingCustomKeywordForSave(keyword, len)();
+                                setCustomKeywords((p) => [...p, p.length]);
                             }}
                             sx={{ cursor: 'pointer', lineHeight: 1.8 }}
                             key={i}
@@ -156,13 +139,14 @@ const AddKeyword = () => {
 
 export default AddKeyword;
 
-const AddCustomKeyword = ({ updateLoading, customKeywords, setCustomKeywords }) => {
+const AddCustomKeyword = ({ createKeywordsLoading, customKeywords, setCustomKeywords, defaultValues = {} }) => {
     return (
         <Box>
             {customKeywords.map((item) => (
                 <Box key={item} sx={{ display: { sm: 'flex' }, alignItems: 'center', mb: 1, gap: 1 }}>
                     <TextField
                         name={item.toString()}
+                        defaultValue={defaultValues[item]}
                         sx={{
                             display: 'block',
                             input: {
@@ -177,6 +161,7 @@ const AddCustomKeyword = ({ updateLoading, customKeywords, setCustomKeywords }) 
                         onChange={({ target: { value = '' } }) => addingCustomKeywordForSave(value, item)()}
                     />
                     <Button
+                        disabled={createKeywordsLoading}
                         type="button"
                         sx={{ py: '4px', borderColor: 'tomato' }}
                         variant="outlined"
@@ -193,7 +178,7 @@ const AddCustomKeyword = ({ updateLoading, customKeywords, setCustomKeywords }) 
                 type="button"
                 variant="contained"
                 sx={{ mt: '15px', display: 'block', py: '3px' }}
-                disabled={updateLoading}
+                disabled={createKeywordsLoading}
                 onClick={() => setCustomKeywords((p) => [...p, p.length])}
             >
                 Add New Keyword
@@ -203,7 +188,7 @@ const AddCustomKeyword = ({ updateLoading, customKeywords, setCustomKeywords }) 
 };
 
 AddCustomKeyword.propTypes = {
-    updateLoading: PropTypes.bool,
+    createKeywordsLoading: PropTypes.bool,
     customKeywords: PropTypes.arrayOf(PropTypes.number).isRequired,
     setCustomKeywords: PropTypes.func.isRequired
 };

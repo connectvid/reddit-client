@@ -21,13 +21,15 @@ import {
     toggleShowProjects,
     setSingleProjectSelect,
     toggleProjectCreateModalCtrl,
-    createdKeywordSuccess
+    createdKeywordSuccess,
+    clearingError
 } from 'features/project/projectActions';
 import NewProject from 'views/TwitterDm/projects/NewProject';
 import './header.css';
 import React from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { MENTION_PATH } from 'config';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const { search, pathname } = useLocation();
@@ -39,7 +41,16 @@ const Header = () => {
         subscription: { subscription }
     } = useSelector((state) => state);
     const repliesCredits = subscription?.remainingCredit;
-    const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess } = useSelector((state) => state.project);
+    const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess, error } = useSelector(
+        (state) => state.project
+    );
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error);
+            clearingError()();
+        }
+    }, [error]);
+
     React.useEffect(() => {
         if (createKeywordSuccess) {
             createdKeywordSuccess(false)();

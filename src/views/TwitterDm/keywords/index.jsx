@@ -8,7 +8,7 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { deleteKeywordFromDB, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
 import { Link, useLocation } from 'react-router-dom';
@@ -108,7 +108,7 @@ const KeywordCard = ({ _id, title, accessToken }) => (
                         onClick={async () => {
                             // eslint-disable-next-line no-alert
                             if (!confirm(`Are you sure to delete keyword with associated mentions?`)) return;
-                            deleteKeywordFromDB(accessToken, _id)();
+                            deleteKeywordAPI(accessToken, _id)();
                         }}
                     >
                         <IconTrash size={16} />
