@@ -19,6 +19,7 @@ const initialState = {
     updateProjectLoading: false,
     updateProjectSuccess: false,
     projectCreated: false,
+    keywordDeleted: false,
     updateLoading: false,
     createKeywordSuccess: false,
     showProjectsList: false,
@@ -205,6 +206,10 @@ const projectSlice = createSlice({
                 items.push(item);
             }
             state.projects = items;
+            state.keywordDeleted = true;
+            setTimeout(() => {
+                state.keywordDeleted = false;
+            }, 2000);
         }
     }
 

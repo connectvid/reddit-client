@@ -20,15 +20,16 @@ const Keywords = () => {
     // const { getAccessToken } = useAuth();
     const [show, setShow] = useState(false);
     const { project, projects } = useSelector((state) => state.project);
+    // project.keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
     useEffect(() => {
         if (project?.Suggestedkeywords?.length) {
             setTimeout(() => {
                 setShow(true);
-            }, 1000);
+            }, 600);
         }
         return () => {
-            setShow(false);
+            // setShow(false);
         };
     }, [project?.Suggestedkeywords?.length]);
     return (
