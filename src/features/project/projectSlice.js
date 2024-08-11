@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-restricted-syntax */
-import { createSlice } from '@reduxjs/toolkit';
 // import { fetchAllProjects } from './projectActions';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     error: null,
@@ -36,6 +36,7 @@ const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
     }
     return data;
 };
+
 const projectSlice = createSlice({
     name: 'project',
     initialState,
@@ -89,11 +90,20 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
-            console.log(payload, 'createKeywords');
-            const { Suggestedkeywords = [], ...rest } = state.project;
-            const data = { ...rest, Suggestedkeywords: [...Suggestedkeywords, ...payload.items] };
+            const Suggestedkeywords = [...state.project.Suggestedkeywords, ...(payload.items || [])];
+            const data = { ...state.project, Suggestedkeywords };
             console.log(data, 'createKeywords');
             state.project = data;
+            const items = [];
+            const projectId = state.project._id;
+            for (const item of state.projects) {
+                if (item._id === projectId) {
+                    console.log(`Match`);
+                    item.Suggestedkeywords = Suggestedkeywords;
+                }
+                items.push(item);
+            }
+            state.projects = items;
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;
@@ -194,10 +204,6 @@ const projectSlice = createSlice({
                 items.push(item);
             }
             state.projects = items;
-        },
-        keywordAdding(state, { payload }) {
-            const { items } = payload;
-            state.project = { ...state.project, Suggestedkeywords: [...state.project.Suggestedkeywords, ...items] };
         }
     }
 

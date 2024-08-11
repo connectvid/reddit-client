@@ -54,7 +54,7 @@ const Header = () => {
     React.useEffect(() => {
         if (createKeywordSuccess) {
             createdKeywordSuccess(false)();
-            navigate(`${MENTION_PATH}${search}`);
+            navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
         }
     }, [createKeywordSuccess]);
 

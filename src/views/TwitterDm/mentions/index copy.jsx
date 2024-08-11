@@ -24,20 +24,18 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     }, {});
     const reduced = data?.reduce((a, c) => {
         // c.view = true;
-        // if (c.platform === 'reddit.com') {
-        //     const link = removeEndingSubstring(c.link, '/');
-        //     if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
-        //         return a;
-        //     }
-        //     if (a[c.platform]) {
-        //         a[c.platform].push(c);
-        //     }
-        //     return a;
-        // }
+        if (c.platform === 'reddit.com') {
+            const link = removeEndingSubstring(c.link, '/');
+            if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
+                return a;
+            }
+            if (a[c.platform]) {
+                a[c.platform].push(c);
+            }
+            return a;
+        }
         if (a[c.platform]) {
             a[c.platform].push(c);
-        } else {
-            a[c.platform] = [c];
         }
 
         return a;
@@ -48,15 +46,13 @@ const Mentions = () => {
     const { state, pathname, search } = useLocation();
     const navigate = useNavigate();
     const { getAccessToken } = useAuth();
-    const [loading, setLoading] = useState(false);
-    const [showEmpty, setShowEmpty] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [moreLoading, setMoreLoading] = useState(false);
     const [haveData, setHaveData] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
     const [filteredData, setFilteredData] = useState([]);
-    const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All' });
-
+    // console.log({ state });
     const {
         project,
         selectedPlatform // projectCreated
@@ -67,49 +63,38 @@ const Mentions = () => {
     useEffect(() => {
         function mentionsUpdate({ message: { items, percentage } }) {
             if (items?.length) {
-                // setAllDatas(items);
                 const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
                 setMentionsDataObj((p) => {
                     const upObj = {};
-
-                    for (const platform of project.platforms || []) {
-                        console.log({ platform });
-                        if (reduced[platform]?.length) {
-                            upObj[platform] = [...(p?.[platform] || []), ...(reduced[platform] || [])];
-                        } else upObj[platform] = p?.[platform];
+                    for (const keyword of project?.Suggestedkeywords || []) {
+                        upObj[keyword] = [...(p?.[keyword] || []), ...(reduced[keyword] || [])];
                     }
                     return upObj;
                 });
-                // console.log('socket', reduced);
+                console.log(reduced, 'socket');
                 if (loading) {
                     setLoading(false);
                 }
             }
-            console.log(`fetching Mentions`, { percentage });
+            console.log(`items`, items, { percentage });
             if (!haveData && items?.length) {
                 setHaveData(true);
                 console.log(`haveData true`);
             }
             if (percentage === 100) {
-                if (state) {
-                    navigate(`${pathname}${search}`, { state: null, replace: true });
-                    console.log(`State Clear`);
-                }
+                // setLoading(false);
+                navigate(`${pathname}${search}`, { state: null, replace: true });
+                console.log(`State Clear`);
             }
         }
-        socket.connect();
-        console.log(`Socket is connected`);
         const encoding = `project:${project?._id}`;
-        // if (state?.socket) {
-        socket.connect();
-        //     console.log(`Socket is connected`);
-        // }
-
+        if (state?.socket) {
+            socket.connect();
+            console.log(`Socket is connected`);
+        }
         socket.on(encoding, mentionsUpdate);
         // socket.off();
-        setTimeout(() => {
-            setShowEmpty(true);
-        }, 2500);
+
         return () => {
             socket.disconnect();
         };
@@ -137,7 +122,7 @@ const Mentions = () => {
                 setMentionsDataObj(reduced);
                 const [platform] = project?.platforms || [];
                 const title = first?.title;
-                // console.log(reduced, first);
+                console.log(reduced, first);
 
                 if (platform && title) {
                     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
@@ -247,7 +232,7 @@ const Mentions = () => {
                     />
                 </CardContent>
             </Card>
-            {!loading && showEmpty && !filteredData?.length ? (
+            {!loading && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
                         <Typography variant="h3" sx={{ textAlign: 'center' }}>

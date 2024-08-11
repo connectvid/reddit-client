@@ -13,6 +13,8 @@ import {
 import { IconPlus, IconTrash } from 'tabler-icons';
 // import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { MENTION_PATH } from 'config';
 // import { MENTION_PATH } from 'config';
 // import axios from 'utils/axios';
 // import { createKeywords, hasError } from 'features/project/projectSlice';
@@ -56,7 +58,9 @@ const AddKeyword = () => {
                 >
                     Add keywords
                 </Typography>
-
+                {/* <Link to={MENTION_PATH} state={{ socket: true }}>
+                    Mentions
+                </Link> */}
                 <Box sx={{ color: '#000000', fontWeight: 500 }}>
                     {suggestedKeywords?.map((keyword, i) => (
                         <Typography
