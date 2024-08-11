@@ -8,7 +8,6 @@ import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import PostCard from './PostCard';
-import removeEndingSubstring from 'utils/removeEndingSubstring';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';

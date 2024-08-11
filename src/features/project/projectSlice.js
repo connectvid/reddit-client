@@ -76,6 +76,7 @@ const projectSlice = createSlice({
                 state.suggestedKeywords = [];
             }
             state.projects.push(item);
+            state.selectedPlatform = item?.platforms?.[0];
         },
         updateProject(state, action) {
             const { item } = action.payload;
