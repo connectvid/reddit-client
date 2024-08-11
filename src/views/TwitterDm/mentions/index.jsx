@@ -61,6 +61,7 @@ const Mentions = () => {
         project,
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
+    console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
     // const { subscription } = useSelector((state) => state.subscription);
     // const repliesCredits = subscription?.remainingCredit?.replies;
     // SOCKET
@@ -236,15 +237,18 @@ const Mentions = () => {
                         </Typography>
                         <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
                     </Box>
-                    {/*  */}
-                    <PostFilter
-                        {...{
-                            keywords: project?.Suggestedkeywords?.length ? project?.Suggestedkeywords : [], // selectedKeyword
-                            setSelectedKeyword,
-                            loading,
-                            haveData
-                        }}
-                    />
+                    {project?.Suggestedkeywords?.length ? (
+                        <PostFilter
+                            {...{
+                                keywords: project?.Suggestedkeywords, // selectedKeyword
+                                setSelectedKeyword,
+                                loading,
+                                haveData
+                            }}
+                        />
+                    ) : (
+                        ''
+                    )}
                 </CardContent>
             </Card>
             {!loading && showEmpty && !filteredData?.length ? (

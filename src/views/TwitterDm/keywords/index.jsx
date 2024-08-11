@@ -13,13 +13,24 @@ import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
 import { Link, useLocation } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
+import { useEffect, useState } from 'react';
 
 const Keywords = () => {
     const { search } = useLocation();
     // const { getAccessToken } = useAuth();
+    const [show, setShow] = useState(false);
     const { project, projects } = useSelector((state) => state.project);
     const { accessToken } = useSelector((state) => state.auth);
-
+    useEffect(() => {
+        if (project?.Suggestedkeywords?.length) {
+            setTimeout(() => {
+                setShow(true);
+            }, 1000);
+        }
+        return () => {
+            setShow(false);
+        };
+    }, [project?.Suggestedkeywords?.length]);
     return (
         <>
             <Card sx={{ mb: 5, minHeight: '75vh' }}>
@@ -43,47 +54,58 @@ const Keywords = () => {
                             {!project ? (
                                 <Typography>Please Select a Project</Typography>
                             ) : project.Suggestedkeywords?.length ? (
-                                <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6} md={4}>
-                                        <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
-                                            <CardContent>
-                                                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                        <Typography sx={{ color: 'transparent', fontWeight: 'bold' }}>title</Typography>
-                                                    </Box>
-                                                    <Box>
-                                                        <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                                                            <Link to={`${KEYWORD_PATH}/add${search}`} style={{ textDecoration: 'none' }}>
-                                                                Add Keyword
-                                                            </Link>
-                                                        </Typography>
-                                                        <Box
-                                                            sx={{
-                                                                display: 'flex',
-                                                                justifyContent: 'space-between',
-                                                                color: 'transparent'
-                                                            }}
-                                                        >
+                                <>
+                                    {show ? (
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={12} sm={6} md={4}>
+                                                <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
+                                                    <CardContent>
+                                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                                                             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Typography>xxxxxxxxxxx</Typography>
-                                                                <Typography sx={{ fontWeight: 'bold' }}> xx</Typography>
-                                                            </Box>{' '}
-                                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Typography>xxxxxxxxxxxxxxx</Typography>
-                                                                <Typography sx={{ fontWeight: 'bold' }}> xxxx</Typography>
+                                                                <Typography sx={{ color: 'transparent', fontWeight: 'bold' }}>
+                                                                    title
+                                                                </Typography>
+                                                            </Box>
+                                                            <Box>
+                                                                <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
+                                                                    <Link
+                                                                        to={`${KEYWORD_PATH}/add${search}`}
+                                                                        style={{ textDecoration: 'none' }}
+                                                                    >
+                                                                        Add Keyword
+                                                                    </Link>
+                                                                </Typography>
+                                                                <Box
+                                                                    sx={{
+                                                                        display: 'flex',
+                                                                        justifyContent: 'space-between',
+                                                                        color: 'transparent'
+                                                                    }}
+                                                                >
+                                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                        <Typography>xxxxxxxxxxx</Typography>
+                                                                        <Typography sx={{ fontWeight: 'bold' }}> xx</Typography>
+                                                                    </Box>{' '}
+                                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                                                        <Typography>xxxxxxxxxxxxxxx</Typography>
+                                                                        <Typography sx={{ fontWeight: 'bold' }}> xxxx</Typography>
+                                                                    </Box>
+                                                                </Box>
                                                             </Box>
                                                         </Box>
-                                                    </Box>
-                                                </Box>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                    {project.Suggestedkeywords.map?.((item) => (
-                                        <Grid key={item._id} item xs={12} sm={6} md={4}>
-                                            <KeywordCard {...item} {...{ accessToken }} />
+                                                    </CardContent>
+                                                </Card>
+                                            </Grid>
+                                            {project.Suggestedkeywords.map?.((item) => (
+                                                <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                                    <KeywordCard {...item} {...{ accessToken }} />
+                                                </Grid>
+                                            ))}
                                         </Grid>
-                                    ))}
-                                </Grid>
+                                    ) : (
+                                        ''
+                                    )}
+                                </>
                             ) : (
                                 <AddKeyword />
                             )}
