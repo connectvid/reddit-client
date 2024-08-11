@@ -34,7 +34,7 @@ import useAuth from 'hooks/useAuth';
 import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
 import axios from 'axios';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 import { toast } from 'react-toastify';
 import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 
@@ -61,7 +61,7 @@ const ProfileSection = () => {
     // Send Feedback
     const [feedback, setFeedback] = useState('');
     const [isSending, setIsSending] = useState(false);
-    const BASE_URL = TwitterDMConfig.getNodeUrl();
+    const BASE_URL = BizReplyConfig.getNodeUrl();
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {

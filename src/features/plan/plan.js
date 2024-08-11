@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
 const initialState = {
     plans: [],
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const fetchPlans = createAsyncThunk('plan/fetchPlans', (accessToken) =>
-    axios.get(`${TwitterDMConfig.getNodeUrl()}plans`, { headers: { Authorization: `Bearer ${accessToken}` } })
+    axios.get(`${BizReplyConfig.getNodeUrl()}plans`, { headers: { Authorization: `Bearer ${accessToken}` } })
 );
 const planSlice = createSlice({
     name: 'plan',

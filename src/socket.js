@@ -1,8 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { io } from 'socket.io-client';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = TwitterDMConfig.getNodeSocketUrl();
+const URL = BizReplyConfig.getNodeSocketUrl();
 
 export default io(URL, { autoConnect: false });

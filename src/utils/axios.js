@@ -1,8 +1,8 @@
 import axios from 'axios';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 import { ReactSession } from 'react-client-session';
 
-const BASE_URL = TwitterDMConfig.getNodeUrl();
+const BASE_URL = BizReplyConfig.getNodeUrl();
 
 const V1 = `/api/v1`;
 export default axios.create({

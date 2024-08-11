@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
 const initialState = {
     subscription: {},
@@ -13,7 +13,7 @@ const initialState = {
 
 export const fetchSubscription = createAsyncThunk('subscription/fetchSubscription', ({ accessToken, email }) =>
     axios.post(
-        `${TwitterDMConfig.getNodeUrl()}stripe/checkSubscription`,
+        `${BizReplyConfig.getNodeUrl()}stripe/checkSubscription`,
         {
             email
         },

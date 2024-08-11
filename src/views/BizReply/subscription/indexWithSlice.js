@@ -3,7 +3,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -33,7 +33,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios';
 import { ReactSession } from 'react-client-session';
 
-// import TwitterDMConfig from 'TwitterDMConfig';
+// import BizReplyConfig from 'BizReplyConfig';
 // import useAuth from 'hooks/useAuth';
 
 import useAuth from 'hooks/useAuth';
@@ -42,7 +42,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cleanError, fetchPlans } from 'features/plan/plan';
 import { fetchSubscription, cleanError as subsCleanError } from 'features/subscription/subscription';
 
-const BASE_URL = TwitterDMConfig.getNodeUrl();
+const BASE_URL = BizReplyConfig.getNodeUrl();
 const toCapitalize = (str = '') => {
     const first = str.charAt(0).toUpperCase();
     const rest = str.slice(1);

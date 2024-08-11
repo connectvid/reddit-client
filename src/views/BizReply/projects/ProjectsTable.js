@@ -3,7 +3,7 @@
 import { Box } from '@mui/system';
 import { IconTrash } from '@tabler/icons';
 import { projectRemoving } from 'features/project/projectActions';
-// import TwitterDMConfig from 'TwitterDMConfig';
+// import BizReplyConfig from 'BizReplyConfig';
 
 import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
@@ -16,7 +16,7 @@ const ProjectTable = ({
     // setProjects,
     projects = []
 }) => {
-    // const BASE_URL = TwitterDMConfig.getNodeUrl();
+    // const BASE_URL = BizReplyConfig.getNodeUrl();
     const { getAccessToken } = useAuth();
     // const [loading, setLoading] = React.useState(false);
 

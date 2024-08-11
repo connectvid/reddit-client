@@ -37,9 +37,9 @@ import useConfig from 'hooks/useConfig';
 import axios from 'axios';
 import { ReactSession } from 'react-client-session';
 import { toast, ToastContainer } from 'react-toastify';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
-const BASE_URL = TwitterDMConfig.getNodeUrl();
+const BASE_URL = BizReplyConfig.getNodeUrl();
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {

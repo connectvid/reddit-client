@@ -4,14 +4,14 @@ import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
 
-const Projects = Loadable(lazy(() => import('views/TwitterDm/projects')));
-const Keywords = Loadable(lazy(() => import('views/TwitterDm/keywords')));
-const AddNewKeyword = Loadable(lazy(() => import('views/TwitterDm/keywords/AddNewKeyword')));
-const Mentions = Loadable(lazy(() => import('views/TwitterDm/mentions')));
-const Reply = Loadable(lazy(() => import('views/TwitterDm/reply')));
-const Subscription = Loadable(lazy(() => import('views/TwitterDm/subscription')));
-const Settings = Loadable(lazy(() => import('views/TwitterDm/Settings')));
-const Expired = Loadable(lazy(() => import('views/TwitterDm/expired')));
+const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
+const Keywords = Loadable(lazy(() => import('views/BizReply/keywords')));
+const AddNewKeyword = Loadable(lazy(() => import('views/BizReply/keywords/AddNewKeyword')));
+const Mentions = Loadable(lazy(() => import('views/BizReply/mentions')));
+const Reply = Loadable(lazy(() => import('views/BizReply/reply')));
+const Subscription = Loadable(lazy(() => import('views/BizReply/subscription')));
+const Settings = Loadable(lazy(() => import('views/BizReply/Settings')));
+const Expired = Loadable(lazy(() => import('views/BizReply/expired')));
 const NotFound = Loadable(lazy(() => import('views/pages/maintenance/Error')));
 
 // ==============================|| MAIN ROUTING ||============================== //
