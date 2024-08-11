@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-children-prop */
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -19,29 +21,44 @@ import {
     toggleShowProjects,
     setSingleProjectSelect,
     toggleProjectCreateModalCtrl,
-    createdKeywordSuccess
+    createdKeywordSuccess,
+    clearingError
 } from 'features/project/projectActions';
-import NewProject from 'views/TwitterDm/projects/NewProject';
+import NewProject from 'views/BizReply/projects/NewProject';
 import './header.css';
 import React from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { MENTION_PATH } from 'config';
+import { toast } from 'react-toastify';
 
 const Header = () => {
     const { search, pathname } = useLocation();
     const navigate = useNavigate();
     const theme = useTheme();
     const dispatch = useDispatch();
-    const { drawerOpen } = useSelector((state) => state.menu);
+    const {
+        menu: { drawerOpen },
+        subscription: { subscription }
+    } = useSelector((state) => state);
+    const repliesCredits = subscription?.remainingCredit;
+    const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess, error } = useSelector(
+        (state) => state.project
+    );
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error);
+            clearingError()();
+        }
+    }, [error]);
 
-    const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess } = useSelector((state) => state.project);
     React.useEffect(() => {
         if (createKeywordSuccess) {
             createdKeywordSuccess(false)();
-            navigate(`${MENTION_PATH}${search}`);
+            setTimeout(() => {
+                navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
+            }, 500);
         }
     }, [createKeywordSuccess]);
-    // console.log({ projectCreated }, pathname === KEYWORD_PATH);
 
     return (
         <>
@@ -159,7 +176,31 @@ const Header = () => {
                 </Box>
             </Box>
 
-            {/* <Box sx={{ flexGrow: 1 }} /> */}
+            <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
+            <Box
+                sx={{
+                    // position: 'relative',
+                    ml: 1,
+                    [theme.breakpoints.down('md')]: {
+                        width: 'auto'
+                    },
+                    border: `1px solid ${theme.palette.grey[400]}`,
+                    borderRadius: '8px'
+                }}
+            >
+                {(repliesCredits &&
+                    Object.keys(repliesCredits).map((item) => {
+                        const val = repliesCredits[item];
+                        if (item !== 'searches')
+                            return (
+                                <Button key={item} variant="">
+                                    <strong>{item}: </strong> <Typography ml={1}>{val}</Typography>
+                                </Button>
+                            );
+                    })) ||
+                    ''}
+            </Box>
+
             <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
             <ProfileSection />
             {/* mobile header */}

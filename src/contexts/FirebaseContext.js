@@ -37,7 +37,8 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
 import { useDispatch } from 'react-redux';
 import { settingAccessToken, settingUser } from 'features/auth/authSlice';
-import { getProjects } from 'features/project/projectActions';
+import { getProjects, projectClear } from 'features/project/projectActions';
+import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -162,6 +163,7 @@ export const FirebaseProvider = ({ children }) => {
                         setDbUser(userData);
                         reduxDispatch(settingUser(userData));
                         getProjects(userData._id, token)();
+                        getMySubscriptionAPI(token)();
                         dispatch({
                             type: LOGIN,
                             payload: {
@@ -205,6 +207,8 @@ export const FirebaseProvider = ({ children }) => {
     const logout = () => {
         const logedOut = signOut(auth);
         setDbUser({});
+        projectClear()();
+        subscriptionClear()();
         return logedOut;
     };
 
@@ -230,6 +234,9 @@ export const FirebaseProvider = ({ children }) => {
                         headers: { Authorization: `Bearer ${token}` }
                     })
                     .then(async ({ data }) => {
+                        if (data.subscription) {
+                            subsctriptionSetter({ item: data.subscription })();
+                        }
                         dispatch({
                             type: LOGIN,
                             payload: {
@@ -295,6 +302,9 @@ export const FirebaseProvider = ({ children }) => {
                 data.user.token = token;
                 // console.log({ data, user: data.user });
                 setDbUser(data.user);
+                if (data.subscription) {
+                    subsctriptionSetter({ item: data.subscription })();
+                }
                 dispatch({
                     type: LOGIN,
                     payload: {
@@ -346,6 +356,9 @@ export const FirebaseProvider = ({ children }) => {
                         data.user.token = token;
                         console.log({ data, user: data.user });
                         setDbUser(data.user);
+                        if (data.subscription) {
+                            subsctriptionSetter({ item: data.subscription })();
+                        }
                         dispatch({
                             type: LOGIN,
                             payload: {

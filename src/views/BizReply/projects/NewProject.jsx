@@ -70,7 +70,9 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
                     onChange={handleChange}
                     placeholder="Enter brand name"
                     type="text"
+                    inputProps={{ minLength: 3, maxLength: 40 }}
                 />
+
                 <TextField
                     fullWidth
                     name="domain"
@@ -78,6 +80,7 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
                     onChange={handleChange}
                     placeholder={`${urlPlaceholder}`}
                     type="text"
+                    inputProps={{ minLength: 5, maxLength: 253 }}
                 />
                 <FormControl fullWidth sx={{ mt: 2 }}>
                     <TextField
@@ -88,6 +91,7 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
                         rows={4}
                         placeholder="Enter A short description of your project"
                         onChange={handleChange}
+                        inputProps={{ minLength: 5, maxLength: 500 }}
                     />
                 </FormControl>
             </DialogContent>

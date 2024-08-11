@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
 const initialState = {
     scraps: [],
@@ -19,20 +19,20 @@ const initialState = {
 };
 
 export const fetchScraps = createAsyncThunk('fetchScraps/fetchScraps', ({ id, token, qry = '' }) =>
-    axios.get(`${TwitterDMConfig.getNodeUrl()}email-scrapper/scrap-by-extension/${id}?${qry}`, {
+    axios.get(`${BizReplyConfig.getNodeUrl()}email-scrapper/scrap-by-extension/${id}?${qry}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
 );
 
 export const fetchResults = createAsyncThunk('scrapedResults/fetchResults', ({ id, token, qry = '' }) =>
-    axios.get(`${TwitterDMConfig.getNodeUrl()}email-scrapper/scrap-by-extension/${id}?${qry}`, {
+    axios.get(`${BizReplyConfig.getNodeUrl()}email-scrapper/scrap-by-extension/${id}?${qry}`, {
         headers: { Authorization: `Bearer ${token}` }
     })
 );
 
 export const startScrap = createAsyncThunk('scrapedResults/startScrap', ({ id, token }) => {
     console.log('sending api request');
-    return axios.get(`${TwitterDMConfig.getNodeUrl()}email-scrapper/extensions-scrap-start/${id}`, {
+    return axios.get(`${BizReplyConfig.getNodeUrl()}email-scrapper/extensions-scrap-start/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
     });
 });

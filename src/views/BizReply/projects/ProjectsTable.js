@@ -1,28 +1,24 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-restricted-globals */
 /* eslint-disable no-alert */
-/* eslint-disable consistent-return */
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-restricted-globals */
 import { Box } from '@mui/system';
-import { DataGrid } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
 import { projectRemoving } from 'features/project/projectActions';
-// import TwitterDMConfig from 'TwitterDMConfig';
+// import BizReplyConfig from 'BizReplyConfig';
 
 import useAuth from 'hooks/useAuth';
-import React from 'react';
 import { toast } from 'react-toastify';
 import axios from 'utils/axios';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import redditFeeds from 'assets/images/reddit-feeds.jpg';
+import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 
-const ProjectTable = ({ setProjects, projects = [] }) => {
-    // const BASE_URL = TwitterDMConfig.getNodeUrl();
-    const { getAccessToken, dbUser } = useAuth();
-    const [loading, setLoading] = React.useState(false);
+const ProjectTable = ({
+    // setProjects,
+    projects = []
+}) => {
+    // const BASE_URL = BizReplyConfig.getNodeUrl();
+    const { getAccessToken } = useAuth();
+    // const [loading, setLoading] = React.useState(false);
 
     const deleteProject = async (id) => {
         if (!confirm(`Are you sure to delete the Project?`)) return;
@@ -34,6 +30,8 @@ const ProjectTable = ({ setProjects, projects = [] }) => {
             .then(() => {
                 toast('Project deleted successfully!', { autoClose: 2500, type: 'success' });
                 projectRemoving(id)();
+
+                subsctriptionCreditsSetter({ projects: 1 })();
             })
             .catch(async (e) => {
                 console.log(e);

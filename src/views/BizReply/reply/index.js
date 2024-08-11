@@ -10,16 +10,19 @@ import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import PostCard from '../mentions/PostCard';
+import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 
 const Reply = () => {
     const { getAccessToken } = useAuth();
     const [mentionsData, setMentionsData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const { project } = useSelector((state) => state.project);
 
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             try {
+                setLoading(true);
                 const token = await getAccessToken();
                 const { data } = await axios.get(`mentions/projects/${projectid}?fetch=reply-only`, {
                     headers: {
@@ -29,6 +32,8 @@ const Reply = () => {
                 setMentionsData(data.items);
             } catch (e) {
                 console.log(e);
+            } finally {
+                setLoading(false);
             }
         };
         if (projectId) {
@@ -45,6 +50,18 @@ const Reply = () => {
                     </Typography>
                 </CardContent>
             </Card>
+            {loading ? <PostPlaceholder /> : ''}
+            {!loading && !mentionsData?.length ? (
+                <Card>
+                    <CardContent>
+                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                            No saved replies!
+                        </Typography>
+                    </CardContent>
+                </Card>
+            ) : (
+                ''
+            )}
             {mentionsData?.map?.((item) => (
                 <PostCard key={item._id} {...item} {...{ project, setObjItems: setMentionsData }} />
             ))}

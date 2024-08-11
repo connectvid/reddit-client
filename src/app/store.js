@@ -5,12 +5,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import apiSlice from '../features/api/apiSlice';
 import authSlice from '../features/auth/authSlice';
 import menuSlice from 'features/menu/menuSlice';
-import snackbarSlice from 'features/snackbar/snackbar';
-// import cartSlice from 'features/cart/cart';
 import planSlice from 'features/plan/plan';
 import projectSlice from 'features/project/projectSlice';
-import subscriptionSlice from 'features/subscription/subscription';
-import scrapResultsSlice from 'features/scrap/scrapSlice';
+import subscriptionSlice from 'features/subscription/subscriptionSlice';
+// import scrapResultsSlice from 'features/scrap/scrapSlice';
+import snackbarSlice from 'features/snackbar/snackbar';
+// import cartSlice from 'features/cart/cart';
 
 // configure app store
 const store = configureStore({
@@ -21,7 +21,7 @@ const store = configureStore({
         project: projectSlice,
         plan: planSlice,
         subscription: subscriptionSlice,
-        scrapedResults: scrapResultsSlice,
+        // scrapedResults: scrapResultsSlice,
         [apiSlice.reducerPath]: apiSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>

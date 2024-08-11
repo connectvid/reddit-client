@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-unused-vars */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 
 const apiSlice = createApi({
     // eslint-disable-next-line prettier/prettier
     reducerPath: 'api',
     baseQuery: fetchBaseQuery({
-        baseUrl: TwitterDMConfig.getNodeUrl()
+        baseUrl: BizReplyConfig.getNodeUrl()
     }),
     tags: ['users', 'user'],
     endpoints: (builder) => ({

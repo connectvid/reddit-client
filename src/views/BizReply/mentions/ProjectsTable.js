@@ -6,7 +6,7 @@
 import { Box } from '@mui/system';
 import { DataGrid } from '@mui/x-data-grid';
 import { IconTrash } from '@tabler/icons';
-// import TwitterDMConfig from 'TwitterDMConfig';
+// import BizReplyConfig from 'BizReplyConfig';
 
 import useAuth from 'hooks/useAuth';
 import React from 'react';
@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import axios from 'utils/axios';
 
 const ProjectTable = ({ setProjects, projects = [] }) => {
-    // const BASE_URL = TwitterDMConfig.getNodeUrl();
+    // const BASE_URL = BizReplyConfig.getNodeUrl();
     const { getAccessToken, dbUser } = useAuth();
     const [loading, setLoading] = React.useState(false);
 

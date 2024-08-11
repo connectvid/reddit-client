@@ -3,7 +3,7 @@
 // external imports
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import TwitterDMConfig from 'TwitterDMConfig';
+import BizReplyConfig from 'BizReplyConfig';
 import { ReactSession } from 'react-client-session';
 // internal imports
 import auth from '../../firebase/firebase.config';
@@ -38,7 +38,7 @@ export const createUser = createAsyncThunk('auth/createUser', async ({ email, pa
 });
 
 export const getUser = createAsyncThunk('auth/getUser', async ({ token }) => {
-    const res = axios.get(`${TwitterDMConfig.getNodeUrl()}user/api/user-me`, {
+    const res = axios.get(`${BizReplyConfig.getNodeUrl()}user/api/user-me`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

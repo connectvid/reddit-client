@@ -1,6 +1,7 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable no-restricted-syntax */
-import { createSlice } from '@reduxjs/toolkit';
 // import { fetchAllProjects } from './projectActions';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     error: null,
@@ -10,11 +11,15 @@ const initialState = {
     project: null,
     loading: false,
     projectDeleting: false,
+    keywordDeleting: false,
     projectDeleted: false,
     createLoading: false,
+    keywordCreateLoading: false,
+    createKeywordsLoading: false,
     updateProjectLoading: false,
     updateProjectSuccess: false,
     projectCreated: false,
+    keywordDeleted: false,
     updateLoading: false,
     createKeywordSuccess: false,
     showProjectsList: false,
@@ -32,6 +37,7 @@ const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
     }
     return data;
 };
+
 const projectSlice = createSlice({
     name: 'project',
     initialState,
@@ -39,7 +45,14 @@ const projectSlice = createSlice({
         hasError(state, action) {
             state.error = action.payload;
         },
-
+        clearError(state) {
+            state.error = null;
+        },
+        projectInit(state) {
+            Object.keys(initialState).map((k) => {
+                state[k] = initialState[k];
+            });
+        },
         fetchProjects(state, action) {
             const items = action.payload.items;
             const { search } = window.location;
@@ -64,6 +77,7 @@ const projectSlice = createSlice({
                 state.suggestedKeywords = [];
             }
             state.projects.push(item);
+            state.selectedPlatform = item?.platforms?.[0];
         },
         updateProject(state, action) {
             const { item } = action.payload;
@@ -78,7 +92,20 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
-            state.project = { ...state.project, Suggestedkeywords: [...state.project.Suggestedkeywords, ...payload.items] };
+            const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
+            const data = { ...state.project, Suggestedkeywords };
+            console.log(data, 'createKeywords');
+            state.project = data;
+            const items = [];
+            const projectId = state?.project?._id;
+            for (const item of state.projects) {
+                if (item._id === projectId) {
+                    console.log(`Match`);
+                    item.Suggestedkeywords = Suggestedkeywords;
+                }
+                items.push(item);
+            }
+            state.projects = items;
         },
         addProjectLoading(state, action) {
             state.createLoading = action.payload;
@@ -87,9 +114,8 @@ const projectSlice = createSlice({
             state.updateProjectLoading = action.payload;
         },
         createKeywordsLoading(state, action) {
-            state.updateLoading = action.payload;
+            state.createKeywordsLoading = action.payload;
         },
-
         setSingleProjectSelectSuccess(state, action) {
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
@@ -166,6 +192,24 @@ const projectSlice = createSlice({
                 state.project = firstItem;
                 state.selectedPlatform = firstItem.platforms?.[0];
             }
+        },
+        keywordRemove(state, { payload }) {
+            const { id } = payload;
+            const Suggestedkeywords = state.project.Suggestedkeywords.filter((item) => item._id !== id);
+            state.project = { ...state.project, Suggestedkeywords };
+            const items = [];
+            for (const item of state.projects) {
+                if (item._id === state.project._id) {
+                    console.log(`Match`);
+                    item.Suggestedkeywords = Suggestedkeywords;
+                }
+                items.push(item);
+            }
+            state.projects = items;
+            state.keywordDeleted = true;
+            setTimeout(() => {
+                state.keywordDeleted = false;
+            }, 2000);
         }
     }
 
@@ -214,7 +258,10 @@ export const {
     updateProject,
     updateProjectLoading,
     updateProjectSuccess,
-    addKeywordForSave2
+    addKeywordForSave2,
+    projectInit,
+    clearError,
+    keywordRemove
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
