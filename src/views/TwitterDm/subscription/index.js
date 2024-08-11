@@ -140,6 +140,7 @@ const planList = [
         'Bring Your GPT API Key'
     ]
 ];
+const selectedPlans = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co'].includes(window.location.origin) ? plans : plansDev;
 
 const Subscription = () => {
     const { dbUser, getAccessToken } = useAuth();
@@ -219,7 +220,7 @@ const Subscription = () => {
                                     }
                                 >
                                     <>
-                                        {plansDev.map((plan, index) => {
+                                        {selectedPlans.map((plan, index) => {
                                             const darkBorder =
                                                 theme.palette.mode === 'dark'
                                                     ? theme.palette.background.default
