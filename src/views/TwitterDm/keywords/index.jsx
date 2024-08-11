@@ -18,20 +18,10 @@ import { useEffect, useState } from 'react';
 const Keywords = () => {
     const { search } = useLocation();
     // const { getAccessToken } = useAuth();
-    const [show, setShow] = useState(false);
-    const { project, projects } = useSelector((state) => state.project);
-    // project.keywordDeleted
+    const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
+    // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
-    useEffect(() => {
-        if (project?.Suggestedkeywords?.length) {
-            setTimeout(() => {
-                setShow(true);
-            }, 600);
-        }
-        return () => {
-            // setShow(false);
-        };
-    }, [project?.Suggestedkeywords?.length]);
+
     return (
         <>
             <Card sx={{ mb: 5, minHeight: '75vh' }}>
@@ -56,7 +46,7 @@ const Keywords = () => {
                                 <Typography>Please Select a Project</Typography>
                             ) : project.Suggestedkeywords?.length ? (
                                 <>
-                                    {show ? (
+                                    {!createKeywordSuccess ? (
                                         <Grid container spacing={2}>
                                             <Grid item xs={12} sm={6} md={4}>
                                                 <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
