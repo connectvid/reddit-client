@@ -108,9 +108,9 @@ const Mentions = () => {
 
         socket.on(encoding, mentionsUpdate);
         // socket.off();
-        // setTimeout(() => {
-        //     setShowEmpty(true);
-        // }, 2500);
+        setTimeout(() => {
+            setShowEmpty(true);
+        }, 2500);
         return () => {
             socket.disconnect();
         };
