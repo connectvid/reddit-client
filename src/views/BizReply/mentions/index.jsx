@@ -124,6 +124,7 @@ const Mentions = () => {
             if (first) setSelectedKeyword(first);
             try {
                 const token = await getAccessToken();
+                setFilteredData([]);
                 const {
                     data: { items }
                 } = await axios.get(`mentions/projects/${projectid}`, {
@@ -157,6 +158,9 @@ const Mentions = () => {
             fetchProjectMentions(projectId);
         } else {
             setLoading(false);
+            if (filteredData?.length) {
+                setFilteredData([]);
+            }
         }
     }, [project?._id]);
 
