@@ -3,7 +3,7 @@ export const JWT_API = {
     timeout: '1 days'
 };
 
-export const FIREBASE_API = {
+export const FIREBASE_API_LIVE = {
     apiKey: 'AIzaSyCKiGchwJyYQOAOlie3rjueG4gVvuG_e4A',
     authDomain: 'bizreply-app.firebaseapp.com',
     projectId: 'bizreply-app',
@@ -11,6 +11,33 @@ export const FIREBASE_API = {
     messagingSenderId: '577668839443',
     appId: '1:577668839443:web:296008cc845c9aafefe7e6'
 };
+export const FIREBASE_API_DEV = {
+    apiKey: 'AIzaSyB1w9eTAGirTs2_sB3D3VRri_REJz9FZsw',
+    authDomain: 'bizreply-dev.firebaseapp.com',
+    projectId: 'bizreply-dev',
+    storageBucket: 'bizreply-dev.appspot.com',
+    messagingSenderId: '1041234876186',
+    appId: '1:1041234876186:web:0491ebf6ebec287f8b7ea3'
+};
+let firebase_api = '';
+const origins_prod_live = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co'];
+const origins_dev_live = ['devbizreply.netlify.app'];
+const is_dev = process.env.REACT_APP_IS_DEV;
+if (origins_prod_live.includes(window.location.origin)) {
+    firebase_api = FIREBASE_API_LIVE;
+    console.log(1);
+} else if (origins_dev_live.includes(window.location.origin)) {
+    firebase_api = FIREBASE_API_DEV;
+    console.log(2);
+} else if (is_dev === 'true') {
+    firebase_api = FIREBASE_API_DEV;
+    console.log(3);
+} else {
+    firebase_api = FIREBASE_API_LIVE;
+    console.log(4);
+}
+// console.log(window.location.origin, 'window.location.origin', firebase_api);
+export const FIREBASE_API = firebase_api;
 
 export const AUTH0_API = {
     client_id: '7T4IlWis4DKHSbG8JAye4Ipk0rvXkH9V',

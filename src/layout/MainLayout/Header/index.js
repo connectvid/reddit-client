@@ -51,20 +51,14 @@ const Header = () => {
         }
     }, [error]);
 
-    React.useEffect(() => {
-        if (createKeywordSuccess) {
-            navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
-            createdKeywordSuccess(false)();
-<<<<<<< HEAD
-            setTimeout(() => {
-                navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
-            }, 500);
-=======
-            // setTimeout(() => {
-            // }, 500);
->>>>>>> main
-        }
-    }, [createKeywordSuccess]);
+    // React.useEffect(() => {
+    //     if (createKeywordSuccess) {
+    //         navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
+    //         createdKeywordSuccess(false)();
+    //         // setTimeout(() => {
+    //         // }, 500);
+    //     }
+    // }, [createKeywordSuccess]);
 
     return (
         <>

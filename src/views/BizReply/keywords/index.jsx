@@ -8,19 +8,26 @@
 import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { createdKeywordSuccess, deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { IconTrash } from 'tabler-icons';
-import { Link, useLocation } from 'react-router-dom';
-import { KEYWORD_PATH } from 'config';
-import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { KEYWORD_PATH, MENTION_PATH } from 'config';
+import React from 'react';
 
 const Keywords = () => {
     const { search } = useLocation();
+    const navigate = useNavigate();
     // const { getAccessToken } = useAuth();
     const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
+    React.useEffect(() => {
+        if (createKeywordSuccess) {
+            navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
+            createdKeywordSuccess(false)();
+        }
+    }, [createKeywordSuccess]);
 
     return (
         <>

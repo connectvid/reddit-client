@@ -31,7 +31,7 @@ import { LOGIN, LOGOUT } from 'features/actions';
 import accountReducer from 'features/accountReducer';
 // project imports
 import Loader from 'ui-component/Loader';
-import { FIREBASE_API, DASHBOARD_PATH } from 'config';
+import { FIREBASE_API } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
