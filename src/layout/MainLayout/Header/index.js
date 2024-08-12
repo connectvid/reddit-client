@@ -53,10 +53,16 @@ const Header = () => {
 
     React.useEffect(() => {
         if (createKeywordSuccess) {
+            navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
             createdKeywordSuccess(false)();
+<<<<<<< HEAD
             setTimeout(() => {
                 navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
             }, 500);
+=======
+            // setTimeout(() => {
+            // }, 500);
+>>>>>>> main
         }
     }, [createKeywordSuccess]);
 

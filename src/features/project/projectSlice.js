@@ -92,6 +92,10 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
+<<<<<<< HEAD
+=======
+            state.createKeywordSuccess = true;
+>>>>>>> main
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
             const data = { ...state.project, Suggestedkeywords };
             console.log(data, 'createKeywords');
@@ -207,9 +211,12 @@ const projectSlice = createSlice({
             }
             state.projects = items;
             state.keywordDeleted = true;
+<<<<<<< HEAD
             setTimeout(() => {
                 state.keywordDeleted = false;
             }, 2000);
+=======
+>>>>>>> main
         }
     }
 

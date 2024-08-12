@@ -58,6 +58,10 @@ const Mentions = () => {
 
     const {
         project,
+<<<<<<< HEAD
+=======
+        createKeywordSuccess,
+>>>>>>> main
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
     console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
@@ -236,7 +240,11 @@ const Mentions = () => {
                         </Typography>
                         <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
                     </Box>
+<<<<<<< HEAD
                     {project?.Suggestedkeywords?.length ? (
+=======
+                    {!createKeywordSuccess && project?.Suggestedkeywords?.length ? (
+>>>>>>> main
                         <PostFilter
                             {...{
                                 keywords: project?.Suggestedkeywords, // selectedKeyword

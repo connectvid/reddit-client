@@ -143,7 +143,11 @@ export const createKeywordsApi =
             });
             const keywords = data?.suggestedKeywords?.length;
             subsctriptionCreditsSetter({ keywords: -keywords })();
+<<<<<<< HEAD
             createdKeywordSuccess(true)();
+=======
+            // createdKeywordSuccess(true)();
+>>>>>>> main
             addingKeywords(response.data)();
             // setTimeout(() => {
             // }, 2000);
