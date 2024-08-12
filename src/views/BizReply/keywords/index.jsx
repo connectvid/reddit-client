@@ -28,6 +28,7 @@ const Keywords = () => {
             createdKeywordSuccess(false)();
         }
     }, [createKeywordSuccess]);
+    console.log({ createKeywordSuccess });
 
     return (
         <>

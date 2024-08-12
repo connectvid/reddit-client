@@ -92,12 +92,12 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
-            state.createKeywordSuccess = true;
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
             const data = { ...state.project, Suggestedkeywords };
-            console.log(data, 'createKeywords');
+            // console.log(data, 'createKeywords');
             state.project = data;
             const items = [];
+            state.createKeywordSuccess = true;
             const projectId = state?.project?._id;
             for (const item of state.projects) {
                 if (item._id === projectId) {
