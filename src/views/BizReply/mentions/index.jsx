@@ -108,9 +108,9 @@ const Mentions = () => {
 
         socket.on(encoding, mentionsUpdate);
         // socket.off();
-        setTimeout(() => {
-            setShowEmpty(true);
-        }, 2500);
+        // setTimeout(() => {
+        //     setShowEmpty(true);
+        // }, 2500);
         return () => {
             socket.disconnect();
         };
@@ -127,7 +127,7 @@ const Mentions = () => {
                 setFilteredData([]);
                 const {
                     data: { items }
-                } = await axios.get(`mentions/projects/${projectid}`, {
+                } = await axios.get(`mentions/projects/${projectid}${state?.socket ? `?wait=true` : ''}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -149,6 +149,9 @@ const Mentions = () => {
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }
+                if (!state?.socket) {
+                    navigate(`${pathname}${search}`, { state: null });
+                }
             } catch (e) {
                 console.log(e);
                 setLoading(false);
