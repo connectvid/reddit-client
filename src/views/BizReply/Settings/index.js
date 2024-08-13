@@ -48,9 +48,9 @@ const Settings = () => {
 
     return (
         <MainCard sx={{ minHeight: '100%' }}>
-            <BRButton fullWidth variant="contained">
+            {/* <BRButton fullWidth variant="contained">
                 ClickMe
-            </BRButton>
+            </BRButton> */}
             <Typography variant="h3">Settings</Typography>
             <Box
                 sx={{
