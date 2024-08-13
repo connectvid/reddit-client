@@ -108,7 +108,8 @@ const Palette = (navType, presetColor) => {
             background: {
                 paper: navType === 'dark' ? colors.darkLevel2 : colors.paper,
                 default: navType === 'dark' ? colors.darkPaper : colors.paper,
-                sidebar: navType === 'dark' ? colors.sidebar : colors.sidebar
+                sidebar: navType === 'dark' ? colors.sidebar : colors.sidebar,
+                button: { primaryLight: colors.primaryButtonBgLight }
             }
         }
     });

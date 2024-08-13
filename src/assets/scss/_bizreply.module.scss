@@ -7,6 +7,8 @@ $sidebar: #0a0626;
 $primaryLight: #eceff1;
 $primaryMain: #607d8b;
 $primaryDark: #546e7a;
+
+//
 $primary200: #b0bec5;
 $primary800: #455a64;
 
@@ -45,7 +47,7 @@ $grey200: #eeeeee;
 $grey300: #e0e0e0;
 $grey500: #9e9e9e;
 $grey600: #757575;
-$grey700: #616161;
+$grey700: #000000;
 $grey900: #212121;
 
 // ==============================|| DARK THEME VARIANTS ||============================== //
@@ -76,6 +78,9 @@ $darkSecondary800: #00695c;
 $darkTextTitle: #e4e8f7;
 $darkTextPrimary: #d5d9e9;
 $darkTextSecondary: #d8ddf0;
+// primary button  backgound
+$primaryButtonBgLight: linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%);
+// $primaryButtonBgDeep: linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%);
 
 // ==============================|| JAVASCRIPT ||============================== //
 
@@ -84,7 +89,8 @@ $darkTextSecondary: #d8ddf0;
     paper: $paper;
     // sidebar & background
     sidebar: $sidebar;
-
+    // button & background
+    primaryButtonBgLight: $primaryButtonBgLight;
     // primary
     primaryLight: $primaryLight;
     primary200: $primary200;

@@ -69,6 +69,7 @@ const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
+    // console.log(theme.palette.background?.button);
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
     const { container } = useConfig();
