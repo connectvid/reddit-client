@@ -13,9 +13,10 @@ $primary200: #b0bec5;
 $primary800: #455a64;
 
 // secondary
-$secondaryLight: #e0f2f1;
+$secondaryLight: linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%);
+
 $secondaryMain: #009688;
-$secondaryDark: #00897b;
+$secondaryDark: #fff;
 $secondary200: #80cbc4;
 $secondary800: #00695c;
 
@@ -68,9 +69,10 @@ $darkPrimary200: #b0bec5;
 $darkPrimary800: #44606e;
 
 // secondary dark
-$darkSecondaryLight: #e0f2f1;
+$darkSecondaryLight: linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%);
+
 $darkSecondaryMain: #009688;
-$darkSecondaryDark: #00897b;
+$darkSecondaryDark: #fff;
 $darkSecondary200: #80cbc4;
 $darkSecondary800: #00695c;
 

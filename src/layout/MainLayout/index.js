@@ -90,10 +90,8 @@ const MainLayout = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            {/* header */}
+            {/* <CssBaseline /> */}
             <AppBar
-                className="----------------------------------------"
                 enableColorOnDark
                 position="fixed"
                 color="inherit"
@@ -101,16 +99,17 @@ const MainLayout = () => {
                 sx={{
                     bgcolor: theme.palette.background.default,
                     transition: drawerOpen ? theme.transitions.create('width') : 'none',
-                    width: 'calc(100% - 260px)'
+                    width: 'calc(100% - 260px)',
+                    height: '70px'
                 }}
             >
                 {header}
             </AppBar>
-            {/* drawer */}
             <Sidebar />
 
             {/* main content */}
-            <Main theme={theme} open={drawerOpen}>
+
+            <Main theme={theme} open={drawerOpen} sx={{ mt: '70px' }}>
                 {container && (
                     <Container maxWidth="lg">
                         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />

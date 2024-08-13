@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 
 // ==============================|| SIDEBAR MENU LIST GROUP ||============================== //
 
-const NavGroup = ({ item }) => {
+const NavGroup = ({ item, showDivider }) => {
     const theme = useTheme();
 
     const { drawerOpen } = useSelector((state) => state.menu);
@@ -35,20 +35,11 @@ const NavGroup = ({ item }) => {
     return (
         <>
             <List
-                style={{
-                    position: item.title === 'Account' ? 'absolute' : 'relative',
-                    bottom: item.title === 'Account' ? '0px' : null
-                }}
+                className="--------------------------"
+                sx={{ my: 0, py: 0 }}
                 subheader={
                     item.title && (
-                        <Typography
-                            variant="caption"
-                            sx={{ ...theme.typography.menuCaption }}
-                            // style={{ marginTop: `${item.title}=== 'Account'  ? '40px' : '0px'` }}
-                            // style={{ marginTop: item.title === 'Account' ? '210px' : '0px' }}
-                            display="block"
-                            gutterBottom
-                        >
+                        <Typography variant="caption" sx={{ ...theme.typography.menuCaption }} display="block" gutterBottom>
                             {(drawerOpen && item.title) || ''}
                             {item.caption && (
                                 <Typography variant="caption" sx={{ ...theme.typography.subMenuCaption }} display="block" gutterBottom>
@@ -60,12 +51,8 @@ const NavGroup = ({ item }) => {
                 }
             >
                 {items}
-
-                <Divider sx={{ my: 1.25 }} />
+                {showDivider ? <Divider sx={{ my: 4, borderColor: '#FFFFFF26' }} /> : ''}
             </List>
-
-            {/* group divider */}
-            {/* <Divider sx={{ mt: 0.25, mb: 1.25 }} /> */}
         </>
     );
 };

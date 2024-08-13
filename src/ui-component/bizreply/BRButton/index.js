@@ -1,6 +1,5 @@
 import { Button } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { fontSize, fontWeight } from '@mui/system';
 
 const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, ...rest }) => {
     const theme = useTheme();

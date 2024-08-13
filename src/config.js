@@ -72,7 +72,8 @@ export const URL_TO_TITLE = {
 export const DEFAULT_BUTTON_COLOR_CODE = '#009dea';
 
 const config = {
-    fontFamily: `'Roboto', sans-serif`,
+    fontFamily: `'Helvetica Neue', sans-serif`,
+    // fontFamily: `'Roboto', sans-serif`, // Gemunu Libre
     borderRadius: 8,
     outlinedFilled: true,
     navType: 'light', // light, dark
@@ -85,3 +86,4 @@ const config = {
 };
 
 export default config;
+// calc(100vh - 16px)
