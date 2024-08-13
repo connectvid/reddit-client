@@ -1,13 +1,4 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-undef */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-useless-return */
 /* eslint-disable no-use-before-define */
-/* eslint-disable camelcase */
-/* eslint-disable react-hooks/rules-of-hooks */
-/* eslint-disable consistent-return */
-/* eslint-disable prettier/prettier */
 import PropTypes from 'prop-types';
 import { useState, createContext, useEffect, useReducer } from 'react';
 import { initializeApp } from 'firebase/app';
@@ -32,7 +23,7 @@ import accountReducer from 'features/accountReducer';
 // project imports
 import Loader from 'ui-component/Loader';
 import { FIREBASE_API } from 'config';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
 import { useDispatch } from 'react-redux';
@@ -43,10 +34,6 @@ import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'fe
 
 ReactSession.setStoreType('localStorage');
 
-// firebase initialize
-// if (!firebase.apps.length) {
-//     firebase.initializeApp(FIREBASE_API);
-// }
 initializeApp(FIREBASE_API);
 
 const auth = getAuth();
@@ -63,7 +50,7 @@ let isRegister = false;
 const FirebaseContext = createContext(null);
 
 export const FirebaseProvider = ({ children }) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const [state, dispatch] = useReducer(accountReducer, initialState);
     const [dbUser, setDbUser] = useState({});
     // const [isRegister, setIsRegister] = useState(false);
@@ -204,13 +191,13 @@ export const FirebaseProvider = ({ children }) => {
         });
     }, []);
 
-    const logout = () => {
+    function logout() {
         const logedOut = signOut(auth);
         setDbUser({});
         projectClear()();
         subscriptionClear()();
         return logedOut;
-    };
+    }
 
     // using this function to login by firebase, and fetch logged in users data from database.
     const firebaseEmailPasswordSignIn = ({ email, password }) => {
