@@ -1,4 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/*  eslint-disable-next-line import/no-unresolved */
 import { io } from 'socket.io-client';
 import BizReplyConfig from 'BizReplyConfig';
 

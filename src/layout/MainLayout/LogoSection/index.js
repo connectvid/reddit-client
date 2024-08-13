@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 const LogoSection = ({ logo, width }) => {
     const { drawerOpen } = useSelector((state) => state.menu);
     return (
-        <Link component={RouterLink} to={DASHBOARD_PATH} sx={{ display: 'flex', textDecoration: 'none', marginBottom: '25px' }}>
+        <Link component={RouterLink} to={DASHBOARD_PATH} sx={{ display: 'flex', textDecoration: 'none', marginBottom: '10px' }}>
             {/* <Logo logo={logo} width={width} /> */}
             {drawerOpen ? (
                 <Typography

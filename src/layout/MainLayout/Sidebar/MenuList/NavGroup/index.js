@@ -51,7 +51,7 @@ const NavGroup = ({ item, showDivider }) => {
                 }
             >
                 {items}
-                {showDivider ? <Divider sx={{ my: 4, borderColor: '#FFFFFF26' }} /> : ''}
+                {showDivider ? <Divider sx={{ my: 2, borderColor: '#FFFFFF26' }} /> : ''}
             </List>
         </>
     );

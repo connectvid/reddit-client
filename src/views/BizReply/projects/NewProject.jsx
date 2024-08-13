@@ -1,13 +1,39 @@
-import { Button, CircularProgress, DialogActions, DialogContent, DialogTitle, FormControl, TextField } from '@mui/material';
 import React from 'react';
-import useAuth from 'hooks/useAuth';
-import { toast } from 'react-toastify';
+import {
+    Button,
+    CircularProgress,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stepper,
+    Step,
+    StepLabel,
+    StepIcon,
+    IconButton,
+    Box
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAuth from 'hooks/useAuth';
 import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
 
-const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
+import BRButton from '../../../ui-component/bizreply/BRButton'; // Update the path accordingly
+import BRForm from '../../../ui-component/bizreply/BRForm'; // Import the new form component
+
+import BrandIcon from '@mui/icons-material/BusinessCenter'; // Use a suitable icon for Brand Details
+import KeywordsIcon from '@mui/icons-material/Label'; // Use a suitable icon for Set Keywords
+import SocialsIcon from '@mui/icons-material/Share'; // Use a suitable icon for Select Socials
+
+const steps = [
+    { label: 'Brand Details', icon: <BrandIcon /> },
+    { label: 'Set Keywords', icon: <KeywordsIcon /> },
+    { label: 'Select Socials', icon: <SocialsIcon /> }
+];
+
+const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
     const { createLoading, projectCreated, project } = useSelector((state) => state.project);
     const { pathname } = useLocation();
     const navigate = useNavigate();
@@ -17,12 +43,14 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
         shortDescription: ''
     });
     const { getAccessToken, dbUser } = useAuth();
+
     React.useEffect(() => {
         if (projectCreated && pathname !== KEYWORD_PATH) {
             projectCreatedStatus(false)();
             navigate(`${KEYWORD_PATH}?dp=${project._id}`);
         }
     }, [projectCreated]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
@@ -52,61 +80,63 @@ const NewProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
             console.log(e);
         }
     };
+
     const handleChange = ({ target: { name, value } }) => {
-        setValues((p) => ({ ...p, [name]: value }));
+        setValues((prev) => ({ ...prev, [name]: value }));
     };
 
     const isSubmitDisabled = !values.brandName || !values.domain || !values.shortDescription;
 
     return (
         <form onSubmit={handleSubmit}>
-            <DialogTitle id="alert-dialog-title">Add Project</DialogTitle>
-            <DialogContent>
-                <TextField
-                    sx={{ mb: 2, mt: 2 }}
-                    fullWidth
-                    label="Brand Name"
-                    name="brandName"
-                    onChange={handleChange}
-                    placeholder="Enter brand name"
-                    type="text"
-                    inputProps={{ minLength: 3, maxLength: 40 }}
-                />
+            <DialogTitle
+                id="alert-dialog-title"
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontWeight: 'bold', // Make the text bold
+                    fontSize: '1.5rem', // Increase the font size
+                    background: 'rgba(241, 241, 241, 1)', // Set background color
+                    padding: '16px' // Optional: Add some padding for better spacing
+                }}
+            >
+                Add Project
+                <IconButton onClick={() => toggleProjectCreateModalCtrl()()}>
+                    <CloseIcon />
+                </IconButton>
+            </DialogTitle>
 
-                <TextField
-                    fullWidth
-                    name="domain"
-                    label={`${urlPlaceholder}`}
-                    onChange={handleChange}
-                    placeholder={`${urlPlaceholder}`}
-                    type="text"
-                    inputProps={{ minLength: 5, maxLength: 253 }}
-                />
-                <FormControl fullWidth sx={{ mt: 2 }}>
-                    <TextField
-                        name="shortDescription"
-                        fullWidth
-                        label="Short Description"
-                        multiline
-                        rows={4}
-                        placeholder="Enter A short description of your project"
-                        onChange={handleChange}
-                        inputProps={{ minLength: 5, maxLength: 500 }}
-                    />
-                </FormControl>
+            <Box sx={{ width: '100%', mt: 2, mb: 2 }}>
+                <Stepper alternativeLabel>
+                    {steps.map((step, index) => (
+                        <Step key={index}>
+                            <StepLabel StepIconComponent={() => step.icon}>
+                                <Box sx={{ textAlign: 'center' }}>
+                                    <span>{step.label}</span>
+                                </Box>
+                            </StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+            </Box>
+
+            <DialogContent>
+                <BRForm values={values} handleChange={handleChange} urlPlaceholder={urlPlaceholder} />
             </DialogContent>
-            <DialogActions>
-                <Button
-                    disabled={createLoading}
-                    onClick={() => {
-                        if (!createLoading) toggleProjectCreateModalCtrl()();
+
+            <DialogActions sx={{ justifyContent: 'end' }}>
+                <BRButton
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{
+                        width: '184px',
+                        height: '45px',
+                        borderRadius: '10px',
+                        background: 'linear-gradient(90deg, #007BFF, #0056b3)'
                     }}
                 >
-                    Cancel
-                </Button>
-                <Button disabled={createLoading || isSubmitDisabled} variant="contained" type="submit">
-                    Submit {createLoading && <CircularProgress sx={{ ml: 1, height: `24px !important`, width: `24px !important` }} />}
-                </Button>
+                    Next Step {createLoading && <CircularProgress sx={{ ml: 1, height: `24px !important`, width: `24px !important` }} />}
+                </BRButton>
             </DialogActions>
         </form>
     );

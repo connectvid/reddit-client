@@ -71,8 +71,8 @@ const Sidebar = () => {
                         component="div"
                         style={{
                             // height: '110vh',
-                            // height: !matchUpMd ? 'calc(100vh - 16px)' : 'calc(100vh - 16px)',
-                            height: !matchUpMd ? 'calc(100vh)' : 'calc(100vh)',
+                            height: !matchUpMd ? 'calc(100vh - 16px)' : 'calc(100vh - 16px)',
+                            // height: !matchUpMd ? 'calc(100vh)' : 'calc(100vh)',
                             ...drawerSX
                         }}
                     >
