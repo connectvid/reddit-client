@@ -92,24 +92,24 @@ const MainLayout = () => {
             <CssBaseline />
             {/* header */}
             <AppBar
+                className="----------------------------------------"
                 enableColorOnDark
                 position="fixed"
                 color="inherit"
                 elevation={0}
                 sx={{
                     bgcolor: theme.palette.background.default,
-                    transition: drawerOpen ? theme.transitions.create('width') : 'none'
+                    transition: drawerOpen ? theme.transitions.create('width') : 'none',
+                    width: 'calc(100% - 260px)'
                 }}
             >
                 {header}
             </AppBar>
-
             {/* drawer */}
             <Sidebar />
 
             {/* main content */}
             <Main theme={theme} open={drawerOpen}>
-                {/* breadcrumb */}
                 {container && (
                     <Container maxWidth="lg">
                         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
@@ -123,8 +123,6 @@ const MainLayout = () => {
                     </>
                 )}
             </Main>
-            {/* 🛠Modified by FoysalBN */}
-            {/* <Customization /> */}
         </Box>
     );
 };

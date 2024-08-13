@@ -76,7 +76,7 @@ const config = {
     borderRadius: 8,
     outlinedFilled: true,
     navType: 'light', // light, dark
-    presetColor: 'default', // default, theme1, theme2, theme3, theme4, theme5, theme6
+    presetColor: 'bizReply', // default, theme1, theme2, theme3, theme4, theme5, theme6, bizReply
     // NOTE: tested this, but no changes are seen!!!!!!
     // presetColor: 'theme2', // default, theme1, theme2, theme3, theme4, theme5, theme6
     locale: 'en', // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese

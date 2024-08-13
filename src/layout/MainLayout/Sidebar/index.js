@@ -34,7 +34,7 @@ const Sidebar = () => {
     const { drawerOpen } = useSelector((state) => state.menu);
 
     const { drawerType } = useConfig();
-
+    // console.log(theme.palette);
     const logo = useMemo(
         () => (
             <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
@@ -58,7 +58,7 @@ const Sidebar = () => {
 
     const drawer = useMemo(
         () => (
-            <>
+            <Box bgcolor={theme.palette.background.sidebar}>
                 {matchDownMd ? (
                     <>
                         <Box sx={drawerSX}>{drawerContent}</Box>
@@ -67,14 +67,15 @@ const Sidebar = () => {
                     <PerfectScrollbar
                         component="div"
                         style={{
-                            height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
+                            // height: !matchUpMd ? '100vh' : '100vh',
+                            height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 20px)',
                             ...drawerSX
                         }}
                     >
                         {drawerContent}
                     </PerfectScrollbar>
                 )}
-            </>
+            </Box>
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [matchUpMd, drawerOpen, drawerType]
@@ -107,7 +108,7 @@ const Sidebar = () => {
                 </Drawer>
             ) : (
                 <MiniDrawerStyled variant="permanent" open={drawerOpen}>
-                    <Box sx={{ height: `60px` }} />
+                    {/* <Box sx={{ height: `60px` }} /> */}
                     {drawer}
                 </MiniDrawerStyled>
             )}

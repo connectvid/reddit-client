@@ -12,6 +12,7 @@ import SubCard from 'ui-component/cards/SubCard';
 // color import
 import colors from 'assets/scss/_themes-vars.module.scss';
 import theme1 from 'assets/scss/_theme1.module.scss';
+import bizReply from 'assets/scss/_bizreply.module.scss';
 import theme2 from 'assets/scss/_theme2.module.scss';
 import theme3 from 'assets/scss/_theme3.module.scss';
 import theme4 from 'assets/scss/_theme4.module.scss';
@@ -50,6 +51,11 @@ const PresetColor = () => {
     const { presetColor, onChangePresetColor } = useConfig();
 
     const colorOptions = [
+        {
+            id: 'bizReply',
+            primary: theme.palette.mode === 'dark' ? bizReply.darkPrimaryMain : bizReply.primaryMain,
+            secondary: theme.palette.mode === 'dark' ? bizReply.darkSecondaryMain : bizReply.secondaryMain
+        },
         {
             id: 'default',
             primary: theme.palette.mode === 'dark' ? colors.darkPrimaryMain : colors.primaryMain,
