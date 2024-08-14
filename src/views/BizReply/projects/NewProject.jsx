@@ -19,13 +19,11 @@ import useAuth from 'hooks/useAuth';
 import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
-
-import BRButton from '../../../ui-component/bizreply/BRButton'; // Update the path accordingly
-import BRForm from '../../../ui-component/bizreply/BRForm'; // Import the new form component
-
-import BrandIcon from '@mui/icons-material/BusinessCenter'; // Use a suitable icon for Brand Details
-import KeywordsIcon from '@mui/icons-material/Label'; // Use a suitable icon for Set Keywords
-import SocialsIcon from '@mui/icons-material/Share'; // Use a suitable icon for Select Socials
+import BrandIcon from '@mui/icons-material/BusinessCenter';
+import KeywordsIcon from '@mui/icons-material/Label';
+import SocialsIcon from '@mui/icons-material/Share';
+import BRForm from 'ui-component/bizreply/BRForm';
+import BRButton from 'ui-component/bizreply/BRButton';
 
 const steps = [
     { label: 'Brand Details', icon: <BrandIcon /> },

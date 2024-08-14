@@ -4,12 +4,7 @@ import { TextField, FormControl, Typography, Box } from '@mui/material';
 const BRForm = ({ values, handleChange, urlPlaceholder }) => {
     return (
         <Box sx={{ width: '545px' }}>
-            {' '}
-            {/* Set the width of the form */}
-            <Typography
-                variant="subtitle2"
-                sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }} // Set font size and bold
-            >
+            <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
                 Brand Name
             </Typography>
             <TextField
@@ -18,49 +13,40 @@ const BRForm = ({ values, handleChange, urlPlaceholder }) => {
                     height: '48px',
                     borderRadius: '10px',
                     color: 'black',
-                    width: '100%' // Ensure the TextField takes the full width
+                    width: '100%'
                 }}
                 fullWidth
-                // label="Brand Name"
-                // name="brandName"
+                name="brandName"
                 value={values.brandName}
                 onChange={handleChange}
                 placeholder="Brand name"
                 type="text"
                 inputProps={{ minLength: 3, maxLength: 40 }}
             />
-            <Typography
-                variant="subtitle2"
-                sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }} // Set font size and bold
-            >
+            <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
                 Domain
             </Typography>
             <TextField
                 sx={{
                     mb: 4,
                     height: '48px',
-                    width: '100%' // Ensure the TextField takes the full width
+                    width: '100%'
                 }}
                 fullWidth
-                // name="domain"
-                // label="Domain"
+                name="domain"
                 value={values.domain}
                 onChange={handleChange}
                 placeholder={urlPlaceholder}
                 type="text"
                 inputProps={{ minLength: 5, maxLength: 253 }}
             />
-            <Typography
-                variant="subtitle2"
-                sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }} // Set font size and bold
-            >
+            <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
                 Description
             </Typography>
             <FormControl fullWidth sx={{ mt: 2 }}>
                 <TextField
-                    // name="shortDescription"
+                    name="shortDescription"
                     fullWidth
-                    // label="Description"
                     value={values.shortDescription}
                     multiline
                     rows={4}
