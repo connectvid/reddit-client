@@ -5,14 +5,13 @@ import linkedin from 'assets/images/platforms/linkedin.png';
 import quora from 'assets/images/platforms/quora.png';
 import twitter from 'assets/images/platforms/twitter.png';
 
+export const platformsSrc = {
+    'reddit.com': reddit,
+    'linkedin.com': linkedin,
+    'quora.com': quora,
+    'twitter.com': twitter
+};
 const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData }) => {
-    const platformsSrc = {
-        'reddit.com': reddit,
-        'linkedin.com': linkedin,
-        'quora.com': quora,
-        'twitter.com': twitter
-    };
-
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             {/* width: { xs: '100%', md: '50%' } */}

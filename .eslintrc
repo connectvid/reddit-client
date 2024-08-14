@@ -22,6 +22,7 @@
     },
     "plugins": ["prettier", "react", "react-hooks"],
     "rules": {
+        "func-names": 0,
         "camelcase": 0,
         "react-hooks/exhaustive-deps": 0,
         "no-underscore-dangle": 0,

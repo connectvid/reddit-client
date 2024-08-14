@@ -4,9 +4,12 @@
 import { Box, Button, CircularProgress, TextField, Typography } from '@mui/material';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { toast } from 'react-toastify';
-import { IconCheck, IconCopy, IconPencil, IconTrash } from 'tabler-icons';
+import { IconTrash } from 'tabler-icons';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
+import { FiCheckCircle } from 'react-icons/fi';
+import { LuCopy, LuPencil } from 'react-icons/lu';
+import { LiaTimesCircle } from 'react-icons/lia';
 
 const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }) => (
     <form
@@ -30,6 +33,22 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
     </form>
 );
 
+const styles = {
+    display: 'flex',
+    gap: '6px',
+    alignItems: 'center',
+    fontWeight: 400,
+    fontSize: '16px',
+    lineHeight: '22px',
+    color: '#6E7478',
+    p: 0,
+    m: 0,
+    'span.MuiTouchRipple-root': {
+        p: 0,
+        m: 0
+    },
+    cursor: 'pointer'
+};
 const GeneretedReply = ({
     editReply,
     setEditReply,
@@ -43,90 +62,78 @@ const GeneretedReply = ({
     showMarkRepliedBtn
 }) => (
     <Box style={{ marginTop: '20px' }}>
-        Generated Reply:
+        <Typography sx={{ fontWeight: 400, fontSize: '14px', lineHeight: '22px', color: '#6E7478', mb: '10px' }}>
+            Generated Reply
+        </Typography>
         <Box
             sx={{
-                borderRadius: 4,
+                borderRadius: '10px',
                 position: 'relative',
-                p: 2,
-                border: '2px solid #ddd'
+                p: '20px',
+                border: '1px solid #CCD3D9'
             }}
         >
-            {editOpen ? (
-                <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
-            ) : (
-                <Box>
-                    {editReply &&
-                        editReply.split('\n\n').map((item, i) => (
-                            <Typography
-                                key={i}
-                                sx={{
-                                    color: '#000',
-                                    fontSize: '16px',
-                                    mb: 1
-                                }}
-                            >
-                                {item}
-                            </Typography>
-                        ))}
-                </Box>
-            )}
+            <Box>
+                {editReply &&
+                    editReply.split('\n\n').map((item, i) => (
+                        <Box
+                            key={i}
+                            sx={{
+                                color: '#000',
+                                fontWeight: 400,
+                                fontSize: '14px',
+                                lineHeight: '22px'
+                            }}
+                        >
+                            {editOpen ? (
+                                <>
+                                    <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
+                                </>
+                            ) : (
+                                <Typography
+                                    sx={{
+                                        color: '#000',
+                                        fontWeight: 400,
+                                        fontSize: '14px',
+                                        lineHeight: '22px',
+                                        m: 0,
+                                        p: 0
+                                    }}
+                                >
+                                    {item}
+                                </Typography>
+                            )}
 
-            <Box
-                display={{ sm: 'flex' }}
-                sx={{ mt: 0, justifyContent: 'end', bottom: '-37px', position: 'absolute', right: '15px', gap: 1 }}
-            >
-                <Button
-                    variant="outlined"
-                    sx={{
-                        borderTopLeftRadius: '0',
-                        borderTopRightRadius: '0',
-                        borderColor: '#ddd',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                >
-                    <CopyToClipboard text={reply.split(`\n`).join('\n')} onCopy={() => toast.success(`Coppied!`)}>
-                        <Typography component="span" display="flex">
-                            <IconCopy size={18} /> Copy
-                        </Typography>
-                    </CopyToClipboard>
-                </Button>
+                            <Box display={{ sm: 'flex' }} sx={{ mt: '18px', justifyContent: 'space-between' }}>
+                                <Box display={{ sm: 'flex' }} sx={{ mt: 0, gap: '20px' }}>
+                                    <CopyToClipboard text={reply.split(`\n`).join('\n')} onCopy={() => toast.success(`Coppied!`)}>
+                                        <Typography component="span" sx={styles}>
+                                            <LuCopy size={13.33} /> Copy
+                                        </Typography>
+                                    </CopyToClipboard>
 
-                {(showMarkRepliedBtn || markReply === 'marked') && <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />}
+                                    {(showMarkRepliedBtn || markReply === 'marked') && (
+                                        <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />
+                                    )}
 
-                <Button
-                    variant="outlined"
-                    sx={{
-                        borderTopLeftRadius: '0',
-                        borderTopRightRadius: '0',
-                        borderColor: '#ddd',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                    onClick={() => setEditOpen(true)}
-                >
-                    <IconPencil size={18} /> Edit
-                </Button>
-                <Button
-                    variant="outlined"
-                    sx={{
-                        borderTopLeftRadius: '0',
-                        borderTopRightRadius: '0',
-                        borderColor: '#ddd',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}
-                    disabled={updatingReply}
-                    onClick={() => {
-                        if (!updatingReply) handleUpdateReply({ isDelete: true });
-                    }}
-                >
-                    <Typography sx={{ color: 'tomato', display: 'flex', alignItems: 'center' }}>
-                        {/* {updatingReply ? <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} /> : <IconTrash size={18} />}{' '} */}
-                        Remove
-                    </Typography>
-                </Button>
+                                    <Typography sx={styles} onClick={() => setEditOpen(true)}>
+                                        <LuPencil size={13.33} /> Edit
+                                    </Typography>
+                                </Box>
+                                <Typography
+                                    sx={styles}
+                                    disabled={updatingReply}
+                                    onClick={() => {
+                                        if (!updatingReply) handleUpdateReply({ isDelete: true });
+                                    }}
+                                >
+                                    <Typography sx={styles}>
+                                        <LiaTimesCircle size={13.33} /> Cancle
+                                    </Typography>
+                                </Typography>
+                            </Box>
+                        </Box>
+                    ))}
             </Box>
         </Box>
     </Box>
@@ -136,21 +143,16 @@ export default GeneretedReply;
 const MarkBtn = ({ handleUpdateReply, markReply, updatingReply }) => {
     // const { pathname } = useLocation();
     return (
-        <Button
-            variant="outlined"
+        <Typography
             sx={{
-                borderTopLeftRadius: '0',
-                borderTopRightRadius: '0',
-                borderColor: '#ddd',
-                color: markReply === 'marked' ? '#00000080' : '',
-                display: 'flex',
-                alignItems: 'center'
+                ...styles
+                // color: markReply === 'marked' ? '#00000080' : ''
             }}
             disabled={updatingReply}
             onClick={() => handleUpdateReply({ update_on: 'markReply', markReply: markReply === 'marked' ? null : 'marked' })}
         >
-            <IconCheck size={18} /> Mark Replied
-        </Button>
+            <FiCheckCircle size={13.33} /> Mark as replied
+        </Typography>
     );
 };
 

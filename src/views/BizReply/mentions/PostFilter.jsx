@@ -11,7 +11,7 @@ const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeywor
                     sx={{
                         py: 0
                     }}
-                    defaultValue={keywords[0]}
+                    // defaultValue={keywords[0]}
                     fullWidth
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {

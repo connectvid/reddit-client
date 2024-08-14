@@ -72,8 +72,8 @@ export const URL_TO_TITLE = {
 export const DEFAULT_BUTTON_COLOR_CODE = '#009dea';
 
 const config = {
-    fontFamily: `'Helvetica Neue', sans-serif`,
-    // fontFamily: `'Roboto', sans-serif`, // Gemunu Libre
+    fontFamily: `'Edu VIC WA NT Beginner', sans-serif`,
+    // fontFamily: `'Roboto', sans-serif`, // Gemunu Libre  Helvetica Neue
     borderRadius: 8,
     outlinedFilled: true,
     navType: 'light', // light, dark
