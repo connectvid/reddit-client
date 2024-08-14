@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { SUBSCRIPTION_PATH } from 'config';
-import BRButton from 'ui-component/bizreply/BRButton';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const Settings = () => {
