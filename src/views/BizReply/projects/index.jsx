@@ -1,14 +1,13 @@
 import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
-import BRProjectSelection from 'ui-component/bizreply/BRProjectSelection';
+import ProjectBreadcrumb from 'ui-component/Project/ProjectBreadcrumb';
 
 const Projects = () => {
     const { projects } = useSelector((state) => state.project);
 
     return (
         <>
-            <BRProjectSelection {...{ toggleProjectCreateModalCtrl }} />
+            <ProjectBreadcrumb />
             <ProjectsTable {...{ projects }} />
         </>
     );
