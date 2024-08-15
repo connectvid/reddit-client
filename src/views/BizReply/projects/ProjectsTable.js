@@ -11,7 +11,7 @@ import axios from 'utils/axios';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import redditFeeds from 'assets/images/demoWebsite.png';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
-import BRButton from 'ui-component/bizreply/BRButton';
+import BRButton from 'ui-component/bizreply2/BRButton';
 
 const ProjectTable = ({
     // setProjects,

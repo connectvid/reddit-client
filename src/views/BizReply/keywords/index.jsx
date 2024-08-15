@@ -14,7 +14,7 @@ import React from 'react';
 import KeywordBreadcrumb from 'ui-component/KeywordBreadcrumb';
 import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
-import BRButton from 'ui-component/bizreply/BRButton';
+import BRButton from 'ui-component/bizreply2/BRButton';
 
 const Keywords = () => {
     const { search } = useLocation();
