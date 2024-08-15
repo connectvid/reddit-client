@@ -1,17 +1,5 @@
 import React from 'react';
-import {
-    Button,
-    CircularProgress,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Stepper,
-    Step,
-    StepLabel,
-    StepIcon,
-    IconButton,
-    Box
-} from '@mui/material';
+import { CircularProgress, DialogActions, DialogContent, DialogTitle, Stepper, Step, StepLabel, IconButton, Box } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,12 +7,11 @@ import useAuth from 'hooks/useAuth';
 import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
-import BRButton from '../../../ui-component/bizreply/BRButton';
-import BRForm from '../../../ui-component/bizreply/BRForm';
-
-import BrandIcon from '@mui/icons-material/BusinessCenter'; // Use a suitable icon for Brand Details
-import KeywordsIcon from '@mui/icons-material/Label'; // Use a suitable icon for Set Keywords
-import SocialsIcon from '@mui/icons-material/Share'; // Use a suitable icon for Select Socials
+import BrandIcon from '@mui/icons-material/BusinessCenter';
+import KeywordsIcon from '@mui/icons-material/Label';
+import SocialsIcon from '@mui/icons-material/Share';
+import BRForm from 'ui-component/bizreply/BRForm';
+import BRButton from 'ui-component/bizreply/BRButton';
 
 const steps = [
     { label: 'Brand Details', icon: <BrandIcon /> },
@@ -84,7 +71,7 @@ const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
         setValues((prev) => ({ ...prev, [name]: value }));
     };
 
-    const isSubmitDisabled = !values.brandName || !values.domain || !values.shortDescription;
+    // const isSubmitDisabled = !values.brandName || !values.domain || !values.shortDescription;
 
     return (
         <form onSubmit={handleSubmit}>

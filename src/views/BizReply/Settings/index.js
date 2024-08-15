@@ -17,10 +17,10 @@ import { SUBSCRIPTION_PATH } from 'config';
 
 const Settings = () => {
     const navigate = useNavigate();
-    const { twitter, dbUser, isExpired } = useAuth();
+    const { twitter, dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
-    const repliesCredits = subscription?.remainingCredit;
-    console.log({ subscription });
+    // const repliesCredits = subscription?.remainingCredit;
+    // console.log({ subscription });
     // replies
     // const [plan, setPlan] = useState({
     //     title: '',

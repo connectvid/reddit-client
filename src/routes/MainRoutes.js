@@ -3,6 +3,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
 import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
+import SetKeywords from 'views/BizReply/projects/SetKeywords';
 
 const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
 const Keywords = Loadable(lazy(() => import('views/BizReply/keywords')));
@@ -61,6 +62,10 @@ const MainRoutes = {
         {
             path: '/*',
             element: <NotFound />
+        },
+        {
+            path: '/setkeywords',
+            element: <SetKeywords />
         }
     ]
 };

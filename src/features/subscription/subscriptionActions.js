@@ -66,7 +66,7 @@ export const addingKeywords = (data) => () => {
 export const deleteKeywordAPI = (token, id) => async () => {
     try {
         // dispatch(createKeywordsLoading(true));
-        const response = await axios.delete(`keywords/${id}`, {
+        await axios.delete(`keywords/${id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
