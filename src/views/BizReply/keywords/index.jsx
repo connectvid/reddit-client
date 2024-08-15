@@ -134,7 +134,7 @@ const KeywordCard = ({ _id, title, accessToken, brandLogo = 'brand-logo/clickup.
         <CardContent sx={{}}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>
+                    <Typography>
                         <img src={brandLogo} alt="brandLogo" style={{ height: '25px' }} />
                     </Typography>
                     <Typography
