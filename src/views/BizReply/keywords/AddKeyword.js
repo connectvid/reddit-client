@@ -2,10 +2,9 @@ import { Box, Button, CircularProgress, TextField, Typography } from '@mui/mater
 import React, { useEffect } from 'react';
 import useAuth from 'hooks/useAuth';
 // import ProjectsTable from './ProjectsTable';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
     addingCustomKeywordForSave,
-    addingKeywordForSave,
     removingKeywordForSave,
     removingCustomKeywordForSave,
     createKeywordsApi
@@ -13,8 +12,6 @@ import {
 import { IconPlus, IconTrash } from 'tabler-icons';
 // import { useLocation, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { MENTION_PATH } from 'config';
 // import { MENTION_PATH } from 'config';
 // import axios from 'utils/axios';
 // import { createKeywords, hasError } from 'features/project/projectSlice';

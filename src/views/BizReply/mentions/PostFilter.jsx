@@ -1,6 +1,6 @@
 import { Autocomplete, Box, TextField } from '@mui/material';
 
-const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeyword, loading, haveData }) => {
+const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeyword, loading }) => {
     return (
         <Box sx={{ width: { xs: '100%', md: '33%' } }}>
             {(!loading && keywords?.length && (
@@ -11,7 +11,7 @@ const PostFilter = ({ keywords, label = 'Choose Your Keyword', setSelectedKeywor
                     sx={{
                         py: 0
                     }}
-                    defaultValue={keywords[0]}
+                    // defaultValue={keywords[0]}
                     fullWidth
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {

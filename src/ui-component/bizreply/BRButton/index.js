@@ -1,25 +1,75 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { fontSize, fontWeight } from '@mui/system';
 
 const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, ...rest }) => {
     const theme = useTheme();
     const { button } = theme.palette.background;
-    console.log(theme.palette);
+    // console.log(theme.palette);
     if (buttonType === 'primary') {
-        const bgOps = { fontSize: '14px', fontWeight: 500, py: '10.25px' };
+        let bgOps = {
+            borderRadius: '10px',
+            fontSize: '14px',
+            fontWeight: 500,
+            py: '10.25px',
+            backgroundImage: button?.primaryLight || 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)'
+        };
+
         if (variant === 'contained') {
-            bgOps.variant = variant;
-            bgOps.color = 'white';
-            bgOps.background = button?.primaryLight || 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)';
-        } else if (variant) {
-            bgOps.variant = variant;
-            bgOps.color = 'white';
+            const contained = {
+                color: 'white'
+            };
+            bgOps = { ...bgOps, ...contained };
+        } else if (variant === 'outlined') {
+            const outlined = {
+                border: 'none',
+                boxSizing: 'border-box',
+                display: 'block',
+                padding: '1px'
+            };
+            bgOps = { ...bgOps, ...outlined };
+            const child = {
+                background: 'white',
+                borderRadius: bgOps.borderRadius
+            };
+            if (sx?.backgroundColor || sx?.background) {
+                child.background = sx?.backgroundColor || sx?.background;
+            }
+            delete sx.backgroundColor;
+            delete sx.background;
+            return (
+                <Button sx={{ ...bgOps, ...sx }} type={type} {...rest} variant={variant}>
+                    <Typography
+                        className="outlined_child_wrapper"
+                        component="span"
+                        sx={{
+                            alignItems: 'center',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            height: '100%',
+                            width: '100%',
+                            ...child
+                        }}
+                    >
+                        <Typography
+                            component="span"
+                            sx={{
+                                background: bgOps.backgroundImage,
+                                WebkitTextFillColor: 'transparent',
+                                WebkitBackgroundClip: 'text'
+                            }}
+                        >
+                            {children}
+                        </Typography>
+                    </Typography>
+                </Button>
+            );
+        } else {
+            bgOps.color = '';
         }
 
         return (
             <>
-                <Button sx={{ ...bgOps, ...sx }} type={type} {...rest}>
+                <Button sx={{ ...bgOps, ...sx }} type={type} variant={variant} {...rest}>
                     {children}
                 </Button>
             </>

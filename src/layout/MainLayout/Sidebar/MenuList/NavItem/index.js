@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import useConfig from 'hooks/useConfig';
@@ -74,17 +74,22 @@ const NavItem = ({ item, level }) => {
                 borderRadius: `${borderRadius}px`,
                 mb: 0.5,
                 alignItems: 'flex-start',
-                backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+                // backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+                background:
+                    openItem?.findIndex((id) => id === item.id) > -1 ? 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)' : 'inherit',
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`
+                // ,...(openItem?.findIndex((id) => id === item.id) > -1
+                //     ? { background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)', color: '#fff' }
+                //     : {})
             }}
             selected={openItem?.findIndex((id) => id === item.id) > -1}
             onClick={() => itemHandler(item.id)}
         >
-            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36 }}>{itemIcon}</ListItemIcon>
+            <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36, color: '#6E7478' }}>{itemIcon}</ListItemIcon>
             <ListItemText
                 primary={
-                    <Typography variant={openItem?.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} color="inherit">
+                    <Typography variant={openItem?.findIndex((id) => id === item.id) > -1 ? 'h5' : 'body1'} sx={{ color: '#fff' }}>
                         {item.title}
                     </Typography>
                 }
@@ -96,7 +101,7 @@ const NavItem = ({ item, level }) => {
                     )
                 }
             />
-            {item.chip && (
+            {/* {item.chip && (
                 <Chip
                     color={item.chip.color}
                     variant={item.chip.variant}
@@ -104,7 +109,7 @@ const NavItem = ({ item, level }) => {
                     label={item.chip.label}
                     avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
                 />
-            )}
+            )} */}
         </ListItemButton>
     );
 };

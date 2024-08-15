@@ -7,6 +7,8 @@ import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
+    Button,
+    Chip,
     ClickAwayListener,
     Divider,
     List,
@@ -31,10 +33,10 @@ import useAuth from 'hooks/useAuth';
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
-// import axios from 'axios';
-// import BizReplyConfig from 'BizReplyConfig';
-// import { toast } from 'react-toastify';
-import { IconChevronDown } from 'tabler-icons';
+import axios from 'axios';
+import BizReplyConfig from 'BizReplyConfig';
+import { toast } from 'react-toastify';
+import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -44,11 +46,7 @@ const ProfileSection = () => {
     const navigate = useNavigate();
 
     const [selectedIndex, setSelectedIndex] = useState(-1);
-    const {
-        logout,
-        user,
-        dbUser // getAccessToken
-    } = useAuth();
+    const { logout, user, dbUser, getAccessToken } = useAuth();
 
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
@@ -61,9 +59,9 @@ const ProfileSection = () => {
     };
 
     // Send Feedback
-    // const [feedback, setFeedback] = useState('');
-    // const [_isSending, setIsSending] = useState(false);
-    // const BASE_URL = BizReplyConfig.getNodeUrl();
+    const [feedback, setFeedback] = useState('');
+    const [isSending, setIsSending] = useState(false);
+    const BASE_URL = BizReplyConfig.getNodeUrl();
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -92,43 +90,43 @@ const ProfileSection = () => {
         prevOpen.current = open;
     }, [open]);
 
-    // const sendFeedback = async () => {
-    //     const token = await getAccessToken();
-    //     setIsSending(true);
-    //     if (!feedback) {
-    //         toast("You can't submit an empty feedback", { autoClose: 2500, type: 'warning' });
-    //         return;
-    //     }
+    const sendFeedback = async () => {
+        const token = await getAccessToken();
+        setIsSending(true);
+        if (!feedback) {
+            toast("You can't submit an empty feedback", { autoClose: 2500, type: 'warning' });
+            return;
+        }
 
-    //     if (!dbUser.email) {
-    //         toast('Something went wrong!', { autoClose: 2500, type: 'error' });
-    //         return;
-    //     }
+        if (!dbUser.email) {
+            toast('Something went wrong!', { autoClose: 2500, type: 'error' });
+            return;
+        }
 
-    //     const body = {
-    //         feedback,
-    //         userEmail: dbUser.email
-    //     };
-    //     axios
-    //         .post(`${BASE_URL}api/v1/feedback/add-feedback`, body, {
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         })
-    //         .then((data) => {
-    //             setFeedback('');
-    //             setIsSending(false);
-    //             toast('Feedback added successfully.Thanks for your feedback.', { autoClose: 3000, type: 'success' });
-    //             handleToggle();
-    //         })
-    //         .catch(async (err) => {
-    //             setIsSending(false);
-    //             const errorMessage = err.response.data.message || err.msg || err.message || 'Something went wrong.';
-    //             toast(errorMessage, { autoClose: 2500, type: 'error' });
-    //         });
-    // };
+        const body = {
+            feedback,
+            userEmail: dbUser.email
+        };
+        axios
+            .post(`${BASE_URL}api/v1/feedback/add-feedback`, body, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then((data) => {
+                setFeedback('');
+                setIsSending(false);
+                toast('Feedback added successfully.Thanks for your feedback.', { autoClose: 3000, type: 'success' });
+                handleToggle();
+            })
+            .catch(async (err) => {
+                setIsSending(false);
+                const errorMessage = err.response.data.message || err.msg || err.message || 'Something went wrong.';
+                toast(errorMessage, { autoClose: 2500, type: 'error' });
+            });
+    };
 
     return (
         <>
-            <Box onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }}>
+            <Box onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar
                     src={
                         dbUser?.profileIMG
@@ -146,10 +144,59 @@ const ProfileSection = () => {
                     color="inherit"
                 />
                 <Typography>{user?.name}</Typography>
-                <Typography sx={{ p: 0, m: 0 }}>
-                    <IconChevronDown size={18} color="#6E7478" />
-                </Typography>
+                <Typography sx={{ transform: 'rotate(180deg)' }}>^</Typography>
             </Box>
+
+            <Chip
+                sx={{
+                    height: '48px',
+                    alignItems: 'center',
+                    borderRadius: '27px',
+                    transition: 'all .2s ease-in-out',
+                    borderColor: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.primary.light,
+                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.dark.main : theme.palette.primary.light,
+                    '&[aria-controls="menu-list-grow"], &:hover': {
+                        borderColor: theme.palette.primary.main,
+                        background: `${theme.palette.primary.main}!important`,
+                        color: theme.palette.primary.light,
+                        '& svg': {
+                            stroke: theme.palette.primary.light
+                        }
+                    },
+                    '& .MuiChip-label': {
+                        lineHeight: 0
+                    }
+                }}
+                icon={
+                    <Avatar
+                        src={
+                            dbUser?.profileIMG
+                                ? dbUser?.profileIMG
+                                : user?.image || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'
+                        }
+                        sx={{
+                            ...theme.typography.mediumAvatar,
+                            margin: '8px 0 8px 8px !important',
+                            cursor: 'pointer'
+                        }}
+                        ref={anchorRef}
+                        aria-controls={open ? 'menu-list-grow' : undefined}
+                        aria-haspopup="true"
+                        color="inherit"
+                    />
+                }
+                label={
+                    <>
+                        <IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />
+                    </>
+                }
+                variant="outlined"
+                ref={anchorRef}
+                aria-controls={open ? 'menu-list-grow' : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+                color="primary"
+            />
 
             <Popper
                 placement="bottom"

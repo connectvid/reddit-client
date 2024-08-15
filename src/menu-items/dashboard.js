@@ -1,7 +1,7 @@
 // third-party
 // import { FormattedMessage } from 'react-intl';
 // assets
-import { IconMessage, IconMoonStars, IconCheckupList, IconShare, IconUsers } from '@tabler/icons';
+import { IconMessage, IconMoonStars, IconCheckupList, IconShare } from '@tabler/icons';
 
 import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //

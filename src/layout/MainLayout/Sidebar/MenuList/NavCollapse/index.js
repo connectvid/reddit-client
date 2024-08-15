@@ -80,11 +80,12 @@ const NavCollapse = ({ menu, level }) => {
                     borderRadius: `${borderRadius}px`,
                     mb: 0.5,
                     alignItems: 'flex-start',
-                    backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+                    // backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
+                    background: selected === menu.id ? 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)' : 'inherit',
                     py: level > 1 ? 1 : 1.25,
                     pl: `${level * 24}px`
                 }}
-                selected={selected === menu.id}
+                // selected={selected === menu.id}
                 onClick={handleClick}
             >
                 <ListItemIcon sx={{ my: 'auto', minWidth: !menu.icon ? 18 : 36 }}>{menuIcon}</ListItemIcon>

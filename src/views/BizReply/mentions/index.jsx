@@ -53,7 +53,7 @@ const Mentions = () => {
     const [haveData, setHaveData] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
     const [filteredData, setFilteredData] = useState([]);
-    const [allDatas, setAllDatas] = useState([]);
+    // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All' });
 
     const {
@@ -62,6 +62,7 @@ const Mentions = () => {
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
     console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
+    console.log(mentionsDataObj);
     // const { subscription } = useSelector((state) => state.subscription);
     // const repliesCredits = subscription?.remainingCredit?.replies;
     // SOCKET
@@ -120,8 +121,8 @@ const Mentions = () => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             setLoading(true);
-            const first = project?.Suggestedkeywords?.[0];
-            if (first) setSelectedKeyword(first);
+            // const first = project?.Suggestedkeywords?.[0];
+            // if (first) setSelectedKeyword(first);
             try {
                 const token = await getAccessToken();
                 setFilteredData([]);
@@ -138,13 +139,15 @@ const Mentions = () => {
                 const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
                 setMentionsDataObj(reduced);
                 const [platform] = project?.platforms || [];
-                const title = first?.title;
+                // const title = first?.title;
                 // console.log(reduced, first);
 
-                if (platform && title) {
-                    const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
-                    setFilteredData(filtered);
-                }
+                // if (platform && title) {
+                //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
+                //     setFilteredData(filtered);
+                // }
+                const filtered = reduced[platform];
+                setFilteredData(filtered);
                 setLoading(false);
                 // if (!state?.socket || len) {
                 //     setLoading(false);

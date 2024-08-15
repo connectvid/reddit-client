@@ -3,47 +3,34 @@
 /* eslint-disable react/no-children-prop */
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, Button, Dialog, Typography } from '@mui/material';
+import { Box, Button, Dialog, Typography } from '@mui/material';
 
 // project imports
-import LogoSection from '../LogoSection';
 import MobileSection from './MobileSection';
 import ProfileSection from './ProfileSection';
-import { useDispatch, useSelector } from 'react-redux';
-import { openDrawer } from 'features/menu/menuSlice';
-
-// assets
-import { IconArrowLeft } from '@tabler/icons';
-// import useAuth from 'hooks/useAuth';
+import { useSelector } from 'react-redux';
+// import { openDrawer } from 'features/menu/menuSlice';
+// import { IconArrowLeft } from '@tabler/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IconPlus } from 'tabler-icons';
-import {
-    toggleShowProjects,
-    setSingleProjectSelect,
-    toggleProjectCreateModalCtrl,
-    createdKeywordSuccess,
-    clearingError
-} from 'features/project/projectActions';
+import { toggleShowProjects, setSingleProjectSelect, toggleProjectCreateModalCtrl, clearingError } from 'features/project/projectActions';
 import NewProject from 'views/BizReply/projects/NewProject';
 import './header.css';
 import React from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
-import { MENTION_PATH } from 'config';
 import { toast } from 'react-toastify';
 
 const Header = () => {
-    const { search, pathname } = useLocation();
+    const { pathname } = useLocation();
     const navigate = useNavigate();
     const theme = useTheme();
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const {
-        menu: { drawerOpen },
-        subscription: { subscription }
+        // menu: { drawerOpen },
+        // subscription: { subscription },
+        project: { projects, project, showProjectsList, showProjectCreateModal, error }
     } = useSelector((state) => state);
-    const repliesCredits = subscription?.remainingCredit;
-    const { projects, project, showProjectsList, showProjectCreateModal, createKeywordSuccess, error } = useSelector(
-        (state) => state.project
-    );
+    // const repliesCredits = subscription?.remainingCredit;
     React.useEffect(() => {
         if (error) {
             toast.error(error);
@@ -62,7 +49,7 @@ const Header = () => {
 
     return (
         <>
-            <Box
+            {/* <Box
                 sx={{
                     width: 228,
                     display: 'flex',
@@ -71,15 +58,6 @@ const Header = () => {
                     }
                 }}
             >
-                <Box component="span" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1, alignItems: 'center' }}>
-                    <LogoSection width={30} />{' '}
-                    <Box
-                        component="span"
-                        sx={{ fontWeight: 700, fontSize: '24px', fontFamily: 'Poppins', color: 'rgba(58, 26, 85,1)', ml: '4px' }}
-                    >
-                        BizReply.co
-                    </Box>
-                </Box>
                 <Avatar
                     variant="rounded"
                     sx={{
@@ -99,7 +77,7 @@ const Header = () => {
                 >
                     <IconArrowLeft style={{ transform: `rotate(${drawerOpen ? `` : '18'}0deg)` }} />
                 </Avatar>
-            </Box>
+            </Box> */}
 
             <Box
                 sx={{
@@ -177,7 +155,7 @@ const Header = () => {
             </Box>
 
             <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
-            <Box
+            {/* <Box
                 sx={{
                     // position: 'relative',
                     ml: 1,
@@ -199,7 +177,7 @@ const Header = () => {
                             );
                     })) ||
                     ''}
-            </Box>
+            </Box> */}
 
             <Box sx={{ marginRight: 1, flexGrow: 1, pl: 2 }} />
             <ProfileSection />

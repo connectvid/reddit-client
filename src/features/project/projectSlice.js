@@ -141,7 +141,7 @@ const projectSlice = createSlice({
             //     state.suggestedKeywords[index] = keyword;
             // } else state.suggestedKeywords.push(keyword);
         },
-        addKeywordForSave2(state, action) {
+        addKeywordForSave2(state) {
             // const { keyword } = action.payload;
             console.log(state, 'state');
         },
