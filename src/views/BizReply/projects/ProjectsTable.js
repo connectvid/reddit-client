@@ -111,15 +111,17 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography sx={{ color: '#6E7478' }}>Brand Name :</Typography>
-                    <Typography>{brandName}</Typography>
+                    <Typography>{brandName.length > 50 ? `${brandName.substring(0, 50)}...` : brandName}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Typography sx={{ color: '#6E7478' }}>Domain :</Typography>
-                    <Typography>{domain}</Typography>
+                    <Typography>{domain.length > 50 ? `${domain.substring(0, 50)}...` : domain}</Typography>
                 </Box>
                 <Box sx={{ display: '', justifyContent: 'space-between' }}>
                     <Typography sx={{ color: '#6E7478', mb: 2 }}>Description :</Typography>
-                    <Typography>{shortDescription}</Typography>
+                    <Typography sx={{ height: '100px' }}>
+                        {shortDescription.length > 250 ? `${shortDescription.substring(0, 250)}...` : shortDescription}
+                    </Typography>
                 </Box>
             </Box>
             <BRButton

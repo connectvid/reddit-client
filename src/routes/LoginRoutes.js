@@ -34,7 +34,6 @@ const LoginRoutes = {
         {
             path: '/forgot-password',
             element: <ForgetPassword />
-            // element: <Register3 />
         }
     ]
 };

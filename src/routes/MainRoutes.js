@@ -13,6 +13,7 @@ const Subscription = Loadable(lazy(() => import('views/BizReply/subscription')))
 const Settings = Loadable(lazy(() => import('views/BizReply/Settings')));
 const Expired = Loadable(lazy(() => import('views/BizReply/expired')));
 const NotFound = Loadable(lazy(() => import('views/pages/maintenance/Error')));
+const OnBoarding = Loadable(lazy(() => import('views/pages/onBoarding/OnBoarding')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -61,6 +62,10 @@ const MainRoutes = {
         {
             path: '/*',
             element: <NotFound />
+        },
+        {
+            path: '/onboarding',
+            element: <OnBoarding />
         }
     ]
 };
