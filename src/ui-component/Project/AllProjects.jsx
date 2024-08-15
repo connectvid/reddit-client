@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 // import { useTheme } from '@mui/material/styles';
-import { Autocomplete, Box, TextField } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { IconChevronDown } from '@tabler/icons';
 import { setSingleProjectSelect } from 'features/project/projectActions';
@@ -17,50 +17,43 @@ const AllProjects = ({ projectListWidth = '210px' }) => {
     return (
         <>
             {options?.length ? (
-                <Box
-                    sx={{
-                        '.MuiAutocomplete-root.MuiAutocomplete-hasPopupIcon.css-igupmo-MuiAutocomplete-root': {
-                            width: projectListWidth
+                <Autocomplete
+                    id="all_project_select_breadcrubm_area"
+                    defaultValue={{ label: project?.brandName, _id: project?._id }}
+                    options={options || []}
+                    fullWidth
+                    sx={{ width: projectListWidth }}
+                    // getOptionLabel={(item) => item.brandName}
+                    popupIcon={<IconChevronDown size={20} />}
+                    onChange={(_, data) => {
+                        const id = data?._id;
+                        if (id) {
+                            setSingleProjectSelect(id)();
+                            navigate(`${pathname}?dp=${id}`);
                         }
+                        console.log(data);
+                        return data;
                     }}
-                >
-                    <Autocomplete
-                        id="all_project_select_breadcrubm_area"
-                        defaultValue={{ label: project?.brandName, _id: project?._id }}
-                        options={options || []}
-                        sx={{ width: 300 }}
-                        // getOptionLabel={(item) => item.brandName}
-                        popupIcon={<IconChevronDown size={20} />}
-                        onChange={(_, data) => {
-                            const id = data?._id;
-                            if (id) {
-                                setSingleProjectSelect(id)();
-                                navigate(`${pathname}?dp=${id}`);
-                            }
-                            console.log(data);
-                            return data;
-                        }}
-                        renderInput={(params) => (
-                            <TextField
-                                fullWidth
-                                {...params}
-                                sx={{
-                                    height: '40px',
-                                    input: {
-                                        px: '20px!important',
-                                        py: `1px!important`
-                                    },
-                                    fieldset: {
-                                        borderRadius: '10px',
-                                        borderColor: '#CCD3D9 !important'
-                                    }
-                                }}
-                                placeholder="Project"
-                            />
-                        )}
-                        disableClearable
-                    />
-                </Box>
+                    renderInput={(params) => (
+                        <TextField
+                            fullWidth
+                            {...params}
+                            sx={{
+                                height: '40px',
+                                input: {
+                                    px: '20px!important',
+                                    py: `1px!important`
+                                },
+                                fieldset: {
+                                    borderRadius: '10px',
+                                    borderColor: '#CCD3D9 !important'
+                                }
+                            }}
+                            placeholder="Project"
+                        />
+                    )}
+                    disableClearable
+                />
             ) : (
                 ''
             )}
