@@ -1,9 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
-import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
-import { height } from '@mui/system';
-import { IconPlus } from 'tabler-icons';
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
