@@ -11,7 +11,7 @@ import BrandIcon from '@mui/icons-material/BusinessCenter';
 import KeywordsIcon from '@mui/icons-material/Label';
 import SocialsIcon from '@mui/icons-material/Share';
 import BRForm from 'ui-component/bizreply/BRForm';
-import BRButton from 'ui-component/bizreply/BRButton';
+import BRButton from 'ui-component/bizreply/BRButton/index';
 
 const steps = [
     { label: 'Brand Details', icon: <BrandIcon /> },
