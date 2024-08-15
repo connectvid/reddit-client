@@ -3,10 +3,10 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Box, Card, CardContent, Dialog, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardContent, CircularProgress, Dialog, Grid, Typography } from '@mui/material';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { createdKeywordSuccess, deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { createdKeywordSuccess, createKeywordsApi, deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MENTION_PATH } from 'config';
@@ -15,12 +15,16 @@ import KeywordBreadcrumb from 'ui-component/KeywordBreadcrumb';
 import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
 import GradinentText from 'ui-component/GradinentText';
+import { LiaTimesCircle } from 'react-icons/lia';
+import BRButton from 'ui-component/bizreply/BRButton';
+import useAuth from 'hooks/useAuth';
 
 const Keywords = () => {
     const { search } = useLocation();
     const navigate = useNavigate();
-    // const { getAccessToken } = useAuth();
-    const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
+    const { getAccessToken } = useAuth();
+    const { project, projects, createKeywordSuccess, createKeywordsLoading, customKeywords } = useSelector((state) => state.project);
+
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
     const [openModal, setOpenModal] = React.useState(false);
@@ -49,13 +53,49 @@ const Keywords = () => {
                         }
                 }}
             >
-                <AddKeyword {...{ handleClose: modalClose }} />
+                <Box sx={{ border: '1px solid #ddd', borderRadius: '12px', m: 0, p: 0 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            height: '54px',
+                            alignItems: 'center',
+                            background: '#F1F1F1',
+                            px: '20px',
+                            borderRadius: '12px 12px 0 0'
+                        }}
+                    >
+                        <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>Create a new keyword</Typography>
+                        <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
+                            <LiaTimesCircle color="#000" size={24} />
+                        </Typography>
+                    </Box>
+                    <AddKeyword />
+                    <Typography sx={{ display: 'flex', gap: '10px', justifyContent: 'end', p: '20px' }}>
+                        <Button onClick={modalClose} sx={{ width: '156px', background: '#EAEAEA' }}>
+                            Cancle
+                        </Button>
+                        <BRButton
+                            disabled={
+                                !Object.values(customKeywords || {})?.filter?.((item) => item.trim())?.length || createKeywordsLoading
+                            }
+                            onClick={async () => {
+                                const token = await getAccessToken();
+                                const body = {
+                                    projectId: project._id,
+                                    suggestedKeywords: [...Object.values(customKeywords).filter((item) => item.trim())]
+                                };
+                                createKeywordsApi(token, body)();
+                            }}
+                            variant="contained"
+                            sx={{ fontSize: '14px', fontWeight: 500, width: '196px' }}
+                        >
+                            Save Keyword {(createKeywordsLoading && <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />) || ''}
+                        </BRButton>
+                    </Typography>
+                </Box>
             </Dialog>
-            {/* <Card sx={{ mb: 5, minHeight: '75vh' }}>
-                <CardContent>
-                 
-                </CardContent>
-            </Card> */}
+
             {!projects?.length ? (
                 <Typography>
                     <span onClick={toggleProjectCreateModalCtrl()}>Create a project</span>
