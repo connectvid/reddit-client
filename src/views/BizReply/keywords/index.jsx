@@ -3,7 +3,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Box, Card, CardContent, Dialog, Grid, Typography } from '@mui/material';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
 import { createdKeywordSuccess, deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
@@ -14,7 +14,7 @@ import React from 'react';
 import KeywordBreadcrumb from 'ui-component/KeywordBreadcrumb';
 import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
-import BRButton from 'ui-component/bizreply2/BRButton';
+import GradinentText from 'ui-component/GradinentText';
 
 const Keywords = () => {
     const { search } = useLocation();
@@ -23,6 +23,7 @@ const Keywords = () => {
     const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
+    const [openModal, setOpenModal] = React.useState(false);
     React.useEffect(() => {
         if (createKeywordSuccess) {
             navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
@@ -30,10 +31,26 @@ const Keywords = () => {
         }
     }, [createKeywordSuccess]);
     console.log({ createKeywordSuccess });
+    const handleModal = () => setOpenModal((p) => !p);
+    const modalClose = () => setOpenModal(false);
 
     return (
         <>
-            <KeywordBreadcrumb />
+            <KeywordBreadcrumb {...{ handleModal }} />
+            <Dialog
+                open={openModal}
+                onClose={modalClose}
+                aria-labelledby="responsive-dialog-title"
+                sx={{
+                    '.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm':
+                        {
+                            p: 0,
+                            m: 0
+                        }
+                }}
+            >
+                <AddKeyword {...{ handleClose: modalClose }} />
+            </Dialog>
             {/* <Card sx={{ mb: 5, minHeight: '75vh' }}>
                 <CardContent>
                  
@@ -123,23 +140,20 @@ const KeywordCard = ({ _id, title, accessToken, brandLogo = 'brand-logo/clickup.
                         >
                             <TbSquareAsterisk size={16.5} color="#000" /> Keyword
                         </Typography>
-                        <Typography
-                            sx={{
-                                cursor: 'pointer',
-                                background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)',
-                                WebkitTextFillColor: 'transparent',
-                                WebkitBackgroundClip: 'text',
-                                fontWeight: 700,
-                                fontSize: '16px'
-                            }}
+
+                        <GradinentText
                             onClick={async () => {
                                 // eslint-disable-next-line no-alert
                                 if (!confirm(`Are you sure to delete keyword with associated mentions?`)) return;
                                 deleteKeywordAPI(accessToken, _id)();
                             }}
+                            sx={{
+                                fontWeight: 700,
+                                fontSize: '16px'
+                            }}
                         >
                             {title}
-                        </Typography>
+                        </GradinentText>
                     </Box>
                 </Box>
                 <Box sx={{ mt: '6px' }}>

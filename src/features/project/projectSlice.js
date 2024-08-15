@@ -158,6 +158,9 @@ const projectSlice = createSlice({
             delete copy[idx];
             state.customKeywords = copy;
         },
+        clearCustomKeyword(state) {
+            state.customKeywords = {};
+        },
         toggleProjectCreateModal(state) {
             state.showProjectCreateModal = !state.showProjectCreateModal;
         },
@@ -259,7 +262,8 @@ export const {
     addKeywordForSave2,
     projectInit,
     clearError,
-    keywordRemove
+    keywordRemove,
+    clearCustomKeyword
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

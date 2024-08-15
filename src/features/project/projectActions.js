@@ -25,7 +25,8 @@ import {
     updateProjectSuccess,
     projectInit,
     clearError,
-    keywordRemove
+    keywordRemove,
+    clearCustomKeyword
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -33,6 +34,9 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 
 export const keywordRemoving = (value) => () => {
     dispatch(keywordRemove(value));
+};
+export const clearingCustomKeyword = () => () => {
+    dispatch(clearCustomKeyword());
 };
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
