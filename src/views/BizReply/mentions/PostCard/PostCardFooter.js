@@ -37,6 +37,7 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
                     fontSize: '14px',
                     fontWeight: 500
                 }}
+                childSx={{ justifyContent: 'center' }}
             >
                 <Link to={removeEndingSubstring(link)} target="_blank" rel="noreferrer">
                     View Post

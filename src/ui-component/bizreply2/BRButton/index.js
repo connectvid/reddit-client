@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, ...rest }) => {
+const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, childSx = {}, ...rest }) => {
     const theme = useTheme();
     const { button } = theme.palette.background;
     // console.log(theme.palette);
@@ -31,7 +31,8 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
             bgOps = { ...bgOps, ...outlined };
             const child = {
                 background: 'white',
-                borderRadius: bgOps.borderRadius
+                borderRadius: bgOps.borderRadius,
+                ...childSx
             };
             if (sx?.backgroundColor || sx?.background) {
                 child.background = sx?.backgroundColor || sx?.background;
@@ -46,7 +47,7 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
                         sx={{
                             alignItems: 'center',
                             display: 'flex',
-                            justifyContent: 'center',
+                            // justifyContent: 'center',
                             height: '100%',
                             width: '100%',
                             ...child
@@ -57,7 +58,9 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
                             sx={{
                                 background: bgOps.backgroundImage,
                                 WebkitTextFillColor: 'transparent',
-                                WebkitBackgroundClip: 'text'
+                                WebkitBackgroundClip: 'text',
+                                display: 'flex',
+                                alignItems: 'center'
                             }}
                         >
                             {children}
