@@ -1,95 +1,105 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import { Select } from '@mui/material';
+// import { useTheme } from '@mui/material/styles';
+import { Autocomplete, Box, TextField } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { IconChevronDown } from '@tabler/icons';
+import { setSingleProjectSelect } from 'features/project/projectActions';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250
-        }
-    }
-};
-
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder'
-];
-
-function getStyles(name, personName, theme) {
-    return {
-        fontWeight: personName.indexOf(name) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium
-    };
-}
-
-const AllProjects = () => {
-    const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
-
-    const handleChange = (event) => {
-        const {
-            target: { value }
-        } = event;
-        setPersonName(
-            // On autofill we get a stringified value.
-            typeof value === 'string' ? value.split(',') : value
-        );
-    };
+const AllProjects = ({ projectListWidth = '210px' }) => {
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
+    const {
+        project: { projects, project }
+    } = useSelector((state) => state);
+    const options = projects?.map?.(({ brandName: label, _id }) => ({ label, _id }));
 
     return (
-        <FormControl
-            sx={{
-                width: 180,
-                border: '1px solid #ccd3d9',
-                borderRadius: '10px',
-                height: '43px',
-                padding: '0px !important',
-                '& .MuiSelect-select': {
-                    padding: '0 0 0 10px'
-                }
-            }}
-        >
-            <Select
-                multiple
-                displayEmpty
-                value={personName}
-                onChange={handleChange}
-                input={<OutlinedInput />}
-                renderValue={(selected) => {
-                    if (selected.length === 0) {
-                        return <em>Placeholder</em>;
+        <>
+            {options?.length ? (
+                <Box
+                    sx={{
+                        '.MuiAutocomplete-root.MuiAutocomplete-hasPopupIcon.css-igupmo-MuiAutocomplete-root': {
+                            width: projectListWidth
+                        }
+                    }}
+                >
+                    <Autocomplete
+                        id="all_project_select_breadcrubm_area"
+                        defaultValue={{ label: project?.brandName, _id: project?._id }}
+                        options={options || []}
+                        sx={{ width: 300 }}
+                        // getOptionLabel={(item) => item.brandName}
+                        popupIcon={<IconChevronDown size={20} />}
+                        onChange={(_, data) => {
+                            const id = data?._id;
+                            if (id) {
+                                setSingleProjectSelect(id)();
+                                navigate(`${pathname}?dp=${id}`);
+                            }
+                            console.log(data);
+                            return data;
+                        }}
+                        renderInput={(params) => (
+                            <TextField
+                                fullWidth
+                                {...params}
+                                sx={{
+                                    height: '40px',
+                                    input: {
+                                        px: '20px!important',
+                                        py: `1px!important`
+                                    },
+                                    fieldset: {
+                                        borderRadius: '10px',
+                                        borderColor: '#CCD3D9 !important'
+                                    }
+                                }}
+                                placeholder="Project"
+                            />
+                        )}
+                        disableClearable
+                    />
+                </Box>
+            ) : (
+                ''
+            )}
+            {/* <FormControl
+                sx={{
+                    width: 180,
+                    border: '1px solid #ccd3d9',
+                    borderRadius: '10px',
+                    height: '43px',
+                    padding: '0px !important',
+                    '& .MuiSelect-select': {
+                        padding: '0 0 0 10px'
                     }
-
-                    return selected.join(', ');
                 }}
-                MenuProps={MenuProps}
-                inputProps={{ 'aria-label': 'Without label' }}
-                sx={{ height: '43px', padding: '0px !important' }}
             >
-                {/* <MenuItem sx={{ padding: '0px', height: '10px' }} disabled value="">
-                    <em>Placeholder</em>
-                </MenuItem> */}
-                {names.map((name) => (
-                    <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
-                        {name}
-                    </MenuItem>
-                ))}
-            </Select>
-        </FormControl>
+                <Select
+                    multiple
+                    displayEmpty
+                    value={personName}
+                    onChange={handleChange}
+                    input={<OutlinedInput />}
+                    renderValue={(selected) => {
+                        if (selected.length === 0) {
+                            return <em>Placeholder</em>;
+                        }
+
+                        return selected.join(', ');
+                    }}
+                    MenuProps={MenuProps}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ height: '43px', padding: '0px !important' }}
+                >
+                    {names.map((name) => (
+                        <MenuItem key={name} value={name} style={getStyles(name, personName, theme)}>
+                            {name}
+                        </MenuItem>
+                    ))}
+                </Select> </FormControl>*/}
+        </>
     );
 };
 

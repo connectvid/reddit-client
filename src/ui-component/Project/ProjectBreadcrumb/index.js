@@ -7,7 +7,7 @@ import AllProjects from '../AllProjects';
 const ProjectBreadcrumb = () => {
     return (
         <Breadcrumb title="Projects">
-            <AllProjects />
+            <AllProjects {...{ projectListWidth: '210px' }} />
             <BRButton sx={{ height: '40px', width: '180px' }} variant="contained" onClick={toggleProjectCreateModalCtrl()}>
                 Add Project
             </BRButton>
