@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 // import ProjectsTable from './ProjectsTable';
@@ -18,7 +19,7 @@ import { toast } from 'react-toastify';
 // import axios from 'utils/axios';
 // import { createKeywords, hasError } from 'features/project/projectSlice';
 
-const AddKeyword = ({ handleClose }) => {
+const AddKeyword = ({ handleClose, unknowClear = false }) => {
     // const { search } = useLocation();
     const {
         project: { project, customKeywords: cKeys, createKeywordSuccess },
@@ -32,9 +33,11 @@ const AddKeyword = ({ handleClose }) => {
         handleClose?.();
     };
     useEffect(() => {
-        return () => {
-            onClose();
-        };
+        if (unknowClear) {
+            return () => {
+                onClose();
+            };
+        }
     }, []);
     useEffect(() => {
         if (createKeywordSuccess) {

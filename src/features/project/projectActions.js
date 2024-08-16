@@ -103,7 +103,7 @@ export const addProject =
             dispatch(addNewProject(response.data));
             subsctriptionCreditsSetter({ projects: -1 })();
             projectCreatedStatus(true)();
-            dispatch(toggleProjectCreateModal(false));
+            // dispatch(toggleProjectCreateModal(false));
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
         } finally {

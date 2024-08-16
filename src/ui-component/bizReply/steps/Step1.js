@@ -2,14 +2,38 @@ import BRInput from '../BRInput';
 import { Grid, TextareaAutosize, Typography } from '@mui/material';
 import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
+import { toast } from 'react-toastify';
 
-const Step1 = ({ values, handleChange, setStep }) => {
-    console.log('object');
+const Step1 = ({ values, setValues, setStep, createdProject }) => {
+    const handleNextStep = () => {
+        if (!values.brandName || !values?.domain || !values?.shortDescription) {
+            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
+        } else {
+            setStep(2);
+        }
+    };
     return (
         <div>
             <Stepper1 />
-            <BRInput label="Brand Name" value={values.brandName} handleChange={handleChange} />
-            <BRInput label="Domain" placeholder="ex: mailtoon.io" value={values.brandName} handleChange={handleChange} />
+            <BRInput
+                label="Brand Name"
+                name="brandName"
+                value={values.brandName}
+                handleChange={({ target: { value = '' } }) => {
+                    setValues((p) => ({ ...p, brandName: value }));
+                }}
+                disabled={createdProject}
+            />
+            <BRInput
+                label="Domain"
+                name="domain"
+                placeholder="ex: mailtoon.io"
+                value={values.domain}
+                handleChange={({ target: { value = '' } }) => {
+                    setValues((p) => ({ ...p, domain: value }));
+                }}
+                disabled={createdProject}
+            />
             <Typography
                 variant="subtitle2"
                 sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }} // Set font size and bold
@@ -19,8 +43,11 @@ const Step1 = ({ values, handleChange, setStep }) => {
             <TextareaAutosize
                 rowsMin={5}
                 placeholder="Write a description"
+                name="shortDescription"
                 value={values.shortDescription}
-                onChange={handleChange}
+                onChange={({ target: { value = '' } }) => {
+                    setValues((p) => ({ ...p, shortDescription: value }));
+                }}
                 fullWidth // Full width
                 style={{
                     padding: '10px',
@@ -35,7 +62,7 @@ const Step1 = ({ values, handleChange, setStep }) => {
                 Please write the description in details. 👆
             </p>
             <Grid sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <BRButton variant="contained" style={{ width: '180px' }} onClick={() => setStep(2)}>
+                <BRButton variant="contained" style={{ width: '180px' }} onClick={handleNextStep}>
                     Next Step
                 </BRButton>
             </Grid>

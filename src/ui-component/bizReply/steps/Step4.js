@@ -2,6 +2,7 @@ import Stepper3 from './stepper/Stepper3';
 import { Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import congratulations from 'assets/images/congratulations.png';
+import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 
 const Step4 = ({ setStep }) => {
     console.log('Step 2');
@@ -19,7 +20,7 @@ const Step4 = ({ setStep }) => {
                 {/* <BRButton variant="outlined" style={{ width: '210px' }} onClick={() => setStep(3)}>
                     Create Another Project
                 </BRButton> */}
-                <BRButton variant="contained" style={{ width: '180px' }} onClick={() => setStep(3)}>
+                <BRButton variant="contained" style={{ width: '180px' }} onClick={toggleProjectCreateModalCtrl()}>
                     Go to Projects Page
                 </BRButton>
             </Grid>
