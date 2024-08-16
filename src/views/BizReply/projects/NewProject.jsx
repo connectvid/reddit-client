@@ -1,37 +1,14 @@
-import React, { useState } from 'react';
-import {
-    CircularProgress,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Stepper,
-    Step,
-    StepLabel,
-    IconButton,
-    Box,
-    Modal
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import useAuth from 'hooks/useAuth';
-import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { addProject, projectCreatedStatus } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
-import BrandIcon from '@mui/icons-material/BusinessCenter';
-import KeywordsIcon from '@mui/icons-material/Label';
-import SocialsIcon from '@mui/icons-material/Share';
 import BRForm from 'ui-component/bizreply/BRForm';
-import BRButton from 'ui-component/bizreply/BRButton';
-
-const steps = [
-    { label: 'Brand Details', icon: <BrandIcon /> },
-    { label: 'Set Keywords', icon: <KeywordsIcon /> },
-    { label: 'Select Socials', icon: <SocialsIcon /> }
-];
 
 const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
-    const { createLoading, projectCreated, project } = useSelector((state) => state.project);
+    const { projectCreated, project } = useSelector((state) => state.project);
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const [values, setValues] = React.useState({

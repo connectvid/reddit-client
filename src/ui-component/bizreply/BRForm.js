@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { TextField, FormControl, Typography, Box, Modal } from '@mui/material';
-import BRInput from './BRInput';
+import { Box, Modal } from '@mui/material';
 import crossIcon from '../../assets/images/cross.svg';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -11,7 +10,7 @@ import Step2 from './steps/Step2';
 import Step3 from './steps/Step3';
 import Step4 from './steps/Step4';
 
-const BRForm = ({ values, handleChange, urlPlaceholder }) => {
+const BRForm = ({ values, handleChange }) => {
     const {
         project: { showProjectCreateModal }
     } = useSelector((state) => state);

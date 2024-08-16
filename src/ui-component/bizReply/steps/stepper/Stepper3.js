@@ -1,14 +1,11 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
 import complete from '../../../../assets/images/complete.svg';
 import coloredLine from '../../../../assets/images/coloredLine.svg';
 import step3Icon from '../../../../assets/images/step3Icon.svg';
 
 const Stepper3 = () => {
-    const [currentStep, setCurrentStep] = useState(0);
-
     return (
         <div style={{ width: '90%', minWidth: '300px', margin: '0 auto' }}>
             <div

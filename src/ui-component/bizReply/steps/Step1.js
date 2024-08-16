@@ -1,7 +1,5 @@
-import React from 'react';
 import BRInput from '../BRInput';
 import { Grid, TextareaAutosize, Typography } from '@mui/material';
-import { TextFields } from '@mui/icons-material';
 import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
 
