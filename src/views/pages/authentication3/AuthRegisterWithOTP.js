@@ -6,6 +6,7 @@ import {
     Box,
     Button,
     CircularProgress,
+    Divider,
     FormControl,
     FormHelperText,
     Grid,
@@ -55,6 +56,37 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
 
     return (
         <>
+            <Box onClick={firebaseGoogleLoginOrSignup} sx={{ mt: 2 }}>
+                <AnimateButton>
+                    <Button
+                        style={{ color: 'black', padding: '20px' }}
+                        disableElevation
+                        disabled={isLoading}
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<GoogleIcon />} // Add the Google icon here
+                        endIcon={
+                            isLoading ? (
+                                <CircularProgress disableShrink sx={{ width: '30px !important', height: '30px !important' }} />
+                            ) : (
+                                <></>
+                            )
+                        }
+                    >
+                        Signup with Google
+                    </Button>
+                </AnimateButton>
+            </Box>
+            <div style={{ margin: '20px 0' }}>
+                <Divider>
+                    <Typography variant="body1" color="textSecondary">
+                        Or Login with Email
+                    </Typography>
+                </Divider>
+            </div>
             <Formik
                 initialValues={{
                     email: '',
@@ -76,6 +108,9 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                     <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
+                                <Typography variant="h4" align="left" gutterBottom>
+                                    Full Name
+                                </Typography>
                                 <FormControl
                                     fullWidth
                                     error={Boolean(touched.name && errors.name)}
@@ -100,6 +135,9 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                             </Grid>
 
                             <Grid item xs={12}>
+                                <Typography variant="h4" align="left" gutterBottom>
+                                    Email Address
+                                </Typography>
                                 <FormControl
                                     fullWidth
                                     error={Boolean(touched.email && errors.email)}
@@ -125,44 +163,9 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                             </Grid>
 
                             <Grid item xs={12}>
-                                <FormControl
-                                    fullWidth
-                                    error={Boolean(touched.password && errors.password)}
-                                    sx={{ ...theme.typography.customInput }}
-                                >
-                                    <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password-register"
-                                        type={showPassword ? 'text' : 'password'}
-                                        value={values.password}
-                                        name="password"
-                                        label="Password"
-                                        onBlur={handleBlur}
-                                        onChange={(e) => {
-                                            handleChange(e);
-                                            changePassword(e.target.value);
-                                        }}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                    size="large"
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        inputProps={{}}
-                                    />
-                                    {touched.password && errors.password && (
-                                        <FormHelperText error id="standard-weight-helper-text-password-register">
-                                            {errors.password}
-                                        </FormHelperText>
-                                    )}
-                                </FormControl>
+                                <Typography variant="h4" align="left" gutterBottom>
+                                    Password
+                                </Typography>
                                 <FormControl
                                     fullWidth
                                     error={Boolean(touched.password && errors.password)}
@@ -227,10 +230,10 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                                 <Box sx={{ mt: 2 }}>
                                     <AnimateButton>
                                         <BRButton
-                                            // style={{ background: 'black', color: '#fff', padding: '20px' }}
                                             disableElevation
                                             disabled={isSubmitting || isLoading || sendingOTP}
                                             fullWidth
+                                            sx={{ color: 'white' }} // This sets the text color to white
                                         >
                                             {isLoading || sendingOTP ? 'Sign up...' : 'Sign up'}
                                         </BRButton>
@@ -241,7 +244,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                     </form>
                 )}
             </Formik>
-            <Box onClick={firebaseGoogleLoginOrSignup} sx={{ mt: 2 }}>
+            {/* <Box onClick={firebaseGoogleLoginOrSignup} sx={{ mt: 2 }}>
                 <AnimateButton>
                     <Button
                         style={{ color: 'black', padding: '20px' }}
@@ -264,7 +267,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                         Signup with Google
                     </Button>
                 </AnimateButton>
-            </Box>
+            </Box> */}
         </>
     );
 };

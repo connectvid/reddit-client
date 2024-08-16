@@ -5,6 +5,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 import {
     Box,
@@ -96,20 +97,33 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     fullWidth
                                     variant="outlined"
                                     startIcon={<GoogleIcon />}
-                                    style={{ marginTop: theme.spacing(3), padding: '20px' }}
+                                    style={{
+                                        marginTop: theme.spacing(3),
+                                        padding: '10px',
+                                        backgroundColor: 'rgba(255, 255, 255, 1)',
+                                        color: 'black'
+                                    }}
                                 >
-                                    Login in with Google
+                                    Login with Google
                                 </Button>
                             </AnimateButton>
                         </Box>
-                        <hr />
+                        <div style={{ margin: '20px 0' }}>
+                            <Divider>
+                                <Typography variant="body1" color="textSecondary">
+                                    Or Login with Email
+                                </Typography>
+                            </Divider>
+                        </div>
                         <FormControl
-                            // fullWidth
-                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '30px' }}
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
                             error={Boolean(touched.email && errors.email)}
                             sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
+                            <Typography variant="h4" align="left" gutterBottom>
+                                Email
+                            </Typography>
+                            {/* <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel> */}
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -128,12 +142,14 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                         </FormControl>
 
                         <FormControl
-                            // fullWidth
-                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '20px' }}
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
                             error={Boolean(touched.password && errors.password)}
                             sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <Typography variant="h4" align="left" gutterBottom>
+                                Password
+                            </Typography>
+                            {/* <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel> */}
                             <OutlinedInput
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
@@ -174,7 +190,7 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     label="Remember me"
                                 />
                                 <Typography
-                                    style={{ color: 'rgba(42, 152, 213, 1)' }} // Apply your RGBA color here
+                                    style={{ color: 'rgba(42, 152, 213, 1)' }}
                                     component={Link}
                                     to={isLoggedIn ? '/pages/register/ForgotPassword3' : '/forgot-password'}
                                     variant="subtitle1"
@@ -194,15 +210,13 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}>
                                 <BRButton
-                                    style={{ width: '100%', padding: '20px' }}
+                                    style={{
+                                        width: '100%',
+                                        padding: '10px',
+                                        color: 'white' // Set text color to white
+                                    }}
                                     disableElevation
                                     disabled={isSubmitting || isLoading}
-                                    // fullWidth
-                                    // size="large"
-                                    // type="submit"
-                                    // variant="outlined"
-                                    // color="secondary"
-                                    // sx={{ backgroundColor: 'black', color: 'white', '&:hover': { backgroundColor: 'grey' } }}
                                     endIcon={
                                         isLoading ? (
                                             <CircularProgress
