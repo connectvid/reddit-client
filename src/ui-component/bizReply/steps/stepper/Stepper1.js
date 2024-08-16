@@ -1,14 +1,11 @@
 /* eslint-disable import/no-duplicates */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
 import step1Icon from '../../../../assets/images/step1Icon.svg';
 import unColoredLine from '../../../../assets/images/unColoredLine.svg';
 import dashedCircle from '../../../../assets/images/dashedCircle.svg';
 
 const Stepper1 = () => {
-    const [currentStep, setCurrentStep] = useState(0);
-
     return (
         <div style={{ width: '90%', minWidth: '300px', margin: '0 auto' }}>
             <div

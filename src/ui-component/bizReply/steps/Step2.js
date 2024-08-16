@@ -1,4 +1,3 @@
-import React from 'react';
 import Stepper2 from './stepper/Stepper2';
 import { Grid } from '@mui/material';
 import BRButton from '../BRButton';

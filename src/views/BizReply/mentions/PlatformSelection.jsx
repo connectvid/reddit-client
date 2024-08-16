@@ -1,18 +1,9 @@
 import { Card, CardContent, Box, Typography } from '@mui/material';
 import { changePlatform } from 'features/project/projectActions';
-import reddit from 'assets/images/platforms/reddit.png';
-import linkedin from 'assets/images/platforms/linkedin.png';
-import quora from 'assets/images/platforms/quora.png';
-import twitter from 'assets/images/platforms/twitter.png';
 import { FaRegSquare } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
+import { platformsSrc } from 'data';
 
-export const platformsSrc = {
-    'reddit.com': reddit,
-    'linkedin.com': linkedin,
-    'quora.com': quora,
-    'twitter.com': twitter
-};
 const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData }) => {
     return (
         <Card sx={{ mb: 3 }}>
