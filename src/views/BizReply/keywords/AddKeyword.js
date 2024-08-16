@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 // import axios from 'utils/axios';
 // import { createKeywords, hasError } from 'features/project/projectSlice';
 
-const AddKeyword = ({ handleClose, unknowClear = false }) => {
+const AddKeyword = ({ handleClose, unmountClear = false }) => {
     // const { search } = useLocation();
     const {
         project: { project, customKeywords: cKeys, createKeywordSuccess },
@@ -33,7 +33,7 @@ const AddKeyword = ({ handleClose, unknowClear = false }) => {
         handleClose?.();
     };
     useEffect(() => {
-        if (unknowClear) {
+        if (unmountClear) {
             return () => {
                 onClose();
             };
