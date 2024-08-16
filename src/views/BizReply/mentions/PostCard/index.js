@@ -168,7 +168,7 @@ const PostCard = ({
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
                             {(brandLogo && (
                                 <Typography>
-                                    <img src={brandLogo} alt="brandLogo" style={{ height: '25px' }} />
+                                    <img src={brandLogo} alt="brandLogo" style={{ maxWidth: '80px' }} />
                                 </Typography>
                             )) ||
                                 ''}
