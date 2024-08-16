@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import BRButton from 'ui-component/bizreply/BRButton';
+import BRButton from 'ui-component/bizreply3/BRButton';
 import BRBradcrumb from '../../Breadcrumb';
 import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import AllProjects from './AllProjects';

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
-import BRButton from 'ui-component/bizreply/BRButton';
+import BRButton from 'ui-component/bizreply3/BRButton';
 import { CircularProgress, Typography } from '@mui/material';
 
 const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, moreLoading }) => {

@@ -12,7 +12,7 @@ import {
 import { IconPlus, IconTrash } from 'tabler-icons';
 import PropTypes from 'prop-types';
 import { LiaTimesCircle } from 'react-icons/lia';
-import BRInput2 from 'ui-component/bizreply/BRInput2';
+import BRInput2 from 'ui-component/bizreply3/BRInput2';
 import GradinentText from 'ui-component/GradinentText';
 import { fontSize, fontWeight } from '@mui/system';
 // import { useLocation, useNavigate } from 'react-router-dom';
