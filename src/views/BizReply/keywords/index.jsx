@@ -16,7 +16,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
 import GradinentText from 'ui-component/GradinentText';
 import { LiaTimesCircle } from 'react-icons/lia';
-import BRButton from 'ui-component/bizreply3/BRButton';
+import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
 
 const Keywords = () => {

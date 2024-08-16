@@ -5,7 +5,7 @@ import useAuth from 'hooks/useAuth';
 import { addProject, projectCreatedStatus } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { KEYWORD_PATH } from 'config';
-import BRForm from 'ui-component/bizreply3/BRForm';
+import BRForm from 'ui-component/bizreply/BRForm';
 
 const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
     const { projectCreated, project } = useSelector((state) => state.project);

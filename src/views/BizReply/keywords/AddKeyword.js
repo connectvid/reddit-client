@@ -9,7 +9,7 @@ import {
     createdKeywordSuccess
 } from 'features/project/projectActions';
 import { IconPlus } from 'tabler-icons';
-import BRInput2 from 'ui-component/bizreply3/BRInput2';
+import BRInput2 from 'ui-component/bizreply/BRInput2';
 import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
 import { toast } from 'react-toastify';
