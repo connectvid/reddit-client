@@ -10,7 +10,7 @@ const Step4 = ({ setStep }) => {
             <Stepper3 />
             <p>fourth screen</p>
             <Grid sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                <BRButton variant="outlined" style={{ width: '210px' }} onClick={() => setStep(2)}>
+                <BRButton variant="outlined" style={{ width: '210px' }} onClick={() => setStep(3)}>
                     Create Another Project
                 </BRButton>
                 <BRButton variant="contained" style={{ width: '180px' }} onClick={() => setStep(3)}>
