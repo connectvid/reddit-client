@@ -4,7 +4,7 @@ import BRButton from '../BRButton';
 import congratulations from 'assets/images/congratulations.png';
 import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 
-const Step4 = ({ setStep }) => {
+const Step4 = () => {
     console.log('Step 2');
     return (
         <div>

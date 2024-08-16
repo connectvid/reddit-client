@@ -19,7 +19,7 @@ const BRForm = () => {
     } = useSelector((state) => state);
     const { getAccessToken, dbUser } = useAuth();
     const [step, setStep] = useState(1);
-    const [addedProjectId, setAddedProjectId] = useState('');
+    // const [addedProjectId, setAddedProjectId] = useState('');
     const [createdProject, setCreatedProject] = useState(false);
     const [values, setValues] = useState({
         brandName: '',

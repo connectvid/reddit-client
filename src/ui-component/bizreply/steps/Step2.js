@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import reddit from 'assets/images/platforms/reddit.png';

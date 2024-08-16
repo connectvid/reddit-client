@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid } from '@mui/material';
 import BRButton from '../BRButton';
 import AddKeyword from 'views/BizReply/keywords/AddKeyword';
