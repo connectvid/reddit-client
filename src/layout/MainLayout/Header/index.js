@@ -3,17 +3,18 @@
 /* eslint-disable react/no-children-prop */
 // material-ui
 // import { useTheme } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Box, Dialog } from '@mui/material';
 import MobileSection from './MobileSection';
 import ProfileSection from './ProfileSection';
 import { useSelector } from 'react-redux';
 import { clearingError } from 'features/project/projectActions';
 import React from 'react';
 import { toast } from 'react-toastify';
+import NewProject from 'views/BizReply/projects/NewProject';
 
 const Header = () => {
     const {
-        project: { error }
+        project: { error, showProjectCreateModal }
     } = useSelector((state) => state);
     React.useEffect(() => {
         if (error) {
@@ -31,6 +32,9 @@ const Header = () => {
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 <MobileSection />
             </Box>
+            <Dialog open={showProjectCreateModal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                <NewProject />
+            </Dialog>
         </>
     );
 };

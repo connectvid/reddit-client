@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { IconPlus } from 'tabler-icons';
 import { toggleShowProjects, setSingleProjectSelect, toggleProjectCreateModalCtrl, clearingError } from 'features/project/projectActions';
 import NewProject from 'views/BizReply/projects/NewProject';
-import './header.css';
+// import './header.css';
 import React from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
