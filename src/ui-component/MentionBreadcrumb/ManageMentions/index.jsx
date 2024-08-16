@@ -26,10 +26,10 @@ export default function ManageMentions({ selectedPlatform, loading, haveData }) 
                             border: `1px solid ${selectedPlatform === platform ? '#0C22E5' : '#CCD3D9'}`,
                             minHeight: '75px',
                             textAlign: 'center',
+                            borderRadius: '10px'
                             // display: 'flex',
                             // alignItems: 'center',
                             // justifyContent: 'center',
-                            borderRadius: '10px'
                             // ,position: 'relative'
                         }}
                         onClick={() => {

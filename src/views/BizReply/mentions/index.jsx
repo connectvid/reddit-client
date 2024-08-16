@@ -2,15 +2,13 @@
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import { Box, Button, Card, CardContent, CircularProgress, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import PostCard from './PostCard';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
-import { toast } from 'react-toastify';
-import errorMsgHelper from 'utils/errorMsgHelper';
 import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -156,38 +154,38 @@ const Mentions = () => {
         }
     }, [project?._id]);
 
-    const loadMore = async () => {
-        if (!selectedKeyword?._id || !selectedPlatform) {
-            toast.error(`Someting going wrong!`);
-            return;
-        }
-        const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
-        console.log(body);
-        setMoreLoading(true);
-        try {
-            const token = await getAccessToken();
-            const {
-                data: { items }
-            } = await axios.post(`mentions/load-more`, body, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (items?.length) {
-                setMentionsDataObj((p) => {
-                    p[selectedPlatform] = [...p[selectedPlatform], ...items];
-                    return p;
-                });
-            }
+    // const loadMore = async () => {
+    //     if (!selectedKeyword?._id || !selectedPlatform) {
+    //         toast.error(`Someting going wrong!`);
+    //         return;
+    //     }
+    //     const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
+    //     console.log(body);
+    //     setMoreLoading(true);
+    //     try {
+    //         const token = await getAccessToken();
+    //         const {
+    //             data: { items }
+    //         } = await axios.post(`mentions/load-more`, body, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (items?.length) {
+    //             setMentionsDataObj((p) => {
+    //                 p[selectedPlatform] = [...p[selectedPlatform], ...items];
+    //                 return p;
+    //             });
+    //         }
 
-            setMoreLoading(false);
-        } catch (e) {
-            console.log(e);
-            toast.error(errorMsgHelper(e));
+    //         setMoreLoading(false);
+    //     } catch (e) {
+    //         console.log(e);
+    //         toast.error(errorMsgHelper(e));
 
-            setMoreLoading(false);
-        }
-    };
+    //         setMoreLoading(false);
+    //     }
+    // };
 
     useEffect(() => {
         const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
@@ -203,7 +201,7 @@ const Mentions = () => {
 
     return (
         <>
-            <MentionBreadcrumb {...{ setSelectedKeyword, loading }} />
+            <MentionBreadcrumb {...{ setSelectedKeyword, loading, selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading }} />
 
             <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
             {!loading && showEmpty && !filteredData?.length ? (
@@ -242,7 +240,7 @@ const Mentions = () => {
                         );
                     })}
 
-                    {filteredData?.length ? (
+                    {/* {filteredData?.length ? (
                         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                             <Button
                                 variant="outlined"
@@ -255,7 +253,7 @@ const Mentions = () => {
                         </Box>
                     ) : (
                         ''
-                    )}
+                    )} */}
                 </>
             )}
         </>
