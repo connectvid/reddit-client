@@ -54,35 +54,23 @@ const Login = () => {
                                     alignItems="center"
                                     justifyContent="center"
                                 >
-                                    <Grid item width="100%" display="flex">
-                                        <Box
-                                            width="100%"
-                                            // display="flex"
-                                            direction="column"
-                                            alignItems="center"
-                                            gap="20px"
-                                            // justifyContent="space-between"
-                                            spacing={1}
-                                        >
+                                    <Grid item width="100%" display="flex" justifyContent="center" alignItems="center">
+                                        <Box width="100%" display="flex" flexDirection="column" alignItems="center" gap="20px">
                                             <Typography
-                                                color={theme.palette.secondary.main}
+                                                color="black"
                                                 gutterBottom
                                                 variant={matchDownSM ? 'h3' : 'h2'}
+                                                fontSize="36px" // Set the font size for "Log In"
                                             >
                                                 Log In
                                             </Typography>
                                             <Typography
-                                                color={theme.palette.secondary.main}
+                                                color="black"
                                                 gutterBottom
-                                                variant={matchDownSM ? 'h3' : 'h2'}
+                                                variant={matchDownSM ? 'h4' : 'h5'} // Adjust the variant for better scaling
+                                                fontSize="22px" // Set the font size for "Hi, Welcome back 👋"
                                             >
                                                 Hi, Welcome back 👋{' '}
-                                            </Typography>
-                                            <Typography variant="body2">
-                                                Don’t have an account?{' '}
-                                                <Link to="/register" style={{ fontWeight: 'bold', textDecoration: 'none' }}>
-                                                    Join now
-                                                </Link>
                                             </Typography>
                                         </Box>
                                     </Grid>
@@ -105,20 +93,11 @@ const Login = () => {
                                     variant="subtitle1"
                                     sx={{ textDecoration: 'none' }}
                                 >
-                                    Don&apos;t have an account?
+                                    Not registered yet? Create an account
                                 </Typography>
                             </Grid>
-                            <Grid item container direction="column" alignItems="center" xs={12}>
-                                <Typography
-                                    style={{ color: 'red', marginTop: '5px' }}
-                                    component={Link}
-                                    to={isLoggedIn ? '/pages/register/ForgotPassword3' : '/forgot-password'}
-                                    variant="subtitle1"
-                                    sx={{ textDecoration: 'none' }}
-                                >
-                                    Forgot password?
-                                </Typography>
-                            </Grid>
+                            {/* <Grid item container direction="column" alignItems="center" xs={12}>
+                            </Grid> */}
                         </Grid>
                     </Box>
                 </Box>

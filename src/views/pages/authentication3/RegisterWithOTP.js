@@ -1,21 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Box, Typography, TextField, Button, Paper, Stack, Link, Divider, Grid, useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import AuthRegisterWithOTP from './AuthRegisterWithOTP';
 import AuthRegisterOTPForm from './AuthRegisterOTPForm';
 import useAuth from 'hooks/useAuth';
-import Logo from 'ui-component/Logo';
+// import Logo from 'ui-component/Logo';
 import axios from 'utils/axios';
-
-// assets
-// ===============================|| AUTH3 - REGISTER ||=============================== //
 
 const RegisterWithOTP = () => {
     const theme = useTheme();
     const { isLoggedIn, firebaseRegisterWithOTP, generalError, setGeneralError } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
     const [formTitle, setFormTitle] = useState('Sign up');
     const [OTPValue, setOTPValue] = useState('');
     const [showRegisterForm, setShowRegisterForm] = useState(true);
@@ -26,18 +21,22 @@ const RegisterWithOTP = () => {
     });
 
     const [OTPError, setOTPError] = useState('');
+
     const [isOTPVerifying, setIsOTPVerifying] = useState(false);
+
     const [sendingOTP, setSendingOTP] = useState(false);
 
     const handleOPTSubmit = async (e) => {
         e.preventDefault();
+
         setGeneralError('');
 
         if (!OTPValue || OTPValue?.length !== 6) {
-            setOTPError(`Somethig went wrong`);
+            setOTPError(`Something went wrong`);
         }
 
         console.log({ OTP: OTPValue, email: signUpUser.email, signUpUser });
+
         setIsOTPVerifying(true);
 
         axios
@@ -48,7 +47,12 @@ const RegisterWithOTP = () => {
             })
             .then(async (data) => {
                 if (data?.data?.isSuccess) {
-                    await firebaseRegisterWithOTP({ email: signUpUser.email, name: signUpUser.name, password: signUpUser.password });
+                    await firebaseRegisterWithOTP({
+                        email: signUpUser.email,
+                        name: signUpUser.name,
+                        password: signUpUser.password
+                    });
+
                     setIsOTPVerifying(false);
                 }
             })
@@ -60,14 +64,20 @@ const RegisterWithOTP = () => {
 
     const sendOTPAtEmail = async ({ name, ...rest }) => {
         const userObject = { name, ...rest };
+
         console.log(userObject);
+
         setSignUpUser(userObject);
-        // setDbUser(userObject);
 
         setGeneralError('');
+
         setSendingOTP(true);
+
         axios
-            .post(`email/send-otp-email`, { name: userObject.name, email: userObject.email })
+            .post(`email/send-otp-email`, {
+                name: userObject.name,
+                email: userObject.email
+            })
             .then(() => {
                 setFormTitle('Verify OTP');
                 setShowRegisterForm(false);
@@ -81,19 +91,37 @@ const RegisterWithOTP = () => {
     };
 
     return (
-        <>
-            {/* AuthWrapper1 */}
-            <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-                <Grid item xs={12}>
-                    <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-                        <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
-                            <>
-                                <Grid container spacing={2} alignItems="center" justifyContent="center">
-                                    <Grid item sx={{ mb: 3 }}>
-                                        <Link to="#">
-                                            <Logo />
-                                        </Link>
-                                    </Grid>
+        <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            style={{ minHeight: '100vh', backgroundColor: '#f8f9fa' }}
+        >
+            <Grid item xs={12} sm={8} md={5} lg={4}>
+                <Box maxWidth={600} width="100%" style={{ position: 'relative' }}>
+                    <Box
+                        style={{
+                            position: 'absolute',
+                            inset: '-8px',
+                            // background: 'linear-gradient(90deg, #44ff9a, #44b0ff, #8b44ff, #ff6644, #ebff70)',
+                            borderRadius: '24px',
+                            filter: 'blur(20px)',
+                            opacity: 0.3
+                        }}
+                    />
+                    <Box
+                        style={{
+                            position: 'relative',
+                            backgroundColor: 'white',
+                            borderRadius: '16px',
+                            boxShadow: theme.shadows[5],
+                            padding: theme.spacing(3, 4)
+                        }}
+                    >
+                        <Grid container justifyContent="space-between" alignItems="center">
+                            <Grid container justifyContent="space-between" alignItems="center">
+                                <Grid item xs={12}>
                                     <Grid item xs={12}>
                                         <Grid
                                             container
@@ -101,70 +129,54 @@ const RegisterWithOTP = () => {
                                             alignItems="center"
                                             justifyContent="center"
                                         >
-                                            <Grid item>
-                                                <Stack alignItems="center" justifyContent="center" spacing={1}>
+                                            <Grid item width="100%" display="flex" justifyContent="center" alignItems="center">
+                                                <Box width="100%" display="flex" flexDirection="column" alignItems="center" gap="20px">
                                                     <Typography
-                                                        color={theme.palette.secondary.main}
+                                                        color="black"
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
+                                                        fontSize="36px" // Set the font size for "Log In"
                                                     >
-                                                        {formTitle}
+                                                        Sign Up
                                                     </Typography>
-
-                                                    {generalError ? (
-                                                        <Typography color="error" variant="h5">
-                                                            {generalError}
-                                                        </Typography>
-                                                    ) : (
-                                                        ''
-                                                    )}
-                                                </Stack>
+                                                    <Typography
+                                                        color="black"
+                                                        gutterBottom
+                                                        variant={matchDownSM ? 'h4' : 'h5'} // Adjust the variant for better scaling
+                                                        fontSize="22px" // Set the font size for "Hi, Welcome back 👋"
+                                                    >
+                                                        Register & Connect with BizReply{' '}
+                                                    </Typography>
+                                                </Box>
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={5}>
-                                        {/* {responseOTP === !true ? ( */}
-                                        {showRegisterForm === true ? (
-                                            <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
-                                        ) : (
-                                            <AuthRegisterOTPForm
-                                                {...{
-                                                    OTPError,
-                                                    setOTPError,
-                                                    handleOPTSubmit,
-                                                    OTPValue,
-                                                    setOTPValue,
-                                                    isOTPVerifying,
-                                                    signUpUser
-                                                }}
-                                            />
-                                        )}
-                                    </Grid>
-                                    {/* <Grid item xs={12}>
-                                        <Divider />
-                                    </Grid> */}
-                                    <Grid item xs={12}>
-                                        <Grid item container direction="column" alignItems="center" xs={12}>
-                                            <Typography
-                                                component={Link}
-                                                to={isLoggedIn ? '/pages/login/login3' : '/login'}
-                                                variant="subtitle1"
-                                                sx={{ textDecoration: 'none' }}
-                                            >
-                                                Already have an account?
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
                                 </Grid>
-                            </>
+                            </Grid>
+                            <Grid item xs={12}>
+                                {' '}
+                                {/* Full width grid item */}
+                                {showRegisterForm ? (
+                                    <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
+                                ) : (
+                                    <AuthRegisterOTPForm
+                                        {...{
+                                            OTPError,
+                                            setOTPError,
+                                            handleOPTSubmit,
+                                            OTPValue,
+                                            setOTPValue,
+                                            isOTPVerifying,
+                                            signUpUser
+                                        }}
+                                    />
+                                )}
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Grid>
-                {/* <Grid item xs={12} sx={{ m: 3, mt: 1 }}>
-                    <AuthFooter />
-                </Grid> */}
+                    </Box>
+                </Box>
             </Grid>
-        </>
+        </Grid>
     );
 };
 
