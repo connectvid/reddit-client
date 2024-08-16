@@ -12,9 +12,9 @@ import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import socket from 'socket';
-import PostFilter from './PostFilter';
 import PlatformSelection from './PlatformSelection';
 import { useLocation, useNavigate } from 'react-router-dom';
+import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -22,17 +22,6 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
         return a;
     }, {});
     const reduced = data?.reduce((a, c) => {
-        // c.view = true;
-        // if (c.platform === 'reddit.com') {
-        //     const link = removeEndingSubstring(c.link, '/');
-        //     if (link.includes('reddit.com/r/') && link.split(/(?<!\/)\/(?!\/)/).length === 3) {
-        //         return a;
-        //     }
-        //     if (a[c.platform]) {
-        //         a[c.platform].push(c);
-        //     }
-        //     return a;
-        // }
         if (a[c.platform]) {
             a[c.platform].push(c);
         } else {
@@ -58,13 +47,10 @@ const Mentions = () => {
 
     const {
         project,
-        createKeywordSuccess,
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
     console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
     console.log(mentionsDataObj);
-    // const { subscription } = useSelector((state) => state.subscription);
-    // const repliesCredits = subscription?.remainingCredit?.replies;
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items, percentage } }) {
@@ -217,51 +203,9 @@ const Mentions = () => {
 
     return (
         <>
-            <Card sx={{ mb: 5 }}>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: '',
-                        alignItems: 'center',
-                        gap: { xs: '10px', md: '20px' },
-                        flexDirection: { xs: 'column', md: 'row' }
-                    }}
-                >
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            flexDirection: { xs: 'column', sm: 'row' },
-                            justifyContent: 'space-between',
-                            // justifyContent: { xs: 'normal', sm: 'space-between' },
-                            alignItems: 'center',
-                            width: '100%'
-                        }}
-                    >
-                        <Typography
-                            variant="h2"
-                            sx={{
-                                width: { xs: '100%', md: '' },
-                                textAlign: { xs: 'center', md: '' }
-                            }}
-                        >
-                            Mentions
-                        </Typography>
-                        <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
-                    </Box>
-                    {!createKeywordSuccess && project?.Suggestedkeywords?.length ? (
-                        <PostFilter
-                            {...{
-                                keywords: project?.Suggestedkeywords, // selectedKeyword
-                                setSelectedKeyword,
-                                loading,
-                                haveData
-                            }}
-                        />
-                    ) : (
-                        ''
-                    )}
-                </CardContent>
-            </Card>
+            <MentionBreadcrumb {...{ setSelectedKeyword, loading }} />
+
+            <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
             {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
                     <CardContent>

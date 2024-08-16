@@ -32,7 +32,9 @@ const PostCard = ({
     setObjItems,
     selectedPlatform,
     showMarkRepliedBtn,
-    repliesCredits
+    repliesCredits,
+    brandLogo,
+    markReplyPosition = 'reply-section' // generate-reply-top
 }) => {
     const { getAccessToken } = useAuth();
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
@@ -163,23 +165,32 @@ const PostCard = ({
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>
-                        <Typography
-                            sx={{
-                                textTransform: 'uppercase',
-                                color: '#0A362E',
-                                bgcolor: '#C7FCEB',
-                                height: '28px',
-                                width: '127px',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                fontSize: '12px',
-                                fontWeight: 500,
-                                borderRadius: '6px'
-                            }}
-                        >
-                            {keyword}
-                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+                            {(brandLogo && (
+                                <Typography>
+                                    <img src={brandLogo} alt="brandLogo" style={{ height: '25px' }} />
+                                </Typography>
+                            )) ||
+                                ''}
+
+                            <Typography
+                                sx={{
+                                    textTransform: 'uppercase',
+                                    color: '#0A362E',
+                                    bgcolor: '#C7FCEB',
+                                    height: '28px',
+                                    width: '127px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    fontSize: '12px',
+                                    fontWeight: 500,
+                                    borderRadius: '6px'
+                                }}
+                            >
+                                {keyword}
+                            </Typography>
+                        </Box>
                         <Box display="flex" alignItems="center" gap="14px">
                             <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }}>{date}</Typography>
                             <Typography>
@@ -205,7 +216,8 @@ const PostCard = ({
                                 setUpdatingReply,
                                 link,
                                 showMarkRepliedBtn,
-                                markReply
+                                markReply,
+                                markReplyPosition
                             }}
                         />
                     )}

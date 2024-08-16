@@ -1,5 +1,3 @@
-import React from 'react';
-
 const OnBoarding = () => {
     console.log('hello world');
     return (

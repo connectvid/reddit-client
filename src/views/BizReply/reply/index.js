@@ -63,7 +63,11 @@ const Reply = () => {
                 ''
             )}
             {mentionsData?.map?.((item) => (
-                <PostCard key={item._id} {...item} {...{ project, setObjItems: setMentionsData }} />
+                <PostCard
+                    key={item._id}
+                    {...item}
+                    {...{ project, setObjItems: setMentionsData, markReplyPosition: 'generate-reply-top', brandLogo: project?.brandLogo }}
+                />
             ))}
         </>
     );

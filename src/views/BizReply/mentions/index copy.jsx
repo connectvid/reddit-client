@@ -13,7 +13,7 @@ import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import socket from 'socket';
-import PostFilter from './PostFilter';
+import PostFilter from '../../../ui-component/MentionBreadcrumb/PostFilter';
 import PlatformSelection from './PlatformSelection';
 import { useLocation, useNavigate } from 'react-router-dom';
 
