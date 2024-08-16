@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, childSx = {}, ...rest }) => {
+const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', variant, childSx = {}, grandChildSx = {}, ...rest }) => {
     const theme = useTheme();
     const { button } = theme.palette.background;
     // console.log(theme.palette);
@@ -60,7 +60,8 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
                                 WebkitTextFillColor: 'transparent',
                                 WebkitBackgroundClip: 'text',
                                 display: 'flex',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                ...grandChildSx
                             }}
                         >
                             {children}
