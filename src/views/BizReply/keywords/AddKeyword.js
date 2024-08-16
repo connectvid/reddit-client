@@ -78,7 +78,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                                 alignItems: 'center',
                                 height: '33px',
                                 fontSize: '14px',
-                                fontWeight: 400
+                                fontWeight: 500
                             }}
                             key={i}
                             component="h5"
@@ -112,7 +112,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                         placeholder="Enter keyword"
                         sx={{
                             fontSize: '16px',
-                            fontWeight: 400,
+                            fontWeight: 500,
                             color: '#6E7478',
                             boxShadow: '0px 1px 2px 0px #DEE3E8'
                         }}
@@ -168,7 +168,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                                 alignItems: 'center',
                                 height: '33px',
                                 fontSize: '14px',
-                                fontWeight: 400
+                                fontWeight: 500
                             }}
                             key={i}
                             component="h5"

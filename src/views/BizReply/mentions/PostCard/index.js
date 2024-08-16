@@ -200,7 +200,7 @@ const PostCard = ({
                     </Box>
                     <Typography sx={{ mb: '9px', fontWeight: 700, lineHeight: '19.54px', fontSize: '16px' }}>{title}</Typography>
 
-                    <Typography sx={{ color: '#000', fontSize: '14px', fontWeight: 400, lineHeight: '22px' }} title={snippet}>
+                    <Typography sx={{ color: '#000', fontSize: '14px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)}
                     </Typography>
                     {editReply && (

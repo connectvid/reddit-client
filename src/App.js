@@ -6,7 +6,7 @@ import RTLLayout from 'ui-component/RTLLayout';
 import Snackbar from 'ui-component/extended/Snackbar';
 import ThemeCustomization from 'themes';
 import 'react-toastify/dist/ReactToastify.css';
-// import '@fontsource/gemunu-libre/700.css';
+import '@fontsource/gemunu-libre/700.css';
 import { FirebaseProvider as AuthProvider } from 'contexts/FirebaseContext';
 
 // ==============================|| APP ||============================== //

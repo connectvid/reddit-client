@@ -35,7 +35,7 @@ const styles = {
     display: 'flex',
     gap: '6px',
     alignItems: 'center',
-    fontWeight: 400,
+    fontWeight: 500,
     fontSize: '16px',
     lineHeight: '22px',
     color: '#6E7478',
@@ -62,7 +62,7 @@ const GeneretedReply = ({
 }) => (
     <Box style={{ marginTop: '20px' }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography sx={{ fontWeight: 400, fontSize: '14px', lineHeight: '22px', color: '#6E7478', mb: '10px' }}>
+            <Typography sx={{ fontWeight: 500, fontSize: '14px', lineHeight: '22px', color: '#6E7478', mb: '10px' }}>
                 Generated Reply
             </Typography>
             {(markReplyPosition === 'generate-reply-top' && <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />) || ''}
@@ -88,7 +88,7 @@ const GeneretedReply = ({
                                     key={i}
                                     sx={{
                                         color: '#000',
-                                        fontWeight: 400,
+                                        fontWeight: 500,
                                         fontSize: '14px',
                                         lineHeight: '22px'
                                     }}
@@ -96,7 +96,7 @@ const GeneretedReply = ({
                                     <Typography
                                         sx={{
                                             color: '#000',
-                                            fontWeight: 400,
+                                            fontWeight: 500,
                                             fontSize: '14px',
                                             lineHeight: '22px',
                                             m: 0,
