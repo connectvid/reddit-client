@@ -1,12 +1,82 @@
-import { TextField, FormControl, Typography, Box } from '@mui/material';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { TextField, FormControl, Typography, Box, Modal } from '@mui/material';
+import BRInput from './BRInput';
+import crossIcon from '../../assets/images/cross.svg';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import Step1 from './steps/Step1';
+import Step2 from './steps/Step2';
+import Step3 from './steps/Step3';
+import Step4 from './steps/Step4';
 
 const BRForm = ({ values, handleChange, urlPlaceholder }) => {
+    const {
+        project: { showProjectCreateModal }
+    } = useSelector((state) => state);
+    const [step, setStep] = useState(1);
+
     return (
-        <Box sx={{ width: '545px' }}>
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
-                Brand Name
-            </Typography>
-            <TextField
+        <Modal open={showProjectCreateModal} onClose={toggleProjectCreateModalCtrl()}>
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    borderRadius: '12px',
+                    width: '40%',
+                    minWidth: '300px',
+                    color: '#000'
+                }}
+            >
+                <Box
+                    style={{
+                        backgroundColor: '#f1f1f1',
+                        borderRadius: '12px 12px 0 0',
+                        padding: '0px 30px',
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                        borderBottom: `2px solid #f0f0f0`,
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <p className="mr-2">Create a new project</p>
+                    <img
+                        style={{
+                            cursor: 'pointer'
+                        }}
+                        onClick={toggleProjectCreateModalCtrl()}
+                        src={crossIcon}
+                        alt="icon"
+                    />
+                </Box>
+                {step === 1 && (
+                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                        <Step1 {...{ values, handleChange, setStep }} />
+                    </Box>
+                )}
+                {step === 2 && (
+                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                        <Step2 {...{ values, handleChange, setStep }} />
+                    </Box>
+                )}
+                {step === 3 && (
+                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                        <Step3 {...{ values, handleChange, setStep }} />
+                    </Box>
+                )}
+                {step === 4 && (
+                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                        <Step4 {...{ values, handleChange, setStep }} />
+                    </Box>
+                )}
+
+                {/* <TextField
                 sx={{
                     mb: 4,
                     height: '48px',
@@ -21,8 +91,8 @@ const BRForm = ({ values, handleChange, urlPlaceholder }) => {
                 placeholder="Brand name"
                 type="text"
                 inputProps={{ minLength: 3, maxLength: 40 }}
-            />
-            <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
+            /> */}
+                {/* <Typography variant="subtitle2" sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
                 Domain
             </Typography>
             <TextField
@@ -56,8 +126,9 @@ const BRForm = ({ values, handleChange, urlPlaceholder }) => {
                 <Typography variant="caption" sx={{ mt: 1, color: 'black' }}>
                     Please write the description in detail.
                 </Typography>
-            </FormControl>
-        </Box>
+            </FormControl> */}
+            </Box>
+        </Modal>
     );
 };
 

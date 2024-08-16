@@ -1,5 +1,16 @@
-import React from 'react';
-import { CircularProgress, DialogActions, DialogContent, DialogTitle, Stepper, Step, StepLabel, IconButton, Box } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    CircularProgress,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    Stepper,
+    Step,
+    StepLabel,
+    IconButton,
+    Box,
+    Modal
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -75,7 +86,7 @@ const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <DialogTitle
+            {/* <DialogTitle
                 id="alert-dialog-title"
                 sx={{
                     display: 'flex',
@@ -90,9 +101,9 @@ const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
                 <IconButton onClick={() => toggleProjectCreateModalCtrl()()}>
                     <CloseIcon />
                 </IconButton>
-            </DialogTitle>
+            </DialogTitle> */}
 
-            <Box sx={{ width: '100%', mt: 2, mb: 2 }}>
+            {/* <Box sx={{ width: '100%', mt: 2, mb: 2 }}>
                 <Stepper alternativeLabel>
                     {steps.map((step, index) => (
                         <Step key={index}>
@@ -104,13 +115,13 @@ const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
                         </Step>
                     ))}
                 </Stepper>
-            </Box>
+            </Box> */}
 
-            <DialogContent>
-                <BRForm values={values} handleChange={handleChange} urlPlaceholder={urlPlaceholder} />
-            </DialogContent>
+            {/* <Modal open={isModalOpen}> */}
+            <BRForm {...{ values, handleChange, urlPlaceholder }} />
+            {/* </Modal> */}
 
-            <DialogActions sx={{ justifyContent: 'end' }}>
+            {/* <DialogActions sx={{ justifyContent: 'end' }}>
                 <BRButton
                     variant="contained"
                     onClick={handleSubmit}
@@ -123,7 +134,7 @@ const NewProject = ({ urlPlaceholder = 'ex: facebook.com' }) => {
                 >
                     Next Step {createLoading && <CircularProgress sx={{ ml: 1, height: `24px !important`, width: `24px !important` }} />}
                 </BRButton>
-            </DialogActions>
+            </DialogActions> */}
         </form>
     );
 };

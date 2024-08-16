@@ -16,7 +16,7 @@ import { IconPlus } from 'tabler-icons';
 import { toggleShowProjects, setSingleProjectSelect, toggleProjectCreateModalCtrl, clearingError } from 'features/project/projectActions';
 import NewProject from 'views/BizReply/projects/NewProject';
 import './header.css';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 
@@ -185,10 +185,10 @@ const Header = () => {
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 <MobileSection />
             </Box>
-            {/* <NewProject /> */}
-            <Dialog open={showProjectCreateModal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+            <NewProject />
+            {/* <Dialog open={showProjectCreateModal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
                 <NewProject />
-            </Dialog>
+            </Dialog> */}
         </>
     );
 };
