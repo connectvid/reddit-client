@@ -10,7 +10,7 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { CircularProgress, Typography } from '@mui/material';
 
-const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, moreLoading }) => {
+const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, moreLoading, firstKeyword }) => {
     const { getAccessToken } = useAuth();
 
     const {
@@ -18,11 +18,13 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
     } = useSelector((state) => state.project);
 
     const loadMore = async () => {
-        if (!selectedKeyword?._id || !selectedPlatform) {
+        const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+        // console.log({ selectedKeyword });
+        if (!keyword?._id || !selectedPlatform) {
             toast.error(`Someting going wrong!`);
             return;
         }
-        const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
+        const body = { keywordId: keyword._id, platform: selectedPlatform };
         setMoreLoading?.(true);
         try {
             const token = await getAccessToken();
@@ -47,9 +49,10 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
             setMoreLoading?.(false);
         }
     };
-    const isDisabled = selectedKeyword?.title === 'All' || moreLoading || !selectedPlatform;
+    const isDisabled = moreLoading || !selectedPlatform;
+    // const isDisabled = selectedKeyword?.title === 'All Keywords' || moreLoading || !selectedPlatform;
     return (
-        <Typography title={selectedKeyword?.title === 'All' && `Please choose a keyword`}>
+        <Typography title={selectedKeyword?.title === 'All Keywords' && `Please choose a keyword`}>
             <BRButton
                 onClick={loadMore}
                 disabled={isDisabled}

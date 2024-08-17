@@ -1,6 +1,6 @@
 import { TextField, Typography, Box } from '@mui/material';
 
-const BRInput = ({ label, value = '', handleChange, placeholder, type, disabled = false }) => {
+const BRInput = ({ label, value = '', handleChange, placeholder, type, disabled = false, sx = {}, fullWidth = true, ...rest }) => {
     return (
         <Box sx={{ width: '100%' }}>
             {' '}
@@ -16,19 +16,24 @@ const BRInput = ({ label, value = '', handleChange, placeholder, type, disabled 
                 ''}
             <TextField
                 sx={{
-                    mb: 2,
-                    height: '48px',
+                    mb: 1.5,
+                    height: '50px',
                     borderRadius: '10px',
                     color: 'black',
-                    width: '100%'
+                    width: '100%',
+                    overflow: 'hidden',
+                    input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                    fieldset: { height: '50px', borderRadius: '10px' },
+                    ...sx
                 }}
-                fullWidth
+                fullWidth={fullWidth}
                 disabled={disabled}
                 value={value}
                 onChange={handleChange}
                 placeholder={placeholder || 'Brand name'}
                 type={type || 'text'}
                 inputProps={{ minLength: 3, maxLength: 40 }}
+                {...rest}
             />
         </Box>
     );

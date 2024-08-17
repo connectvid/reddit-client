@@ -14,14 +14,15 @@ export default function MentionBreadcrumb({
     selectedKeyword,
     setMentionsDataObj,
     setMoreLoading,
-    moreLoading
+    moreLoading,
+    firstKeyword
 }) {
     return (
         <>
             {/* <ManageMentions /> */}
 
             <Breadcrumb title="Mentions">
-                <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading }} />
+                <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} />
                 {/* <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}

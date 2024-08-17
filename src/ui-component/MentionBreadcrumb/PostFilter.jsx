@@ -10,23 +10,25 @@ const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, l
     } = useSelector((state) => state.project);
 
     const keywords = project?.Suggestedkeywords;
+    const defaultKeyword = { title: 'All Keywords' };
     return (
         <Box>
             {(!loading && keywords?.length && (
                 <Autocomplete
                     disablePortal
                     id="combo-box-demo"
-                    options={keywords}
+                    options={[defaultKeyword, ...keywords]}
                     sx={{
                         width: keywordsWidth
                     }}
                     popupIcon={<IconChevronDown size={20} />}
-                    // defaultValue={keywords[0]}
+                    defaultValue={defaultKeyword}
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {
-                        const title = v || { title: 'All' };
+                        const title = v || defaultKeyword;
                         setSelectedKeyword(title);
                     }}
+                    disableClearable
                     renderInput={(params) => (
                         <TextField
                             fullWidth

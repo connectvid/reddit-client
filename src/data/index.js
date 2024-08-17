@@ -10,3 +10,18 @@ export const platformsSrc = {
     'quora.com': quora,
     'twitter.com': twitter
 };
+
+export const keywordColors = {
+    1: {
+        background: '#C7FCEB',
+        color: '#0A362E'
+    },
+    2: {
+        background: '#CDF2FA',
+        color: '#0F3A4D'
+    },
+    3: {
+        background: '#FFF1CD',
+        color: '#3B2109'
+    }
+};

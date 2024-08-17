@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { addProject, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 
-const KeywordProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)' }) => {
+const KeywordProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
     const { createLoading } = useSelector((state) => state.project);
     const [values, setValues] = React.useState({
         brandName: '',

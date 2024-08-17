@@ -24,7 +24,7 @@ const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }
             fullWidth
             multiline
             onChange={(e) => setEditReply(e.target.value || '')}
-            sx={{ mb: 2, borderRadius: `0 !important`, textarea: { borderRadius: `0 !important`, fontSize: '16px' } }}
+            sx={{ mb: 2, borderRadius: `0 !important`, textarea: { borderRadius: `0 !important`, fontSize: '16px', lineHeight: '22px' } }}
         />
         <Button type="submit" variant="contained" disabled={updatingReply}>
             Save {updatingReply && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
@@ -90,7 +90,7 @@ const GeneretedReply = ({
                                     sx={{
                                         color: '#000',
                                         fontWeight: 500,
-                                        fontSize: '14px',
+                                        fontSize: '16px',
                                         lineHeight: '22px'
                                     }}
                                 >
@@ -98,7 +98,7 @@ const GeneretedReply = ({
                                         sx={{
                                             color: '#000',
                                             fontWeight: 500,
-                                            fontSize: '14px',
+                                            fontSize: '16px',
                                             lineHeight: '22px',
                                             m: 0,
                                             p: 0
@@ -134,7 +134,7 @@ const GeneretedReply = ({
                                 }}
                             >
                                 <Typography sx={styles}>
-                                    <LiaTimesCircle size={13.33} /> Cancle
+                                    <LiaTimesCircle size={13.33} /> Cancel
                                 </Typography>
                             </Typography>
                         </Box>

@@ -1,6 +1,6 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-import React, { useState } from 'react';
+import React from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -146,13 +146,19 @@ const Subscription = () => {
     const { dbUser, getAccessToken } = useAuth();
     const [
         fetchSubscribeData // setFetchSubscribeData
-    ] = useState({
+    ] = React.useState({
         status: 'success'
     });
     const [
         price_Id,
         setPrice_Id // setFetchSubscribeData
-    ] = useState(null);
+    ] = React.useState(null);
+    React.useEffect(() => {
+        if (!dbUser?.email) return;
+        if (window.tolt_referral) {
+            window.tolt.signup(dbUser?.email);
+        }
+    }, [dbUser?.email]);
     const createSession = async (priceId) => {
         if (!priceId) {
             return 0;

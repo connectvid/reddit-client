@@ -65,7 +65,12 @@ const BRForm = () => {
     };
 
     return (
-        <Modal open={showProjectCreateModal} onClose={toggleProjectCreateModalCtrl()}>
+        <Modal
+            open={showProjectCreateModal}
+            onClose={toggleProjectCreateModalCtrl()}
+            sx={{ 'div.MuiBox-root.css-hobnl': { minWidth: '600px' } }}
+            className="-----------------------------"
+        >
             <Box
                 sx={{
                     position: 'absolute',

@@ -4,7 +4,7 @@ import { useState } from 'react';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
 import { IconPlus } from 'tabler-icons';
-import BRInput2 from 'ui-component/bizreply/BRInput2';
+import BRInput from 'ui-component/bizreply/BRInput';
 import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
 import { toast } from 'react-toastify';
@@ -83,8 +83,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                             </Typography>
                         </GradinentText>
                     </Box>
-                    <BRInput2
-                        fullWidth
+                    <BRInput
                         // name={item.toString()}
                         // defaultValue={cKeys[item]}
                         type="text"
@@ -96,8 +95,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                         sx={{
                             fontSize: '16px',
                             fontWeight: 400,
-                            color: '#6E7478',
-                            boxShadow: '0px 1px 2px 0px #DEE3E8'
+                            color: '#6E7478'
                         }}
                     />
                     <Button

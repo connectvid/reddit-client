@@ -54,7 +54,7 @@ const Step2 = ({ setStep, values, addedKeywords, setAddedKeywords, suggestedKeyw
                     Back to Previous
                 </BRButton>
                 <BRButton variant="contained" style={{ width: '210px' }} onClick={handleNextButton}>
-                    Save & Go to Next Step
+                    Next Step
                 </BRButton>
             </Grid>
         </div>

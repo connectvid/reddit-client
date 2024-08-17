@@ -17,6 +17,7 @@ const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, l
                     disablePortal
                     id="combo-box-demo"
                     options={keywords}
+                    // options={[{ title: 'All Keywords' }, ...keywords]}
                     sx={{
                         width: keywordsWidth
                     }}
@@ -24,7 +25,7 @@ const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, l
                     // defaultValue={keywords[0]}
                     getOptionLabel={(item) => item.title}
                     onChange={(_, v) => {
-                        const title = v || { title: 'All' };
+                        const title = v || { title: 'All Keywords' };
                         setSelectedKeyword(title);
                     }}
                     renderInput={(params) => (

@@ -51,7 +51,7 @@ const Mentions = () => {
     const [haveData, setHaveData] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
     const [filteredData, setFilteredData] = useState([]);
-    const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All' });
+    const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
     // console.log({ state });
     const {
         project,
@@ -178,7 +178,7 @@ const Mentions = () => {
 
     useEffect(() => {
         const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
-            if (selectedKeyword?.title === 'All') {
+            if (selectedKeyword?.title === 'All Keywords') {
                 return item;
             }
             if (selectedKeyword?.title === item.keyword) {
@@ -237,7 +237,7 @@ const Mentions = () => {
                     <CardContent>
                         <Typography variant="h3" sx={{ textAlign: 'center' }}>
                             Sorry, there seems to be no posts
-                            {selectedKeyword?.title && selectedKeyword.title !== 'All' ? (
+                            {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
                                 <strong> for your suggested {selectedKeyword?.title}</strong>
                             ) : (
                                 ''
@@ -273,8 +273,8 @@ const Mentions = () => {
                             <Button
                                 variant="outlined"
                                 onClick={loadMore}
-                                disabled={selectedKeyword?.title === 'All' || moreLoading || !selectedPlatform}
-                                title={selectedKeyword?.title === 'All' && `Please choose a keyword`}
+                                disabled={selectedKeyword?.title === 'All Keywords' || moreLoading || !selectedPlatform}
+                                title={selectedKeyword?.title === 'All Keywords' && `Please choose a keyword`}
                             >
                                 Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
                             </Button>

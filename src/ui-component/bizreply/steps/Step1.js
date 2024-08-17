@@ -1,10 +1,11 @@
 import BRInput from '../BRInput';
-import { Grid, TextareaAutosize, Typography } from '@mui/material';
+import { Grid, TextareaAutosize, Typography, useTheme } from '@mui/material';
 import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
 import { toast } from 'react-toastify';
 
 const Step1 = ({ values, setValues, setStep, createdProject }) => {
+    const { typography } = useTheme();
     const handleNextStep = () => {
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
             toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
@@ -56,7 +57,9 @@ const Step1 = ({ values, setValues, setStep, createdProject }) => {
                     minHeight: '50px',
                     maxHeight: '100px',
                     border: '2px solid #e5e6e9',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
+                    fontSize: '16px',
+                    fontFamily: typography.body1.fontFamily
                 }}
             />
             <p style={{ color: 'black', fontSize: '14px', fontWeight: '400', marginTop: '0px' }}>
