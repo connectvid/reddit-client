@@ -3,8 +3,13 @@ import { Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import congratulations from 'assets/images/congratulations.png';
 import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { MENTION_PATH } from 'config';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Step4 = () => {
+    const { project } = useSelector((s) => s.project);
+    const navigate = useNavigate();
     console.log('Step 4');
     return (
         <div>
@@ -23,8 +28,15 @@ const Step4 = () => {
                 >
                     Create Another Project
                 </BRButton> */}
-                <BRButton variant="contained" style={{ width: '180px' }} onClick={toggleProjectCreateModalCtrl()}>
-                    Go to Projects Page
+                <BRButton
+                    variant="contained"
+                    style={{ width: '180px' }}
+                    onClick={() => {
+                        navigate(`${MENTION_PATH}?dp=${project?._id}`);
+                        toggleProjectCreateModalCtrl()();
+                    }}
+                >
+                    Go To Mentions Page
                 </BRButton>
             </Grid>
         </div>
