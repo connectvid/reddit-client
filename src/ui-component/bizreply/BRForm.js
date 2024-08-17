@@ -74,7 +74,7 @@ const BRForm = () => {
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     borderRadius: '12px',
-                    width: '40%',
+                    width: '50%',
                     minWidth: '300px',
                     color: '#000'
                 }}
@@ -102,22 +102,22 @@ const BRForm = () => {
                     />
                 </Box>
                 {step === 1 && (
-                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                    <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
                         <Step1 {...{ values, setValues, setStep, createdProject }} />
                     </Box>
                 )}
                 {step === 2 && (
-                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                    <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
                         <Step2 {...{ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }} />
                     </Box>
                 )}
                 {step === 3 && (
-                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                    <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
                         <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit }} />
                     </Box>
                 )}
                 {step === 4 && (
-                    <Box style={{ padding: '30px', marginTop: '-10px' }}>
+                    <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
                         <Step4 {...{ setStep }} />
                     </Box>
                 )}
