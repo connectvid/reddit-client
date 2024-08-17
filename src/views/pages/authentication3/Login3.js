@@ -3,9 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Grid, Typography, Box, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import AuthLogin from './AuthLogin';
-// import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
-import BizReplyLogo from './bizreply.png'; // Update the path to the correct location
+import BizReplyLogo from 'assets/images/logo-black.svg';
 
 const Login = () => {
     const theme = useTheme();
@@ -25,7 +24,7 @@ const Login = () => {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            style={{ height: '100vh', backgroundColor: '#ffffff', position: 'relative', border: '2px solid red' }}
+            style={{ height: '100vh', backgroundColor: '#ffffff', position: 'relative' }}
         >
             {/* Container with fixed width of 1440px */}
             <Box style={{ width: '1440px', maxWidth: '100%', padding: theme.spacing(0, 2) }}>

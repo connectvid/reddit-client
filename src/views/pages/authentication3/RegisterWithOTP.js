@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import AuthRegisterWithOTP from './AuthRegisterWithOTP';
 import AuthRegisterOTPForm from './AuthRegisterOTPForm';
 import useAuth from 'hooks/useAuth';
-import BizReplyLogo from './bizreply.png'; // Update the path to the correct location
+import BizReplyLogo from 'assets/images/logo-black.svg'; // Update the path to the correct location
 import axios from 'utils/axios';
 import { Link } from 'react-router-dom';
 
