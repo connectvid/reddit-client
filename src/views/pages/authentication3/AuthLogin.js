@@ -116,14 +116,12 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                             </Divider>
                         </div>
                         <FormControl
-                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}
                             error={Boolean(touched.email && errors.email)}
-                            sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
-                            <Typography variant="h4" align="left" gutterBottom>
+                            <Typography variant="h5" align="left" gutterBottom>
                                 Email
                             </Typography>
-                            {/* <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel> */}
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -140,11 +138,9 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-
                         <FormControl
                             style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
                             error={Boolean(touched.password && errors.password)}
-                            sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
                             <Typography variant="h4" align="left" gutterBottom>
                                 Password

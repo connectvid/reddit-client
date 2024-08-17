@@ -24,7 +24,7 @@ const Login = () => {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            style={{ height: '100vh', backgroundColor: '#ffffff', position: 'relative', border: '2px solid red' }}
+            style={{ height: '100vh', backgroundColor: '#ffffff', position: 'relative' }}
         >
             {/* Container with fixed width of 1440px */}
             <Box style={{ width: '1440px', maxWidth: '100%', padding: theme.spacing(0, 2) }}>

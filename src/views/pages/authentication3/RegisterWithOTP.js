@@ -102,7 +102,7 @@ const RegisterWithOTP = () => {
                 {/* BizReply Logo Section */}
                 <Box
                     style={{
-                        position: 'absolute',
+                        position: 'fixed',
                         top: theme.spacing(3),
                         left: theme.spacing(3)
                     }}
