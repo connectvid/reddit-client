@@ -1,20 +1,26 @@
 /* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import React from 'react';
+import GoogleIcon from '@mui/icons-material/Google';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
+
 import {
     Box,
     Button,
+    Checkbox,
     CircularProgress,
     FormControl,
+    FormControlLabel,
     FormHelperText,
     IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Stack
+    Stack,
+    Typography
 } from '@mui/material';
 
 // third party
@@ -30,6 +36,9 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
+import { RememberMe } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import BRButton from 'ui-component/bizreply/BRButton';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -46,6 +55,7 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    const { isLoggedIn, dbUser } = useAuth();
 
     return (
         <>
@@ -74,9 +84,46 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit} {...others} style={{ width: '50%', textAlign: 'center', margin: '0 auto 0' }}>
-                        <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
+                    <form noValidate onSubmit={handleSubmit} {...others} style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}>
+                        <Box
+                            onClick={firebaseGoogleLoginOrSignup}
+                            sx={{ mt: 2 }}
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}
+                        >
+                            <AnimateButton>
+                                <Button
+                                    disableElevation
+                                    disabled={isLoading}
+                                    fullWidth
+                                    variant="outlined"
+                                    startIcon={<GoogleIcon />}
+                                    style={{
+                                        marginTop: theme.spacing(3),
+                                        padding: '10px',
+                                        backgroundColor: 'rgba(255, 255, 255, 1)',
+                                        color: 'black'
+                                    }}
+                                >
+                                    Login with Google
+                                </Button>
+                            </AnimateButton>
+                        </Box>
+                        <div style={{ margin: '20px 0' }}>
+                            <Divider>
+                                <Typography variant="body1" color="textSecondary">
+                                    Or Login with Email
+                                </Typography>
+                            </Divider>
+                        </div>
+                        <FormControl
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
+                            error={Boolean(touched.email && errors.email)}
+                            sx={{ ...theme.typography.customInput, width: '400px' }}
+                        >
+                            <Typography variant="h4" align="left" gutterBottom>
+                                Email
+                            </Typography>
+                            {/* <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel> */}
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -95,11 +142,14 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                         </FormControl>
 
                         <FormControl
-                            fullWidth
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
                             error={Boolean(touched.password && errors.password)}
-                            sx={{ ...theme.typography.customInput }}
+                            sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <Typography variant="h4" align="left" gutterBottom>
+                                Password
+                            </Typography>
+                            {/* <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel> */}
                             <OutlinedInput
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
@@ -121,13 +171,34 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     </InputAdornment>
                                 }
                                 label="Password"
-                                inputProps={{}}
                             />
                             {touched.password && errors.password && (
                                 <FormHelperText error id="standard-weight-helper-text-password-login">
                                     {errors.password}
                                 </FormHelperText>
                             )}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginTop: 2
+                                }}
+                            >
+                                <FormControlLabel
+                                    control={<Checkbox checked={RememberMe} onChange={Checkbox} color="primary" />}
+                                    label="Remember me"
+                                />
+                                <Typography
+                                    style={{ color: 'rgba(42, 152, 213, 1)' }}
+                                    component={Link}
+                                    to={isLoggedIn ? '/pages/register/ForgotPassword3' : '/forgot-password'}
+                                    variant="subtitle1"
+                                    sx={{ textDecoration: 'none', marginTop: '5px' }}
+                                >
+                                    Forgot password?
+                                </Typography>
+                            </Box>
                         </FormControl>
                         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1} />
                         {errors.submit && (
@@ -137,55 +208,35 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                         )}
 
                         <Box sx={{ mt: 2 }}>
-                            <AnimateButton>
-                                <Button
-                                    style={{ background: DEFAULT_BUTTON_COLOR_CODE, color: '#fff' }}
+                            <AnimateButton style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}>
+                                <BRButton
+                                    style={{
+                                        width: '100%',
+                                        padding: '10px',
+                                        color: 'white' // Set text color to white
+                                    }}
                                     disableElevation
-                                    disabled={isSubmitting || isLoading} //
-                                    fullWidth
-                                    size="large"
+                                    disabled={isSubmitting || isLoading}
                                     type="submit"
-                                    variant="outlined"
-                                    color="secondary"
                                     endIcon={
                                         isLoading ? (
-                                            <CircularProgress disableShrink sx={{ width: '30px !important', height: '30px !important' }} />
+                                            <CircularProgress
+                                                disableShrink
+                                                sx={{ width: '30px !important', height: '30px !important' }}
+                                                style={{ color: 'white' }}
+                                            />
                                         ) : (
                                             <></>
                                         )
                                     }
                                 >
-                                    {isLoading ? 'Sign in...' : `Sign in`}
-                                </Button>
+                                    {isLoading ? 'Log in...' : 'Log in'}
+                                </BRButton>
                             </AnimateButton>
                         </Box>
                     </form>
                 )}
             </Formik>
-            <Box onClick={firebaseGoogleLoginOrSignup} sx={{ mt: 2 }} style={{ width: '50%', textAlign: 'center', margin: '0 auto 0' }}>
-                <AnimateButton>
-                    <Button
-                        style={{ background: DEFAULT_BUTTON_COLOR_CODE, color: '#fff' }}
-                        sx={{ mt: 2 }}
-                        disableElevation
-                        disabled={isLoading}
-                        fullWidth
-                        size="large"
-                        type="submit"
-                        variant="outlined"
-                        color="primary"
-                        endIcon={
-                            isLoading ? (
-                                <CircularProgress disableShrink sx={{ width: '30px !important', height: '30px !important' }} />
-                            ) : (
-                                <></>
-                            )
-                        }
-                    >
-                        login using google
-                    </Button>
-                </AnimateButton>
-            </Box>
         </>
     );
 };
