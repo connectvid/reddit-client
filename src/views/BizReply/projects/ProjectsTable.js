@@ -12,8 +12,11 @@ import { Card, CardContent, Grid, Typography } from '@mui/material';
 import redditFeeds from 'assets/images/demoWebsite.png';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import BRButton from 'ui-component/bizreply/BRButton';
-import { MENTION_PATH } from 'config';
+import { useState } from 'react';
+// import { getItem } from 'features/project/projectSlice';
+import EditProject from './editProject/EditProject';
 import { useNavigate } from 'react-router-dom';
+import { MENTION_PATH } from 'config';
 
 const ProjectTable = ({
     // setProjects,
@@ -23,6 +26,7 @@ const ProjectTable = ({
     // const BASE_URL = BizReplyConfig.getNodeUrl();
     const { getAccessToken } = useAuth();
     // const [loading, setLoading] = React.useState(false);
+    const [projectToEdit, setProjectToEdit] = useState({});
 
     const deleteProject = async (id) => {
         if (!confirm(`Are you sure to delete the Project?`)) return;
@@ -43,9 +47,9 @@ const ProjectTable = ({
             });
     };
 
-    const editProject = async (id) => {
-        console.log(id);
-        toast('We are working on this feature', { autoClose: 2500, type: 'warning' });
+    const editProject = async (item) => {
+        // toast('We are working on this feature', { autoClose: 2500, type: 'warning' });
+        setProjectToEdit(item);
     };
 
     return (
@@ -53,10 +57,11 @@ const ProjectTable = ({
             <Grid container spacing={2}>
                 {projects?.map?.((item) => (
                     <Grid key={item._id} item xs={12} sm={6} md={4}>
-                        <ProjectCard {...item} deleteProject={deleteProject} editProject={editProject} navigate={navigate} />
+                        <ProjectCard {...item} item={item} deleteProject={deleteProject} editProject={editProject} navigate={navigate} />
                     </Grid>
                 ))}
             </Grid>
+            {projectToEdit?._id && <EditProject {...{ projectToEdit, setProjectToEdit }} />}
         </Box>
     );
 };
@@ -67,7 +72,7 @@ export default ProjectTable;
 
 // ==============================|| SKELETON - EARNING CARD ||============================== //
 
-const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, editProject, navigate }) => (
+const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, item, editProject, navigate }) => (
     <Card>
         <CardContent sx={{ p: 0, fontWeight: '500' }}>
             <Box sx={{ position: 'relative' }}>
@@ -106,7 +111,7 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
                         color: '#6E7478',
                         borderRadius: '50%'
                     }}
-                    onClick={() => editProject(_id)}
+                    onClick={() => editProject(item)}
                 >
                     <IconEdit size={20} />
                 </Typography>
@@ -122,8 +127,8 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
                 </Box>
                 <Box sx={{ display: '', justifyContent: 'space-between' }}>
                     <Typography sx={{ color: '#6E7478', mb: 2 }}>Description :</Typography>
-                    <Typography sx={{ height: '100px' }}>
-                        {shortDescription.length > 250 ? `${shortDescription.substring(0, 250)}...` : shortDescription}
+                    <Typography sx={{ height: '40px' }}>
+                        {shortDescription.length > 100 ? `${shortDescription.substring(0, 100)}...` : shortDescription}
                     </Typography>
                 </Box>
             </Box>

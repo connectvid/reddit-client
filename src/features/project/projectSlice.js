@@ -26,7 +26,7 @@ const initialState = {
     showProjectCreateModal: false,
     selectedPlatform: ''
 };
-const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
+export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
     if (!findBy || !findKey) return null;
     let data = null;
     for (const item of datas) {

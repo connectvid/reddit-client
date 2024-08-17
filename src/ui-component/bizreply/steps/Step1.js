@@ -41,7 +41,8 @@ const Step1 = ({ values, setValues, setStep, createdProject }) => {
                 Description
             </Typography>
             <TextareaAutosize
-                rowsMin={5}
+                // rowsMin={5}
+                // rowsMax={10}
                 placeholder="Write a description"
                 name="shortDescription"
                 value={values.shortDescription}
@@ -52,8 +53,8 @@ const Step1 = ({ values, setValues, setStep, createdProject }) => {
                 style={{
                     padding: '10px',
                     width: '100%',
-                    minHeight: '100px',
-                    maxHeight: '500px',
+                    minHeight: '50px',
+                    maxHeight: '100px',
                     border: '2px solid #e5e6e9',
                     borderRadius: '5px'
                 }}
