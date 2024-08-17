@@ -217,6 +217,7 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     }}
                                     disableElevation
                                     disabled={isSubmitting || isLoading}
+                                    type="submit"
                                     endIcon={
                                         isLoading ? (
                                             <CircularProgress

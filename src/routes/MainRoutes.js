@@ -58,14 +58,13 @@ const MainRoutes = {
             path: '/subscription',
             element: <Subscription />
         },
-
-        {
-            path: '/*',
-            element: <NotFound />
-        },
         {
             path: '/setkeywords',
             element: <SetKeywords />
+        },
+        {
+            path: '/*',
+            element: <NotFound />
         }
     ]
 };

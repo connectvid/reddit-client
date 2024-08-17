@@ -230,6 +230,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
                                 <Box sx={{ mt: 2 }}>
                                     <AnimateButton>
                                         <BRButton
+                                            type="submit"
                                             disableElevation
                                             disabled={isSubmitting || isLoading || sendingOTP}
                                             fullWidth
