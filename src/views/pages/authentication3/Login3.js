@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 // import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from './AuthLogin';
 import Logo from 'ui-component/Logo';
+import blackLogo from 'assets/images/logo-black.svg';
 // import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
 import { useEffect } from 'react';
@@ -28,11 +29,8 @@ const Login = () => {
     useEffect(() => {
         if (dbUser?.email) {
             navigate('/');
-            // navigate('/campaigns');
-            // window.location.href = 'http://app.mailtoon.io/campaigns';
         }
     }, [dbUser?.email]);
-    // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     return (
         <>
             {/* AuthWrapper1 */}
@@ -44,7 +42,7 @@ const Login = () => {
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
                                         <Link to="#">
-                                            <Logo />
+                                            <Logo src={blackLogo} />
                                         </Link>
                                     </Grid>
                                     <Grid item xs={12}>

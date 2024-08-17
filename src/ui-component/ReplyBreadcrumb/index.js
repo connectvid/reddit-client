@@ -1,27 +1,23 @@
 /* eslint-disable jsx-a11y/alt-text */
 import Breadcrumb from '../Breadcrumb';
 import AllProjects from 'ui-component/Project/AllProjects';
-import PostFilter from './PostFilter';
-// import BRButton from 'ui-component/bizreply/BRButton';
-// import { IconSettings } from '@tabler/icons';
-// import { Typography } from '@mui/material';
-import MoreMentions from 'views/BizReply/mentions/MoreMentions';
+// import PostFilter from './PostFilter';
 // import ManageMentions from './ManageMentions';
 
-export default function MentionBreadcrumb({
-    setSelectedKeyword,
-    loading,
-    selectedKeyword,
-    setMentionsDataObj,
-    setMoreLoading,
-    moreLoading
-}) {
+export default function ReplyBreadcrumb() {
+    // {
+    // setSelectedKeyword,
+    // loading
+    // selectedKeyword,
+    // setMentionsDataObj,
+    // setMoreLoading,
+    // moreLoading
+    // }
     return (
         <>
             {/* <ManageMentions /> */}
 
-            <Breadcrumb title="Mentions">
-                <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading }} />
+            <Breadcrumb title="Replies">
                 {/* <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}
@@ -43,7 +39,7 @@ export default function MentionBreadcrumb({
                     </Typography>
                 </BRButton> */}
                 <AllProjects />
-                <PostFilter {...{ setSelectedKeyword, loading }} />
+                {/* <PostFilter {...{ setSelectedKeyword, loading }} /> */}
             </Breadcrumb>
         </>
     );

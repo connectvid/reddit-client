@@ -7,6 +7,7 @@ import AuthRegisterOTPForm from './AuthRegisterOTPForm';
 import useAuth from 'hooks/useAuth';
 import Logo from 'ui-component/Logo';
 import axios from 'utils/axios';
+import blackLogo from 'assets/images/logo-black.svg';
 
 // assets
 // ===============================|| AUTH3 - REGISTER ||=============================== //
@@ -91,7 +92,7 @@ const RegisterWithOTP = () => {
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
                                         <Link to="#">
-                                            <Logo />
+                                            <Logo src={blackLogo} />
                                         </Link>
                                     </Grid>
                                     <Grid item xs={12}>

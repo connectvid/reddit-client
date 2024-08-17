@@ -19,7 +19,7 @@ import IconQuora from 'ui-component/icons/IconQuora';
 const PostCard = ({
     project,
     platform,
-    date,
+    date = 'Recenty Found',
     title,
     keyword,
     snippet,

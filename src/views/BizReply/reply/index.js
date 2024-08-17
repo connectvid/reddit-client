@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import axios from 'utils/axios';
 import PostCard from '../mentions/PostCard';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
+import ReplyBreadcrumb from 'ui-component/ReplyBreadcrumb';
 
 const Reply = () => {
     const { getAccessToken } = useAuth();
@@ -43,13 +44,7 @@ const Reply = () => {
 
     return (
         <>
-            <Card sx={{ mb: 5 }}>
-                <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Typography variant="h2" style={{ marginRight: 'auto' }}>
-                        Replies
-                    </Typography>
-                </CardContent>
-            </Card>
+            <ReplyBreadcrumb />
             {loading ? <PostPlaceholder /> : ''}
             {!loading && !mentionsData?.length ? (
                 <Card>
