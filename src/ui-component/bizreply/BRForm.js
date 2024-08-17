@@ -13,13 +13,15 @@ import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 
 const BRForm = () => {
+    const [creatingProject, setCreatingProject] = useState(false);
+    const [suggestedKeywords, setSuggestedKeywords] = useState([]);
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
+    const [addedKeywords, setAddedKeywords] = useState([]);
     const {
         project: { showProjectCreateModal, projects }
     } = useSelector((state) => state);
     const { getAccessToken, dbUser } = useAuth();
     const [step, setStep] = useState(1);
-    const [addedProjectId, setAddedProjectId] = useState('');
     const [createdProject, setCreatedProject] = useState(false);
     const [values, setValues] = useState({
         brandName: '',
@@ -39,27 +41,25 @@ const BRForm = () => {
             brandName: values.brandName,
             domain: domainValue,
             shortDescription: values.shortDescription,
-            userId: dbUser._id,
-            platforms: selectedPlatforms
+            // userId: dbUser._id,
+            platforms: selectedPlatforms,
+            suggestedKeywords: addedKeywords,
+            keywords: suggestedKeywords
         };
 
         const token = await getAccessToken();
         // console.log(body);
+        setStep(4);
+        setCreatingProject(true);
 
-        if (!createdProject) {
-            try {
-                addProject(token, body)().then(() => {
-                    setStep(3);
-                    setCreatedProject(true);
-                });
-            } catch (e) {
-                const message = e.message;
-                toast.error(message);
-                console.log(e);
-            }
-        } else {
-            const lastAddedProject = projects[projects.length - 1];
-            console.log(lastAddedProject, 'thi sis the last project');
+        try {
+            await addProject(token, body)();
+            setStep(4);
+            setCreatingProject(false);
+        } catch (e) {
+            const message = e.message;
+            toast.error(message);
+            setCreatingProject(false);
         }
     };
 
@@ -108,12 +108,12 @@ const BRForm = () => {
                 )}
                 {step === 2 && (
                     <Box style={{ padding: '30px', marginTop: '-10px' }}>
-                        <Step2 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit }} />
+                        <Step2 {...{ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }} />
                     </Box>
                 )}
                 {step === 3 && (
                     <Box style={{ padding: '30px', marginTop: '-10px' }}>
-                        <Step3 {...{ setStep }} />
+                        <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit }} />
                     </Box>
                 )}
                 {step === 4 && (

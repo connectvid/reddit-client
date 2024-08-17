@@ -17,7 +17,12 @@ const Step4 = ({ setStep }) => {
                 You’ve successfully created a project 🚀
             </Typography>
             <Grid sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
-                {/* <BRButton variant="outlined" style={{ width: '210px' }} onClick={() => setStep(3)}>
+                {/* <BRButton
+                    variant="outlined"
+                    style={{ width: '210px' }}
+                    grandChildSx={{ display: 'block', width: '100%' }}
+                    onClick={() => setStep(3)}
+                >
                     Create Another Project
                 </BRButton> */}
                 <BRButton variant="contained" style={{ width: '180px' }} onClick={toggleProjectCreateModalCtrl()}>
