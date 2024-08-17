@@ -161,7 +161,7 @@ const PostCard = ({
         setUpdatingReply(false);
     };
     return (
-        <Card sx={{ mb: 4, p: '20px' }} id={_id}>
+        <Card sx={{ mb: 4, p: '5px' }} id={_id}>
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>

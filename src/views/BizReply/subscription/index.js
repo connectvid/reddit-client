@@ -29,7 +29,7 @@ import { toast } from 'react-toastify';
 const plansDev = [
     {
         active: false,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',
@@ -42,7 +42,7 @@ const plansDev = [
     },
     {
         active: true,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',
@@ -55,7 +55,7 @@ const plansDev = [
     },
     {
         active: false,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',
@@ -71,7 +71,7 @@ const plansDev = [
 const plans = [
     {
         active: false,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',
@@ -84,7 +84,7 @@ const plans = [
     },
     {
         active: true,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',
@@ -97,7 +97,7 @@ const plans = [
     },
     {
         active: false,
-        icon: <Avatar src="logo-only.png" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'One-Time',
         type: 'Month',
         description: 'Lifetime Deal',

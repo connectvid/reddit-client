@@ -20,13 +20,14 @@ const NavItem = ({ item, level }) => {
     const { search } = useLocation();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
+    const { grey } = theme.palette;
     const { borderRadius } = useConfig();
     const dispatch = useDispatch();
     const { openItem } = useSelector((state) => state.menu);
 
     const Icon = item?.icon;
     const itemIcon = item?.icon ? (
-        <Icon stroke={1.5} size="1.3rem" />
+        <Icon stroke={1.5} size="1.3rem" style={{ stroke: openItem.findIndex((id) => id === item?.id) > -1 ? grey[50] : grey[500] }} />
     ) : (
         <FiberManualRecordIcon
             sx={{

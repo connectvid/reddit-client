@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { FiCheckCircle } from 'react-icons/fi';
 import { LuCopy, LuPencil } from 'react-icons/lu';
 import { LiaTimesCircle } from 'react-icons/lia';
+import { PRIMARY_GREY_COLOR } from 'config';
 
 const EditReply = ({ editReply, setEditReply, updatingReply, handleUpdateReply }) => (
     <form
@@ -38,7 +39,7 @@ const styles = {
     fontWeight: 500,
     fontSize: '16px',
     lineHeight: '22px',
-    color: '#6E7478',
+    color: PRIMARY_GREY_COLOR,
     p: 0,
     m: 0,
     'span.MuiTouchRipple-root': {

@@ -70,7 +70,7 @@ export const URL_TO_TITLE = {
 };
 
 export const DEFAULT_BUTTON_COLOR_CODE = '#009dea';
-
+export const PRIMARY_GREY_COLOR = '#6e7478';
 const config = {
     fontFamily: `Inter, sans-serif`,
     // fontFamily: `'Roboto', sans-serif`, // Gemunu Libre  Helvetica Neue
