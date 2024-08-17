@@ -14,8 +14,7 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Typography,
-    useMediaQuery
+    Typography
 } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -24,12 +23,10 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 import BRButton from 'ui-component/bizreply/BRButton';
 
-const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail, ...others }) => {
+const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
     const theme = useTheme();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const [showPassword, setShowPassword] = React.useState(false);
 
     const [strength, setStrength] = React.useState(0);
