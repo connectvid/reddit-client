@@ -30,7 +30,6 @@ const LoginRoutes = {
         {
             path: '/register',
             element: <RegisterWithOTP />
-            // element: <Register3 />
         },
         {
             path: '/forgot-password',

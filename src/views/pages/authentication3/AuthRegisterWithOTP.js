@@ -57,7 +57,9 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                             marginTop: theme.spacing(3),
                             padding: '10px',
                             backgroundColor: 'rgba(255, 255, 255, 1)',
-                            color: 'black'
+                            color: 'black',
+                            borderRadius: '10px',
+                            border: '1px solid #CCD3D9'
                         }}
                         endIcon={
                             isLoading ? (
@@ -86,16 +88,6 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                     confirmPassword: '',
                     name: ''
                 }}
-                // validationSchema={Yup.object().shape({
-                //     name: Yup.string()
-                //         .min(4)
-                //         .max(255)
-                //         .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
-                //         .required('Name is required'),
-                //     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                //     confirmPassword: Yup.string().max(255).required('Retype Password is required'),
-                //     password: Yup.string().max(255).required('Password is required')
-                // })}
                 validationSchema={Yup.object().shape({
                     name: Yup.string()
                         .min(4)
@@ -134,14 +126,13 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         inputProps={{}}
                                         placeholder="John Smith"
                                         sx={{
-                                            mb: 1,
-                                            height: '50px',
+                                            height: '48px',
                                             borderRadius: '10px',
                                             color: 'black',
                                             width: '100%',
                                             overflow: 'hidden',
-                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
-                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                            input: { pt: '12px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '48px', borderRadius: '10px' }
                                         }}
                                     />
                                     {touched.name && errors.name && (
@@ -173,14 +164,13 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         inputProps={{}}
                                         placeholder="johnsmith@gmail.com"
                                         sx={{
-                                            mb: 1,
-                                            height: '50px',
+                                            height: '48px',
                                             borderRadius: '10px',
                                             color: 'black',
                                             width: '100%',
                                             overflow: 'hidden',
-                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
-                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                            input: { pt: '12px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '48px', borderRadius: '10px' }
                                         }}
                                     />
                                     {touched.email && errors.email && (
@@ -228,14 +218,13 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         inputProps={{}}
                                         placeholder="Enter your password"
                                         sx={{
-                                            mb: 1,
-                                            height: '50px',
+                                            height: '48px',
                                             borderRadius: '10px',
                                             color: 'black',
                                             width: '100%',
                                             overflow: 'hidden',
-                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
-                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                            input: { pt: '12px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '48px', borderRadius: '10px' }
                                         }}
                                     />
                                     {touched.password && errors.password && (
@@ -280,17 +269,15 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         //         </IconButton>
                                         //     </InputAdornment>
                                         // }
-                                        inputProps={{}}
                                         placeholder="Retype your password"
                                         sx={{
-                                            mb: 1,
-                                            height: '50px',
+                                            height: '48px',
                                             borderRadius: '10px',
                                             color: 'black',
                                             width: '100%',
                                             overflow: 'hidden',
-                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
-                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                            input: { pt: '12px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '48px', borderRadius: '10px' }
                                         }}
                                     />
                                     {touched.confirmPassword && errors.confirmPassword && (
@@ -298,12 +285,18 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                             {errors.confirmPassword}
                                         </FormHelperText>
                                     )}
-                                    {/* {touched.confirmPassword && touched.password && values.password !== values.confirmPassword && (
-                                        <FormHelperText error id="standard-weight-helper-text-password-register">
-                                            Password and retype password does not match
-                                        </FormHelperText>
-                                    )} */}
                                 </FormControl>
+                                <AnimateButton>
+                                    <BRButton
+                                        type="submit"
+                                        disableElevation
+                                        disabled={isSubmitting || isLoading || sendingOTP}
+                                        fullWidth
+                                        sx={{ color: 'white' }} // This sets the text color to white
+                                    >
+                                        {isLoading || sendingOTP ? 'Sign up...' : 'Sign up'}
+                                    </BRButton>
+                                </AnimateButton>
                             </Grid>
 
                             {/* {strength !== 0 && (
@@ -326,21 +319,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                 </Grid>
                             )} */}
 
-                            <Grid item xs={12}>
-                                <Box sx={{ mt: 2 }}>
-                                    <AnimateButton>
-                                        <BRButton
-                                            type="submit"
-                                            disableElevation
-                                            disabled={isSubmitting || isLoading || sendingOTP}
-                                            fullWidth
-                                            sx={{ color: 'white' }} // This sets the text color to white
-                                        >
-                                            {isLoading || sendingOTP ? 'Sign up...' : 'Sign up'}
-                                        </BRButton>
-                                    </AnimateButton>
-                                </Box>
-                            </Grid>
+                            {/* <Grid item xs={12}></Grid> */}
                         </Grid>
                     </form>
                 )}
