@@ -4,12 +4,12 @@ import ProjectBreadcrumb from 'ui-component/Project/ProjectBreadcrumb';
 import EmptyProject from './EmptyProject';
 
 const Projects = () => {
-    const { projects } = useSelector((state) => state.project);
+    const { projects, loading } = useSelector((state) => state.project);
 
     return (
         <>
             <ProjectBreadcrumb />
-            {projects?.length ? `` : <EmptyProject />}
+            {!projects?.length && loading ? <EmptyProject /> : ``}
             <ProjectsTable {...{ projects }} />
         </>
     );

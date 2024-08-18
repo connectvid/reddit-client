@@ -9,7 +9,7 @@ const initialState = {
     suggestedKeywords: [],
     customKeywords: {},
     project: null,
-    loading: false,
+    loading: true,
     projectDeleting: false,
     keywordDeleting: false,
     projectDeleted: false,
@@ -68,6 +68,7 @@ const projectSlice = createSlice({
                     state.suggestedKeywords = firstItem.suggestedKeywords;
                 }
             }
+            state.loading = false;
         },
 
         addNewProject(state, action) {

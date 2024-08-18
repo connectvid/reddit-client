@@ -83,8 +83,9 @@ export const getProjects = (userId, token) => async () => {
         dispatch(fetchProjects(response.data));
     } catch (e) {
         dispatch(hasError(errorMsgHelper(e)));
-    } finally {
         dispatch(loadingCotrl(false));
+        // } finally {
+        //     dispatch(loadingCotrl(false));
     }
 };
 
