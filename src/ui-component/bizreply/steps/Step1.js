@@ -8,7 +8,7 @@ const Step1 = ({ values, setValues, setStep, createdProject }) => {
     const { typography } = useTheme();
     const handleNextStep = () => {
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
-            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
+            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'warning' });
         } else {
             setStep(2);
         }

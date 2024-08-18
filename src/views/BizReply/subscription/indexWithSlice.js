@@ -65,11 +65,11 @@ const Subscription = () => {
     //     console.log(response.prices.data);
     // };
     if (isError) {
-        toast(error, { autoClose: 2500, type: 'error' });
+        toast(error, { autoClose: 2500, type: 'warning' });
         dispatch(cleanError());
     }
     if (isErrorSubs) {
-        toast(subsErr, { autoClose: 2500, type: 'error' });
+        toast(subsErr, { autoClose: 2500, type: 'warning' });
         dispatch(cleanError());
     }
     const fetchSubscribeFunc = async () => {

@@ -43,7 +43,7 @@ const ProjectTable = ({
             })
             .catch(async (e) => {
                 console.log(e);
-                toast(e.message || 'Something went wrong.', { autoClose: 2500, type: 'error' });
+                toast('Failed to delete the project. Please try again later.', { autoClose: 2500, type: 'warning' });
             });
     };
 

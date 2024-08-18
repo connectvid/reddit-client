@@ -46,7 +46,7 @@ const PostCard = ({
     const { pathname } = useLocation();
     const handleGenerateReply = async () => {
         if (repliesCredits !== 'Unlimited' && repliesCredits < 1) {
-            toast.error(`Reply limit is over!`);
+            toast.warning(`Reply limit reached. You cannot send more replies at this time.!`);
             return;
         }
         setGeneratingReply(true);
@@ -91,7 +91,7 @@ const PostCard = ({
             toast.success(`Reply has been generated!`);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
         }
         setGeneratingReply(false);
     };
@@ -157,7 +157,7 @@ const PostCard = ({
             toast.success(successMsg);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
         }
         setUpdatingReply(false);
     };

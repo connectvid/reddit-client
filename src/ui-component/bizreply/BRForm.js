@@ -59,7 +59,7 @@ const BRForm = () => {
             setCreatingProject(false);
         } catch (e) {
             const message = e.message;
-            toast.error(message);
+            toast.warning(message);
             setCreatingProject(false);
         }
     };

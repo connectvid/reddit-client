@@ -18,7 +18,7 @@ const Header = () => {
     } = useSelector((state) => state);
     React.useEffect(() => {
         if (error) {
-            toast.error(error);
+            toast.warning(error);
             clearingError()();
         }
     }, [error]);

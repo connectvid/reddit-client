@@ -38,7 +38,7 @@ const ForgotPassword = () => {
                 msg = `User doesn't exists!`;
             }
             toast(msg, {
-                type: 'error',
+                type: 'warning',
                 autoClose: 2500
             });
         }

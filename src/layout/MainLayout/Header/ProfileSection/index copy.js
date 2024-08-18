@@ -99,7 +99,7 @@ const ProfileSection = () => {
         }
 
         if (!dbUser.email) {
-            toast('Something went wrong!', { autoClose: 2500, type: 'error' });
+            toast('Something went wrong!', { autoClose: 2500, type: 'warning' });
             return;
         }
 
@@ -120,7 +120,7 @@ const ProfileSection = () => {
             .catch(async (err) => {
                 setIsSending(false);
                 const errorMessage = err.response.data.message || err.msg || err.message || 'Something went wrong.';
-                toast(errorMessage, { autoClose: 2500, type: 'error' });
+                toast(errorMessage, { autoClose: 2500, type: 'warning' });
             });
     };
 

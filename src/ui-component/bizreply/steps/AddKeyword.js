@@ -24,7 +24,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
             setAddedKeywords([...addedKeywords, keyword]);
             // console.log(`${keyword} added`);
         } else {
-            toast('Keyword already added', { autoClose: 2500, type: 'error' });
+            toast('Keyword already exists. Please choose a different one.', { autoClose: 2500, type: 'warning' });
         }
     };
     const removeFromAddedKeyword = (keyword) => {
@@ -46,7 +46,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                                 const newKeywrodLen = addedKeywords.length;
                                 // console.log(remainingCredit?.keywords - newKeywrodLen, remainingCredit?.keywords, newKeywrodLen);
                                 if (!remainingCredit?.keywords || remainingCredit?.keywords - newKeywrodLen < 1) {
-                                    toast.error(`Keyword limit is over!`);
+                                    toast.warning(`Keyword limit is over!`);
                                     return;
                                 }
                                 selectKeyword(keyword);
@@ -118,7 +118,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                             const newKeywrodLen = addedKeywords?.length;
                             console.log(remainingCredit?.keywords - newKeywrodLen, remainingCredit?.keywords, newKeywrodLen);
                             if (!remainingCredit?.keywords || remainingCredit?.keywords - newKeywrodLen < 1) {
-                                toast.error(`Keyword limit is over`);
+                                toast.warning(`Keyword limit is over`);
                                 return;
                             }
                             if (remainingCredit?.keywords && remainingCredit?.keywords > 0) {

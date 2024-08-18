@@ -145,7 +145,7 @@ const Mentions = () => {
 
     const loadMore = async () => {
         if (!selectedKeyword?._id || !selectedPlatform) {
-            toast.error(`Someting going wrong!`);
+            toast.warning(`Someting going wrong!`);
             return;
         }
         const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
@@ -170,7 +170,7 @@ const Mentions = () => {
             setMoreLoading(false);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
 
             setMoreLoading(false);
         }

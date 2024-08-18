@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-import React from 'react';
+import React, { useEffect } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -29,7 +29,8 @@ import Available from '../../../assets/images/svgIcons/available.svg';
 import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
-import { borderRadius } from '@mui/system';
+import { borderRadius, fontSize } from '@mui/system';
+import GradinentText from 'ui-component/GradinentText';
 // import { callOthers } from 'features/project/projectActions';
 
 const plansDev = [
@@ -240,6 +241,22 @@ const Subscription = () => {
                                         {selectedPlans.map((plan, index) => {
                                             return (
                                                 <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
+                                                    {plan.active && (
+                                                        <Box>
+                                                            <Button
+                                                                style={{
+                                                                    width: '50%',
+                                                                    marginLeft: '25%',
+                                                                    marginTop: '-30px',
+                                                                    background: '#fff',
+                                                                    borderRadius: '50px',
+                                                                    padding: '10px 20px'
+                                                                }}
+                                                            >
+                                                                <GradinentText sx={{ fontSize: '18px' }}>Most Popular</GradinentText>
+                                                            </Button>
+                                                        </Box>
+                                                    )}
                                                     <MainCard
                                                         sx={{
                                                             pt: 1.75,
@@ -250,6 +267,9 @@ const Subscription = () => {
                                                             color: plan.active ? '#fff' : '#000',
                                                             maxWidth: '90%',
                                                             mx: 'auto'
+                                                        }}
+                                                        style={{
+                                                            marginTop: plan.active ? '-20px' : '0px'
                                                         }}
                                                     >
                                                         <Grid container textAlign="center" spacing={gridSpacing}>
