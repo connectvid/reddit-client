@@ -5,7 +5,6 @@ import { useTheme } from '@mui/material/styles';
 import AuthLogin from './AuthLogin';
 import useAuth from 'hooks/useAuth';
 import BizReplyLogo from 'assets/images/logo-black.svg';
-import { borderBottom } from '@mui/system';
 
 const Login = () => {
     const theme = useTheme();
