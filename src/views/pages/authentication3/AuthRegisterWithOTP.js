@@ -14,6 +14,7 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
+    TextField,
     Typography
 } from '@mui/material';
 import * as Yup from 'yup';
@@ -24,6 +25,7 @@ import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import BRButton from 'ui-component/bizreply/BRButton';
+import Google from '../../../assets/images/svgIcons/google.svg';
 
 const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
     const theme = useTheme();
@@ -53,10 +55,13 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
 
     return (
         <>
-            <Box onClick={firebaseGoogleLoginOrSignup} sx={{ mt: 2 }}>
+            <Box
+                onClick={firebaseGoogleLoginOrSignup}
+                // sx={{ mt: 2 }}
+                style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}
+            >
                 <AnimateButton>
                     <Button
-                        style={{ color: 'black', padding: '20px' }}
                         disableElevation
                         disabled={isLoading}
                         fullWidth
@@ -64,7 +69,12 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                         type="submit"
                         variant="outlined"
                         color="primary"
-                        startIcon={<GoogleIcon />} // Add the Google icon here
+                        style={{
+                            marginTop: theme.spacing(3),
+                            padding: '10px',
+                            backgroundColor: 'rgba(255, 255, 255, 1)',
+                            color: 'black'
+                        }}
                         endIcon={
                             isLoading ? (
                                 <CircularProgress disableShrink sx={{ width: '30px !important', height: '30px !important' }} />
@@ -73,14 +83,15 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                             )
                         }
                     >
-                        Signup with Google
+                        <img style={{ width: '25px' }} src={Google} alt="google login" />
+                        <span style={{ marginLeft: '15px' }}>Login with Google</span>
                     </Button>
                 </AnimateButton>
             </Box>
             <div style={{ margin: '20px 0' }}>
                 <Divider>
                     <Typography variant="body1" color="textSecondary">
-                        Or Login with Email
+                        Or Sign Up with Email
                     </Typography>
                 </Divider>
             </div>
@@ -88,33 +99,48 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                 initialValues={{
                     email: '',
                     password: '',
+                    confirmPassword: '',
                     name: ''
                 }}
+                // validationSchema={Yup.object().shape({
+                //     name: Yup.string()
+                //         .min(4)
+                //         .max(255)
+                //         .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+                //         .required('Name is required'),
+                //     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+                //     confirmPassword: Yup.string().max(255).required('Retype Password is required'),
+                //     password: Yup.string().max(255).required('Password is required')
+                // })}
                 validationSchema={Yup.object().shape({
                     name: Yup.string()
                         .min(4)
                         .max(255)
-                        .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+                        .matches(/^[A-Za-z ]*$/, 'Please enter a valid name')
                         .required('Name is required'),
                     email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    password: Yup.string().max(255).required('Password is required'),
+                    confirmPassword: Yup.string()
+                        .oneOf([Yup.ref('password'), null], 'Passwords must match')
+                        .max(255)
+                        .required('Retype Password is required')
                 })}
                 onSubmit={sendOTPAtEmail}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                                <Typography variant="h4" align="left" gutterBottom>
-                                    Full Name
-                                </Typography>
+                            <Grid item xs={12} style={{ marginTop: '-10px' }}>
                                 <FormControl
                                     fullWidth
                                     error={Boolean(touched.name && errors.name)}
                                     sx={{ ...theme.typography.customInput }}
                                 >
-                                    <InputLabel htmlFor="outlined-adornment-name-register">Full Name</InputLabel>
-                                    <OutlinedInput
+                                    <Typography variant="h4" align="left" gutterBottom>
+                                        Full Name
+                                    </Typography>
+
+                                    <TextField
                                         id="outlined-adornment-name-register"
                                         type="text"
                                         value={values.name}
@@ -122,6 +148,17 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         inputProps={{}}
+                                        placeholder="John Smith"
+                                        sx={{
+                                            mb: 1,
+                                            height: '50px',
+                                            borderRadius: '10px',
+                                            color: 'black',
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                        }}
                                     />
                                     {touched.name && errors.name && (
                                         <FormHelperText error id="standard-weight-helper-text--register">
@@ -131,7 +168,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                 </FormControl>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid item xs={12} style={{ marginTop: '-10px' }}>
                                 <Typography variant="h4" align="left" gutterBottom>
                                     Email Address
                                 </Typography>
@@ -140,8 +177,8 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                     error={Boolean(touched.email && errors.email)}
                                     sx={{ ...theme.typography.customInput }}
                                 >
-                                    <InputLabel htmlFor="outlined-adornment-email-register">Email Address</InputLabel>
-                                    <OutlinedInput
+                                    {/* <InputLabel htmlFor="outlined-adornment-email-register">Email Address</InputLabel> */}
+                                    <TextField
                                         id="outlined-adornment-email-register"
                                         type="email"
                                         required
@@ -150,6 +187,17 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         inputProps={{}}
+                                        placeholder="johnsmith@gmail.com"
+                                        sx={{
+                                            mb: 1,
+                                            height: '50px',
+                                            borderRadius: '10px',
+                                            color: 'black',
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                        }}
                                     />
                                     {touched.email && errors.email && (
                                         <FormHelperText error id="standard-weight-helper-text--register">
@@ -159,7 +207,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                 </FormControl>
                             </Grid>
 
-                            <Grid item xs={12}>
+                            <Grid item xs={12} style={{ marginTop: '-10px' }}>
                                 <Typography variant="h4" align="left" gutterBottom>
                                     Password
                                 </Typography>
@@ -168,32 +216,43 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                     error={Boolean(touched.password && errors.password)}
                                     sx={{ ...theme.typography.customInput }}
                                 >
-                                    <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel>
-                                    <OutlinedInput
+                                    {/* <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel> */}
+                                    <TextField
                                         id="outlined-adornment-password-register"
                                         type={showPassword ? 'text' : 'password'}
                                         value={values.password}
                                         name="password"
-                                        label="Password"
+                                        // label="Password"
                                         onBlur={handleBlur}
                                         onChange={(e) => {
                                             handleChange(e);
                                             changePassword(e.target.value);
                                         }}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="toggle password visibility"
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    edge="end"
-                                                    size="large"
-                                                >
-                                                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
+                                        // endAdornment={
+                                        //     <InputAdornment position="end">
+                                        //         <IconButton
+                                        //             aria-label="toggle password visibility"
+                                        //             onClick={handleClickShowPassword}
+                                        //             onMouseDown={handleMouseDownPassword}
+                                        //             edge="end"
+                                        //             size="large"
+                                        //         >
+                                        //             {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        //         </IconButton>
+                                        //     </InputAdornment>
+                                        // }
                                         inputProps={{}}
+                                        placeholder="Enter your password"
+                                        sx={{
+                                            mb: 1,
+                                            height: '50px',
+                                            borderRadius: '10px',
+                                            color: 'black',
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                        }}
                                     />
                                     {touched.password && errors.password && (
                                         <FormHelperText error id="standard-weight-helper-text-password-register">
@@ -203,7 +262,67 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                 </FormControl>
                             </Grid>
 
-                            {strength !== 0 && (
+                            <Grid item xs={12} style={{ marginTop: '-10px' }}>
+                                <Typography variant="h4" align="left" gutterBottom>
+                                    Retype Password
+                                </Typography>
+                                <FormControl
+                                    fullWidth
+                                    error={Boolean(touched.password && errors.password)}
+                                    sx={{ ...theme.typography.customInput }}
+                                >
+                                    {/* <InputLabel htmlFor="outlined-adornment-password-register">Password</InputLabel> */}
+                                    <TextField
+                                        id="outlined-adornment-password-register"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={values.confirmPassword}
+                                        name="confirmPassword"
+                                        // label="Password"
+                                        onBlur={handleBlur}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            changePassword(e.target.value);
+                                        }}
+                                        // endAdornment={
+                                        //     <InputAdornment position="end">
+                                        //         <IconButton
+                                        //             aria-label="toggle password visibility"
+                                        //             onClick={handleClickShowPassword}
+                                        //             onMouseDown={handleMouseDownPassword}
+                                        //             edge="end"
+                                        //             size="large"
+                                        //         >
+                                        //             {showPassword ? <Visibility /> : <VisibilityOff />}
+                                        //         </IconButton>
+                                        //     </InputAdornment>
+                                        // }
+                                        inputProps={{}}
+                                        placeholder="Retype your password"
+                                        sx={{
+                                            mb: 1,
+                                            height: '50px',
+                                            borderRadius: '10px',
+                                            color: 'black',
+                                            width: '100%',
+                                            overflow: 'hidden',
+                                            input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                            fieldset: { height: '50px', borderRadius: '10px' }
+                                        }}
+                                    />
+                                    {touched.confirmPassword && errors.confirmPassword && (
+                                        <FormHelperText error id="standard-weight-helper-text-password-register">
+                                            {errors.confirmPassword}
+                                        </FormHelperText>
+                                    )}
+                                    {/* {touched.confirmPassword && touched.password && values.password !== values.confirmPassword && (
+                                        <FormHelperText error id="standard-weight-helper-text-password-register">
+                                            Password and retype password does not match
+                                        </FormHelperText>
+                                    )} */}
+                                </FormControl>
+                            </Grid>
+
+                            {/* {strength !== 0 && (
                                 <Grid item xs={12}>
                                     <Box sx={{ mb: 2 }}>
                                         <Grid container spacing={2} alignItems="center">
@@ -221,7 +340,7 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         </Grid>
                                     </Box>
                                 </Grid>
-                            )}
+                            )} */}
 
                             <Grid item xs={12}>
                                 <Box sx={{ mt: 2 }}>

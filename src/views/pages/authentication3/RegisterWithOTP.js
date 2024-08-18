@@ -63,8 +63,8 @@ const RegisterWithOTP = () => {
 
     const sendOTPAtEmail = async ({ name, ...rest }) => {
         const userObject = { name, ...rest };
-
-        console.log(userObject);
+        // console.log(userObject);
+        // console.log(userObject);
 
         setSignUpUser(userObject);
 
@@ -90,111 +90,101 @@ const RegisterWithOTP = () => {
     };
 
     return (
-        <Grid
-            container
-            direction="column"
-            justifyContent="center"
-            alignItems="center"
-            style={{ minHeight: '100vh', backgroundColor: '#ffffff', position: 'relative' }}
-        >
-            {/* Container with fixed width of 1440px */}
-            <Box style={{ width: '1440px', maxWidth: '100%', padding: theme.spacing(0, 2) }}>
-                {/* BizReply Logo Section */}
-                <Box
-                    style={{
-                        position: 'absolute',
-                        top: theme.spacing(3),
-                        left: theme.spacing(3)
-                    }}
-                >
-                    <img src={BizReplyLogo} alt="BizReply" style={{ height: '50px' }} />
-                </Box>
-
-                {/* Register Form Section */}
-                <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh' }}>
-                    <Grid item xs={12} sm={8} md={5} lg={4}>
-                        <Box
-                            style={{
-                                position: 'relative',
-                                backgroundColor: 'white',
-                                borderRadius: '16px',
-                                boxShadow: theme.shadows[5],
-                                padding: theme.spacing(3, 4)
-                            }}
-                        >
-                            <Grid container justifyContent="space-between" alignItems="center">
-                                <Grid item xs={12}>
-                                    <Grid
-                                        container
-                                        direction={matchDownSM ? 'column-reverse' : 'row'}
-                                        alignItems="center"
-                                        justifyContent="center"
-                                    >
-                                        <Grid item width="100%" display="flex" justifyContent="center" alignItems="center">
-                                            <Box width="100%" display="flex" flexDirection="column" alignItems="center" gap="20px">
-                                                <Typography
-                                                    color="black"
-                                                    gutterBottom
-                                                    // variant={matchDownSM ? 'h3' : 'h2'}
-                                                    fontSize="36px" // Set the font size for "Sign Up"
-                                                >
-                                                    Sign Up
-                                                </Typography>
-                                                <Typography
-                                                    color="black"
-                                                    gutterBottom
-                                                    // variant={matchDownSM ? 'h6' : 'h5'} // Adjust the variant for better scaling
-                                                    fontSize="22px" // Set the font size for "Register & Connect with BizReply"
-                                                >
-                                                    Register & Connect with BizReply
-                                                </Typography>
-                                            </Box>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    {showRegisterForm ? (
-                                        <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
-                                    ) : (
-                                        <AuthRegisterOTPForm
-                                            {...{
-                                                OTPError,
-                                                setOTPError,
-                                                handleOPTSubmit,
-                                                OTPValue,
-                                                setOTPValue,
-                                                isOTPVerifying,
-                                                signUpUser
-                                            }}
-                                        />
-                                    )}
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Grid item container direction="column" alignItems="center" xs={12}>
-                                        <Typography
-                                            component={Link}
-                                            to={isLoggedIn ? '/pages/login/login3' : '/login'}
-                                            variant="subtitle1"
-                                            sx={{ textDecoration: 'none' }}
+        <Grid direction="column" justifyContent="center" alignItems="center" style={{ backgroundColor: '#ffffff' }}>
+            {/* BizReply Logo Section */}
+            <Box
+                style={{
+                    padding: '10px',
+                    borderBottom: '1px solid #CECECE'
+                }}
+            >
+                <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+            </Box>
+            {/* Register Form Section */}
+            <Grid container justifyContent="center" alignItems="center" style={{ padding: '100px 0px' }}>
+                <Grid item xs={12} sm={8} md={5} lg={4} style={{ width: '667px' }}>
+                    <Box
+                        style={{
+                            padding: theme.spacing(2, 3), // Reduced padding to decrease form height
+                            backgroundColor: 'white'
+                            // height: '90vh'
+                        }}
+                    >
+                        <Grid container justifyContent="space-between" alignItems="center">
+                            <Grid item xs={12}>
+                                <Grid
+                                    container
+                                    direction={matchDownSM ? 'column-reverse' : 'row'}
+                                    alignItems="center"
+                                    justifyContent="center"
+                                >
+                                    <Grid item width="100%" display="flex" justifyContent="center" alignItems="center">
+                                        <Box
+                                            width="100%"
+                                            display="flex"
+                                            flexDirection="column"
+                                            alignItems="center"
+                                            // gap="6px"
+                                            justifyContent="center"
+                                            marginTop="-80px"
                                         >
-                                            Already have account?{' '}
-                                            <span
-                                                style={{
-                                                    background: 'linear-gradient(92.84deg, #0C22E5 0%, #2A98D5 96.82%)',
-                                                    WebkitBackgroundClip: 'text',
-                                                    WebkitTextFillColor: 'transparent'
-                                                }}
+                                            <Typography color="black" gutterBottom variant={matchDownSM ? 'h4' : 'h3'} fontSize="30px">
+                                                Sign Up
+                                            </Typography>
+                                            <Typography
+                                                color="black"
+                                                gutterBottom
+                                                variant={matchDownSM ? 'h4' : 'h5'} // Adjust the variant for better scaling
+                                                fontSize="20px" // Set the font size for "Hi, Welcome back 👋",
                                             >
-                                                Login
-                                            </span>
-                                        </Typography>
+                                                Register & Connect with BizReply
+                                            </Typography>
+                                        </Box>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </Box>
-                    </Grid>
+                            <Grid item xs={12}>
+                                {showRegisterForm ? (
+                                    <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
+                                ) : (
+                                    <AuthRegisterOTPForm
+                                        {...{
+                                            OTPError,
+                                            setOTPError,
+                                            handleOPTSubmit,
+                                            OTPValue,
+                                            setOTPValue,
+                                            isOTPVerifying,
+                                            signUpUser
+                                        }}
+                                    />
+                                )}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Grid item container direction="column" alignItems="center" xs={12} style={{ marginTop: '20px' }}>
+                                    <Typography
+                                        component={Link}
+                                        to={isLoggedIn ? '/pages/login/login3' : '/login'}
+                                        variant="subtitle1"
+                                        sx={{ textDecoration: 'none' }}
+                                    >
+                                        Already have account?{' '}
+                                        <span
+                                            style={{
+                                                background: 'linear-gradient(92.84deg, #0C22E5 0%, #2A98D5 96.82%)',
+                                                WebkitBackgroundClip: 'text',
+                                                WebkitTextFillColor: 'transparent'
+                                            }}
+                                        >
+                                            Login
+                                        </span>
+                                    </Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Box>
                 </Grid>
-            </Box>
+            </Grid>
         </Grid>
     );
 };

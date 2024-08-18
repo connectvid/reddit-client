@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import GoogleIcon from '@mui/icons-material/Google';
-
+import Google from '../../../assets/images/svgIcons/google.svg';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import Divider from '@mui/material/Divider';
@@ -20,6 +20,7 @@ import {
     InputLabel,
     OutlinedInput,
     Stack,
+    TextField,
     Typography
 } from '@mui/material';
 
@@ -39,6 +40,7 @@ import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 import { RememberMe } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import BRButton from 'ui-component/bizreply/BRButton';
+import BRInput from 'ui-component/bizreply/BRInput';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -83,11 +85,11 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                     }
                 }}
             >
-                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+                {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, setValues }) => (
                     <form noValidate onSubmit={handleSubmit} {...others} style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}>
                         <Box
                             onClick={firebaseGoogleLoginOrSignup}
-                            sx={{ mt: 2 }}
+                            // sx={{ mt: 2 }}
                             style={{ width: '100%', textAlign: 'center', margin: '0 auto 0' }}
                         >
                             <AnimateButton>
@@ -96,7 +98,7 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                     disabled={isLoading}
                                     fullWidth
                                     variant="outlined"
-                                    startIcon={<GoogleIcon />}
+                                    // startIcon={<GoogleIcon />}
                                     style={{
                                         marginTop: theme.spacing(3),
                                         padding: '10px',
@@ -104,7 +106,8 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                         color: 'black'
                                     }}
                                 >
-                                    Login with Google
+                                    <img style={{ width: '25px' }} src={Google} alt="google login" />
+                                    <span style={{ marginLeft: '15px' }}>Login with Google</span>
                                 </Button>
                             </AnimateButton>
                         </Box>
@@ -116,23 +119,34 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                             </Divider>
                         </div>
                         <FormControl
-                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '10px' }}
+                            style={{ width: '100%', textAlign: 'center', margin: '0 auto 0', marginTop: '0px' }}
                             error={Boolean(touched.email && errors.email)}
                             sx={{ ...theme.typography.customInput, width: '400px' }}
                         >
                             <Typography variant="h4" align="left" gutterBottom>
                                 Email
                             </Typography>
-                            {/* <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel> */}
-                            <OutlinedInput
+
+                            <TextField
                                 id="outlined-adornment-email-login"
                                 type="email"
                                 value={values.email}
                                 name="email"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                label="Email Address"
+                                // label="Email Address"
                                 inputProps={{}}
+                                placeholder="johnsmith@gmail.com"
+                                sx={{
+                                    mb: 1,
+                                    height: '50px',
+                                    borderRadius: '10px',
+                                    color: 'black',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                    fieldset: { height: '50px', borderRadius: '10px' }
+                                }}
                             />
                             {touched.email && errors.email && (
                                 <FormHelperText error id="standard-weight-helper-text-email-login">
@@ -151,6 +165,16 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                             </Typography>
                             {/* <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel> */}
                             <OutlinedInput
+                                sx={{
+                                    mb: 1,
+                                    height: '50px',
+                                    borderRadius: '10px',
+                                    color: 'black',
+                                    width: '100%',
+                                    overflow: 'hidden',
+                                    input: { pt: '10px', fontSize: '16px', fontWeight: 400 },
+                                    fieldset: { height: '50px', borderRadius: '10px' }
+                                }}
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
                                 value={values.password}
@@ -181,8 +205,8 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    marginTop: 2
+                                    alignItems: 'center'
+                                    // marginTop: 1
                                 }}
                             >
                                 <FormControlLabel
