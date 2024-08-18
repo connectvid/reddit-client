@@ -35,11 +35,11 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
         <>
             <Box
                 sx={{
-                    p: '20px'
+                    p: '0px 20px'
                 }}
             >
                 <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>AI Suggested Keywords</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, py: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 1, pb: 2 }}>
                     {suggestedKeywords?.map((keyword, i) => (
                         <Typography
                             onClick={() => {
@@ -71,7 +71,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                     ))}
                 </Box>
                 <Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, mb: 1.5 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
                         <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000' }}>Add Keywords</Typography>
                         <GradinentText sx={{ display: 'flex', alignItems: 'center' }}>
                             <IconPlus size={16} color="#0C22E5" />
@@ -104,7 +104,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                         sx={{
                             background: '#000',
                             color: '#fff',
-                            mt: 2,
+                            mt: 1,
                             fontSize: '12px',
                             fontWeight: 500,
                             height: '36px',
@@ -132,9 +132,9 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                         Add keyword
                     </Button>
                 </Box>
-                <Divider sx={{ borderColor: '#CCD3D9', my: 3 }} />
+                <Divider sx={{ borderColor: '#CCD3D9', my: 1 }} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>Selected Keywords</Typography>
-                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 2 }}>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 0.5, pb: 1 }}>
                     {addedKeywords?.map((keyword, i) => (
                         <Typography
                             onClick={() => {
