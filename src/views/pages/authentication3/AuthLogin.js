@@ -194,7 +194,7 @@ const FirebaseLogin = ({ loginProp, ...others }) => {
                                         </IconButton>
                                     </InputAdornment>
                                 }
-                                label="Password"
+                                // label="Password"
                             />
                             {touched.password && errors.password && (
                                 <FormHelperText error id="standard-weight-helper-text-password-login">
