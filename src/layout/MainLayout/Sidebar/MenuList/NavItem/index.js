@@ -17,7 +17,7 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
 const NavItem = ({ item, level }) => {
-    const { search } = useLocation();
+    // const { search } = useLocation();
     const theme = useTheme();
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
     const { grey } = theme.palette;
@@ -44,7 +44,8 @@ const NavItem = ({ item, level }) => {
     }
     // const dp = search?.includes?.(`dp=`) ? search : '';
     let listItemProps = {
-        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${item.url}${search}`} target={itemTarget} />)
+        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />)
+        // component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${item.url}${search}`} target={itemTarget} />)
     };
     if (item?.external) {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
