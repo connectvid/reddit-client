@@ -68,7 +68,7 @@ const BRForm = () => {
         <Modal
             open={showProjectCreateModal}
             onClose={toggleProjectCreateModalCtrl()}
-            sx={{ '.MuiBox-root:nth-child(3)': { minWidth: '600px' } }}
+            // sx={{ '.MuiBox-root:nth-child(3)': { minWidth: '600px' } }}
             className="-----------------------------"
         >
             <Box
