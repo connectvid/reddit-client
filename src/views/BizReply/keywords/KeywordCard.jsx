@@ -63,11 +63,6 @@ export default function ({ _id, title, accessToken, brandLogo = '', brandName })
                             </Typography>
 
                             <GradinentText
-                                onClick={async () => {
-                                    // eslint-disable-next-line no-alert
-                                    if (!confirm(`Are you sure to delete keyword with associated mentions?`)) return;
-                                    deleteKeywordAPI(accessToken, _id)();
-                                }}
                                 sx={{
                                     fontWeight: 700,
                                     fontSize: '16px'

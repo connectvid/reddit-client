@@ -42,9 +42,9 @@ const NavItem = ({ item, level }) => {
     if (item.target) {
         itemTarget = '_blank';
     }
-    const dp = search?.includes?.(`dp=`) ? search : '';
+    // const dp = search?.includes?.(`dp=`) ? search : '';
     let listItemProps = {
-        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${item.url}${dp}`} target={itemTarget} />)
+        component: forwardRef((props, ref) => <Link ref={ref} {...props} to={`${item.url}${search}`} target={itemTarget} />)
     };
     if (item?.external) {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
@@ -102,15 +102,6 @@ const NavItem = ({ item, level }) => {
                     )
                 }
             />
-            {/* {item.chip && (
-                <Chip
-                    color={item.chip.color}
-                    variant={item.chip.variant}
-                    size={item.chip.size}
-                    label={item.chip.label}
-                    avatar={item.chip.avatar && <Avatar>{item.chip.avatar}</Avatar>}
-                />
-            )} */}
         </ListItemButton>
     );
 };

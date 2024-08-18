@@ -47,8 +47,8 @@ const Mentions = () => {
         project,
         selectedPlatform // projectCreated
     } = useSelector((state) => state.project);
-    console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
-    console.log(mentionsDataObj);
+    // console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
+    // console.log(mentionsDataObj);
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items, percentage } }) {
@@ -153,39 +153,6 @@ const Mentions = () => {
             }
         }
     }, [project?._id]);
-
-    // const loadMore = async () => {
-    //     if (!selectedKeyword?._id || !selectedPlatform) {
-    //         toast.error(`Someting going wrong!`);
-    //         return;
-    //     }
-    //     const body = { keywordId: selectedKeyword._id, platform: selectedPlatform };
-    //     console.log(body);
-    //     setMoreLoading(true);
-    //     try {
-    //         const token = await getAccessToken();
-    //         const {
-    //             data: { items }
-    //         } = await axios.post(`mentions/load-more`, body, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         if (items?.length) {
-    //             setMentionsDataObj((p) => {
-    //                 p[selectedPlatform] = [...p[selectedPlatform], ...items];
-    //                 return p;
-    //             });
-    //         }
-
-    //         setMoreLoading(false);
-    //     } catch (e) {
-    //         console.log(e);
-    //         toast.error(errorMsgHelper(e));
-
-    //         setMoreLoading(false);
-    //     }
-    // };
 
     useEffect(() => {
         const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
