@@ -37,22 +37,22 @@ const Typography = (theme, borderRadius, fontFamily) => ({
     },
     subtitle2: {
         fontSize: '0.75rem',
-        fontWeight: 400,
+        fontWeight: 500,
         color: theme.palette.text.secondary
     },
     caption: {
         fontSize: '0.75rem',
         color: theme.palette.text.secondary,
-        fontWeight: 400
+        fontWeight: 500
     },
     body1: {
         fontSize: '0.875rem',
-        fontWeight: 400,
+        fontWeight: 500,
         lineHeight: '1.334em'
     },
     body2: {
         letterSpacing: '0em',
-        fontWeight: 400,
+        fontWeight: 500,
         lineHeight: '1.5em',
         color: theme.palette.text.primary
     },

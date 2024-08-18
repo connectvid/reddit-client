@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
-
 import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
 import { useLocation } from 'react-router-dom';
@@ -15,11 +14,13 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 import { IconBrandReddit } from '@tabler/icons';
 import { LinkedIn, Twitter } from '@mui/icons-material';
 import IconQuora from 'ui-component/icons/IconQuora';
+import { keywordColors } from 'data';
+import { random } from 'lodash';
 
 const PostCard = ({
     project,
     platform,
-    date,
+    date = 'Recenty Found',
     title,
     keyword,
     snippet,
@@ -161,14 +162,14 @@ const PostCard = ({
         setUpdatingReply(false);
     };
     return (
-        <Card sx={{ mb: 4, p: '20px' }} id={_id}>
+        <Card sx={{ mb: 4, p: '5px' }} id={_id}>
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
                     <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>
                         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
                             {(brandLogo && (
                                 <Typography>
-                                    <img src={brandLogo} alt="brandLogo" style={{ height: '25px' }} />
+                                    <img src={brandLogo} alt="brandLogo" style={{ maxWidth: '80px' }} />
                                 </Typography>
                             )) ||
                                 ''}
@@ -176,16 +177,16 @@ const PostCard = ({
                             <Typography
                                 sx={{
                                     textTransform: 'uppercase',
-                                    color: '#0A362E',
-                                    bgcolor: '#C7FCEB',
                                     height: '28px',
-                                    width: '127px',
+                                    minWidth: '127px',
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
                                     fontSize: '12px',
                                     fontWeight: 500,
-                                    borderRadius: '6px'
+                                    borderRadius: '6px',
+                                    px: '20px',
+                                    ...keywordColors[random(1, 3)]
                                 }}
                             >
                                 {keyword}
@@ -198,9 +199,9 @@ const PostCard = ({
                             </Typography>
                         </Box>
                     </Box>
-                    <Typography sx={{ mb: '9px', fontWeight: 700, lineHeight: '19.54px', fontSize: '16px' }}>{title}</Typography>
+                    <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography>
 
-                    <Typography sx={{ color: '#000', fontSize: '14px', fontWeight: 400, lineHeight: '22px' }} title={snippet}>
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)}
                     </Typography>
                     {editReply && (

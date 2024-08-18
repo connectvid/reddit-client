@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Box, Modal } from '@mui/material';
@@ -20,7 +21,7 @@ const BRForm = () => {
     const {
         project: { showProjectCreateModal, projects }
     } = useSelector((state) => state);
-    const { getAccessToken, dbUser } = useAuth();
+    const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
     const [createdProject, setCreatedProject] = useState(false);
     const [values, setValues] = useState({
@@ -64,7 +65,12 @@ const BRForm = () => {
     };
 
     return (
-        <Modal open={showProjectCreateModal} onClose={toggleProjectCreateModalCtrl()}>
+        <Modal
+            open={showProjectCreateModal}
+            onClose={toggleProjectCreateModalCtrl()}
+            sx={{ 'div.MuiBox-root.css-hobnl': { minWidth: '600px' } }}
+            className="-----------------------------"
+        >
             <Box
                 sx={{
                     position: 'absolute',

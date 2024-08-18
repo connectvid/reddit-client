@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Mentions = () => {
     console.log('okko');
     return (

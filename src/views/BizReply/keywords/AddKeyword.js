@@ -19,7 +19,7 @@ import { toast } from 'react-toastify';
 // import axios from 'utils/axios';
 // import { createKeywords, hasError } from 'features/project/projectSlice';
 
-const AddKeyword = ({ handleClose, unknowClear = false }) => {
+const AddKeyword = ({ handleClose, unmountClear = false }) => {
     // const { search } = useLocation();
     const {
         project: { project, customKeywords: cKeys, createKeywordSuccess },
@@ -33,7 +33,7 @@ const AddKeyword = ({ handleClose, unknowClear = false }) => {
         handleClose?.();
     };
     useEffect(() => {
-        if (unknowClear) {
+        if (unmountClear) {
             return () => {
                 onClose();
             };
@@ -78,7 +78,7 @@ const AddKeyword = ({ handleClose, unknowClear = false }) => {
                                 alignItems: 'center',
                                 height: '33px',
                                 fontSize: '14px',
-                                fontWeight: 400
+                                fontWeight: 500
                             }}
                             key={i}
                             component="h5"
@@ -112,7 +112,7 @@ const AddKeyword = ({ handleClose, unknowClear = false }) => {
                         placeholder="Enter keyword"
                         sx={{
                             fontSize: '16px',
-                            fontWeight: 400,
+                            fontWeight: 500,
                             color: '#6E7478',
                             boxShadow: '0px 1px 2px 0px #DEE3E8'
                         }}
@@ -168,7 +168,7 @@ const AddKeyword = ({ handleClose, unknowClear = false }) => {
                                 alignItems: 'center',
                                 height: '33px',
                                 fontSize: '14px',
-                                fontWeight: 400
+                                fontWeight: 500
                             }}
                             key={i}
                             component="h5"

@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Modal } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import crossIcon from '../../../../assets/images/cross.svg';
 import CustomToggleButton from './CustomToggleButton ';
 import BrandDetails from './editScreens/BrandDetails';
@@ -20,7 +21,7 @@ const EditProject = ({ projectToEdit, setProjectToEdit }) => {
         shortDescription: ''
     });
     const [showModal, setshowModal] = useState(true);
-    const [showComponent, setShowComponent] = useState('brandDetails');
+    // const [showComponent, setShowComponent] = useState('brandDetails');
     const [selected, setSelected] = useState('brandDetails');
     const onClostModal = () => {
         setProjectToEdit({});

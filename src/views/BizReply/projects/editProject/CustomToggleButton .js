@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
 import { ButtonGroup, Button } from '@mui/material';
-import BRButton from 'ui-component/bizreply/BRButton';
-import { fontWeight, textAlign } from '@mui/system';
 import GradinentText from 'ui-component/GradinentText';
 
 const CustomToggleButton = ({ selected, setSelected }) => {

@@ -86,7 +86,7 @@ const AddKeyword = () => {
                                 alignItems: 'center',
                                 height: '33px',
                                 fontSize: '14px',
-                                fontWeight: 400
+                                fontWeight: 500
                             }}
                             key={i}
                             component="h5"
@@ -119,7 +119,7 @@ const AddKeyword = () => {
                                 placeholder="Enter keyword"
                                 sx={{
                                     fontSize: '16px',
-                                    fontWeight: 400,
+                                    fontWeight: 500,
                                     color: '#6E7478'
                                 }}
                             />

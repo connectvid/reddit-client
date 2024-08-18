@@ -1,7 +1,10 @@
 // third-party
 // import { FormattedMessage } from 'react-intl';
 // assets
-import { IconMessage, IconMoonStars, IconCheckupList, IconShare } from '@tabler/icons';
+import { LuSquareAsterisk } from 'react-icons/lu';
+import { FaSquarePollHorizontal } from 'react-icons/fa6';
+import { CiAt } from 'react-icons/ci';
+import { BiSolidMessageRoundedEdit } from 'react-icons/bi';
 
 import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
@@ -15,7 +18,7 @@ const dashboard = {
             title: 'Projects',
             type: 'item',
             url: PROJECT_PATH,
-            icon: IconCheckupList,
+            icon: FaSquarePollHorizontal,
             breadcrumbs: false
         },
         {
@@ -23,7 +26,7 @@ const dashboard = {
             title: 'Keywords',
             type: 'item',
             url: KEYWORD_PATH,
-            icon: IconMoonStars,
+            icon: LuSquareAsterisk,
             breadcrumbs: false
         },
         {
@@ -31,7 +34,7 @@ const dashboard = {
             title: 'Mentions',
             type: 'item',
             url: MENTION_PATH,
-            icon: IconShare,
+            icon: CiAt,
             breadcrumbs: false
         },
         {
@@ -39,7 +42,7 @@ const dashboard = {
             title: 'Replies',
             type: 'item',
             url: REPLY_PATH,
-            icon: IconMessage,
+            icon: BiSolidMessageRoundedEdit,
             breadcrumbs: false
         }
     ]

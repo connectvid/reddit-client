@@ -54,7 +54,7 @@ const PrivacyPolicy = () => {
                                 <Typography
                                     variant="h4"
                                     component="div"
-                                    sx={{ fontWeight: 400, lineHeight: 1.4, [theme.breakpoints.up('md')]: { my: 0, mx: 12.5 } }}
+                                    sx={{ fontWeight: 500, lineHeight: 1.4, [theme.breakpoints.up('md')]: { my: 0, mx: 12.5 } }}
                                     color="white"
                                 >
                                     Last updated on 18th Feb 2022

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import Stepper2 from './stepper/Stepper2';
@@ -8,7 +8,7 @@ import axios from 'utils/axios';
 import { toast } from 'react-toastify';
 
 const Step2 = ({ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }) => {
-    const { getAccessToken, dbUser } = useAuth();
+    const { getAccessToken } = useAuth();
     const fetchKeywords = async () => {
         const token = await getAccessToken();
         axios
@@ -54,7 +54,7 @@ const Step2 = ({ setStep, values, addedKeywords, setAddedKeywords, suggestedKeyw
                     Back to Previous
                 </BRButton>
                 <BRButton variant="contained" style={{ width: '210px' }} onClick={handleNextButton}>
-                    Save & Go to Next Step
+                    Next Step
                 </BRButton>
             </Grid>
         </div>

@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { useState } from 'react';
 
 const SubscriptionCards = ({ createSession }) => (
     <section className="py-12 bg-gray-50 sm:py-16 lg:py-20">

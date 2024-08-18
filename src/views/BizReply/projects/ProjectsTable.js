@@ -13,13 +13,16 @@ import redditFeeds from 'assets/images/demoWebsite.png';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { useState } from 'react';
-import { getItem } from 'features/project/projectSlice';
+// import { getItem } from 'features/project/projectSlice';
 import EditProject from './editProject/EditProject';
+import { useNavigate } from 'react-router-dom';
+import { MENTION_PATH } from 'config';
 
 const ProjectTable = ({
     // setProjects,
     projects = []
 }) => {
+    const navigate = useNavigate();
     // const BASE_URL = BizReplyConfig.getNodeUrl();
     const { getAccessToken } = useAuth();
     // const [loading, setLoading] = React.useState(false);
@@ -54,7 +57,7 @@ const ProjectTable = ({
             <Grid container spacing={2}>
                 {projects?.map?.((item) => (
                     <Grid key={item._id} item xs={12} sm={6} md={4}>
-                        <ProjectCard {...item} item={item} deleteProject={deleteProject} editProject={editProject} />
+                        <ProjectCard {...item} item={item} deleteProject={deleteProject} editProject={editProject} navigate={navigate} />
                     </Grid>
                 ))}
             </Grid>
@@ -69,7 +72,7 @@ export default ProjectTable;
 
 // ==============================|| SKELETON - EARNING CARD ||============================== //
 
-const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, item, editProject }) => (
+const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, item, editProject, navigate }) => (
     <Card>
         <CardContent sx={{ p: 0, fontWeight: '500' }}>
             <Box sx={{ position: 'relative' }}>
@@ -132,9 +135,9 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
             <BRButton
                 sx={{ height: '40px', marginTop: '25px', width: '90%', marginLeft: '5%' }}
                 variant="contained"
-                // onClick={toggleProjectCreateModalCtrl()}
+                onClick={() => navigate(`${MENTION_PATH}?dp=${_id}`)}
             >
-                View Details
+                Browse Mentions
             </BRButton>
         </CardContent>
     </Card>

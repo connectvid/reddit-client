@@ -31,10 +31,8 @@ import useAuth from 'hooks/useAuth';
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
 import useConfig from 'hooks/useConfig';
-// import axios from 'axios';
-// import BizReplyConfig from 'BizReplyConfig';
-// import { toast } from 'react-toastify';
 import { IconChevronDown } from 'tabler-icons';
+import defaultAvatar from 'assets/images/avatar.png';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -59,11 +57,6 @@ const ProfileSection = () => {
             console.error(err);
         }
     };
-
-    // Send Feedback
-    // const [feedback, setFeedback] = useState('');
-    // const [_isSending, setIsSending] = useState(false);
-    // const BASE_URL = BizReplyConfig.getNodeUrl();
 
     const handleClose = (event) => {
         if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -92,49 +85,11 @@ const ProfileSection = () => {
         prevOpen.current = open;
     }, [open]);
 
-    // const sendFeedback = async () => {
-    //     const token = await getAccessToken();
-    //     setIsSending(true);
-    //     if (!feedback) {
-    //         toast("You can't submit an empty feedback", { autoClose: 2500, type: 'warning' });
-    //         return;
-    //     }
-
-    //     if (!dbUser.email) {
-    //         toast('Something went wrong!', { autoClose: 2500, type: 'error' });
-    //         return;
-    //     }
-
-    //     const body = {
-    //         feedback,
-    //         userEmail: dbUser.email
-    //     };
-    //     axios
-    //         .post(`${BASE_URL}api/v1/feedback/add-feedback`, body, {
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         })
-    //         .then((data) => {
-    //             setFeedback('');
-    //             setIsSending(false);
-    //             toast('Feedback added successfully.Thanks for your feedback.', { autoClose: 3000, type: 'success' });
-    //             handleToggle();
-    //         })
-    //         .catch(async (err) => {
-    //             setIsSending(false);
-    //             const errorMessage = err.response.data.message || err.msg || err.message || 'Something went wrong.';
-    //             toast(errorMessage, { autoClose: 2500, type: 'error' });
-    //         });
-    // };
-
     return (
         <>
             <Box onClick={handleToggle} sx={{ display: 'flex', alignItems: 'center', gap: 1.5, cursor: 'pointer' }}>
                 <Avatar
-                    src={
-                        dbUser?.profileIMG
-                            ? dbUser?.profileIMG
-                            : user?.image || 'https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png'
-                    }
+                    src={dbUser?.profileIMG ? dbUser?.profileIMG : user?.image || defaultAvatar}
                     sx={{
                         ...theme.typography.mediumAvatar,
                         margin: '8px 0 8px 8px !important',
@@ -179,7 +134,7 @@ const ProfileSection = () => {
                                             <Stack>
                                                 <Stack direction="row" spacing={0.5} alignItems="center">
                                                     <Typography variant="h4">Good Morning,</Typography>
-                                                    <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
+                                                    <Typography component="span" variant="h4" sx={{ fontWeight: 500 }}>
                                                         {user?.name}
                                                     </Typography>
                                                 </Stack>
@@ -226,29 +181,6 @@ const ProfileSection = () => {
                                                         </ListItemIcon>
                                                         <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                                                     </ListItemButton>
-
-                                                    {/* <Divider sx={{ my: 2 }} /> */}
-
-                                                    {/* <TextField
-                                                        fullWidth
-                                                        label="Write feedback"
-                                                        size="small"
-                                                        multiline
-                                                        minRows={6}
-                                                        value={feedback}
-                                                        onChange={(e) => setFeedback(e.target.value)}
-                                                    /> */}
-                                                    {/* <br />
-                                                    <Button
-                                                        sx={{ mt: 1 }}
-                                                        size="small"
-                                                        variant="contained"
-                                                        onClick={sendFeedback}
-                                                        disabled={isSending}
-                                                        style={{ background: DEFAULT_BUTTON_COLOR_CODE, color: '#fff' }}
-                                                    >
-                                                        {isSending ? 'Sending...' : 'Send Feedback'}
-                                                    </Button> */}
                                                 </List>
                                             </Box>
                                         </PerfectScrollbar>

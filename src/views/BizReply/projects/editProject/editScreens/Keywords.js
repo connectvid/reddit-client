@@ -1,6 +1,4 @@
-import React from 'react';
-
-const Keywords = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
+const Keywords = () => {
     console.log('object');
     return (
         <div>

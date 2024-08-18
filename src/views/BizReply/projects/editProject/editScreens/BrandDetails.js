@@ -1,6 +1,4 @@
-import React from 'react';
-
-const BrandDetails = ({ values, setValues }) => {
+const BrandDetails = () => {
     console.log('object');
     return (
         <div>
