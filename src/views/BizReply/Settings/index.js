@@ -3,7 +3,7 @@
 // material-ui
 import { Avatar, Button, Divider, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Box } from '@mui/system';
+import { Box, fontWeight, minWidth } from '@mui/system';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -13,124 +13,85 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import { SUBSCRIPTION_PATH } from 'config';
+import BRInput from 'ui-component/bizreply/BRInput';
+import { MarginTwoTone } from '@mui/icons-material';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const Settings = () => {
     const navigate = useNavigate();
-    const { twitter, dbUser } = useAuth();
+    const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
-    // const repliesCredits = subscription?.remainingCredit;
-    // console.log({ subscription });
-    // replies
-    // const [plan, setPlan] = useState({
-    //     title: '',
-    //     description: ''
-    // });
-    // const [subscribeInfo, setSubscribeInfo] = useState();
-    const plan = {
-        title: `You are on ${subscription?.type}`,
-        description: ''
-    };
-    // if (dbUser?.selectedPlan === 'trial') {
-    //     plan = {
-    //         // title: `You are ${subscription?.type}!`,
-    //         expiry: subscription?.expire ? new Date(subscription?.expire) > Date.now() : `Trial has been expired!`
-    //     };
-    // } else {
-    //     plan = {
-    //         // title: `You are choosing ${subscription?.type} plan!`,
-    //         expiry: subscription?.expire ? new Date(subscription?.expire) > Date.now() : `${subscription?.type} `
-    //     };
-    // }
+//     const { subscription } = useSelector(state => state.subscription);
+// const { remainingCredit } = subscription || {};
+// const { searches, keywords, projects, replies } = remainingCredit || {};
 
-    const theme = useTheme();
+
+    console.log(dbUser, subscription, 'subscription');
+
+    const handleClick =()=>{
+        navigate('/subscription')
+    }
 
     return (
-        <MainCard sx={{ minHeight: '100%' }}>
-            {/* <BRButton fullWidth variant="contained">
-                ClickMe
-            </BRButton> */}
-            <Typography variant="h3">Settings</Typography>
+        <Box sx={{ minHeight: '100%' }}>
+            <Typography sx={{ mb: 3, fontSize: '25px', fontWeight: '700' }}>Settings</Typography>
             <Box
                 sx={{
-                    background: '#F1F5FB',
+                    background: '#fff',
                     p: 3,
                     mt: 4,
                     borderRadius: '10px'
                 }}
             >
-                <Box
-                    sx={{
-                        display: 'flex',
-                        gap: 2
-                    }}
-                >
-                    <Avatar src={twitter?.photoUrl || dbUser?.profileIMG} variant="rounded" sx={{ height: 54, width: 54 }} />
+                <Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography variant="h4">{dbUser.name}</Typography>
+                        <Typography variant="h4">Personal Information</Typography>
+                    </Box>
+                    <Box style={{ width: '50%', minWidth: '300px', marginTop: '20px' }}>
+                        <BRInput label="Full name" value={dbUser.name} disabled  />
+                        <BRInput label="Email address" value={dbUser.email} disabled  />
                     </Box>
                 </Box>
-                <Divider sx={{ mt: 3, mb: 2 }} />
-
-                <Typography sx={{ color: '#B7BFC8' }}>Email:</Typography>
-                <Typography variant="h4" sx={{ fontWeight: 500 }} color={theme.palette.grey[700]}>
-                    {dbUser.email}
-                </Typography>
             </Box>
-            <Typography color={theme.palette.grey[500]} sx={{ mt: 5, mb: 2 }}>
-                Subscription :
-            </Typography>
 
             <Box
                 sx={{
-                    background: '#F1F5FB',
+                    background: '#fff',
                     p: 3,
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 2,
-                    borderRadius: 2,
-                    width: '100%'
+                    mt: 4,
+                    borderRadius: '10px'
                 }}
             >
-                {/* selectedPlan,  */}
-                <Avatar src="logo-only.png" variant="rounded" sx={{ height: 53, width: 53, background: 'white', p: '5px' }} />
                 <Box>
-                    <Typography
-                        sx={{
-                            color: theme.palette.grey[600],
-                            fontWeight: 500
-                        }}
-                    >
-                        {/* {isExpired === true || (dbUser?.endDate && new Date(dbUser.endDate) < Date.now())
-                            ? 'Subscription/Trial Expired.'
-                            : plan?.title} */}
-                        {plan?.title}
-                    </Typography>
-                    <Typography
-                        sx={{
-                            color: theme.palette.grey[900]
-                        }}
-                    >
-                        <string>Expiry:</string> {subscription?.expire ? moment(subscription?.expire).format('YYYY-MM-DD, HH:ss') : ''}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Typography variant="h4">Plan</Typography>
+                    </Box>
+                    <Box style={{ width: '30%', minWidth: '300px', marginTop: '20px' }}>
+                        <Box style={{ display: 'flex', justifyContent: 'space-between'}}>
+                            <Typography style={{color: '#6E7478'}}>Plan type</Typography>
+                            <Typography style={{fontWeight: '700'}}>{subscription.type.toUpperCase()}</Typography>
+                        </Box>
+                        {/* <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
+                            <Typography style={{color: '#6E7478'}}>Team member</Typography>
+                            <Typography style={{fontWeight: '700'}}>N/A</Typography>
+                        </Box> */}
+                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
+                            <Typography style={{color: '#6E7478'}}>Available Project Credits</Typography>
+                            <Typography style={{fontWeight: '700'}}>{subscription?.remainingCredit?.projects}</Typography>
+                        </Box>
+                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
+                            <Typography style={{color: '#6E7478'}}>Available Reply Credits</Typography>
+                            <Typography style={{fontWeight: '700'}}>{subscription?.remainingCredit?.replies}</Typography>
+                        </Box>
+                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
+                            <Typography style={{color: '#6E7478'}}>Available Keyword Credits</Typography>
+                            <Typography style={{fontWeight: '700'}}>{subscription?.remainingCredit?.keywords}</Typography>
+                        </Box>
+                    </Box>
+                    <Button onClick={handleClick} style={{ background: '#000', color: '#fff', marginTop: '20px' }}>Upgrade Plan</Button>
                 </Box>
-                {subscription?.expire && moment(subscription?.expire).valueOf > Date.now() ? (
-                    ``
-                ) : (
-                    <Typography
-                        sx={{
-                            color: theme.palette.grey[400],
-                            marginLeft: 'auto',
-                            marginRight: '0'
-                        }}
-                    >
-                        <Button onClick={() => navigate(SUBSCRIPTION_PATH)} variant="outlined">
-                            Subscribe Now
-                        </Button>
-                    </Typography>
-                )}
             </Box>
-        </MainCard>
+        </Box>
     );
 };
 
