@@ -59,7 +59,7 @@ const BRForm = () => {
             addProject(token, body)();
         } catch (e) {
             const message = e.message;
-            toast.error(message);
+            toast.warning(message);
         }
     };
 

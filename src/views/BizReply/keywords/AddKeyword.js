@@ -62,7 +62,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                                 const newKeywrodLen = Object.values(cKeys || {})?.length;
                                 console.log(remainingCredit?.keywords - newKeywrodLen, remainingCredit?.keywords, newKeywrodLen);
                                 if (!remainingCredit?.keywords || remainingCredit?.keywords - newKeywrodLen < 1) {
-                                    toast.error(`Keyword limit is over!`);
+                                    toast.warning(`Keyword limit reached. Please remove some keywords before adding more.`);
                                     return;
                                 }
                                 const k = Date.now();
@@ -137,7 +137,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                             const newKeywrodLen = Object.values(cKeys || {})?.length;
                             console.log(remainingCredit?.keywords - newKeywrodLen, remainingCredit?.keywords, newKeywrodLen);
                             if (!remainingCredit?.keywords || remainingCredit?.keywords - newKeywrodLen < 1) {
-                                toast.error(`Keyword limit is over`);
+                                toast.warning(`Keyword limit reached. Please remove some keywords before adding more.`);
                                 return;
                             }
                             if (remainingCredit?.keywords && remainingCredit?.keywords > 0) {

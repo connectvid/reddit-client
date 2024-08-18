@@ -24,7 +24,7 @@ const Step2 = ({ setStep, values, addedKeywords, setAddedKeywords, suggestedKeyw
 
     const handleNextButton = () => {
         if (addedKeywords.length < 1) {
-            toast('Please select at least one keyword', { autoClose: 2500, type: 'error' });
+            toast('Please select at least one keyword', { autoClose: 2500, type: 'warning' });
         } else {
             setStep(3);
         }

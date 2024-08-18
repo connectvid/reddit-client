@@ -21,7 +21,7 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
         const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
         // console.log({ selectedKeyword });
         if (!keyword?._id || !selectedPlatform) {
-            toast.error(`Someting going wrong!`);
+            toast.warning(`Failed to load more posts. Please refresh and try again.`);
             return;
         }
         const body = { keywordId: keyword._id, platform: selectedPlatform };
@@ -45,7 +45,7 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
             setMoreLoading?.(false);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
             setMoreLoading?.(false);
         }
     };

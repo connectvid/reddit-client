@@ -1,29 +1,13 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
-import GoogleIcon from '@mui/icons-material/Google';
-import {
-    Box,
-    Button,
-    CircularProgress,
-    Divider,
-    FormControl,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    TextField,
-    Typography
-} from '@mui/material';
+import { Box, Button, CircularProgress, Divider, FormControl, FormHelperText, Grid, TextField, Typography } from '@mui/material';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import useAuth from 'hooks/useAuth';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import BRButton from 'ui-component/bizreply/BRButton';
 import Google from '../../../assets/images/svgIcons/google.svg';
 

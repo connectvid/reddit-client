@@ -175,9 +175,9 @@ export const FirebaseProvider = ({ children }) => {
                         }
                         if (e?.response?.status !== 404) {
                             console.log(e, '===error==========');
-                            toast(e.message || `Something went wrong`, {
+                            toast(`User not found. Please check the details and try again.`, {
                                 autoClose: 2500,
-                                type: 'error'
+                                type: 'warning'
                             });
                         }
                     });
@@ -242,13 +242,13 @@ export const FirebaseProvider = ({ children }) => {
                         setIsLoading(false);
                         // return navigate(DASHBOARD_PATH);
                     })
-                    .catch(async (e) => {
+                    .catch(async () => {
                         await logout();
                         setIsLoading(false);
                         isRegister = false;
-                        toast(e.message || 'Something went wrong', {
+                        toast('User not found. Please check the details and try again.', {
                             autoClose: 2500,
-                            type: 'error'
+                            type: 'warning'
                         });
                     });
             })
@@ -258,7 +258,7 @@ export const FirebaseProvider = ({ children }) => {
                 const msg = code === 'auth/user-not-found' || code === 'auth/wrong-password' ? `Credentials doesn't match` : message;
                 toast(msg, {
                     autoClose: 2500,
-                    type: 'error'
+                    type: 'warning'
                 });
                 setIsLoading(false);
                 isRegister = false;

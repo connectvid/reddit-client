@@ -8,7 +8,6 @@ import { strengthColor, strengthIndicatorNumFunc } from 'utils/password-strength
 
 // assets
 import csses from './AuthRegisterWithOTP.module.css';
-import BRButton from 'ui-component/bizreply/BRButton';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 

@@ -33,7 +33,7 @@ const Header = () => {
     // const repliesCredits = subscription?.remainingCredit;
     React.useEffect(() => {
         if (error) {
-            toast.error(error);
+            toast.warning(error);
             clearingError()();
         }
     }, [error]);

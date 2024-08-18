@@ -26,7 +26,7 @@ const UpdateProject = ({ urlPlaceholder = 'Domain (ex: domain.com)', brandName, 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
-            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
+            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'warning' });
             return;
         }
         let domainValue = values.domain;
@@ -48,7 +48,7 @@ const UpdateProject = ({ urlPlaceholder = 'Domain (ex: domain.com)', brandName, 
             updateProjectAPI(token, body)();
         } catch (e) {
             const message = e.message;
-            toast.error(message);
+            toast.warning('Failed to update the project. Please try again later.');
             console.log(e);
         }
     };

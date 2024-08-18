@@ -30,7 +30,7 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
 
     const handleNextButton = () => {
         if (selectedPlatforms.length < 1) {
-            toast('Please select at least one social', { autoClose: 2500, type: 'error' });
+            toast('Please select at least one social', { autoClose: 2500, type: 'warning' });
         } else {
             handleSubmit();
         }
