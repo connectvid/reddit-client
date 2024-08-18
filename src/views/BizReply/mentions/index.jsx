@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
@@ -13,6 +14,7 @@ import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
+import Pagination from './Pagination';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -42,7 +44,27 @@ const Mentions = () => {
     const [filteredData, setFilteredData] = useState([]);
     // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
+    const [currentPosts, setCurrentPosts] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recall, setRecall] = useState(false);
+    const handleRecall = () => setRecall((p) => !p);
+    // const postsPerPage = 2;
 
+    // // Get current posts
+    // const indexOfLastPost = currentPage * postsPerPage;
+    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    // const currentPosts = filteredData?.slice?.(indexOfFirstPost, indexOfLastPost) || [];
+    // const totalPages = Math.ceil(filteredData.length / postsPerPage);
+    // // Handle Previous button click
+    // const handlePrevClick = () => {
+    //     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
+    // };
+
+    // // Handle Next button click
+    // const handleNextClick = () => {
+    //     setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
+    // };
+    // Change page
     const {
         project,
         selectedPlatform // projectCreated
@@ -61,7 +83,7 @@ const Mentions = () => {
                     for (const platform of project.platforms || []) {
                         console.log({ platform });
                         if (reduced[platform]?.length) {
-                            upObj[platform] = [...(p?.[platform] || []), ...(reduced[platform] || [])];
+                            upObj[platform] = [...(reduced[platform] || []), ...(p?.[platform] || [])];
                         } else upObj[platform] = p?.[platform];
                     }
                     return upObj;
@@ -165,6 +187,8 @@ const Mentions = () => {
             }
         });
         setFilteredData(filtered);
+        setCurrentPage(1);
+        handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length]);
 
     return (
@@ -203,7 +227,8 @@ const Mentions = () => {
                 <PostPlaceholder />
             ) : (
                 <>
-                    {filteredData?.map?.((item) => {
+                    {/* filteredData   */}
+                    {currentPosts?.map?.((item) => {
                         return (
                             <PostCard
                                 key={item._id}
@@ -217,21 +242,7 @@ const Mentions = () => {
                             />
                         );
                     })}
-
-                    {/* {filteredData?.length ? (
-                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Button
-                                variant="outlined"
-                                onClick={loadMore}
-                                disabled={selectedKeyword?.title === 'All Keywords' || moreLoading || !selectedPlatform}
-                                title={selectedKeyword?.title === 'All Keywords' && `Please choose a keyword`}
-                            >
-                                Load more {moreLoading && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
-                            </Button>
-                        </Box>
-                    ) : (
-                        ''
-                    )} */}
+                    <Pagination {...{ data: filteredData, setCurrentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }} />
                 </>
             )}
         </>
