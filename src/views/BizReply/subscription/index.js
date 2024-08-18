@@ -26,6 +26,7 @@ import PaymentDashboard from './PaymentDashboard';
 import axios from 'utils/axios';
 import { toast } from 'react-toastify';
 import Available from '../../../assets/images/svgIcons/available.svg';
+import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
 import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
@@ -41,7 +42,7 @@ const plansDev = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 49,
-        permission: [0, 1, 2, 3, 4, 5, 6],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 1,
         product: 'prod_QcQz1eRj0C3Ibp',
         id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
@@ -54,7 +55,7 @@ const plansDev = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 99,
-        permission: [0, 1, 2, 3, 4, 5, 6],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 2,
         product: 'prod_QcR0SMlSjbppbT',
         id: 'price_1PlC8EDku3fWB0uA9uOByAUW',
@@ -83,7 +84,7 @@ const plans = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 49,
-        permission: [0, 1, 2, 3, 4, 5, 6],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 1,
         product: 'prod_Qava0JlfF41pNh',
         id: 'price_1Pjjj2Dku3fWB0uA5ZrHPfcy',
@@ -96,7 +97,7 @@ const plans = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 99,
-        permission: [0, 1, 2, 3, 4, 5, 6],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 2,
         id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
         product: 'prod_QavmbQShCaPyRj',
@@ -125,7 +126,10 @@ const planList = [
         'Reddit, X & Linkedin',
         '3 Brand Projects',
         '1 Team Member',
-        '1 Year History Storage'
+        '1 Year History Storage',
+        'No API Key Needed',
+        'Custom Prompts (Coming)',
+        'Multi Language (Coming)'
     ],
     [
         '15 Keywords Track',
@@ -134,7 +138,10 @@ const planList = [
         'Reddit, X & Linkedin',
         '10 Brand Projects',
         '3 Team Members',
-        '2 Year History Storage'
+        '2 Year History Storage',
+        'No API Key Needed',
+        'Custom Prompts (Coming)',
+        'Multi Language (Coming)'
     ],
     [
         '50 Keywords Track',
@@ -346,12 +353,20 @@ const Subscription = () => {
                                                                         <React.Fragment key={i}>
                                                                             <ListItem
                                                                                 style={{ marginTop: '2px' }}
-                                                                                sx={!plan.permission.includes(i) ? priceListDisable : {}}
+                                                                                // sx={!plan.permission.includes(i) ? priceListDisable : {}}
                                                                             >
-                                                                                <img
+                                                                                {plan.permission.includes(i) ? (
+                                                                                    <img
+                                                                                        src={plan.active ? AvailableWhite : Available}
+                                                                                        alt="Available"
+                                                                                    />
+                                                                                ) : (
+                                                                                    <img src={NotAllowed} alt="Available" />
+                                                                                )}
+                                                                                {/* <img
                                                                                     src={plan.active ? AvailableWhite : Available}
                                                                                     alt="Available"
-                                                                                />
+                                                                                /> */}
                                                                                 <span
                                                                                     style={{
                                                                                         marginLeft: '10px',
