@@ -64,9 +64,9 @@ const projectSlice = createSlice({
             if (firstItem) {
                 state.project = firstItem;
                 state.selectedPlatform = firstItem.platforms?.[0];
-                if (firstItem.suggestedKeywords?.length) {
-                    state.suggestedKeywords = firstItem.suggestedKeywords;
-                }
+                // if (firstItem.suggestedKeywords?.length) {
+                //     state.suggestedKeywords = firstItem.suggestedKeywords;
+                // }
             }
             state.loading = false;
         },

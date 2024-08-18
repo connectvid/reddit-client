@@ -98,6 +98,7 @@ const Mentions = () => {
         }, 2500);
         return () => {
             socket.disconnect();
+            setMentionsDataObj({});
         };
     }, []);
 

@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@mui/material';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import reddit from 'assets/images/platforms/reddit.png';
 import linkedin from 'assets/images/platforms/linkedin.png';
@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Stepper3 from './stepper/Stepper3';
 
-const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit }) => {
+const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading }) => {
     const platformsSrc = {
         'reddit.com': reddit,
         'linkedin.com': linkedin,
@@ -109,8 +109,8 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit 
                 >
                     Back to Previous
                 </BRButton>
-                <BRButton variant="contained" style={{ width: '180px' }} onClick={handleNextButton}>
-                    Finish Steps
+                <BRButton disabled={createLoading} variant="contained" style={{ width: '180px' }} onClick={handleNextButton}>
+                    Finish Steps {(createLoading && <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} />) || ''}
                 </BRButton>
             </Grid>
         </div>

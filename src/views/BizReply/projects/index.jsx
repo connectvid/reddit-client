@@ -9,7 +9,7 @@ const Projects = () => {
     return (
         <>
             <ProjectBreadcrumb />
-            {!projects?.length && loading ? <EmptyProject /> : ``}
+            {!projects?.length && !loading ? <EmptyProject /> : ``}
             <ProjectsTable {...{ projects }} />
         </>
     );

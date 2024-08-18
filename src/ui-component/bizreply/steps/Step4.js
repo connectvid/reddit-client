@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 
 const Step4 = () => {
     const { project } = useSelector((s) => s.project);
+    console.log(project, 'project=>');
     const navigate = useNavigate();
     console.log('Step 4');
     return (
@@ -32,7 +33,7 @@ const Step4 = () => {
                     variant="contained"
                     style={{ width: '180px' }}
                     onClick={() => {
-                        navigate(`${MENTION_PATH}?dp=${project?._id}`);
+                        navigate(`${MENTION_PATH}?dp=${project?._id}`, { replace: true });
                         toggleProjectCreateModalCtrl()();
                     }}
                 >

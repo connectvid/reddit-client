@@ -3,9 +3,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { Box, Modal } from '@mui/material';
 import crossIcon from '../../assets/images/cross.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addProject, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import Step1 from './steps/Step1';
 import Step2 from './steps/Step2';
 import Step3 from './steps/Step3';
@@ -14,12 +14,11 @@ import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 
 const BRForm = () => {
-    const [creatingProject, setCreatingProject] = useState(false);
     const [suggestedKeywords, setSuggestedKeywords] = useState([]);
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
     const [addedKeywords, setAddedKeywords] = useState([]);
     const {
-        project: { showProjectCreateModal, projects }
+        project: { showProjectCreateModal, projects, createLoading, projectCreated }
     } = useSelector((state) => state);
     const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
@@ -29,6 +28,12 @@ const BRForm = () => {
         domain: '',
         shortDescription: ''
     });
+    useEffect(() => {
+        if (projectCreated) {
+            setStep(4);
+            projectCreatedStatus(false)();
+        }
+    }, [projectCreated]);
     // const handleChange = (_,target) => {
     //     console.log(target);
     //     // setValues((p) => ({ ...p, [name]: value }));
@@ -48,19 +53,13 @@ const BRForm = () => {
             keywords: suggestedKeywords
         };
 
-        const token = await getAccessToken();
         // console.log(body);
-        setStep(4);
-        setCreatingProject(true);
-
         try {
-            await addProject(token, body)();
-            setStep(4);
-            setCreatingProject(false);
+            const token = await getAccessToken();
+            addProject(token, body)();
         } catch (e) {
             const message = e.message;
             toast.error(message);
-            setCreatingProject(false);
         }
     };
 
@@ -119,7 +118,7 @@ const BRForm = () => {
                 )}
                 {step === 3 && (
                     <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                        <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit }} />
+                        <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading }} />
                     </Box>
                 )}
                 {step === 4 && (
