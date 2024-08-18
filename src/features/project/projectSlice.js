@@ -9,7 +9,7 @@ const initialState = {
     suggestedKeywords: [],
     customKeywords: {},
     project: null,
-    loading: true,
+    loading: false,
     projectDeleting: false,
     keywordDeleting: false,
     projectDeleted: false,

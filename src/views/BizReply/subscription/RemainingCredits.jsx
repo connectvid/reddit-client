@@ -1,6 +1,5 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable consistent-return */
-/* eslint-disable array-callback-return */
 import { Box, LinearProgress, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -18,12 +17,14 @@ const RemainingCredits = () => {
     console.log({ credit }, remainingCredit);
     return (
         <Box sx={{ border: '1px solid #3F3A5F', borderRadius: '6px', p: '14px 14px', mb: 3 }}>
-            <Typography sx={{ color: '#fff' }}>You’ve remaining:</Typography>
+            <Typography sx={{ color: '#fff' }}>Credits:</Typography>
             {(remainingCredit &&
+                // eslint-disable-next-line array-callback-return
                 Object.keys(remainingCredit).map((item) => {
                     const remaining = remainingCredit[item];
                     const actualCredit = credit?.[item];
                     const percentage = percentageCal({ credit: actualCredit, remaining });
+                    const cal = 100 - percentage;
                     if (item !== 'searches')
                         return (
                             <Box key={item} sx={{ color: '#fff', mt: 1.5 }}>
@@ -39,7 +40,7 @@ const RemainingCredits = () => {
                                 </Box>
                                 <LinearProgress
                                     variant="determinate"
-                                    value={percentage}
+                                    value={cal === 0 ? 100 : cal}
                                     sx={{
                                         width: '100%',
                                         background: '#D9D9D933',
