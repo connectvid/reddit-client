@@ -63,7 +63,7 @@ const Settings = () => {
                     <Box style={{ width: '30%', minWidth: '300px', marginTop: '20px' }}>
                         <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography style={{ color: '#6E7478' }}>Plan type</Typography>
-                            <Typography style={{ fontWeight: '700' }}>{subscription.type.toUpperCase()}</Typography>
+                            <Typography style={{ fontWeight: '700' }}>{subscription?.type.toUpperCase?.()}</Typography>
                         </Box>
                         {/* <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
                             <Typography style={{color: '#6E7478'}}>Team member</Typography>
