@@ -184,7 +184,8 @@ const YearlyPlans = () => {
                 `subscriptions/stripe/payment-with-auth`,
                 {
                     priceId,
-                    email: dbUser.email
+                    email: dbUser.email,
+                    mode: 'subscription'
                 },
                 {
                     headers: { Authorization: `Bearer ${token}` }

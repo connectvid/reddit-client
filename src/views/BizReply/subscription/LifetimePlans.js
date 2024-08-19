@@ -184,7 +184,8 @@ const LifetimePlans = () => {
                 `subscriptions/stripe/payment-with-auth`,
                 {
                     priceId,
-                    email: dbUser.email
+                    email: dbUser.email,
+                    mode: 'payment'
                 },
                 {
                     headers: { Authorization: `Bearer ${token}` }
