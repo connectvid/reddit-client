@@ -158,7 +158,7 @@ export const FirebaseProvider = ({ children }) => {
                                 user: {
                                     id: user.uid,
                                     email: user.email,
-                                    name: user.displayName,
+                                    name: user.displayName || user.name,
                                     image: user.photoURL
                                 }
                             }
@@ -231,7 +231,7 @@ export const FirebaseProvider = ({ children }) => {
                                 user: {
                                     id: data?.user.UID,
                                     email: user.email,
-                                    name: user.displayName,
+                                    name: user.displayName || user.name,
                                     image: user.photoURL
                                 }
                             }
@@ -353,7 +353,7 @@ export const FirebaseProvider = ({ children }) => {
                                 user: {
                                     id: result.user.uid,
                                     email: result.user.email,
-                                    name: result.user.displayName,
+                                    name: result.user.displayName || result?.user?.name,
                                     image: result.user.photoURL
                                 }
                             }

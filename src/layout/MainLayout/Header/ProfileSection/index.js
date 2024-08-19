@@ -100,7 +100,7 @@ const ProfileSection = () => {
                     aria-haspopup="true"
                     color="inherit"
                 />
-                <Typography>{user?.name}</Typography>
+                <Typography>{user?.name || user?.displayName || dbUser?.name || dbUser?.displayName}</Typography>
                 <Typography sx={{ p: 0, m: 0 }}>
                     <IconChevronDown size={18} color="#6E7478" />
                 </Typography>
