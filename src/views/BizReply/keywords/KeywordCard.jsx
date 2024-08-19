@@ -73,7 +73,7 @@ export default function ({ _id, title, accessToken, brandLogo = '', brandName })
                         </Box>
                     </Box>
                     <Box sx={{ mt: '6px' }}>
-                        <Typography sx={{ fontWeight: 500, fontSize: '16px', color: '#6E7478' }}>Replies</Typography>
+                        <Typography sx={{ fontWeight: 500, fontSize: '16px', color: '#6E7478' }}>Mentions</Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '6px' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px' }}>Last month:</Typography>
