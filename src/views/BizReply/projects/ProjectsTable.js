@@ -87,7 +87,8 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
                         width: '35px',
                         alignItems: 'center',
                         bottom: '30px',
-                        right: '70px',
+                        right: '30px',
+                        // right: '70px',
                         background: ' #DDDDDD',
                         color: '#6E7478',
                         borderRadius: '50%'
@@ -96,7 +97,7 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
                 >
                     <IconTrash size={20} />
                 </Typography>
-                <Typography
+                {/* <Typography
                     style={{
                         cursor: 'pointer',
                         position: 'absolute',
@@ -114,7 +115,7 @@ const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescript
                     onClick={() => editProject(item)}
                 >
                     <IconEdit size={20} />
-                </Typography>
+                </Typography> */}
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 3 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
