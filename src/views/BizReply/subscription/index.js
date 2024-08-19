@@ -145,7 +145,7 @@ const selectedPlans = [
     'https://gv-reddit.netlify.app',
     'https://app.bizreply.co',
     'https://rebizreply.netlify.app',
-    'stagedbizreply.netlify.app'
+    'https://stagedbizreply.netlify.app'
 ].includes(window.location.origin)
     ? plans
     : plansDev;
