@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { addProject, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 
-const KeywordProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)' }) => {
+const KeywordProject = ({ urlPlaceholder = 'Domain (ex: domain.com)' }) => {
     const { createLoading } = useSelector((state) => state.project);
     const [values, setValues] = React.useState({
         brandName: '',
@@ -22,7 +22,7 @@ const KeywordProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
-            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'error' });
+            toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'warning' });
             return;
         }
 
@@ -40,7 +40,7 @@ const KeywordProject = ({ handleClose, urlPlaceholder = 'Domain (ex: domain.com)
             addProject(token, body)();
         } catch (e) {
             const message = e.message;
-            toast.error(message);
+            toast.warning(message);
             console.log(e);
         }
     };

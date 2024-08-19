@@ -4,6 +4,7 @@ import { createTheme } from '@mui/material/styles';
 // assets
 import defaultColor from 'assets/scss/_themes-vars.module.scss';
 import theme1 from 'assets/scss/_theme1.module.scss';
+import bizReply from 'assets/scss/_bizreply.module.scss';
 import theme2 from 'assets/scss/_theme2.module.scss';
 import theme3 from 'assets/scss/_theme3.module.scss';
 import theme4 from 'assets/scss/_theme4.module.scss';
@@ -17,6 +18,9 @@ const Palette = (navType, presetColor) => {
     switch (presetColor) {
         case 'theme1':
             colors = theme1;
+            break;
+        case 'bizReply':
+            colors = bizReply;
             break;
         case 'theme2':
             colors = theme2;
@@ -103,7 +107,9 @@ const Palette = (navType, presetColor) => {
             divider: navType === 'dark' ? colors.darkTextPrimary : colors.grey200,
             background: {
                 paper: navType === 'dark' ? colors.darkLevel2 : colors.paper,
-                default: navType === 'dark' ? colors.darkPaper : colors.paper
+                default: navType === 'dark' ? colors.darkPaper : colors.paper,
+                sidebar: navType === 'dark' ? colors.sidebar : colors.sidebar,
+                button: { primaryLight: colors.primaryButtonBgLight }
             }
         }
     });

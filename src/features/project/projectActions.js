@@ -25,7 +25,8 @@ import {
     updateProjectSuccess,
     projectInit,
     clearError,
-    keywordRemove
+    keywordRemove,
+    clearCustomKeyword
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -33,6 +34,9 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 
 export const keywordRemoving = (value) => () => {
     dispatch(keywordRemove(value));
+};
+export const clearingCustomKeyword = () => () => {
+    dispatch(clearCustomKeyword());
 };
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
@@ -79,8 +83,9 @@ export const getProjects = (userId, token) => async () => {
         dispatch(fetchProjects(response.data));
     } catch (e) {
         dispatch(hasError(errorMsgHelper(e)));
-    } finally {
         dispatch(loadingCotrl(false));
+        // } finally {
+        //     dispatch(loadingCotrl(false));
     }
 };
 
@@ -99,7 +104,7 @@ export const addProject =
             dispatch(addNewProject(response.data));
             subsctriptionCreditsSetter({ projects: -1 })();
             projectCreatedStatus(true)();
-            dispatch(toggleProjectCreateModal(false));
+            // dispatch(toggleProjectCreateModal(false));
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
         } finally {

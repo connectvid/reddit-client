@@ -26,7 +26,7 @@ const initialState = {
     showProjectCreateModal: false,
     selectedPlatform: ''
 };
-const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
+export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
     if (!findBy || !findKey) return null;
     let data = null;
     for (const item of datas) {
@@ -64,10 +64,11 @@ const projectSlice = createSlice({
             if (firstItem) {
                 state.project = firstItem;
                 state.selectedPlatform = firstItem.platforms?.[0];
-                if (firstItem.suggestedKeywords?.length) {
-                    state.suggestedKeywords = firstItem.suggestedKeywords;
-                }
+                // if (firstItem.suggestedKeywords?.length) {
+                //     state.suggestedKeywords = firstItem.suggestedKeywords;
+                // }
             }
+            state.loading = false;
         },
 
         addNewProject(state, action) {
@@ -141,7 +142,7 @@ const projectSlice = createSlice({
             //     state.suggestedKeywords[index] = keyword;
             // } else state.suggestedKeywords.push(keyword);
         },
-        addKeywordForSave2(state, action) {
+        addKeywordForSave2(state) {
             // const { keyword } = action.payload;
             console.log(state, 'state');
         },
@@ -157,6 +158,9 @@ const projectSlice = createSlice({
             const copy = JSON.parse(JSON.stringify(state.customKeywords));
             delete copy[idx];
             state.customKeywords = copy;
+        },
+        clearCustomKeyword(state) {
+            state.customKeywords = {};
         },
         toggleProjectCreateModal(state) {
             state.showProjectCreateModal = !state.showProjectCreateModal;
@@ -259,7 +263,8 @@ export const {
     addKeywordForSave2,
     projectInit,
     clearError,
-    keywordRemove
+    keywordRemove,
+    clearCustomKeyword
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

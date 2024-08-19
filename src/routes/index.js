@@ -27,7 +27,7 @@ export default function ThemeRoutes() {
     const routes = [{ path: '/', element: <Navigate to={DASHBOARD_PATH} replace /> }, LoginRoutes, MainRoutes, NotFoundRoute];
     let allRoutes = [];
     if (isLoading) {
-        allRoutes = [LoginRoutes, NotFoundRoute];
+        allRoutes = [ LoginRoutes, NotFoundRoute, ];
     } else if (isExpired) {
         allRoutes = [...authCommonRoutes];
     } else {

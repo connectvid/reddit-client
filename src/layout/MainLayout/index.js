@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Box, Container, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Box, Container, Toolbar, useMediaQuery } from '@mui/material';
 
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
@@ -69,6 +69,7 @@ const MainLayout = () => {
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('lg'));
 
+    // console.log(theme.palette.background?.button);
     const dispatch = useDispatch();
     const { drawerOpen } = useSelector((state) => state.menu);
     const { container } = useConfig();
@@ -89,8 +90,7 @@ const MainLayout = () => {
 
     return (
         <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            {/* header */}
+            {/* <CssBaseline /> */}
             <AppBar
                 enableColorOnDark
                 position="fixed"
@@ -98,18 +98,18 @@ const MainLayout = () => {
                 elevation={0}
                 sx={{
                     bgcolor: theme.palette.background.default,
-                    transition: drawerOpen ? theme.transitions.create('width') : 'none'
+                    transition: drawerOpen ? theme.transitions.create('width') : 'none',
+                    width: 'calc(100% - 260px)',
+                    height: '70px'
                 }}
             >
                 {header}
             </AppBar>
-
-            {/* drawer */}
             <Sidebar />
 
             {/* main content */}
-            <Main theme={theme} open={drawerOpen}>
-                {/* breadcrumb */}
+
+            <Main theme={theme} open={drawerOpen} sx={{ mt: '70px' }}>
                 {container && (
                     <Container maxWidth="lg">
                         <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
@@ -123,8 +123,6 @@ const MainLayout = () => {
                     </>
                 )}
             </Main>
-            {/* 🛠Modified by FoysalBN */}
-            {/* <Customization /> */}
         </Box>
     );
 };

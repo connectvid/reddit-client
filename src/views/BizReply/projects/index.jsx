@@ -1,30 +1,15 @@
-import { Button, Card, CardContent, Typography } from '@mui/material';
-import { DEFAULT_BUTTON_COLOR_CODE } from 'config';
 import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
-import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import ProjectBreadcrumb from 'ui-component/Project/ProjectBreadcrumb';
+import EmptyProject from './EmptyProject';
 
 const Projects = () => {
-    const { projects } = useSelector((state) => state.project);
+    const { projects, loading } = useSelector((state) => state.project);
 
     return (
         <>
-            <Card sx={{ mb: 5 }}>
-                <CardContent style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        <Typography variant="h2" style={{ marginRight: 'auto' }}>
-                            Projects
-                        </Typography>
-                    </div>
-                    <Button
-                        onClick={toggleProjectCreateModalCtrl()}
-                        variant="outlined"
-                        style={{ background: DEFAULT_BUTTON_COLOR_CODE, color: '#fff' }}
-                    >
-                        Add Project
-                    </Button>
-                </CardContent>
-            </Card>
+            <ProjectBreadcrumb />
+            {!projects?.length && !loading ? <EmptyProject /> : ``}
             <ProjectsTable {...{ projects }} />
         </>
     );

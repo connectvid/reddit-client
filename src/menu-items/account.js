@@ -1,69 +1,28 @@
-// third-party
-// import { FormattedMessage } from 'react-intl';
-
-// assets
-import {
-    IconUserSearch,
-    IconVaccineBottle,
-    IconTestPipe,
-    IconBook2,
-    IconTemplate,
-    Icon3dCubeSphere,
-    IconSettings,
-    IconInbox,
-    IconDashboard,
-    IconDatabaseExport,
-    IconAward,
-    IconReportAnalytics,
-    IconDeviceAnalytics,
-    IconList,
-    IconAlien,
-    IconHeart,
-    IconMessage2
-} from '@tabler/icons';
-
-// constant
-const icons = {
-    IconUserSearch,
-    IconTestPipe,
-    IconBook2,
-    IconTemplate,
-    Icon3dCubeSphere,
-    IconSettings,
-    IconInbox,
-    IconDashboard,
-    IconDatabaseExport,
-    IconAward,
-    IconReportAnalytics,
-    IconDeviceAnalytics,
-    IconAlien,
-    IconHeart,
-    IconList,
-    IconVaccineBottle,
-    IconMessage2
-};
+import { IconSettings } from '@tabler/icons';
+import { SETTING_PATH, SUBSCRIPTION_PATH } from 'config';
+import { TbReceiptDollar } from 'react-icons/tb';
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
 const account = {
     id: 'account',
-    title: 'Account',
+    // title: 'Account',
     type: 'group',
     children: [
         {
-            id: 'subscription',
+            id: SUBSCRIPTION_PATH.substring(1),
             title: 'Subscription',
             type: 'item',
-            url: '/subscription',
-            icon: icons.IconAward,
+            url: SUBSCRIPTION_PATH,
+            icon: TbReceiptDollar,
             breadcrumbs: false
         },
         {
-            id: 'settings',
-            title: 'Profile Settings',
+            id: SETTING_PATH.substring(1),
+            title: 'Settings',
             type: 'item',
-            url: '/settings',
-            icon: icons.IconSettings,
+            url: SETTING_PATH,
+            icon: IconSettings,
             breadcrumbs: false
         }
     ]

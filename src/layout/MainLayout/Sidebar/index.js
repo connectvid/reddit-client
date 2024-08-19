@@ -16,16 +16,13 @@ import MiniDrawerStyled from './MiniDrawerStyled';
 import LAYOUT_CONST from 'constant';
 import useConfig from 'hooks/useConfig';
 import { drawerWidth } from 'features/constant';
-
-// import { useDispatch, useSelector } from 'features';
 import { useDispatch, useSelector } from 'react-redux';
 import { openDrawer } from 'features/menu/menuSlice';
-// import useAuth from 'hooks/useAuth';
+import RemainingCredits from 'views/BizReply/subscription/RemainingCredits';
 
 // ==============================|| SIDEBAR DRAWER ||============================== //
 
 const Sidebar = () => {
-    // const { dbUser } = useAuth();
     const theme = useTheme();
     const matchUpMd = useMediaQuery(theme.breakpoints.up('md'));
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -34,31 +31,37 @@ const Sidebar = () => {
     const { drawerOpen } = useSelector((state) => state.menu);
 
     const { drawerType } = useConfig();
-
-    const logo = useMemo(
-        () => (
-            <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
-                <LogoSection />
-            </Box>
-        ),
-        []
-    );
+    // const logo = useMemo(
+    //     () => (
+    //         <Box sx={{ display: 'flex', p: 2, mx: 'auto' }}>
+    //             <LogoSection />
+    //         </Box>
+    //     ),
+    //     []
+    // );
 
     const drawerContent = (
         <>
-            <MenuList />
+            <Box>
+                <LogoSection />
+                <MenuList />
+            </Box>
+            <RemainingCredits />
         </>
     );
 
     const drawerSX = {
         paddingLeft: drawerOpen ? '16px' : 0,
         paddingRight: drawerOpen ? '16px' : 0,
-        marginTop: drawerOpen ? 20 : '42px'
+        marginTop: drawerOpen ? 16 : '42px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
     };
 
     const drawer = useMemo(
         () => (
-            <>
+            <Box bgcolor={theme.palette.background.sidebar}>
                 {matchDownMd ? (
                     <>
                         <Box sx={drawerSX}>{drawerContent}</Box>
@@ -67,14 +70,16 @@ const Sidebar = () => {
                     <PerfectScrollbar
                         component="div"
                         style={{
-                            height: !matchUpMd ? 'calc(100vh - 56px)' : 'calc(100vh - 88px)',
+                            // height: '110vh',
+                            height: !matchUpMd ? 'calc(100vh - 16px)' : 'calc(100vh - 16px)',
+                            // height: !matchUpMd ? 'calc(100vh)' : 'calc(100vh)',
                             ...drawerSX
                         }}
                     >
                         {drawerContent}
                     </PerfectScrollbar>
                 )}
-            </>
+            </Box>
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [matchUpMd, drawerOpen, drawerType]
@@ -101,13 +106,13 @@ const Sidebar = () => {
                     ModalProps={{ keepMounted: true }}
                     color="inherit"
                 >
-                    {matchDownMd && logo}
+                    {/* {matchDownMd && logo} */}
 
                     {drawer}
                 </Drawer>
             ) : (
                 <MiniDrawerStyled variant="permanent" open={drawerOpen}>
-                    <Box sx={{ height: `60px` }} />
+                    {/* <Box sx={{ height: `60px` }} /> */}
                     {drawer}
                 </MiniDrawerStyled>
             )}

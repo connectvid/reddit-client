@@ -1,27 +1,29 @@
-/* eslint-disable no-restricted-globals */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable consistent-return */
-import { Box, Card, CardContent, Grid, Typography } from '@mui/material';
-// import ProjectsTable from './ProjectsTable';
+import { Box, Button, CircularProgress, Dialog, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { createdKeywordSuccess, deleteKeywordAPI, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { createdKeywordSuccess, createKeywordsApi } from 'features/project/projectActions';
 import AddKeyword from './AddKeyword';
-import { IconTrash } from 'tabler-icons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { KEYWORD_PATH, MENTION_PATH } from 'config';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { MENTION_PATH } from 'config';
 import React from 'react';
+import KeywordBreadcrumb from 'ui-component/KeywordBreadcrumb';
+import { LiaTimesCircle } from 'react-icons/lia';
+import BRButton from 'ui-component/bizreply/BRButton';
+import useAuth from 'hooks/useAuth';
+import emptyImage from 'assets/images/projects.png';
+import { IconPlus } from '@tabler/icons';
+import EmptyProject from '../projects/EmptyProject';
+import KeywordCard from './KeywordCard';
 
 const Keywords = () => {
     const { search } = useLocation();
     const navigate = useNavigate();
-    // const { getAccessToken } = useAuth();
-    const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
+    const { getAccessToken } = useAuth();
+    const { project, projects, createKeywordSuccess, createKeywordsLoading, customKeywords } = useSelector((state) => state.project);
+
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
+    const [openModal, setOpenModal] = React.useState(false);
     React.useEffect(() => {
         if (createKeywordSuccess) {
             navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
@@ -29,126 +31,124 @@ const Keywords = () => {
         }
     }, [createKeywordSuccess]);
     console.log({ createKeywordSuccess });
+    const handleModal = () => setOpenModal((p) => !p);
+    const modalClose = () => setOpenModal(false);
 
     return (
         <>
-            <Card sx={{ mb: 5, minHeight: '75vh' }}>
-                <CardContent>
-                    <Box mb={4}>
-                        <Typography
-                            variant="h2"
-                            style={{
-                                marginRight: 'auto'
-                            }}
-                        >
-                            Keywords
+            <KeywordBreadcrumb {...{ handleModal }} />
+            <Dialog
+                open={openModal}
+                onClose={modalClose}
+                aria-labelledby="responsive-dialog-title"
+                sx={{
+                    '.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm':
+                        {
+                            p: 0,
+                            m: 0
+                        }
+                }}
+            >
+                <Box sx={{ border: '1px solid #ddd', borderRadius: '12px', m: 0, p: 0 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            height: '54px',
+                            alignItems: 'center',
+                            background: '#F1F1F1',
+                            px: '20px',
+                            borderRadius: '12px 12px 0 0'
+                        }}
+                    >
+                        <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>Create a new keyword</Typography>
+                        <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
+                            <LiaTimesCircle color="#000" size={24} />
                         </Typography>
                     </Box>
-                    {!projects?.length ? (
-                        <Typography>
-                            <span onClick={toggleProjectCreateModalCtrl()}>Create a project</span>
-                        </Typography>
-                    ) : (
+                    <AddKeyword {...{ unmountClear: true, handleClose: modalClose }} />
+                    <Typography sx={{ display: 'flex', gap: '10px', justifyContent: 'end', p: '20px' }}>
+                        <Button onClick={modalClose} sx={{ width: '156px', background: '#EAEAEA' }}>
+                            Cancel
+                        </Button>
+                        <BRButton
+                            disabled={
+                                !Object.values(customKeywords || {})?.filter?.((item) => item.trim())?.length || createKeywordsLoading
+                            }
+                            onClick={async () => {
+                                const token = await getAccessToken();
+                                const body = {
+                                    projectId: project._id,
+                                    suggestedKeywords: [...Object.values(customKeywords).filter((item) => item.trim())]
+                                };
+                                createKeywordsApi(token, body)();
+                            }}
+                            variant="contained"
+                            sx={{ fontSize: '14px', fontWeight: 500, width: '196px' }}
+                        >
+                            Save Keyword {(createKeywordsLoading && <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />) || ''}
+                        </BRButton>
+                    </Typography>
+                </Box>
+            </Dialog>
+
+            {!projects?.length ? (
+                <EmptyProject />
+            ) : (
+                <>
+                    {!project ? (
+                        <Typography>Please Select a Project</Typography>
+                    ) : project.Suggestedkeywords?.length ? (
                         <>
-                            {!project ? (
-                                <Typography>Please Select a Project</Typography>
-                            ) : project.Suggestedkeywords?.length ? (
-                                <>
-                                    {!createKeywordSuccess ? (
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={12} sm={6} md={4}>
-                                                <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
-                                                    <CardContent>
-                                                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                <Typography sx={{ color: 'transparent', fontWeight: 'bold' }}>
-                                                                    title
-                                                                </Typography>
-                                                            </Box>
-                                                            <Box>
-                                                                <Typography sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-                                                                    <Link
-                                                                        to={`${KEYWORD_PATH}/add${search}`}
-                                                                        style={{ textDecoration: 'none' }}
-                                                                    >
-                                                                        Add Keyword
-                                                                    </Link>
-                                                                </Typography>
-                                                                <Box
-                                                                    sx={{
-                                                                        display: 'flex',
-                                                                        justifyContent: 'space-between',
-                                                                        color: 'transparent'
-                                                                    }}
-                                                                >
-                                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                        <Typography>xxxxxxxxxxx</Typography>
-                                                                        <Typography sx={{ fontWeight: 'bold' }}> xx</Typography>
-                                                                    </Box>{' '}
-                                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                                                        <Typography>xxxxxxxxxxxxxxx</Typography>
-                                                                        <Typography sx={{ fontWeight: 'bold' }}> xxxx</Typography>
-                                                                    </Box>
-                                                                </Box>
-                                                            </Box>
-                                                        </Box>
-                                                    </CardContent>
-                                                </Card>
-                                            </Grid>
-                                            {project.Suggestedkeywords.map?.((item) => (
-                                                <Grid key={item._id} item xs={12} sm={6} md={4}>
-                                                    <KeywordCard {...item} {...{ accessToken }} />
-                                                </Grid>
-                                            ))}
+                            {!createKeywordSuccess ? (
+                                <Grid container spacing={2}>
+                                    {project.Suggestedkeywords.map?.((item) => (
+                                        <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                            <KeywordCard
+                                                {...item}
+                                                {...{ accessToken, brandLogo: project?.brandLogo, brandName: project?.brandName }}
+                                            />
                                         </Grid>
-                                    ) : (
-                                        ''
-                                    )}
-                                </>
+                                    ))}
+                                </Grid>
                             ) : (
-                                <AddKeyword />
+                                ''
                             )}
                         </>
+                    ) : (
+                        <Empty {...{ unmountClear: true, handleClose: modalClose, handleModal }} />
                     )}
-                </CardContent>
-            </Card>
+                </>
+            )}
         </>
     );
 };
 
 export default Keywords;
-
-const KeywordCard = ({ _id, title, accessToken }) => (
-    <Card sx={{ border: '2px solid rgba(0,0,0,0.8)' }}>
-        <CardContent sx={{}}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>{title}</Typography>
-                    <Typography
-                        sx={{ cursor: 'pointer' }}
-                        onClick={async () => {
-                            // eslint-disable-next-line no-alert
-                            if (!confirm(`Are you sure to delete keyword with associated mentions?`)) return;
-                            deleteKeywordAPI(accessToken, _id)();
-                        }}
-                    >
-                        <IconTrash size={16} />
-                    </Typography>
-                </Box>
-                <Box sx={{ color: 'rgba(0,0,0,0.8)' }}>
-                    <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}>Replies</Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
-                            <Typography sx={{ color: 'rgba(0,0,0,0.8)' }}>Last month:</Typography>
-                            <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}> 0</Typography>
-                        </Box>{' '}
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
-                            <Typography sx={{ color: 'rgba(0,0,0,0.8)' }}>Last 24h:</Typography>
-                            <Typography sx={{ fontWeight: 'bold', color: 'rgba(0,0,0,0.8)' }}> 0</Typography>
-                        </Box>
-                    </Box>
-                </Box>
+const Empty = ({ handleModal }) => {
+    return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Box sx={{ textAlign: 'center', width: { sx: '60%', md: '50%' }, mx: 'auto', mt: 6 }}>
+                <img src={emptyImage} alt="Empty" />
+                <Typography sx={{ fontSize: '20px', fontWeight: 500, textAlign: 'center', my: 4 }}>
+                    Currently don’t have any keywords yet. Let’s create keyword
+                </Typography>
+                <BRButton
+                    sx={{
+                        height: '40px',
+                        width: '246px',
+                        fontWeight: 500,
+                        fontSize: '16px',
+                        color: '#fff',
+                        textAlign: 'center',
+                        mx: 'auto'
+                    }}
+                    variant="contained"
+                    onClick={handleModal}
+                >
+                    <IconPlus size={20} /> Create a new keyword
+                </BRButton>
             </Box>
-        </CardContent>
-    </Card>
-);
+        </Box>
+    );
+};

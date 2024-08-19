@@ -32,7 +32,7 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, OTPError, setOTPError, handleOPTS
         <>
             <Grid container spacing={matchDownSM ? 0 : 2}>
                 <Grid item xs={12} sm={12}>
-                    <Typography sx={{ marginBottom: '10px' }} varient="h4">
+                    <Typography sx={{ marginBottom: '20px', marginTop: '10px' }} varient="h4">
                         Please check the requested email ({signUpUser.email}) for OTP
                     </Typography>
                 </Grid>
@@ -68,6 +68,19 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, OTPError, setOTPError, handleOPTS
                 )}
 
                 <Box sx={{ mt: 2 }}>
+                    {/* <AnimateButton>
+                        <BRButton
+                            disableElevation
+                            disabled={isOTPVerifying || isLoading}
+                            fullWidth
+                            size="large"
+                            type="submit"
+                            variant="outlined"
+                            color="secondary"
+                        >
+                            {isLoading || isOTPVerifying ? 'Verify up...' : 'Verify'}
+                        </BRButton>
+                    </AnimateButton> */}
                     <AnimateButton>
                         <Button
                             disableElevation
@@ -77,6 +90,10 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, OTPError, setOTPError, handleOPTS
                             type="submit"
                             variant="outlined"
                             color="secondary"
+                            sx={{
+                                backgroundImage: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)',
+                                color: '#fff'
+                            }}
                         >
                             {isLoading || isOTPVerifying ? 'Verify up...' : 'Verify'}
                         </Button>

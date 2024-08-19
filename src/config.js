@@ -70,13 +70,14 @@ export const URL_TO_TITLE = {
 };
 
 export const DEFAULT_BUTTON_COLOR_CODE = '#009dea';
-
+export const PRIMARY_GREY_COLOR = '#6e7478';
 const config = {
-    fontFamily: `'Roboto', sans-serif`,
+    fontFamily: `Inter, sans-serif`,
+    // fontFamily: `'Roboto', sans-serif`, // Gemunu Libre  Helvetica Neue
     borderRadius: 8,
     outlinedFilled: true,
     navType: 'light', // light, dark
-    presetColor: 'default', // default, theme1, theme2, theme3, theme4, theme5, theme6
+    presetColor: 'bizReply', // default, theme1, theme2, theme3, theme4, theme5, theme6, bizReply
     // NOTE: tested this, but no changes are seen!!!!!!
     // presetColor: 'theme2', // default, theme1, theme2, theme3, theme4, theme5, theme6
     locale: 'en', // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
@@ -85,3 +86,4 @@ const config = {
 };
 
 export default config;
+// calc(100vh - 16px)

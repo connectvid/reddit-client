@@ -2,7 +2,6 @@ import { Box, Card, CardContent, Typography } from '@mui/material';
 import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
-
 import GeneretedReply from './GeneretedReply';
 import PostCardFooter from './PostCardFooter';
 import { useLocation } from 'react-router-dom';
@@ -12,11 +11,16 @@ import replaceDomainWithLink from 'utils/replaceDomainWithLink';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
+import { IconBrandReddit } from '@tabler/icons';
+import { LinkedIn, Twitter } from '@mui/icons-material';
+import IconQuora from 'ui-component/icons/IconQuora';
+import { keywordColors } from 'data';
+import { random } from 'lodash';
 
 const PostCard = ({
     project,
     platform,
-    date,
+    date = 'Recenty Found',
     title,
     keyword,
     snippet,
@@ -29,7 +33,9 @@ const PostCard = ({
     setObjItems,
     selectedPlatform,
     showMarkRepliedBtn,
-    repliesCredits
+    repliesCredits,
+    brandLogo,
+    markReplyPosition = 'reply-section' // generate-reply-top
 }) => {
     const { getAccessToken } = useAuth();
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
@@ -40,7 +46,7 @@ const PostCard = ({
     const { pathname } = useLocation();
     const handleGenerateReply = async () => {
         if (repliesCredits !== 'Unlimited' && repliesCredits < 1) {
-            toast.error(`Reply limit is over!`);
+            toast.warning(`Reply limit reached. You cannot send more replies at this time.!`);
             return;
         }
         setGeneratingReply(true);
@@ -85,7 +91,7 @@ const PostCard = ({
             toast.success(`Reply has been generated!`);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
         }
         setGeneratingReply(false);
     };
@@ -151,23 +157,51 @@ const PostCard = ({
             toast.success(successMsg);
         } catch (e) {
             console.log(e);
-            toast.error(errorMsgHelper(e));
+            toast.warning(errorMsgHelper(e));
         }
         setUpdatingReply(false);
     };
-
     return (
-        <Card sx={{ mb: 4 }} id={_id}>
+        <Card sx={{ mb: 4, p: '5px' }} id={_id}>
             <CardContent>
                 <Box sx={{ lineHeight: 2 }}>
-                    <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: 2 }}>
-                        <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
-                        <Typography sx={{ fontWeight: 'bold' }}>{keyword}</Typography>
+                    <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>
+                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+                            {(brandLogo && (
+                                <Typography>
+                                    <img src={brandLogo} alt="brandLogo" style={{ maxWidth: '80px' }} />
+                                </Typography>
+                            )) ||
+                                ''}
+
+                            <Typography
+                                sx={{
+                                    textTransform: 'uppercase',
+                                    height: '28px',
+                                    minWidth: '127px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    fontSize: '12px',
+                                    fontWeight: 500,
+                                    borderRadius: '6px',
+                                    px: '20px',
+                                    ...keywordColors[random(1, 3)]
+                                }}
+                            >
+                                {keyword}
+                            </Typography>
+                        </Box>
+                        <Box display="flex" alignItems="center" gap="14px">
+                            <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }}>{date}</Typography>
+                            <Typography>
+                                <SocialIcons platform={platform} />
+                            </Typography>
+                        </Box>
                     </Box>
-                    <Typography variant="h4" sx={{ mb: 1, fontSize: '20px', fontWeight: 'bold' }}>
-                        {title}
-                    </Typography>
-                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 'bold' }} title={snippet}>
+                    <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography>
+
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)}
                     </Typography>
                     {editReply && (
@@ -183,7 +217,8 @@ const PostCard = ({
                                 setUpdatingReply,
                                 link,
                                 showMarkRepliedBtn,
-                                markReply
+                                markReply,
+                                markReplyPosition
                             }}
                         />
                     )}
@@ -196,3 +231,23 @@ const PostCard = ({
 };
 
 export default PostCard;
+
+const SocialIcons = ({ platform }) => {
+    if (platform === 'reddit.com')
+        return (
+            <IconBrandReddit
+                style={{
+                    background: '#ff4500',
+                    padding: '5px',
+                    height: '28px',
+                    width: '28px',
+                    borderRadius: '50%',
+                    color: '#fff'
+                }}
+            />
+        );
+    if (platform === 'quora.com') return <IconQuora style={{ height: '28px', width: '28px', color: '#b82b27' }} />;
+    if (platform === 'twitter.com') return <Twitter sx={{ height: '28px', width: '28px', color: '#17a3f1' }} />;
+    if (platform === 'linkedin.com') return <LinkedIn sx={{ height: '28px', width: '28px', color: '#006699' }} />;
+    return <></>;
+};

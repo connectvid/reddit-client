@@ -9,6 +9,7 @@ import Loadable from 'ui-component/Loadable';
 const Login3 = Loadable(lazy(() => import('views/pages/authentication3/Login3')));
 const RegisterWithOTP = Loadable(lazy(() => import('views/pages/authentication3/RegisterWithOTP')));
 const ForgetPassword = Loadable(lazy(() => import('views/pages/authentication3/ForgotPassword3')));
+// const NotFound = Loadable(lazy(() => import('views/pages/maintenance/Error')));
 
 // ==============================|| AUTH ROUTING ||============================== //
 
@@ -29,13 +30,15 @@ const LoginRoutes = {
         {
             path: '/register',
             element: <RegisterWithOTP />
-            // element: <Register3 />
         },
         {
             path: '/forgot-password',
             element: <ForgetPassword />
-            // element: <Register3 />
         }
+        // ,{
+        //     path: '/*',
+        //     element: <NotFound />
+        // }
     ]
 };
 
