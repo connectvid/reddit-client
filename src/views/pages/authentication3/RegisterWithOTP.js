@@ -98,7 +98,9 @@ const RegisterWithOTP = () => {
                     borderBottom: '1px solid #CECECE'
                 }}
             >
-                <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+                <Link to="https://bizreply.co" target="_blank" style={{ textDecoration: 'none' }}>
+                    <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+                </Link>
             </Box>
             {/* Register Form Section */}
             <Grid container justifyContent="center" alignItems="center" style={{ padding: '100px 0px' }}>

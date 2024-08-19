@@ -27,7 +27,9 @@ const Login = () => {
                     borderBottom: '1px solid #CECECE'
                 }}
             >
-                <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+                <Link to="https://bizreply.co" target="_blank" style={{ textDecoration: 'none' }}>
+                    <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+                </Link>
             </Box>
 
             {/* Login Form Section */}
