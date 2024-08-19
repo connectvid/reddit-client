@@ -1,5 +1,4 @@
 import { Box, CircularProgress } from '@mui/material';
-import removeEndingSubstring from 'utils/removeEndingSubstring';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { Link } from 'react-router-dom';
