@@ -19,25 +19,7 @@ export const FIREBASE_API_DEV = {
     messagingSenderId: '1041234876186',
     appId: '1:1041234876186:web:0491ebf6ebec287f8b7ea3'
 };
-let firebase_api = '';
-const origins_prod_live = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co', 'https://stagedbizreply.netlify.app'];
-const origins_dev_live = ['devbizreply.netlify.app'];
-const is_dev = process.env.REACT_APP_IS_DEV;
-if (origins_prod_live.includes(window.location.origin)) {
-    firebase_api = FIREBASE_API_LIVE;
-    console.log(1);
-} else if (origins_dev_live.includes(window.location.origin)) {
-    firebase_api = FIREBASE_API_DEV;
-    console.log(2);
-} else if (is_dev === 'true') {
-    firebase_api = FIREBASE_API_DEV;
-    console.log(3);
-} else {
-    firebase_api = FIREBASE_API_LIVE;
-    console.log(4);
-}
-// console.log(window.location.origin, 'window.location.origin', firebase_api);
-export const FIREBASE_API = firebase_api;
+export const FIREBASE_API = FIREBASE_API_DEV;
 
 export const AUTH0_API = {
     client_id: '7T4IlWis4DKHSbG8JAye4Ipk0rvXkH9V',
