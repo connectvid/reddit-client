@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-import React, { useState } from 'react';
+import React from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, Button, Grid, List, ListItem, Typography } from '@mui/material';
@@ -9,7 +9,6 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'features/constant';
 
 import useAuth from 'hooks/useAuth';
-import PaymentDashboard from './PaymentDashboard';
 import axios from 'utils/axios';
 import { toast } from 'react-toastify';
 import Available from '../../../assets/images/svgIcons/available.svg';
@@ -17,8 +16,6 @@ import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
 import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
 import BRButton from 'ui-component/bizreply/BRButton';
 import GradinentText from 'ui-component/GradinentText';
-import SubscriptionToggleButton from './SubscriptionToggleButton';
-import { minWidth } from '@mui/system';
 // import { callOthers } from 'features/project/projectActions';
 
 const plansDev = [
@@ -153,15 +150,10 @@ const selectedPlans = [
     : plansDev;
 
 const MonthlyPlans = () => {
-    const [selected, setSelected] = useState('lifetime');
     // const { subscription } = useSelector((s) => s.subscription);
     // console.log(subscription, 'subscription');
     const { dbUser, getAccessToken } = useAuth();
-    const [
-        fetchSubscribeData // setFetchSubscribeData
-    ] = React.useState({
-        status: 'success'
-    });
+
     const [
         price_Id,
         setPrice_Id // setFetchSubscribeData

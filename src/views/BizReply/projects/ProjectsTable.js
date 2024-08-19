@@ -1,7 +1,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import { Box } from '@mui/system';
-import { IconTrash, IconEdit } from '@tabler/icons';
+import { IconTrash } from '@tabler/icons';
 import { projectRemoving } from 'features/project/projectActions';
 // import BizReplyConfig from 'BizReplyConfig';
 
@@ -72,7 +72,7 @@ export default ProjectTable;
 
 // ==============================|| SKELETON - EARNING CARD ||============================== //
 
-const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, item, editProject, navigate }) => (
+const ProjectCard = ({ thumbnail = redditFeeds, brandName, domain, shortDescription, deleteProject, _id, navigate }) => (
     <Card>
         <CardContent sx={{ p: 0, fontWeight: '500' }}>
             <Box sx={{ position: 'relative' }}>

@@ -21,11 +21,11 @@ const RemainingCredits = () => {
             {(remainingCredit &&
                 // eslint-disable-next-line array-callback-return
                 Object.keys(remainingCredit).map((item) => {
-                    const remaining = remainingCredit[item];
-                    const actualCredit = credit?.[item];
-                    const percentage = percentageCal({ credit: actualCredit, remaining });
-                    const cal = 100 - percentage;
-                    if (item !== 'searches')
+                    if (['keywords', 'projects', 'replies'].includes(item)) {
+                        const remaining = remainingCredit[item];
+                        const actualCredit = credit?.[item];
+                        const percentage = percentageCal({ credit: actualCredit, remaining });
+                        const cal = 100 - percentage;
                         return (
                             <Box key={item} sx={{ color: '#fff', mt: 1.5 }}>
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', fontWeight: 500, mb: 1 }}>
@@ -52,6 +52,7 @@ const RemainingCredits = () => {
                                 />
                             </Box>
                         );
+                    }
                 })) ||
                 ''}
         </Box>

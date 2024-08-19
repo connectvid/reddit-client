@@ -1,21 +1,29 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 // material-ui
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
-// project imports
 import useAuth from 'hooks/useAuth';
 // import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
+import pluralize from 'pluralize';
+// const pluralize = require('pluralize');
 // ==============================|| SETTINGS PAGE ||============================== //
 
+// ['projects', 'replies', 'keywords', 'mentions']
+// const titles={
+// }
 const Settings = () => {
     const navigate = useNavigate();
     const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
+
+    const remainingCredit = subscription?.credit;
     //     const { subscription } = useSelector(state => state.subscription);
     // const { remainingCredit } = subscription || {};
     // const { searches, keywords, projects, replies } = remainingCredit || {};
@@ -69,18 +77,30 @@ const Settings = () => {
                             <Typography style={{color: '#6E7478'}}>Team member</Typography>
                             <Typography style={{fontWeight: '700'}}>N/A</Typography>
                         </Box> */}
-                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
-                            <Typography style={{ color: '#6E7478' }}>Available Project Credits</Typography>
-                            <Typography style={{ fontWeight: '700' }}>{subscription?.remainingCredit?.projects}</Typography>
-                        </Box>
-                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                        {(remainingCredit &&
+                            // eslint-disable-next-line array-callback-return
+                            Object.keys(remainingCredit).map((item) => {
+                                if (['projects', 'replies', 'keywords', 'mentions'].includes(item)) {
+                                    return (
+                                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                                            <Typography style={{ color: '#6E7478', textTransform: 'capitalize' }}>
+                                                Available {pluralize.singular(item)} Credits
+                                            </Typography>
+                                            <Typography style={{ fontWeight: '700' }}>{remainingCredit[item]}</Typography>
+                                        </Box>
+                                    );
+                                }
+                            })) ||
+                            ''}
+
+                        {/* <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                             <Typography style={{ color: '#6E7478' }}>Available Reply Credits</Typography>
                             <Typography style={{ fontWeight: '700' }}>{subscription?.remainingCredit?.replies}</Typography>
                         </Box>
                         <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                             <Typography style={{ color: '#6E7478' }}>Available Keyword Credits</Typography>
                             <Typography style={{ fontWeight: '700' }}>{subscription?.remainingCredit?.keywords}</Typography>
-                        </Box>
+                        </Box> */}
                     </Box>
                     <Button onClick={handleClick} style={{ background: '#000', color: '#fff', marginTop: '20px' }}>
                         Upgrade Plan
