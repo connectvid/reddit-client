@@ -114,7 +114,7 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
                 </BRButton>
             </Grid>
             {(createLoading && (
-                <Typography sx={{ fontSize: '16px', fontWeight: 700, textAlign: 'right', mt: 1.5 }}>
+                <Typography sx={{ fontSize: '16px', fontWeight: 400, textAlign: 'right', mt: 1.5 }}>
                     Please wait for a few seconds
                 </Typography>
             )) ||
