@@ -141,7 +141,11 @@ const planList = [
         'Multi Language (Coming)'
     ]
 ];
-const selectedPlans = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co'].includes(window.location.origin) ? plans : plansDev;
+const selectedPlans = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co', 'https://rebizreply.netlify.app'].includes(
+    window.location.origin
+)
+    ? plans
+    : plansDev;
 
 const Subscription = () => {
     // const { subscription } = useSelector((s) => s.subscription);
