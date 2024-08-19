@@ -20,7 +20,7 @@ export const FIREBASE_API_DEV = {
     appId: '1:1041234876186:web:0491ebf6ebec287f8b7ea3'
 };
 let firebase_api = '';
-const origins_prod_live = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co'];
+const origins_prod_live = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co', 'https://stagedbizreply.netlify.app'];
 const origins_dev_live = ['devbizreply.netlify.app'];
 const is_dev = process.env.REACT_APP_IS_DEV;
 if (origins_prod_live.includes(window.location.origin)) {

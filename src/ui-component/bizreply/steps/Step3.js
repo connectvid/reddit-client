@@ -113,6 +113,12 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
                     Finish Steps {(createLoading && <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} />) || ''}
                 </BRButton>
             </Grid>
+            {(createLoading && (
+                <Typography sx={{ fontSize: '16px', fontWeight: 400, textAlign: 'right', mt: 1.5 }}>
+                    Please wait for a few seconds
+                </Typography>
+            )) ||
+                ''}
         </div>
     );
 };

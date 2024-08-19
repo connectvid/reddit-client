@@ -23,7 +23,7 @@ export default function ({ data = [], postsPerPage = 2, setCurrentPosts, current
         setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
     };
     return (
-        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'end' }}>
+        <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', justifyContent: 'center' }}>
             {/* <MoreMentions /> */}
             {/* {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} */}
             <CustomButton handleClick={handlePrevClick} disabled={currentPage === 1} direction="left" />
