@@ -73,8 +73,8 @@ const plans = [
         price: 49,
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 1,
-        product: 'prod_Qava0JlfF41pNh',
-        id: 'price_1Pjjj2Dku3fWB0uA5ZrHPfcy',
+        product: 'prod_QgpkQ3Dhjw9IJM',
+        id: 'price_1PpS5LDku3fWB0uA4M3Ury7S',
         stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
     },
     {
@@ -86,8 +86,8 @@ const plans = [
         price: 99,
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 2,
-        id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
-        product: 'prod_QavmbQShCaPyRj',
+        id: 'price_1PpSAODku3fWB0uAbRqPcp32',
+        product: 'prod_QgpqDd5MvTFH6A',
         stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
     },
     {
@@ -99,8 +99,8 @@ const plans = [
         price: 249,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         plan_id: 3,
-        id: 'price_1PjjvTDku3fWB0uA7GoaIaVn',
-        product: 'prod_QavnUqEY4bSjcu',
+        id: 'price_1PpSAYDku3fWB0uAGNogzABb',
+        product: 'prod_QgpqSL1PCKHByY',
         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
     }
 ];
