@@ -1,22 +1,19 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-import React from 'react';
+import React, { useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Box, Button, Grid, List, ListItem, Typography } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
-import { gridSpacing } from 'features/constant';
+import { Avatar, Box, Typography } from '@mui/material';
 
 import useAuth from 'hooks/useAuth';
 import PaymentDashboard from './PaymentDashboard';
 import axios from 'utils/axios';
 import { toast } from 'react-toastify';
-import Available from '../../../assets/images/svgIcons/available.svg';
-import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
-import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
-import BRButton from 'ui-component/bizreply/BRButton';
-import GradinentText from 'ui-component/GradinentText';
+import SubscriptionToggleButton from './SubscriptionToggleButton';
+import LifetimePlans from './LifetimePlans';
+import MonthlyPlans from './MonthlyPlans';
+import YearlyPlans from './YearlyPlans';
 // import { callOthers } from 'features/project/projectActions';
 
 const plansDev = [
@@ -151,6 +148,7 @@ const selectedPlans = [
     : plansDev;
 
 const Subscription = () => {
+    const [selected, setSelected] = useState('lifetime');
     // const { subscription } = useSelector((s) => s.subscription);
     // console.log(subscription, 'subscription');
     const { dbUser, getAccessToken } = useAuth();
@@ -226,205 +224,14 @@ const Subscription = () => {
                         <PaymentDashboard fetchSubscribeData={fetchSubscribeData} dbUser={dbUser} />
                     ) : (
                         <>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mx: 'auto' }}>
-                                <Grid
-                                    container
-                                    // spacing={gridSpacing}
-                                    sx={
-                                        {
-                                            // maxWidth: '700px'
-                                        }
-                                    }
-                                >
-                                    <>
-                                        {selectedPlans.map((plan, index) => {
-                                            return (
-                                                <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
-                                                    {plan.active && (
-                                                        <Box>
-                                                            <Button
-                                                                style={{
-                                                                    width: '50%',
-                                                                    marginLeft: '25%',
-                                                                    marginTop: '-30px',
-                                                                    background: '#fff',
-                                                                    borderRadius: '50px',
-                                                                    padding: '10px 20px'
-                                                                }}
-                                                            >
-                                                                <GradinentText sx={{ fontSize: '18px' }}>Most Popular</GradinentText>
-                                                            </Button>
-                                                        </Box>
-                                                    )}
-                                                    <MainCard
-                                                        sx={{
-                                                            pt: 1.75,
-                                                            border: 'none',
-                                                            backgroundImage: plan.active
-                                                                ? 'linear-gradient(90deg, #0C22E5 0%, #2A98D5 100%)'
-                                                                : '#fff',
-                                                            color: plan.active ? '#fff' : '#000',
-                                                            maxWidth: '90%',
-                                                            mx: 'auto'
-                                                        }}
-                                                        style={{
-                                                            marginTop: plan.active ? '-20px' : '0px'
-                                                        }}
-                                                    >
-                                                        <Grid container textAlign="center" spacing={gridSpacing}>
-                                                            <Grid item xs={12}>
-                                                                <Typography
-                                                                    variant="h6"
-                                                                    sx={{
-                                                                        fontSize: '24px',
-                                                                        fontWeight: 700,
-                                                                        textAlign: 'left',
-                                                                        color: plan.active ? '#fff' : '#000'
-                                                                    }}
-                                                                >
-                                                                    {plan.title}
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid
-                                                                item
-                                                                xs={12}
-                                                                sx={{
-                                                                    // fontSize: '24px',
-                                                                    // fontWeight: 700,
-                                                                    textAlign: 'left',
-                                                                    marginTop: '-22px'
-                                                                }}
-                                                            >
-                                                                <Typography variant="body2" sx={{ color: plan.active ? '#fff' : '#000' }}>
-                                                                    ({plan.description})
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                <Typography
-                                                                    component="div"
-                                                                    variant="body2"
-                                                                    sx={{
-                                                                        fontSize: '2.1875rem',
-                                                                        fontWeight: 700,
-                                                                        color: plan.active ? '#fff' : '#000',
-                                                                        textAlign: 'left',
-                                                                        marginTop: '-15px'
-                                                                    }}
-                                                                >
-                                                                    <sup>$</sup>
-                                                                    {plan.price}
-                                                                </Typography>
-                                                            </Grid>
-                                                            <Box
-                                                                style={{
-                                                                    width: '92%',
-                                                                    marginLeft: '8%',
-                                                                    marginTop: '10px',
-                                                                    marginBottom: '-10px',
-                                                                    height: '1px',
-                                                                    background: plan.active ? '#fff' : '#000'
-                                                                }}
-                                                            />
-                                                            <Grid item xs={12}>
-                                                                <List
-                                                                    sx={{
-                                                                        m: 0,
-                                                                        p: 0,
-                                                                        '&> li': {
-                                                                            px: 0,
-                                                                            py: 0.625,
-                                                                            '& svg': {
-                                                                                fill: theme.palette.success.dark
-                                                                            }
-                                                                        },
-                                                                        minHeight: '330px'
-                                                                    }}
-                                                                    component="ul"
-                                                                >
-                                                                    {planList[index].map((list, i) => (
-                                                                        <React.Fragment key={i}>
-                                                                            <ListItem
-                                                                                style={{ marginTop: '2px' }}
-                                                                                // sx={!plan.permission.includes(i) ? priceListDisable : {}}
-                                                                            >
-                                                                                {plan.permission.includes(i) ? (
-                                                                                    <img
-                                                                                        src={plan.active ? AvailableWhite : Available}
-                                                                                        alt="Available"
-                                                                                    />
-                                                                                ) : (
-                                                                                    <img src={NotAllowed} alt="Available" />
-                                                                                )}
-                                                                                {/* <img
-                                                                                    src={plan.active ? AvailableWhite : Available}
-                                                                                    alt="Available"
-                                                                                /> */}
-                                                                                <span
-                                                                                    style={{
-                                                                                        marginLeft: '10px',
-                                                                                        color: plan.active ? '#fff' : '#000'
-                                                                                    }}
-                                                                                >
-                                                                                    {list}
-                                                                                </span>
-                                                                            </ListItem>
-                                                                        </React.Fragment>
-                                                                    ))}
-                                                                </List>
-                                                            </Grid>
-                                                            <Grid item xs={12}>
-                                                                {plan.active ? (
-                                                                    <BRButton
-                                                                        disabled={price_Id}
-                                                                        onClick={() => {
-                                                                            createSession(plan.id);
-                                                                            // window.location.href = plan.stripePayLink;
-                                                                        }}
-                                                                        sx={{
-                                                                            borderRadius: '50px',
-                                                                            width: '100%',
-                                                                            color: '#000',
-                                                                            background: '#fff'
-                                                                        }}
-                                                                    >
-                                                                        Buy Now
-                                                                    </BRButton>
-                                                                ) : (
-                                                                    <BRButton
-                                                                        disabled={price_Id}
-                                                                        onClick={() => {
-                                                                            createSession(plan.id);
-                                                                            // window.location.href = plan.stripePayLink;
-                                                                        }}
-                                                                        sx={{ borderRadius: '50px', width: '100%', color: '#fff' }}
-                                                                    >
-                                                                        Buy Now
-                                                                    </BRButton>
-                                                                )}
+                            <Box style={{ width: '40%', minWidth: '450px', margin: '10px auto 20px' }}>
+                                <SubscriptionToggleButton selected={selected} setSelected={setSelected} />
+                            </Box>
 
-                                                                {/* <Button
-                                                                    variant="outlined"
-                                                                    disabled={price_Id}
-                                                                    onClick={() => {
-                                                                        createSession(plan.id);
-                                                                        // window.location.href = plan.stripePayLink;
-                                                                    }}
-                                                                >
-                                                                    Buy
-                                                                    {price_Id === plan.id ? (
-                                                                        <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />
-                                                                    ) : (
-                                                                        ''
-                                                                    )}
-                                                                </Button> */}
-                                                            </Grid>
-                                                        </Grid>
-                                                    </MainCard>
-                                                </Grid>
-                                            );
-                                        })}
-                                    </>
-                                </Grid>
+                            <Box>
+                                {selected === 'lifetime' && <LifetimePlans />}
+                                {selected === 'monthly' && <MonthlyPlans />}
+                                {selected === 'yearly' && <YearlyPlans />}
                             </Box>
                         </>
                     )}

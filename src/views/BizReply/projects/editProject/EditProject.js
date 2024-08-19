@@ -27,6 +27,7 @@ const EditProject = ({ projectToEdit, setProjectToEdit }) => {
         setProjectToEdit({});
         setshowModal(false);
     };
+
     return (
         <Modal open={showModal} onClose={onClostModal}>
             <Box
