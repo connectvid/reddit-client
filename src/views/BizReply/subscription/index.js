@@ -1,7 +1,7 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/button-has-type */
 /* eslint-disable consistent-return */
-import React from 'react';
+import React, { useState } from 'react';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, Button, Grid, List, ListItem, Typography } from '@mui/material';
@@ -17,6 +17,8 @@ import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
 import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
 import BRButton from 'ui-component/bizreply/BRButton';
 import GradinentText from 'ui-component/GradinentText';
+import SubscriptionToggleButton from './SubscriptionToggleButton';
+import { minWidth } from '@mui/system';
 // import { callOthers } from 'features/project/projectActions';
 
 const plansDev = [
@@ -151,6 +153,7 @@ const selectedPlans = [
     : plansDev;
 
 const Subscription = () => {
+    const [selected, setSelected] = useState('lifetime');
     // const { subscription } = useSelector((s) => s.subscription);
     // console.log(subscription, 'subscription');
     const { dbUser, getAccessToken } = useAuth();
@@ -226,6 +229,10 @@ const Subscription = () => {
                         <PaymentDashboard fetchSubscribeData={fetchSubscribeData} dbUser={dbUser} />
                     ) : (
                         <>
+                            <Box style={{ width: '40%', minWidth: '450px', margin: '10px auto 20px' }}>
+                                <SubscriptionToggleButton selected={selected} setSelected={setSelected} />
+                            </Box>
+
                             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', mx: 'auto' }}>
                                 <Grid
                                     container
