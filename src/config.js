@@ -19,7 +19,8 @@ export const FIREBASE_API_DEV = {
     messagingSenderId: '1041234876186',
     appId: '1:1041234876186:web:0491ebf6ebec287f8b7ea3'
 };
-export const FIREBASE_API = FIREBASE_API_DEV;
+export const FIREBASE_API = FIREBASE_API_LIVE;
+console.log(FIREBASE_API.projectId, 'PROJECT ID');
 
 export const AUTH0_API = {
     client_id: '7T4IlWis4DKHSbG8JAye4Ipk0rvXkH9V',
