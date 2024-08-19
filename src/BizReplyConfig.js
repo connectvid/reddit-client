@@ -2,7 +2,7 @@
 // const NODE_BASE_URL_LOCAL = 'https://ccb9-116-206-253-168.ngrok-free.app'; // localhost
 const NODE_BASE_URL_LOCAL = 'http://localhost:5000'; // localhost
 export const NODE_BASE_URL_SOCKET_LOCAL = 'http://localhost:5000'; // localhost
-export const NODE_BASE_URL = 'https://dev-reddit-server.onrender.com'; // dev
+export const NODE_BASE_URL = 'https://reddit-server-saged.onrender.com'; // dev
 const NODE_BASE_URL_MAIN = 'https://reddit-server-2ptn.onrender.com'; // live
 const originWise = ['https://gv-reddit.netlify.app', 'https://app.bizreply.co'].includes(window.location.origin)
     ? NODE_BASE_URL_MAIN
