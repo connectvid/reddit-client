@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
+// import AddOpenAiKey from './AddOpenAiKey';
 // const pluralize = require('pluralize');
 // ==============================|| SETTINGS PAGE ||============================== //
 
@@ -107,6 +108,7 @@ const Settings = () => {
                     </Button>
                 </Box>
             </Box>
+            {/* <AddOpenAiKey /> */}
         </Box>
     );
 };
