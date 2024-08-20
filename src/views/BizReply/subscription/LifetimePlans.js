@@ -19,18 +19,31 @@ import GradinentText from 'ui-component/GradinentText';
 // import { callOthers } from 'features/project/projectActions';
 
 const plansDev = [
+    // {
+    //     active: false,
+    //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+    //     title: 'Solopreneur Plan',
+    //     type: 'Month',
+    //     description: 'Lifetime Deal',
+    //     price: 49,
+    //     permission: [0, 1, 2, 3, 4, 5, 6, 7],
+    //     plan_id: 1,
+    //     product: 'prod_QcQz1eRj0C3Ibp',
+    //     id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
+    //     stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
+    // },
     {
         active: false,
         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'Solopreneur Plan',
         type: 'Month',
         description: 'Lifetime Deal',
-        price: 49,
+        price: 59,
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 1,
-        product: 'prod_QcQz1eRj0C3Ibp',
-        id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
-        stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
+        product: 'prod_QhConTXq8njd1g',
+        id: 'price_1PpoOgDku3fWB0uAud7MP6JR',
+        stripePayLink: 'https://buy.stripe.com/dR6174ai11oE1xK009'
     },
     {
         active: false,
