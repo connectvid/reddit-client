@@ -412,7 +412,7 @@ export const FirebaseProvider = ({ children }) => {
                 getAccessToken
             }}
         >
-            <ToastContainer position="bottom-right" autoClose={2000} />
+            <ToastContainer position="top-right" autoClose={2000} />
             {children}
         </FirebaseContext.Provider>
     );

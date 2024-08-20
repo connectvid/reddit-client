@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
-// import AddOpenAiKey from './AddOpenAiKey';
+import AddOpenAiKey from './AddOpenAiKey';
 // const pluralize = require('pluralize');
 // ==============================|| SETTINGS PAGE ||============================== //
 
@@ -24,7 +24,7 @@ const Settings = () => {
     const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
 
-    const remainingCredit = subscription?.credit;
+    const remainingCredit = subscription?.remainingCredit;
     //     const { subscription } = useSelector(state => state.subscription);
     // const { remainingCredit } = subscription || {};
     // const { searches, keywords, projects, replies } = remainingCredit || {};
@@ -108,7 +108,7 @@ const Settings = () => {
                     </Button>
                 </Box>
             </Box>
-            {/* <AddOpenAiKey /> */}
+            <AddOpenAiKey />
         </Box>
     );
 };
