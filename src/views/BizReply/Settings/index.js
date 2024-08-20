@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -82,12 +83,15 @@ const Settings = () => {
                             // eslint-disable-next-line array-callback-return
                             Object.keys(remainingCredit).map((item) => {
                                 if (['projects', 'replies', 'keywords', 'mentions'].includes(item)) {
+                                    const itemC = remainingCredit[item];
                                     return (
                                         <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                                             <Typography style={{ color: '#6E7478', textTransform: 'capitalize' }}>
                                                 Available {pluralize.singular(item)} Credits
                                             </Typography>
-                                            <Typography style={{ fontWeight: '700' }}>{remainingCredit[item]}</Typography>
+                                            <Typography style={{ fontWeight: '700' }}>
+                                                {itemC === 'Unlimited' ? itemC : itemC < 0 ? 0 : itemC}
+                                            </Typography>
                                         </Box>
                                     );
                                 }
