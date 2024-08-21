@@ -100,7 +100,7 @@ const Mentions = () => {
             }
             if (percentage === 100) {
                 if (state) {
-                    navigate(`${pathname}${search}`, { state: null, replace: true });
+                    // navigate(`${pathname}${search}`, { state: null, replace: true });
                     console.log(`State Clear`);
                 }
             }
@@ -160,7 +160,7 @@ const Mentions = () => {
                 //     setLoading(false);
                 // }
                 if (!state?.socket) {
-                    navigate(`${pathname}${search}`, { state: null });
+                    // navigate(`${pathname}${search}`, { state: null });
                 }
             } catch (e) {
                 console.log(e);
