@@ -2,7 +2,7 @@ import { Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
 
-const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
+const PostCardFooter = ({ generatingReply, handleGenerateReply, link, showCustomPromptInput, setShowCustomPromptInput }) => {
     // platform
     const { subscription } = useSelector((state) => state.subscription);
     const repliesCredits = subscription?.remainingCredit?.replies;
@@ -23,6 +23,15 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
             >
                 Generate Reply {generatingReply && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px', ml: 1 }} />}
             </BRButton>
+            {/* {!showCustomPromptInput && (
+                <BRButton
+                    onClick={() => setShowCustomPromptInput(true)}
+                    variant="contained"
+                    sx={{ height: '46px', width: '183px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                >
+                    Custom Prompt
+                </BRButton>
+            )} */}
 
             <BRButton
                 variant="outlined"
