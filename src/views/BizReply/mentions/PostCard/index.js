@@ -224,18 +224,28 @@ const PostCard = ({
                             </Typography>
                         </Box>
                     </Box>
-                    <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                    {/* <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
                         {title.split(keyword).map((part, index, arr) => (
                             <React.Fragment key={index}>
                                 {part}
                                 {index < arr.length - 1 && <strong>{keyword}</strong>}
                             </React.Fragment>
                         ))}
+                    </Typography> */}
+
+                    <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                        {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
+                            part.toLowerCase() === keyword.toLowerCase() ? (
+                                <strong key={index}>{part}</strong> // Bold the matching keyword
+                            ) : (
+                                <React.Fragment key={index}>{part}</React.Fragment>
+                            )
+                        )}
                     </Typography>
 
                     {/* <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography> */}
 
-                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                    {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)
                             .split(keyword)
                             .map((part, index, arr) => (
@@ -244,6 +254,17 @@ const PostCard = ({
                                     {index < arr.length - 1 && <strong>{keyword}</strong>}
                                 </React.Fragment>
                             ))}
+                    </Typography> */}
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {removeLastSentenceIfEllipsis(snippet)
+                            .split(new RegExp(`(${keyword})`, 'i')) // Case-insensitive split
+                            .map((part, index) =>
+                                part.toLowerCase() === keyword.toLowerCase() ? (
+                                    <strong key={index}>{part}</strong> // Bold the keyword
+                                ) : (
+                                    <React.Fragment key={index}>{part}</React.Fragment>
+                                )
+                            )}
                     </Typography>
 
                     {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
