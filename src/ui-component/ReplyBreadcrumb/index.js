@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
+// import ReportDownload from 'views/BizReply/reply/ReportDownload';
 import Breadcrumb from '../Breadcrumb';
 import AllProjects from 'ui-component/Project/AllProjects';
 // import PostFilter from './PostFilter';
 // import ManageMentions from './ManageMentions';
 
-export default function ReplyBreadcrumb() {
+export default function ReplyBreadcrumb({ brandName, mentionsData }) {
     // {
     // setSelectedKeyword,
     // loading
@@ -38,6 +39,7 @@ export default function ReplyBreadcrumb() {
                         Manage mentions
                     </Typography>
                 </BRButton> */}
+                {/* <ReportDownload {...{ brandName, mentionsData }} /> */}
                 <AllProjects />
                 {/* <PostFilter {...{ setSelectedKeyword, loading }} /> */}
             </Breadcrumb>
