@@ -1,5 +1,8 @@
-import { Box, Card, CardContent, Typography } from '@mui/material';
-import { useState } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
 import GeneretedReply from './GeneretedReply';
@@ -16,6 +19,9 @@ import { LinkedIn, Twitter } from '@mui/icons-material';
 import IconQuora from 'ui-component/icons/IconQuora';
 import { keywordColors } from 'data';
 import { random } from 'lodash';
+import crossIcon from '../../../../assets/images/cross.svg';
+import VariableModal from './VariableModal';
+import { display } from '@mui/system';
 
 const PostCard = ({
     project,
@@ -44,6 +50,25 @@ const PostCard = ({
     const [editOpen, setEditOpen] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
     const { pathname } = useLocation();
+    const [showVariableModal, setShowVariableModal] = useState(false);
+    const [customPrompt, setCustomPrompt] =
+        useState(`Incorporate the details of a product/service subtly within the comments, and make sure to include the brand as a clickable link (with the domain URL explicitly mentioned). Here are the specifics:
+      Brand name: {projectName}
+      Domain URL: {projectDomain}
+      Description of the brand: {projectDescription}
+      The comments should:
+      1. Be concise and relevant, getting to the point quickly and adding value to the discussion.
+      2. Integrate a subtle mention of the brand and its benefits without making it the primary focus.
+      3. Include the brand and the product URL only once per comment, in the format "teamsynergypro.com".
+      4. Ensure the links do not have any kind of brackets or asterisks around them like ()[]{}**.
+      5. Be between 250 and 300 characters to ensure higher engagement.
+      6. Maintain high content quality by including insightful, humorous, or informative content that resonates with the community.
+      The post title is as follows:
+      "{title}"
+      The post snippet is as follows:
+      "{snippet}"
+      Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
+    const [showCustomPromptInput, setShowCustomPromptInput] = useState(false);
     const handleGenerateReply = async () => {
         if (repliesCredits !== 'Unlimited' && repliesCredits < 1) {
             toast.warning(`Reply limit reached. You cannot send more replies at this time.!`);
@@ -199,11 +224,102 @@ const PostCard = ({
                             </Typography>
                         </Box>
                     </Box>
-                    <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography>
+                    {/* <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                        {title.split(keyword).map((part, index, arr) => (
+                            <React.Fragment key={index}>
+                                {part}
+                                {index < arr.length - 1 && <strong>{keyword}</strong>}
+                            </React.Fragment>
+                        ))}
+                    </Typography> */}
 
-                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
-                        {removeLastSentenceIfEllipsis(snippet)}
+                    <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                        {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
+                            part.toLowerCase() === keyword.toLowerCase() ? (
+                                <strong key={index}>{part}</strong> // Bold the matching keyword
+                            ) : (
+                                <React.Fragment key={index}>{part}</React.Fragment>
+                            )
+                        )}
                     </Typography>
+
+                    {/* <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography> */}
+
+                    {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {removeLastSentenceIfEllipsis(snippet)
+                            .split(keyword)
+                            .map((part, index, arr) => (
+                                <React.Fragment key={index}>
+                                    {part}
+                                    {index < arr.length - 1 && <strong>{keyword}</strong>}
+                                </React.Fragment>
+                            ))}
+                    </Typography> */}
+                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {removeLastSentenceIfEllipsis(snippet)
+                            .split(new RegExp(`(${keyword})`, 'i')) // Case-insensitive split
+                            .map((part, index) =>
+                                part.toLowerCase() === keyword.toLowerCase() ? (
+                                    <strong key={index}>{part}</strong> // Bold the keyword
+                                ) : (
+                                    <React.Fragment key={index}>{part}</React.Fragment>
+                                )
+                            )}
+                    </Typography>
+
+                    {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {removeLastSentenceIfEllipsis(snippet)}
+                    </Typography> */}
+                    {/* <Box>
+                        <Box
+                            style={{
+                                fontSize: '15px',
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                marginBottom: '-20px'
+                            }}
+                        >
+                            <p>Enter Custom Prompt:</p>
+                            <Box style={{ display: 'flex', gap: '10px' }}>
+                                <div style={{ fontSize: '15px', cursor: 'pointer' }} onClick={() => setShowVariableModal(true)}>
+                                    Variables
+                                </div>
+                                <img
+                                    style={{
+                                        cursor: 'pointer',
+                                        float: 'right',
+                                        height: '20px',
+                                        marginTop: '5px'
+                                    }}
+                                    onClick={() => setShowCustomPromptInput(false)}
+                                    src={crossIcon}
+                                    alt="icon"
+                                />
+                            </Box>
+                        </Box>
+
+                        {showCustomPromptInput && (
+                            <TextField
+                                value={customPrompt}
+                                required
+                                fullWidth
+                                multiline
+                                onChange={(e) => setCustomPrompt(e.target.value || '')}
+                                sx={{
+                                    mb: 2,
+                                    borderRadius: `0 !important`,
+                                    textarea: {
+                                        borderRadius: `0 !important`,
+                                        fontSize: '16px',
+                                        lineHeight: '22px',
+                                        minHeight: '50px',
+                                        maxHeight: '80px'
+                                    }
+                                }}
+                            />
+                        )}
+                    </Box> */}
+
                     {editReply && (
                         <GeneretedReply
                             {...{
@@ -223,7 +339,18 @@ const PostCard = ({
                         />
                     )}
                     {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
-                    <PostCardFooter {...{ generatingReply, handleGenerateReply, link, platform, repliesCredits }} />
+                    <PostCardFooter
+                        {...{
+                            generatingReply,
+                            handleGenerateReply,
+                            link,
+                            platform,
+                            repliesCredits,
+                            showCustomPromptInput,
+                            setShowCustomPromptInput
+                        }}
+                    />
+                    {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
                 </Box>
             </CardContent>
         </Card>

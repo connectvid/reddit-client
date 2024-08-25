@@ -66,7 +66,10 @@ const GeneretedReply = ({
             <Typography sx={{ fontWeight: 500, fontSize: '14px', lineHeight: '22px', color: '#6E7478', mb: '10px' }}>
                 Generated Reply
             </Typography>
-            {(markReplyPosition === 'generate-reply-top' && <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />) || ''}
+            {(markReplyPosition === 'generate-reply-top' && markReply === 'marked' && (
+                <MarkBtn {...{ handleUpdateReply, markReply, updatingReply }} />
+            )) ||
+                ''}
         </Box>
         <Box
             sx={{

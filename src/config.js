@@ -3,23 +3,23 @@ export const JWT_API = {
     timeout: '1 days'
 };
 
-export const FIREBASE_API_LIVE = {
-    apiKey: 'AIzaSyCKiGchwJyYQOAOlie3rjueG4gVvuG_e4A',
-    authDomain: 'bizreply-app.firebaseapp.com',
-    projectId: 'bizreply-app',
-    storageBucket: 'bizreply-app.appspot.com',
-    messagingSenderId: '577668839443',
-    appId: '1:577668839443:web:296008cc845c9aafefe7e6'
+const {
+    REACT_APP_API_KEY,
+    REACT_APP_AUTH_DOMAN,
+    REACT_APP_PROJECT_ID,
+    REACT_APP_STORAGE_BUCKET,
+    REACT_APP_MESSAGING_SENDER_ID,
+    REACT_APP_APP_ID
+} = process.env;
+
+export const FIREBASE_API = {
+    apiKey: REACT_APP_API_KEY,
+    authDomain: REACT_APP_AUTH_DOMAN,
+    projectId: REACT_APP_PROJECT_ID,
+    storageBucket: REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: REACT_APP_MESSAGING_SENDER_ID,
+    appId: REACT_APP_APP_ID
 };
-export const FIREBASE_API_DEV = {
-    apiKey: 'AIzaSyB1w9eTAGirTs2_sB3D3VRri_REJz9FZsw',
-    authDomain: 'bizreply-dev.firebaseapp.com',
-    projectId: 'bizreply-dev',
-    storageBucket: 'bizreply-dev.appspot.com',
-    messagingSenderId: '1041234876186',
-    appId: '1:1041234876186:web:0491ebf6ebec287f8b7ea3'
-};
-export const FIREBASE_API = FIREBASE_API_DEV;
 console.log(FIREBASE_API.projectId, 'PROJECT ID');
 
 export const AUTH0_API = {

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react/jsx-no-target-blank */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -44,7 +45,7 @@ const Reply = () => {
 
     return (
         <>
-            <ReplyBreadcrumb />
+            <ReplyBreadcrumb {...{ mentionsData, brandName: project?.brandName }} />
             {loading ? <PostPlaceholder /> : ''}
             {!loading && !mentionsData?.length ? (
                 <Card>
@@ -57,6 +58,7 @@ const Reply = () => {
             ) : (
                 ''
             )}
+
             {mentionsData?.map?.((item) => (
                 <PostCard
                     key={item._id}
