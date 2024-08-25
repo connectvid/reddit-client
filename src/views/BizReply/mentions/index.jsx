@@ -212,13 +212,14 @@ const Mentions = () => {
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
                         <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                            Sorry, there seems to be no posts
+                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                            {/* Sorry, there seems to be no posts
                             {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
                                 <strong> for your suggested {selectedKeyword?.title}</strong>
                             ) : (
                                 ''
                             )}
-                            !
+                            ! */}
                         </Typography>
                     </CardContent>
                 </Card>
