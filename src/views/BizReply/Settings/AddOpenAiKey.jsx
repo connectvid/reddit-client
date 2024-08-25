@@ -46,7 +46,7 @@ export default function () {
             const { data } = await axios.post(`user/open-ai-key`, values, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setDbUser((p) => ({ ...p, openAIkey: data.openAIkey }));
+            setDbUser((p) => ({ ...p, openAIkey: data.openAIkey, openAIModel: data.openAIModel }));
             toast.success(data.message);
             setValues({});
             setOpenUpdate(false);
