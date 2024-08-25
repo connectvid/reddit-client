@@ -22,6 +22,7 @@ import { random } from 'lodash';
 import crossIcon from '../../../../assets/images/cross.svg';
 import VariableModal from './VariableModal';
 import { display } from '@mui/system';
+import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const PostCard = ({
     project,
@@ -43,11 +44,13 @@ const PostCard = ({
     brandLogo,
     markReplyPosition = 'reply-section' // generate-reply-top
 }) => {
-    const { getAccessToken } = useAuth();
+    const { getAccessToken, dbUser } = useAuth();
+    // console.log(dbUser, 'dbUser');
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
     const [editReply, setEditReply] = useState(filteredReply);
     const [generatingReply, setGeneratingReply] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
+    const [openAlert, setOpenAlert] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
     const { pathname } = useLocation();
     const [showVariableModal, setShowVariableModal] = useState(false);
@@ -68,8 +71,13 @@ const PostCard = ({
       The post snippet is as follows:
       "{snippet}"
       Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
+
     const [showCustomPromptInput, setShowCustomPromptInput] = useState(false);
     const handleGenerateReply = async () => {
+        if (dbUser?.needOpenAiKey === 'Yes' && !dbUser?.openAIkey) {
+            setOpenAlert(true);
+            return;
+        }
         if (repliesCredits !== 'Unlimited' && repliesCredits < 1) {
             toast.warning(`Reply limit reached. You cannot send more replies at this time.!`);
             return;
@@ -187,44 +195,46 @@ const PostCard = ({
         setUpdatingReply(false);
     };
     return (
-        <Card sx={{ mb: 4, p: '5px' }} id={_id}>
-            <CardContent>
-                <Box sx={{ lineHeight: 2 }}>
-                    <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>
-                        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
-                            {(brandLogo && (
-                                <Typography>
-                                    <img src={brandLogo} alt="brandLogo" style={{ maxWidth: '80px' }} />
-                                </Typography>
-                            )) ||
-                                ''}
+        <>
+            {(openAlert && <OpenAikeyPopup handleClose={() => setOpenAlert(false)} />) || ''}
+            <Card sx={{ mb: 4, p: '5px' }} id={_id}>
+                <CardContent>
+                    <Box sx={{ lineHeight: 2 }}>
+                        <Box sx={{ lineHeight: 2, display: 'flex', justifyContent: 'space-between', width: '100%', mb: '21px' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 1.5 }}>
+                                {(brandLogo && (
+                                    <Typography>
+                                        <img src={brandLogo} alt="brandLogo" style={{ maxWidth: '80px' }} />
+                                    </Typography>
+                                )) ||
+                                    ''}
 
-                            <Typography
-                                sx={{
-                                    textTransform: 'uppercase',
-                                    height: '28px',
-                                    minWidth: '127px',
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    fontSize: '12px',
-                                    fontWeight: 500,
-                                    borderRadius: '6px',
-                                    px: '20px',
-                                    ...keywordColors[random(1, 3)]
-                                }}
-                            >
-                                {keyword}
-                            </Typography>
+                                <Typography
+                                    sx={{
+                                        textTransform: 'uppercase',
+                                        height: '28px',
+                                        minWidth: '127px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        fontSize: '12px',
+                                        fontWeight: 500,
+                                        borderRadius: '6px',
+                                        px: '20px',
+                                        ...keywordColors[random(1, 3)]
+                                    }}
+                                >
+                                    {keyword}
+                                </Typography>
+                            </Box>
+                            <Box display="flex" alignItems="center" gap="14px">
+                                <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }}>{date}</Typography>
+                                <Typography>
+                                    <SocialIcons platform={platform} />
+                                </Typography>
+                            </Box>
                         </Box>
-                        <Box display="flex" alignItems="center" gap="14px">
-                            <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }}>{date}</Typography>
-                            <Typography>
-                                <SocialIcons platform={platform} />
-                            </Typography>
-                        </Box>
-                    </Box>
-                    {/* <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                        {/* <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
                         {title.split(keyword).map((part, index, arr) => (
                             <React.Fragment key={index}>
                                 {part}
@@ -233,19 +243,19 @@ const PostCard = ({
                         ))}
                     </Typography> */}
 
-                    <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
-                        {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
-                            part.toLowerCase() === keyword.toLowerCase() ? (
-                                <strong key={index}>{part}</strong> // Bold the matching keyword
-                            ) : (
-                                <React.Fragment key={index}>{part}</React.Fragment>
-                            )
-                        )}
-                    </Typography>
+                        <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                            {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
+                                part.toLowerCase() === keyword.toLowerCase() ? (
+                                    <strong key={index}>{part}</strong> // Bold the matching keyword
+                                ) : (
+                                    <React.Fragment key={index}>{part}</React.Fragment>
+                                )
+                            )}
+                        </Typography>
 
-                    {/* <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography> */}
+                        {/* <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography> */}
 
-                    {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)
                             .split(keyword)
                             .map((part, index, arr) => (
@@ -255,22 +265,22 @@ const PostCard = ({
                                 </React.Fragment>
                             ))}
                     </Typography> */}
-                    <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
-                        {removeLastSentenceIfEllipsis(snippet)
-                            .split(new RegExp(`(${keyword})`, 'i')) // Case-insensitive split
-                            .map((part, index) =>
-                                part.toLowerCase() === keyword.toLowerCase() ? (
-                                    <strong key={index}>{part}</strong> // Bold the keyword
-                                ) : (
-                                    <React.Fragment key={index}>{part}</React.Fragment>
-                                )
-                            )}
-                    </Typography>
+                        <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                            {removeLastSentenceIfEllipsis(snippet)
+                                .split(new RegExp(`(${keyword})`, 'i')) // Case-insensitive split
+                                .map((part, index) =>
+                                    part.toLowerCase() === keyword.toLowerCase() ? (
+                                        <strong key={index}>{part}</strong> // Bold the keyword
+                                    ) : (
+                                        <React.Fragment key={index}>{part}</React.Fragment>
+                                    )
+                                )}
+                        </Typography>
 
-                    {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
+                        {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                         {removeLastSentenceIfEllipsis(snippet)}
                     </Typography> */}
-                    {/* <Box>
+                        {/* <Box>
                         <Box
                             style={{
                                 fontSize: '15px',
@@ -320,40 +330,41 @@ const PostCard = ({
                         )}
                     </Box> */}
 
-                    {editReply && (
-                        <GeneretedReply
+                        {editReply && (
+                            <GeneretedReply
+                                {...{
+                                    editReply,
+                                    setEditReply,
+                                    reply: editReply,
+                                    updatingReply,
+                                    handleUpdateReply,
+                                    editOpen,
+                                    setEditOpen,
+                                    setUpdatingReply,
+                                    link,
+                                    showMarkRepliedBtn,
+                                    markReply,
+                                    markReplyPosition
+                                }}
+                            />
+                        )}
+                        {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
+                        <PostCardFooter
                             {...{
-                                editReply,
-                                setEditReply,
-                                reply: editReply,
-                                updatingReply,
-                                handleUpdateReply,
-                                editOpen,
-                                setEditOpen,
-                                setUpdatingReply,
+                                generatingReply,
+                                handleGenerateReply,
                                 link,
-                                showMarkRepliedBtn,
-                                markReply,
-                                markReplyPosition
+                                platform,
+                                repliesCredits,
+                                showCustomPromptInput,
+                                setShowCustomPromptInput
                             }}
                         />
-                    )}
-                    {generatingReply && <div style={{ marginTop: '20px' }}>Generating Reply....</div>}
-                    <PostCardFooter
-                        {...{
-                            generatingReply,
-                            handleGenerateReply,
-                            link,
-                            platform,
-                            repliesCredits,
-                            showCustomPromptInput,
-                            setShowCustomPromptInput
-                        }}
-                    />
-                    {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
-                </Box>
-            </CardContent>
-        </Card>
+                        {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
+                    </Box>
+                </CardContent>
+            </Card>
+        </>
     );
 };
 

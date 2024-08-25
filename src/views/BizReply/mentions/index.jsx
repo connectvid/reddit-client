@@ -15,6 +15,7 @@ import PlatformSelection from './PlatformSelection';
 import { useLocation, useNavigate } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
+// import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -193,6 +194,7 @@ const Mentions = () => {
 
     return (
         <>
+            {/* <OpenAikeyPopup /> */}
             <MentionBreadcrumb
                 {...{
                     setSelectedKeyword,

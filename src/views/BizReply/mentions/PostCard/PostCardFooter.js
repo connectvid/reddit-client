@@ -6,6 +6,7 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link, showCustom
     // platform
     const { subscription } = useSelector((state) => state.subscription);
     const repliesCredits = subscription?.remainingCredit?.replies;
+
     // const icons = {
     //     'reddit.com': <RedditIcon />,
     //     'linkedin.com': <IconBrandLinkedin size={22} color="#0a66c2" />,

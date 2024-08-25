@@ -154,14 +154,14 @@ const planList = [
         'Multi Language (Coming)'
     ]
 ];
-const selectedPlans = [
-    'https://gv-reddit.netlify.app',
-    'https://app.bizreply.co',
-    'https://rebizreply.netlify.app',
-    'https://stagedbizreply.netlify.app'
-].includes(window.location.origin)
-    ? plans
-    : plansDev;
+// const selectedPlans = [
+//     'https://gv-reddit.netlify.app',
+//     'https://app.bizreply.co',
+//     'https://rebizreply.netlify.app',
+//     'https://stagedbizreply.netlify.app'
+// ].includes(window.location.origin)
+//     ? plans
+//     : plansDev;
 
 const LifetimePlans = () => {
     const { dbUser, getAccessToken } = useAuth();
@@ -220,7 +220,7 @@ const LifetimePlans = () => {
                 }
             >
                 <>
-                    {selectedPlans.map((plan, index) => {
+                    {plansDev.map((plan, index) => {
                         return (
                             <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
                                 {plan.active && (
