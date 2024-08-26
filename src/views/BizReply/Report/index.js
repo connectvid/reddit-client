@@ -12,6 +12,9 @@ import useAuth from 'hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReportBreadcrumb from 'ui-component/ReportBreadcrumb';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
     const navigate = useNavigate();
@@ -23,12 +26,25 @@ const Report = () => {
     const handleClick = () => {
         navigate('/subscription');
     };
-
+    const selectionRange = {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection'
+    };
+    const handleSelect = (ranges) => {
+        console.log(ranges);
+        // {
+        //   selection: {
+        //     startDate: [native Date Object],
+        //     endDate: [native Date Object],
+        //   }
+        // }
+    };
     return (
         <>
             <ReportBreadcrumb />
             <Card>
-                <Box sx={{ minHeight: '100%' }}>{/*  */}</Box>
+                <Box sx={{ minHeight: '100%' }}>{/* <DateRangePicker ranges={[selectionRange]} onChange={handleSelect} /> */}</Box>
             </Card>
         </>
     );
