@@ -104,6 +104,7 @@ const plans = [
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 1,
         product: 'prod_QhConTXq8njd1g',
+        mongoId: '66cc87eed303b9dbdfa353c4',
         id: 'price_1PpoOgDku3fWB0uAud7MP6JR',
         stripePayLink: 'https://buy.stripe.com/dR6174ai11oE1xK009'
     },
@@ -116,6 +117,7 @@ const plans = [
         price: 99,
         permission: [0, 1, 2, 3, 4, 5, 6, 7],
         plan_id: 2,
+        mongoId: '66b39c624d7b309cb5a7d333',
         id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
         product: 'prod_QavmbQShCaPyRj',
         stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
@@ -129,6 +131,7 @@ const plans = [
         price: 249,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         plan_id: 3,
+        mongoId: '66b39c624d7b309cb5a7d334',
         id: 'price_1PjjvTDku3fWB0uA7GoaIaVn',
         product: 'prod_QavnUqEY4bSjcu',
         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
@@ -375,6 +378,7 @@ const LifetimePlans = ({ subscription }) => {
                                                     }}
                                                 >
                                                     {plan.mongoId === subscription?.planId ? 'Subscribed' : 'Buy Now'}
+                                                    {plan.mongoId} {subscription?.planId}
                                                 </BRButton>
                                             ) : (
                                                 <BRButton
