@@ -13,6 +13,8 @@ import SubscriptionToggleButton from './SubscriptionToggleButton';
 import LifetimePlans from './LifetimePlans';
 import MonthlyPlans from './MonthlyPlans';
 import YearlyPlans from './YearlyPlans';
+import { useSelector } from 'react-redux';
+
 // import { callOthers } from 'features/project/projectActions';
 
 // const plansDev = [
@@ -148,7 +150,7 @@ import YearlyPlans from './YearlyPlans';
 
 const Subscription = () => {
     const [selected, setSelected] = React.useState('lifetime');
-    // const { subscription } = useSelector((s) => s.subscription);
+    const { subscription } = useSelector((s) => s.subscription);
     // console.log(subscription, 'subscription');
     const {
         dbUser // getAccessToken
@@ -230,9 +232,9 @@ const Subscription = () => {
                             </Box>
 
                             <Box>
-                                {selected === 'lifetime' && <LifetimePlans />}
-                                {selected === 'monthly' && <MonthlyPlans />}
-                                {selected === 'yearly' && <YearlyPlans />}
+                                {selected === 'lifetime' && <LifetimePlans {...{ subscription }} />}
+                                {selected === 'monthly' && <MonthlyPlans {...{ subscription }} />}
+                                {selected === 'yearly' && <YearlyPlans {...{ subscription }} />}
                             </Box>
                         </>
                     )}
