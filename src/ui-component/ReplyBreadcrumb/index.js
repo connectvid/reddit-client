@@ -5,7 +5,8 @@ import AllProjects from 'ui-component/Project/AllProjects';
 // import PostFilter from './PostFilter';
 // import ManageMentions from './ManageMentions';
 
-export default function ReplyBreadcrumb({ brandName, mentionsData }) {
+export default function ReplyBreadcrumb() {
+    // { brandName, mentionsData }
     // {
     // setSelectedKeyword,
     // loading

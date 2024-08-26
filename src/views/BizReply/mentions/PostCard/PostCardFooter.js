@@ -2,10 +2,11 @@ import { Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
 
-const PostCardFooter = ({ generatingReply, handleGenerateReply, link, showCustomPromptInput, setShowCustomPromptInput }) => {
-    // platform
+const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
+    // , showCustomPromptInput, setShowCustomPromptInput
     const { subscription } = useSelector((state) => state.subscription);
     const repliesCredits = subscription?.remainingCredit?.replies;
+
     // const icons = {
     //     'reddit.com': <RedditIcon />,
     //     'linkedin.com': <IconBrandLinkedin size={22} color="#0a66c2" />,

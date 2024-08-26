@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable consistent-return */
 /* eslint-disable react-hooks/exhaustive-deps */
@@ -12,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
+import AddOpenAiKey from './AddOpenAiKey';
 // const pluralize = require('pluralize');
 // ==============================|| SETTINGS PAGE ||============================== //
 
@@ -23,7 +25,7 @@ const Settings = () => {
     const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
 
-    const remainingCredit = subscription?.credit;
+    const remainingCredit = subscription?.remainingCredit;
     //     const { subscription } = useSelector(state => state.subscription);
     // const { remainingCredit } = subscription || {};
     // const { searches, keywords, projects, replies } = remainingCredit || {};
@@ -81,12 +83,15 @@ const Settings = () => {
                             // eslint-disable-next-line array-callback-return
                             Object.keys(remainingCredit).map((item) => {
                                 if (['projects', 'replies', 'keywords', 'mentions'].includes(item)) {
+                                    const itemC = remainingCredit[item];
                                     return (
                                         <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                                             <Typography style={{ color: '#6E7478', textTransform: 'capitalize' }}>
                                                 Available {pluralize.singular(item)} Credits
                                             </Typography>
-                                            <Typography style={{ fontWeight: '700' }}>{remainingCredit[item]}</Typography>
+                                            <Typography style={{ fontWeight: '700' }}>
+                                                {itemC === 'Unlimited' ? itemC : itemC < 0 ? 0 : itemC}
+                                            </Typography>
                                         </Box>
                                     );
                                 }
@@ -107,6 +112,7 @@ const Settings = () => {
                     </Button>
                 </Box>
             </Box>
+            <AddOpenAiKey />
         </Box>
     );
 };

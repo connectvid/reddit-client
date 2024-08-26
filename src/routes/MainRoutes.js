@@ -2,7 +2,17 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import AuthGuard from 'utils/route-guard/AuthGuard';
-import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
+import {
+    PROJECT_PATH,
+    KEYWORD_PATH,
+    MENTION_PATH,
+    REPLY_PATH,
+    SETTING_PATH,
+    SUBSCRIPTION_PATH,
+    EXPIRED_PATH,
+    ONBOARDING_PATH,
+    REPORTS_PATH
+} from 'config';
 import SetKeywords from 'views/BizReply/projects/SetKeywords';
 
 const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
@@ -15,6 +25,7 @@ const Settings = Loadable(lazy(() => import('views/BizReply/Settings')));
 const Expired = Loadable(lazy(() => import('views/BizReply/expired')));
 const NotFound = Loadable(lazy(() => import('views/pages/maintenance/Error')));
 const OnBoarding = Loadable(lazy(() => import('views/pages/onBoarding/OnBoarding')));
+const Report = Loadable(lazy(() => import('views/BizReply/Report')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -48,29 +59,32 @@ const MainRoutes = {
         },
 
         {
-            path: '/expired',
+            path: EXPIRED_PATH,
             element: <Expired />
         },
         {
-            path: '/settings',
+            path: SETTING_PATH,
             element: <Settings />
         },
         {
-            path: '/subscription',
+            path: SUBSCRIPTION_PATH,
             element: <Subscription />
-        },
-
-        {
-            path: '/*',
-            element: <NotFound />
         },
         {
             path: '/setkeywords',
             element: <SetKeywords />
         },
         {
-            path: '/onboarding',
+            path: ONBOARDING_PATH,
             element: <OnBoarding />
+        },
+        {
+            path: REPORTS_PATH,
+            element: <Report />
+        },
+        {
+            path: '/*',
+            element: <NotFound />
         }
     ]
 };

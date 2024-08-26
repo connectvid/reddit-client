@@ -12,9 +12,10 @@ import PostCard from './PostCard';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
+// import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -33,8 +34,8 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     return reduced;
 };
 const Mentions = () => {
-    const { state, pathname, search } = useLocation();
-    const navigate = useNavigate();
+    const { state } = useLocation();
+    // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
     const [showEmpty, setShowEmpty] = useState(false);
@@ -193,6 +194,7 @@ const Mentions = () => {
 
     return (
         <>
+            {/* <OpenAikeyPopup /> */}
             <MentionBreadcrumb
                 {...{
                     setSelectedKeyword,
@@ -210,13 +212,14 @@ const Mentions = () => {
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
                         <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                            Sorry, there seems to be no posts
+                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                            {/* Sorry, there seems to be no posts
                             {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
                                 <strong> for your suggested {selectedKeyword?.title}</strong>
                             ) : (
                                 ''
                             )}
-                            !
+                            ! */}
                         </Typography>
                     </CardContent>
                 </Card>
