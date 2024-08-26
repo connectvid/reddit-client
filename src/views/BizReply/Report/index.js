@@ -12,9 +12,9 @@ import useAuth from 'hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReportBreadcrumb from 'ui-component/ReportBreadcrumb';
-import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css'; // main style file
-import 'react-date-range/dist/theme/default.css';
+// import { DateRangePicker } from 'react-date-range';
+// import 'react-date-range/dist/styles.css'; // main style file
+// import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
     const navigate = useNavigate();
