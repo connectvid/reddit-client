@@ -378,7 +378,6 @@ const LifetimePlans = ({ subscription }) => {
                                                     }}
                                                 >
                                                     {plan.mongoId === subscription?.planId ? 'Subscribed' : 'Buy Now'}
-                                                    {plan.mongoId} {subscription?.planId}
                                                 </BRButton>
                                             ) : (
                                                 <BRButton
