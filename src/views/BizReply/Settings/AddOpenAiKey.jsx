@@ -36,8 +36,9 @@ export default function () {
     const [values, setValues] = React.useState({});
     const [loading, setLoading] = React.useState(false);
     const [openUpdate, setOpenUpdate] = React.useState(false);
-    // console.log(dbUser, 'dbUser');
+    console.log(dbUser, 'dbUser');
     const options = ALLOWED_OPEN_AI_MODELS.map((item) => ({ label: item, value: item }));
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -57,26 +58,27 @@ export default function () {
             setLoading(false);
         }
     };
-    const handleDelete = async () => {
-        try {
-            // setLoading(true);
-            const token = await getAccessToken();
-            const { data } = await axios.delete(`user/open-ai-key`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            toast.success(data.message);
-            // setValues({});
-            // setOpenUpdate(false);
-        } catch (e) {
-            console.log(e);
-            toast.warn(errorMsgHelper(e));
-        } finally {
-            // setLoading(false);
-        }
-    };
+
+    // const handleDelete = async () => {
+    //     try {
+    //         // setLoading(true);
+    //         const token = await getAccessToken();
+    //         const { data } = await axios.delete(`user/open-ai-key`, {
+    //             headers: { Authorization: `Bearer ${token}` }
+    //         });
+    //         toast.success(data.message);
+    //         // setValues({});
+    //         // setOpenUpdate(false);
+    //     } catch (e) {
+    //         console.log(e);
+    //         toast.warn(errorMsgHelper(e));
+    //     } finally {
+    //         // setLoading(false);
+    //     }
+    // };
+
     return (
         <>
-            {/*  */}
             {(dbUser && dbUser?.needOpenAiKey && (
                 <Card sx={{ mt: 4 }} id="add-open-ai-key">
                     <CardContent>
@@ -163,9 +165,9 @@ export default function () {
                                                 Edit
                                             </BRButton>
                                              */}
-                                            <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleDelete}>
+                                            {/* <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleDelete}>
                                                 Delete
-                                            </BRButton>
+                                            </BRButton> */}
                                         </Box>
                                     </Box>
                                 </>
