@@ -12,7 +12,7 @@ import PostCard from './PostCard';
 import PostPlaceholder from 'ui-component/cards/Skeleton/PostPlaceholder';
 import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
@@ -34,8 +34,8 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     return reduced;
 };
 const Mentions = () => {
-    const { state, pathname, search } = useLocation();
-    const navigate = useNavigate();
+    const { state } = useLocation();
+    // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
     const [showEmpty, setShowEmpty] = useState(false);

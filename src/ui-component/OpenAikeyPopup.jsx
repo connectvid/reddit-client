@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle, Typography } from '@mui/material';
+import { Dialog, DialogActions, DialogTitle, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { IconX } from '@tabler/icons';
 import { SETTING_PATH } from 'config';

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { Box, Button, Card, CardContent, TextField, Typography } from '@mui/material';
+import { Box, Card, CardContent, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
@@ -19,9 +19,9 @@ import { LinkedIn, Twitter } from '@mui/icons-material';
 import IconQuora from 'ui-component/icons/IconQuora';
 import { keywordColors } from 'data';
 import { random } from 'lodash';
-import crossIcon from '../../../../assets/images/cross.svg';
-import VariableModal from './VariableModal';
-import { display } from '@mui/system';
+// import crossIcon from '../../../../assets/images/cross.svg';
+// import VariableModal from './VariableModal';
+// import { display } from '@mui/system';
 import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const PostCard = ({
@@ -53,24 +53,24 @@ const PostCard = ({
     const [openAlert, setOpenAlert] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
     const { pathname } = useLocation();
-    const [showVariableModal, setShowVariableModal] = useState(false);
-    const [customPrompt, setCustomPrompt] =
-        useState(`Incorporate the details of a product/service subtly within the comments, and make sure to include the brand as a clickable link (with the domain URL explicitly mentioned). Here are the specifics:
-      Brand name: {projectName}
-      Domain URL: {projectDomain}
-      Description of the brand: {projectDescription}
-      The comments should:
-      1. Be concise and relevant, getting to the point quickly and adding value to the discussion.
-      2. Integrate a subtle mention of the brand and its benefits without making it the primary focus.
-      3. Include the brand and the product URL only once per comment, in the format "teamsynergypro.com".
-      4. Ensure the links do not have any kind of brackets or asterisks around them like ()[]{}**.
-      5. Be between 250 and 300 characters to ensure higher engagement.
-      6. Maintain high content quality by including insightful, humorous, or informative content that resonates with the community.
-      The post title is as follows:
-      "{title}"
-      The post snippet is as follows:
-      "{snippet}"
-      Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
+    // const [showVariableModal, setShowVariableModal] = useState(false);
+    // const [customPrompt, setCustomPrompt] =
+    //     useState(`Incorporate the details of a product/service subtly within the comments, and make sure to include the brand as a clickable link (with the domain URL explicitly mentioned). Here are the specifics:
+    //   Brand name: {projectName}
+    //   Domain URL: {projectDomain}
+    //   Description of the brand: {projectDescription}
+    //   The comments should:
+    //   1. Be concise and relevant, getting to the point quickly and adding value to the discussion.
+    //   2. Integrate a subtle mention of the brand and its benefits without making it the primary focus.
+    //   3. Include the brand and the product URL only once per comment, in the format "teamsynergypro.com".
+    //   4. Ensure the links do not have any kind of brackets or asterisks around them like ()[]{}**.
+    //   5. Be between 250 and 300 characters to ensure higher engagement.
+    //   6. Maintain high content quality by including insightful, humorous, or informative content that resonates with the community.
+    //   The post title is as follows:
+    //   "{title}"
+    //   The post snippet is as follows:
+    //   "{snippet}"
+    //   Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
 
     const [showCustomPromptInput, setShowCustomPromptInput] = useState(false);
     const handleGenerateReply = async () => {
