@@ -21,6 +21,7 @@ const AddNewKeyword = Loadable(lazy(() => import('views/BizReply/keywords/AddNew
 const Mentions = Loadable(lazy(() => import('views/BizReply/mentions')));
 const Reply = Loadable(lazy(() => import('views/BizReply/reply')));
 const Subscription = Loadable(lazy(() => import('views/BizReply/subscription')));
+const PaddleSubscription = Loadable(lazy(() => import('views/BizReply/subscription/paddleInc')));
 const Settings = Loadable(lazy(() => import('views/BizReply/Settings')));
 const Expired = Loadable(lazy(() => import('views/BizReply/expired')));
 const NotFound = Loadable(lazy(() => import('views/pages/maintenance/Error')));
@@ -69,6 +70,10 @@ const MainRoutes = {
         {
             path: SUBSCRIPTION_PATH,
             element: <Subscription />
+        },
+        {
+            path: `${SUBSCRIPTION_PATH}/paddle`,
+            element: <PaddleSubscription />
         },
         {
             path: '/setkeywords',
