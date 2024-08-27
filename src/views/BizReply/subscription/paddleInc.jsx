@@ -49,6 +49,7 @@ export default function () {
         //     // successCallback: checkoutComplete,
         //     closeCallback: checkoutClosed
         // });
+        console.log(paddleSubsObj);
         window.Paddle.Checkout.open(paddleSubsObj);
     };
     return (
