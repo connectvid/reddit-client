@@ -70,13 +70,14 @@
             })();
         </script>
 
-        <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
+        <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
         <script type="text/javascript">
-            Paddle.Setup({ vendor: 199798 });
+            Paddle.Initialize({
+                token: 'live_5b1a280953dd21dd048c5b7a5ea' // replace with a client-side token
+            });
         </script>
 
-
-    <!-- 199798  bizreply-->
-    <!-- 140124  tweetsy-->
+        <!-- 199798  bizreply-->
+        <!-- 140124  tweetsy-->
     </body>
 </html>
