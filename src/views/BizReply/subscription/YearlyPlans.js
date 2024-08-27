@@ -211,7 +211,7 @@ const YearlyPlans = () => {
                 }
             >
                 <>
-                    {plansDev.map((plan, index) => {
+                    {plans?.map?.((plan, index) => {
                         return (
                             <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
                                 {plan.active && (
