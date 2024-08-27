@@ -7,11 +7,11 @@ const NODE_BASE_URL_MAIN = 'https://reddit-server-2ptn.onrender.com'; // live
 
 class BizReplyConfig {
     getNodeUrl() {
-        return process.env.NODE_ENV === 'development' ? NODE_BASE_URL_LOCAL : NODE_BASE_URL;
+        return process.env.NODE_ENV === 'development' ? NODE_BASE_URL_LOCAL : NODE_BASE_URL_MAIN;
     }
 
     getNodeSocketUrl() {
-        return process.env.NODE_ENV === 'development' ? NODE_BASE_URL_SOCKET_LOCAL : NODE_BASE_URL;
+        return process.env.NODE_ENV === 'development' ? NODE_BASE_URL_SOCKET_LOCAL : NODE_BASE_URL_MAIN;
     }
 
     tweetPerPage = 30;
