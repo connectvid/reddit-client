@@ -271,6 +271,7 @@ const LifetimePlans = ({ subscription }) => {
                 // }
             }
         };
+        console.log(paddleSubsObj);
         window.Paddle.Checkout.open(paddleSubsObj);
     };
 
