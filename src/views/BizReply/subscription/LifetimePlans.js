@@ -44,10 +44,10 @@ const plansDev = [
         price: 59,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 1,
-        product: 'prod_QjM9pjbPhGcr3Y',
-        id: 'price_1PrtRVDku3fWB0uAY9vgSUDs',
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j6927kh2tgcm45tg0gn662rv',
         // stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
-        mongoId: '66cbf51ef94147ad49b477df'
+        mongoId: '66cdd68ba02760d37fe4932c'
     },
 
     {
@@ -59,10 +59,10 @@ const plansDev = [
         price: 99,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 2,
-        product: 'prod_QcR0SMlSjbppbT',
-        id: 'price_1PlC8EDku3fWB0uA9uOByAUW',
-        stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
-        mongoId: '66b39c624d7b309cb5a7d330'
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jww55h1rdcvem88hcwpkr',
+        // stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
+        mongoId: '66cdd68ba02760d37fe4932d'
     },
     {
         active: true,
@@ -73,10 +73,10 @@ const plansDev = [
         price: 249,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         plan_id: 3,
-        product: 'prod_QcR0DJDmXAVIOT',
-        id: 'price_1PlC8qDku3fWB0uALzWDJx0G',
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jxvygzs7z303wz22wg4jm',
         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
-        mongoId: '66b39c624d7b309cb5a7d334'
+        mongoId: '66cdd68ba02760d37fe4932e'
     }
 ];
 
@@ -207,35 +207,71 @@ const LifetimePlans = ({ subscription }) => {
             window.tolt.signup(dbUser?.email);
         }
     }, [dbUser?.email]);
-    const createSession = async (priceId) => {
-        if (!priceId) {
-            return 0;
-        }
-        setPrice_Id(priceId);
-        const token = await getAccessToken();
-        console.log('creating session');
-        try {
-            const { data: response } = await axios.post(
-                `subscriptions/stripe/payment-with-auth`,
+    // const createSession = async (priceId) => {
+    //     if (!priceId) {
+    //         return 0;
+    //     }
+    //     setPrice_Id(priceId);
+    //     const token = await getAccessToken();
+    //     console.log('creating session');
+    //     try {
+    //         const { data: response } = await axios.post(
+    //             `subscriptions/stripe/payment-with-auth`,
+    //             {
+    //                 priceId,
+    //                 email: dbUser.email,
+    //                 mode: 'payment'
+    //             },
+    //             {
+    //                 headers: { Authorization: `Bearer ${token}` }
+    //             }
+    //         );
+    //         const url = response?.url;
+    //         window.location.href = url;
+    //     } catch (e) {
+    //         toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
+    //             autoClose: 5000,
+    //             type: 'warning'
+    //         });
+    //     } finally {
+    //         setPrice_Id(null);
+    //     }
+    // };
+
+    const createSession = (priceId) => {
+        // window.Paddle.Checkout.open({
+        //     product: plan_id,
+        //     email: dbUser.email,
+        //     passthrough: dbUser,
+        //     // successCallback: checkoutComplete,
+        //     closeCallback: checkoutClosed
+        // });
+        const paddleSubsObj = {
+            settings: {
+                theme: 'light'
+            },
+            items: [
                 {
                     priceId,
-                    email: dbUser.email,
-                    mode: 'payment'
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
+                    quantity: 1
                 }
-            );
-            const url = response?.url;
-            window.location.href = url;
-        } catch (e) {
-            toast('something went wrong , please try again or contact us at hey@TwitterDm.io', {
-                autoClose: 5000,
-                type: 'warning'
-            });
-        } finally {
-            setPrice_Id(null);
-        }
+            ],
+            customData: {
+                userId: dbUser._id,
+                uid: dbUser.uid,
+                name: dbUser.name,
+                email: dbUser.name
+            },
+            customer: {
+                email: dbUser.email,
+                name: dbUser.name
+                // id:dbUser.paddleId
+                // address: {
+                //     countryCode: 'US'
+                // }
+            }
+        };
+        window.Paddle.Checkout.open(paddleSubsObj);
     };
 
     const theme = useTheme();

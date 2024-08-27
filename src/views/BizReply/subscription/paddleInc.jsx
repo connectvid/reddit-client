@@ -26,20 +26,21 @@ export default function () {
             // }
         ],
         customData: {
-            // utm_medium: 'social',
-            // utm_source: 'linkedin',
-            // utm_content: 'launch-video',
-            // integration_id: 'AA-123'
-            ...dbUser
+            userId: dbUser._id,
+            uid: dbUser.uid,
+            name: dbUser.name,
+            email: dbUser.name
         },
         customer: {
             email: dbUser.email,
-            address: {
-                countryCode: 'US'
-            }
+            name: dbUser.name
+            // id:dbUser.paddleId
+            // address: {
+            //     countryCode: 'US'
+            // }
         }
     };
-    console.log(paddleSubsObj, 'paddleSubsObj');
+    // console.log(paddleSubsObj, 'paddleSubsObj');
     const openCheckout = (plan_id) => {
         // window.Paddle.Checkout.open({
         //     product: plan_id,
