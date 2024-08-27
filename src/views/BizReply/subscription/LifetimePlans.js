@@ -338,7 +338,7 @@ const LifetimePlans = ({ subscription }) => {
                 console.log('close');
             }
         };
-        // console.log(paddleSubsObj);
+        console.log(paddleSubsObj);
         window.Paddle.Checkout.open(paddleSubsObj);
         socket.connect();
 
