@@ -29,7 +29,7 @@ export default function () {
             userId: dbUser._id,
             uid: dbUser.uid,
             name: dbUser.name,
-            email: dbUser.name
+            email: dbUser.email
         },
         customer: {
             email: dbUser.email,
