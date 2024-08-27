@@ -11,14 +11,44 @@ export default function () {
             type: 'info'
         });
     }
-    const openCheckout = (plan_id) => {
-        window.Paddle.Checkout.open({
-            product: plan_id,
+    const paddleSubsObj = {
+        settings: {
+            theme: 'light'
+        },
+        items: [
+            {
+                priceId: 'pri_01j6927kh2tgcm45tg0gn662rv',
+                quantity: 1
+            }
+            // {
+            //     priceId: 'pri_01gs59p7rcxmzab2dm3gfqq00a',
+            //     quantity: 1
+            // }
+        ],
+        customData: {
+            // utm_medium: 'social',
+            // utm_source: 'linkedin',
+            // utm_content: 'launch-video',
+            // integration_id: 'AA-123'
+            ...dbUser
+        },
+        customer: {
             email: dbUser.email,
-            passthrough: dbUser,
-            // successCallback: checkoutComplete,
-            closeCallback: checkoutClosed
-        });
+            address: {
+                countryCode: 'US'
+            }
+        }
+    };
+    console.log(checkoutClosed);
+    const openCheckout = (plan_id) => {
+        // window.Paddle.Checkout.open({
+        //     product: plan_id,
+        //     email: dbUser.email,
+        //     passthrough: dbUser,
+        //     // successCallback: checkoutComplete,
+        //     closeCallback: checkoutClosed
+        // });
+        window.Paddle.Checkout.open(paddleSubsObj);
     };
     return (
         <Box>
