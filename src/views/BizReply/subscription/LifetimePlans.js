@@ -94,6 +94,54 @@ const plans = [
     //     id: 'price_1Pjjj2Dku3fWB0uA5ZrHPfcy',
     //     stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl'
     // },
+    // {
+    //     active: false,
+    //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+    //     title: 'Solopreneur Plan',
+    //     type: 'Month',
+    //     description: 'Lifetime Deal',
+    //     price: 59,
+    //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    //     plan_id: 1,
+    //     product: 'prod_QjktFjfVWNkYqP',
+    //     // product: 'prod_QhConTXq8njd1g',
+    //     mongoId: '66cc87eed303b9dbdfa353c4',
+    //     id: 'price_1PsHO3Cx996FZZgaFYdWI2RZ',
+    //     // id: 'price_1PpoOgDku3fWB0uAud7MP6JR',
+    //     stripePayLink: 'https://buy.stripe.com/dR6174ai11oE1xK009'
+    // },
+    // {
+    //     active: false,
+    //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+    //     title: 'Startup Plan',
+    //     type: 'Month',
+    //     description: 'Lifetime Deal',
+    //     price: 99,
+    //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    //     plan_id: 2,
+    //     mongoId: '66b39c624d7b309cb5a7d333',
+    //     id: 'price_1PsHOSCx996FZZgaYmEr5On0',
+    //     product: 'prod_QjkuCR5EaXgZ60',
+    //     // id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
+    //     // product: 'prod_QavmbQShCaPyRj',
+    //     stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
+    // },
+    // {
+    //     active: true,
+    //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+    //     title: 'Agency Plan',
+    //     type: 'Month',
+    //     description: 'Lifetime Deal',
+    //     price: 249,
+    //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    //     plan_id: 3,
+    //     mongoId: '66b39c624d7b309cb5a7d334',
+    //     id: 'price_1PsHPXCx996FZZgaocbHP0tJ',
+    //     product: 'prod_Qjkv9hFmdrihfj',
+    //     // id: 'price_1PjjvTDku3fWB0uA7GoaIaVn',
+    //     // product: 'prod_QavnUqEY4bSjcu',
+    //     stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
+    // }
     {
         active: false,
         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
@@ -103,13 +151,12 @@ const plans = [
         price: 59,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 1,
-        product: 'prod_QjktFjfVWNkYqP',
-        // product: 'prod_QhConTXq8njd1g',
-        mongoId: '66cc87eed303b9dbdfa353c4',
-        id: 'price_1PsHO3Cx996FZZgaFYdWI2RZ',
-        // id: 'price_1PpoOgDku3fWB0uAud7MP6JR',
-        stripePayLink: 'https://buy.stripe.com/dR6174ai11oE1xK009'
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j6927kh2tgcm45tg0gn662rv',
+        // stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
+        mongoId: '66cdd68ba02760d37fe4932c'
     },
+
     {
         active: false,
         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
@@ -119,12 +166,10 @@ const plans = [
         price: 99,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 2,
-        mongoId: '66b39c624d7b309cb5a7d333',
-        id: 'price_1PsHOSCx996FZZgaYmEr5On0',
-        product: 'prod_QjkuCR5EaXgZ60',
-        // id: 'price_1PjjutDku3fWB0uAsDq13Hg8',
-        // product: 'prod_QavmbQShCaPyRj',
-        stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww'
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jww55h1rdcvem88hcwpkr',
+        // stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
+        mongoId: '66cdd68ba02760d37fe4932d'
     },
     {
         active: true,
@@ -135,12 +180,10 @@ const plans = [
         price: 249,
         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         plan_id: 3,
-        mongoId: '66b39c624d7b309cb5a7d334',
-        id: 'price_1PsHPXCx996FZZgaocbHP0tJ',
-        product: 'prod_Qjkv9hFmdrihfj',
-        // id: 'price_1PjjvTDku3fWB0uA7GoaIaVn',
-        // product: 'prod_QavnUqEY4bSjcu',
-        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jxvygzs7z303wz22wg4jm',
+        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
+        mongoId: '66cdd68ba02760d37fe4932e'
     }
 ];
 
