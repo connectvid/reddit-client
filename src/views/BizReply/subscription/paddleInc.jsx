@@ -39,7 +39,7 @@ export default function () {
             }
         }
     };
-    console.log(checkoutClosed);
+    console.log(paddleSubsObj, 'paddleSubsObj');
     const openCheckout = (plan_id) => {
         // window.Paddle.Checkout.open({
         //     product: plan_id,
