@@ -27,7 +27,7 @@ const plansDev = [
     //     type: 'Month',
     //     description: 'Lifetime Deal',
     //     price: 49,
-    //     permission: [0, 1, 2, 3, 4, 5, 6, 7],
+    //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
     //     plan_id: 1,
     //     product: 'prod_QcQz1eRj0C3Ibp',
     //     id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
@@ -42,7 +42,7 @@ const plansDev = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 59,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 1,
         product: 'prod_QjM9pjbPhGcr3Y',
         id: 'price_1PrtRVDku3fWB0uAY9vgSUDs',
@@ -57,7 +57,7 @@ const plansDev = [
         type: 'Month',
         description: 'Lifetime Deal',
         price: 99,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 2,
         product: 'prod_QcR0SMlSjbppbT',
         id: 'price_1PlC8EDku3fWB0uA9uOByAUW',
@@ -245,7 +245,7 @@ const LifetimePlans = ({ subscription }) => {
                 }
             >
                 <>
-                    {plans.map((plan, index) => {
+                    {plansDev.map((plan, index) => {
                         return (
                             <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
                                 {plan.active && (

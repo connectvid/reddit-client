@@ -26,7 +26,7 @@ const plansDev = [
         type: 'Month',
         description: 'Yearly Deal',
         price: 499,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 1,
         product: 'prod_QcQz1eRj0C3Ibp',
         id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
@@ -39,7 +39,7 @@ const plansDev = [
         type: 'Month',
         description: 'Yearly Deal',
         price: 999,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7],
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         plan_id: 2,
         product: 'prod_QcR0SMlSjbppbT',
         id: 'price_1PlC8EDku3fWB0uA9uOByAUW',
@@ -106,48 +106,51 @@ const planList = [
     [
         '5 Keywords Track',
         '200 AI Replies/Month',
-        '30,000 Mentions',
-        'Reddit, X & Linkedin',
-        '3 Brand Projects',
-        '1 Team Member',
+        '50,000 Mentions',
+        'Reddit, X, Linkedin & Quora',
+        '1 Brand Projects',
+        '1 Team Member (Coming)',
         '1 Year History Storage',
-        'No API Key Needed',
-        'Custom Prompts (Coming)',
-        'Multi Language (Coming)'
+        'Bring Your Own API Key',
+        'Multi-Language',
+        'Custom-Prompts (Coming)',
+        'Client Report Builder'
     ],
     [
-        '15 Keywords Track',
+        '25 Keywords Track',
         '500 AI Replies/Month',
-        '120,000 Mentions',
-        'Reddit, X & Linkedin',
-        '10 Brand Projects',
-        '3 Team Members',
+        '150,000 Mentions',
+        'Reddit, X, Linkedin & Quora',
+        '5 Brand Projects',
+        '3 Team Members (Coming)',
         '2 Year History Storage',
-        'No API Key Needed',
+        'Bring Your Own API Key',
+        'Multi-Language',
         'Custom Prompts (Coming)',
-        'Multi Language (Coming)'
+        'Client Report Builder'
     ],
     [
-        '50 Keywords Track',
+        '100 Keywords Track',
         'Unlimited Replies/Month',
-        '300,000 Mentions',
+        '450,000 Mentions',
         'Reddit, X, LinkedIn & Quora',
-        '30 Brand Projects',
-        '10 Team Members',
+        '20 Brand Projects',
+        '10 Team Members (Coming)',
         '2 Year History Storage',
         'Bring Your GPT API Key',
-        'Custom Prompts (Coming)',
-        'Multi Language (Coming)'
+        'Multi-Language',
+        'Custom-Prompts (Coming)',
+        'Client Report Builder (5000 p)'
     ]
 ];
-const selectedPlans = [
-    'https://gv-reddit.netlify.app',
-    'https://app.bizreply.co',
-    'https://rebizreply.netlify.app',
-    'https://stagedbizreply.netlify.app'
-].includes(window.location.origin)
-    ? plans
-    : plansDev;
+// const selectedPlans = [
+//     'https://gv-reddit.netlify.app',
+//     'https://app.bizreply.co',
+//     'https://rebizreply.netlify.app',
+//     'https://stagedbizreply.netlify.app'
+// ].includes(window.location.origin)
+//     ? plans
+//     : plansDev;
 
 const YearlyPlans = () => {
     // const { subscription } = useSelector((s) => s.subscription);
@@ -208,7 +211,7 @@ const YearlyPlans = () => {
                 }
             >
                 <>
-                    {selectedPlans.map((plan, index) => {
+                    {plansDev.map((plan, index) => {
                         return (
                             <Grid item xs={12} sm={12} md={12} sx={{ mb: { md: 4, sm: 3, xs: 2 } }} lg={4} key={index}>
                                 {plan.active && (
