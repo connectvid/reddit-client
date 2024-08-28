@@ -2,11 +2,10 @@
 import Breadcrumb from '../Breadcrumb';
 import AllProjects from 'ui-component/Project/AllProjects';
 import PostFilter from './PostFilter';
-// import BRButton from 'ui-component/bizreply/BRButton';
-// import { IconSettings } from '@tabler/icons';
-// import { Typography } from '@mui/material';
 import MoreMentions from 'views/BizReply/mentions/MoreMentions';
-// import ManageMentions from './ManageMentions';
+import BRButton from 'ui-component/bizreply/BRButton';
+import { Typography } from '@mui/material';
+import { IconSettings } from '@tabler/icons';
 
 export default function MentionBreadcrumb({
     setSelectedKeyword,
@@ -15,19 +14,19 @@ export default function MentionBreadcrumb({
     setMentionsDataObj,
     setMoreLoading,
     moreLoading,
-    firstKeyword
+    firstKeyword,
+    handleModal
 }) {
     return (
         <>
-            {/* <ManageMentions /> */}
-
             <Breadcrumb title="Mentions">
                 <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} />
-                {/* <BRButton
+                <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}
                     childSx={{ width: '100%', fontSize: '160x', fontWeight: 500 }}
                     grandChildSx={{ width: '100%' }}
+                    onClick={handleModal}
                 >
                     <Typography
                         sx={{
@@ -42,7 +41,7 @@ export default function MentionBreadcrumb({
                         <IconSettings size={16} color="#0C22E5" />
                         Manage mentions
                     </Typography>
-                </BRButton> */}
+                </BRButton>
                 <AllProjects />
                 <PostFilter {...{ setSelectedKeyword, loading }} />
             </Breadcrumb>

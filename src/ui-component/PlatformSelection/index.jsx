@@ -1,43 +1,36 @@
 import { Box, Typography } from '@mui/material';
 import { platformsSrc } from 'data';
-import { changePlatform } from 'features/project/projectActions';
-import { FaCheck, FaRegSquare } from 'react-icons/fa';
-import { useSelector } from 'react-redux';
+import { FaCheck, FaRegSquare } from 'react-icons/fa6';
 
-export default function ManageMentions({ selectedPlatform, loading, haveData }) {
-    const {
-        // project: { project },
-        subscription: { subscription }
-    } = useSelector((state) => state);
+export default function ({ platforms = [], selectedPlatforms = [], handleSelectedPlatform, sx = {} }) {
     return (
-        <Box>
+        <Box sx={{ ...sx }}>
             <Typography sx={{ color: '#000', fontWeight: 500, fontSize: '16px', mb: 3 }}>
                 Select social profile (s) where you want to see posts from.
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                {subscription?.platforms?.map?.((platform) => (
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                {platforms?.map?.((platform) => (
                     <Typography
                         key={platform}
                         component="div"
                         sx={{
                             cursor: 'pointer',
                             p: 0,
-                            maxWidth: '109px',
-                            border: `1px solid ${selectedPlatform === platform ? '#0C22E5' : '#CCD3D9'}`,
+                            maxWidth: '154px',
+                            border: `1px solid ${selectedPlatforms.includes(platform) ? '#0C22E5' : '#CCD3D9'}`,
                             minHeight: '75px',
-                            textAlign: 'center',
-                            borderRadius: '10px'
-                            // display: 'flex',
-                            // alignItems: 'center',
-                            // justifyContent: 'center',
-                            // ,position: 'relative'
+                            display: 'flex',
+                            flex: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderRadius: '10px',
+                            position: 'relative'
                         }}
-                        onClick={() => {
-                            if (selectedPlatform !== platform && loading === false && haveData) changePlatform(platform)();
-                        }}
+                        onClick={() => handleSelectedPlatform?.(platform)}
                     >
-                        <Typography sx={{ textAlign: 'right', m: '10px 10px 0 0 ' }}>
-                            {selectedPlatform === platform ? (
+                        <Typography sx={{ position: 'absolute', top: '10px', right: '10px' }}>
+                            {selectedPlatforms.includes(platform) ? (
                                 <Typography
                                     component="span"
                                     sx={{
@@ -60,7 +53,8 @@ export default function ManageMentions({ selectedPlatform, loading, haveData }) 
                             src={platformsSrc[platform]}
                             alt={platform}
                             style={{
-                                width: '65%'
+                                width: '65%',
+                                marginTop: '10px'
                             }}
                         />
                     </Typography>

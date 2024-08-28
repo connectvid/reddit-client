@@ -9,7 +9,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'features/constant';
 
 import useAuth from 'hooks/useAuth';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import Available from '../../../assets/images/svgIcons/available.svg';
 import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
 import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
@@ -20,66 +20,66 @@ import { subsctriptionSetter } from 'features/subscription/subscriptionActions';
 
 // import { callOthers } from 'features/project/projectActions';
 
-const plansDev = [
-    // {
-    //     active: false,
-    //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-    //     title: 'Solopreneur Plan',
-    //     type: 'Month',
-    //     description: 'Lifetime Deal',
-    //     price: 49,
-    //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-    //     plan_id: 1,
-    //     product: 'prod_QcQz1eRj0C3Ibp',
-    //     id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
-    //     stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
-    //     mongoId: '66b39c624d7b309cb5a7d32f'
-    // },
+// const plansDev = [
+//     // {
+//     //     active: false,
+//     //     icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+//     //     title: 'Solopreneur Plan',
+//     //     type: 'Month',
+//     //     description: 'Lifetime Deal',
+//     //     price: 49,
+//     //     permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+//     //     plan_id: 1,
+//     //     product: 'prod_QcQz1eRj0C3Ibp',
+//     //     id: 'price_1PlC7dDku3fWB0uA1Ka6T62i',
+//     //     stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
+//     //     mongoId: '66b39c624d7b309cb5a7d32f'
+//     // },
 
-    {
-        active: false,
-        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Solopreneur Plan',
-        type: 'Month',
-        description: 'Lifetime Deal',
-        price: 59,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-        plan_id: 1,
-        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
-        id: 'pri_01j6927kh2tgcm45tg0gn662rv',
-        // stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
-        mongoId: '66cdd68ba02760d37fe4932c'
-    },
+//     {
+//         active: false,
+//         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+//         title: 'Solopreneur Plan',
+//         type: 'Month',
+//         description: 'Lifetime Deal',
+//         price: 59,
+//         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+//         plan_id: 1,
+//         product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+//         id: 'pri_01j6927kh2tgcm45tg0gn662rv',
+//         // stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
+//         mongoId: '66cdd68ba02760d37fe4932c'
+//     },
 
-    {
-        active: false,
-        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Startup Plan',
-        type: 'Month',
-        description: 'Lifetime Deal',
-        price: 99,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-        plan_id: 2,
-        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
-        id: 'pri_01j69jww55h1rdcvem88hcwpkr',
-        // stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
-        mongoId: '66cdd68ba02760d37fe4932d'
-    },
-    {
-        active: true,
-        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
-        title: 'Agency Plan',
-        type: 'Month',
-        description: 'Lifetime Deal',
-        price: 249,
-        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        plan_id: 3,
-        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
-        id: 'pri_01j69jxvygzs7z303wz22wg4jm',
-        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
-        mongoId: '66cdd68ba02760d37fe4932e'
-    }
-];
+//     {
+//         active: false,
+//         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+//         title: 'Startup Plan',
+//         type: 'Month',
+//         description: 'Lifetime Deal',
+//         price: 99,
+//         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+//         plan_id: 2,
+//         product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+//         id: 'pri_01j69jww55h1rdcvem88hcwpkr',
+//         // stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
+//         mongoId: '66cdd68ba02760d37fe4932d'
+//     },
+//     {
+//         active: true,
+//         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+//         title: 'Agency Plan',
+//         type: 'Month',
+//         description: 'Lifetime Deal',
+//         price: 249,
+//         permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+//         plan_id: 3,
+//         product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+//         id: 'pri_01j69jxvygzs7z303wz22wg4jm',
+//         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
+//         mongoId: '66cdd68ba02760d37fe4932e'
+//     }
+// ];
 
 const plans = [
     // {
@@ -242,8 +242,8 @@ const LifetimePlans = ({ subscription }) => {
     const { dbUser, setDbUser } = useAuth();
 
     const [
-        price_Id,
-        setPrice_Id // setFetchSubscribeData
+        price_Id
+        // setPrice_Id // setFetchSubscribeData
     ] = React.useState(null);
     React.useEffect(() => {
         if (!dbUser?.email) return;

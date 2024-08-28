@@ -112,19 +112,21 @@ export const addProject =
         }
     };
 
+export const setUpdateProjectLoading = (v) => () => {
+    dispatch(updateProjectLoading(v));
+};
+
 export const updateProjectAPI =
     (token, id, data = {}) =>
     async () => {
         try {
-            dispatch(updateProjectLoading(true));
+            setUpdateProjectLoading(true)();
             const response = await axios.put(`projects/${id}`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
             dispatch(updateProject(response.data));
-            // projectCreatedStatus(true)();
-            dispatch(toggleProjectCreateModal(false));
         } catch (error) {
             dispatch(hasError(error));
         } finally {

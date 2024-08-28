@@ -14,23 +14,15 @@ import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
 import AddOpenAiKey from './AddOpenAiKey';
-// const pluralize = require('pluralize');
+import UpdatePassword from './UpdatePassword';
 // ==============================|| SETTINGS PAGE ||============================== //
 
-// ['projects', 'replies', 'keywords', 'mentions']
-// const titles={
-// }
 const Settings = () => {
     const navigate = useNavigate();
     const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
 
     const remainingCredit = subscription?.remainingCredit;
-    //     const { subscription } = useSelector(state => state.subscription);
-    // const { remainingCredit } = subscription || {};
-    // const { searches, keywords, projects, replies } = remainingCredit || {};
-
-    console.log(dbUser, subscription, 'subscription');
 
     const handleClick = () => {
         navigate('/subscription');
@@ -73,7 +65,7 @@ const Settings = () => {
                     <Box style={{ width: '30%', minWidth: '300px', marginTop: '20px' }}>
                         <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Typography style={{ color: '#6E7478' }}>Plan type</Typography>
-                            <Typography style={{ fontWeight: '700' }}>{subscription?.type.toUpperCase?.()}</Typography>
+                            <Typography style={{ fontWeight: '700' }}>{subscription?.type?.toUpperCase?.()}</Typography>
                         </Box>
                         {/* <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px'}}>
                             <Typography style={{color: '#6E7478'}}>Team member</Typography>
@@ -112,6 +104,7 @@ const Settings = () => {
                     </Button>
                 </Box>
             </Box>
+            <UpdatePassword />
             <AddOpenAiKey />
         </Box>
     );

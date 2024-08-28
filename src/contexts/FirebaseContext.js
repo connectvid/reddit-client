@@ -14,7 +14,8 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     // signInWithPopup,
-    signOut
+    signOut,
+    updatePassword
 } from 'firebase/auth';
 import { ReactSession } from 'react-client-session';
 // action - state management
@@ -60,6 +61,9 @@ export const FirebaseProvider = ({ children }) => {
     const [accessToken, setAccessToken] = useState(ReactSession.get('token') || '');
     const reduxDispatch = useDispatch();
     console.log({ isRegister });
+
+    const changePassword = (newPassword) => updatePassword(getAuth().currentUser, newPassword);
+
     async function refreshToken() {
         const user = auth?.currentUser;
         console.log('Current user:', user); // Debug
@@ -169,9 +173,9 @@ export const FirebaseProvider = ({ children }) => {
                         console.log('error', e?.response?.data || e.message, { isRegister });
                         // if (isRegister === false) {
                         //     console.log({ isRegister }, 'isRegisterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
-                        //     localStorage.clear();
-                        //     await logout();
-                        //     signOut(auth);
+                        // localStorage.clear();
+                        // await logout();
+                        // signOut(auth);
                         // }
                         // if (e?.response?.status !== 404) {
                         //     console.log(e, '===error==========');
@@ -409,7 +413,8 @@ export const FirebaseProvider = ({ children }) => {
                 firebaseRegisterWithOTP,
                 auth,
                 firebaseGoogleLoginOrSignup,
-                getAccessToken
+                getAccessToken,
+                changePassword
             }}
         >
             <ToastContainer position="top-right" autoClose={2000} />

@@ -84,13 +84,16 @@ const projectSlice = createSlice({
             const { item } = action.payload;
             state.projects = state.projects.map((project) => {
                 if (project._id === item._id) {
-                    project.shortDescription = item.shortDescription;
-                    if (project._id === state.project?._id) {
-                        state.project.shortDescription = item.shortDescription;
-                    }
+                    return { ...project, ...item };
+                    // project.shortDescription = item.shortDescription;
+                    // if (project._id === state.project?._id) {
+                    //     state.project.shortDescription = item.shortDescription;
+                    // }
                 }
                 return project;
             });
+            state.project = { ...state.project, ...item };
+            state.updateProjectLoading = false;
         },
         createKeywords(state, { payload }) {
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];

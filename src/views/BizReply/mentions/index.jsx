@@ -15,6 +15,7 @@ import PlatformSelection from './PlatformSelection';
 import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
+import ManageMentions from 'ui-component/ManageMentions';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -49,6 +50,10 @@ const Mentions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [recall, setRecall] = useState(false);
     const handleRecall = () => setRecall((p) => !p);
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleModal = () => setOpenModal((p) => !p);
+    const modalClose = () => setOpenModal(false);
     // const postsPerPage = 2;
 
     // // Get current posts
@@ -203,11 +208,13 @@ const Mentions = () => {
                     setMentionsDataObj,
                     setMoreLoading,
                     moreLoading,
-                    firstKeyword: project?.Suggestedkeywords?.[0]
+                    firstKeyword: project?.Suggestedkeywords?.[0],
+                    handleModal
                 }}
             />
 
             <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
+            {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
             {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
