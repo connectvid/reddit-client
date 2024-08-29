@@ -7,39 +7,39 @@
 import { Card } from '@mui/material';
 import { Box } from '@mui/system';
 
-import useAuth from 'hooks/useAuth';
-// import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import useAuth from 'hooks/useAuth';
+// // import { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
 import ReportBreadcrumb from 'ui-component/ReportBreadcrumb';
 // import { DateRangePicker } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
-    const navigate = useNavigate();
-    const { dbUser } = useAuth();
-    const { subscription } = useSelector((state) => state.subscription);
+    // const navigate = useNavigate();
+    // const { dbUser } = useAuth();
+    // const { subscription } = useSelector((state) => state.subscription);
 
-    const remainingCredit = subscription?.remainingCredit;
+    // const remainingCredit = subscription?.remainingCredit;
 
-    const handleClick = () => {
-        navigate('/subscription');
-    };
-    const selectionRange = {
-        startDate: new Date(),
-        endDate: new Date(),
-        key: 'selection'
-    };
-    const handleSelect = (ranges) => {
-        console.log(ranges);
-        // {
-        //   selection: {
-        //     startDate: [native Date Object],
-        //     endDate: [native Date Object],
-        //   }
-        // }
-    };
+    // const handleClick = () => {
+    //     navigate('/subscription');
+    // };
+    // const selectionRange = {
+    //     startDate: new Date(),
+    //     endDate: new Date(),
+    //     key: 'selection'
+    // };
+    // const handleSelect = (ranges) => {
+    //     console.log(ranges);
+    //     // {
+    //     //   selection: {
+    //     //     startDate: [native Date Object],
+    //     //     endDate: [native Date Object],
+    //     //   }
+    //     // }
+    // };
     return (
         <>
             <ReportBreadcrumb />

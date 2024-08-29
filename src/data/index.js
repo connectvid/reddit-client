@@ -3,12 +3,14 @@ import reddit from 'assets/images/platforms/reddit.png';
 import linkedin from 'assets/images/platforms/linkedin.png';
 import quora from 'assets/images/platforms/quora.png';
 import twitter from 'assets/images/platforms/twitter.png';
+import facebook from 'assets/images/platforms/facebook.png';
 
 export const platformsSrc = {
     'reddit.com': reddit,
     'linkedin.com': linkedin,
     'quora.com': quora,
-    'twitter.com': twitter
+    'twitter.com': twitter,
+    'facebook.com': facebook
 };
 
 export const keywordColors = {
