@@ -38,7 +38,7 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
             if (items?.length) {
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
-                        p[selectedPlatform] = [...p[selectedPlatform], ...items];
+                        p[selectedPlatform] = [...(p[selectedPlatform] || []), ...items];
                     } else {
                         p = [...p, ...items];
                     }
