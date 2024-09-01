@@ -39,7 +39,7 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
             if (items?.length) {
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
-                        const allData = [...p[selectedPlatform], ...items];
+                        const allData = [...(p?.[selectedPlatform] || []), ...items];
                         p[selectedPlatform] = postSorting({ data: allData });
                     } else {
                         const allData = [...p, ...items];
