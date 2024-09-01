@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { CircularProgress, Typography } from '@mui/material';
+import postSorting from 'utils/postSorting';
 
 const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, moreLoading, firstKeyword }) => {
     const { getAccessToken } = useAuth();
@@ -38,9 +39,11 @@ const MoreMentions = ({ setMoreLoading, setMentionsDataObj, selectedKeyword, mor
             if (items?.length) {
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
-                        p[selectedPlatform] = [...(p[selectedPlatform] || []), ...items];
+                        const allData = [...p[selectedPlatform], ...items];
+                        p[selectedPlatform] = postSorting({ data: allData });
                     } else {
-                        p = [...p, ...items];
+                        const allData = [...p, ...items];
+                        p = postSorting({ data: allData });
                     }
                     return p;
                 });

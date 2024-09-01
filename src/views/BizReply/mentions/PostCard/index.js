@@ -28,6 +28,7 @@ const PostCard = ({
     project,
     platform,
     date = 'Recenty Found',
+    // postAt,
     title,
     keyword,
     snippet,
@@ -150,6 +151,9 @@ const PostCard = ({
             }
             if (pathname === REPLY_PATH) {
                 setObjItems((p) => {
+                    if (update_on === 'markReply') {
+                        return p?.filter?.((item) => item._id !== _id) || [];
+                    }
                     const changed =
                         p?.map?.((item) => {
                             if (item._id === _id) {
@@ -157,7 +161,7 @@ const PostCard = ({
                                     upData.reply = '';
                                 } else if (update_on === 'reply') {
                                     upData.reply = editVal;
-                                } else if (update_on === 'markReply') item.markReply = markReply;
+                                }
                             }
                             return item;
                         }) || [];
@@ -165,6 +169,10 @@ const PostCard = ({
                 });
             } else {
                 setObjItems((p) => {
+                    if (update_on === 'markReply') {
+                        const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                        return { ...p, [selectedPlatform]: filtered };
+                    }
                     const changed =
                         p[selectedPlatform]?.map?.((item) => {
                             if (item._id === _id) {
@@ -172,7 +180,7 @@ const PostCard = ({
                                     upData.reply = '';
                                 } else if (update_on === 'reply') {
                                     upData.reply = editVal;
-                                } else if (update_on === 'markReply') item.markReply = markReply;
+                                }
                             }
                             return item;
                         }) || [];

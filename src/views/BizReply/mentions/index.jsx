@@ -16,6 +16,7 @@ import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
+import postSorting from 'utils/postSorting';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -85,12 +86,15 @@ const Mentions = () => {
                 const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
                 setMentionsDataObj((p) => {
                     const upObj = {};
-
                     for (const platform of project.platforms || []) {
-                        console.log({ platform });
+                        // console.log({ platform });
                         if (reduced[platform]?.length) {
-                            upObj[platform] = [...(reduced[platform] || []), ...(p?.[platform] || [])];
-                        } else upObj[platform] = p?.[platform];
+                            const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
+                            upObj[platform] = postSorting({ data: allData });
+                        } else {
+                            const allData = p?.[platform];
+                            upObj[platform] = postSorting({ data: allData });
+                        }
                     }
                     return upObj;
                 });
@@ -141,7 +145,7 @@ const Mentions = () => {
                 setFilteredData([]);
                 const {
                     data: { items }
-                } = await axios.get(`mentions/projects/${projectid}${state?.socket ? `?wait=true` : ''}`, {
+                } = await axios.get(`mentions/projects/${projectid}?fetch=expect-mark-reply${state?.socket ? `&wait=true` : ''}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
