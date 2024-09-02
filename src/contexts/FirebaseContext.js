@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-use-before-define */
 import PropTypes from 'prop-types';
 import { useState, createContext, useEffect, useReducer } from 'react';
@@ -23,8 +24,8 @@ import { LOGIN, LOGOUT } from 'features/actions';
 import accountReducer from 'features/accountReducer';
 // project imports
 import Loader from 'ui-component/Loader';
-import { FIREBASE_API } from 'config';
-// import { useNavigate } from 'react-router-dom';
+import { FIREBASE_API, ONBOARDING_PATH } from 'config';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'utils/axios';
 import { useDispatch } from 'react-redux';
@@ -51,7 +52,7 @@ let isRegister = false;
 const FirebaseContext = createContext(null);
 
 export const FirebaseProvider = ({ children }) => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const [state, dispatch] = useReducer(accountReducer, initialState);
     const [dbUser, setDbUser] = useState({});
     // const [isRegister, setIsRegister] = useState(false);
@@ -288,7 +289,7 @@ export const FirebaseProvider = ({ children }) => {
             .post(`user/create-user-or-get-user`, body, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(({ data }) => {
+            .then(({ data, status }) => {
                 console.log(data?.user);
                 data.user.token = token;
                 // console.log({ data, user: data.user });
@@ -309,8 +310,8 @@ export const FirebaseProvider = ({ children }) => {
                     }
                 });
                 setIsLoading(false);
-                // setIsRegister(false);
-                // return navigate(DASHBOARD_PATH);
+
+                if (status === 201) return navigate(ONBOARDING_PATH);
             })
             .catch(async (eRR) => {
                 localStorage.clear();
@@ -363,7 +364,7 @@ export const FirebaseProvider = ({ children }) => {
                             }
                         });
                         setIsLoading(false);
-                        // return navigate(DASHBOARD_PATH);
+                        return navigate(ONBOARDING_PATH);
                     })
                     .catch(async (eRR) => {
                         localStorage.clear();

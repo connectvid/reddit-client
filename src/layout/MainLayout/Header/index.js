@@ -3,7 +3,7 @@
 /* eslint-disable react/no-children-prop */
 // material-ui
 // import { useTheme } from '@mui/material/styles';
-import { Box, Dialog } from '@mui/material';
+import { Box, Modal } from '@mui/material';
 import MobileSection from './MobileSection';
 import ProfileSection from './ProfileSection';
 import { useSelector } from 'react-redux';
@@ -32,9 +32,10 @@ const Header = () => {
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 <MobileSection />
             </Box>
-            <Dialog open={showProjectCreateModal} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+
+            <Modal open={showProjectCreateModal} sx={{ '.MuiBox-root:nth-child(3)': { minWidth: '600px' } }}>
                 <NewProject />
-            </Dialog>
+            </Modal>
         </>
     );
 };
