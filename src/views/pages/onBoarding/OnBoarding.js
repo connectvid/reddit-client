@@ -19,9 +19,10 @@ export default function () {
             clearingError()();
         }
     }, [error]);
-    return (
-        <Modal open={showProjectCreateModal}>
-            <NewProject />
-        </Modal>
-    );
+    return <></>;
+    // return (
+    //     <Modal open={showProjectCreateModal}>
+    //         <NewProject />
+    //     </Modal>
+    // );
 }
