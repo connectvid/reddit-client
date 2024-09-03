@@ -32,6 +32,7 @@ import { useDispatch } from 'react-redux';
 import { settingAccessToken, settingUser } from 'features/auth/authSlice';
 import { getProjects, projectClear } from 'features/project/projectActions';
 import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
+import { getPromptsAPI } from 'features/prompt/promptActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -156,6 +157,7 @@ export const FirebaseProvider = ({ children }) => {
                         reduxDispatch(settingUser(userData));
                         getProjects(userData._id, token)();
                         getMySubscriptionAPI(token)();
+                        getPromptsAPI(token)();
                         dispatch({
                             type: LOGIN,
                             payload: {

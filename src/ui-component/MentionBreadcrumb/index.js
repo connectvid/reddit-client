@@ -6,6 +6,7 @@ import MoreMentions from 'views/BizReply/mentions/MoreMentions';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { Typography } from '@mui/material';
 import { IconSettings } from '@tabler/icons';
+import AllPrompts from 'ui-component/Prompt/AllPrompts';
 
 export default function MentionBreadcrumb({
     setSelectedKeyword,
@@ -21,6 +22,7 @@ export default function MentionBreadcrumb({
         <>
             <Breadcrumb title="Mentions">
                 <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} />
+                <AllPrompts />
                 <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}

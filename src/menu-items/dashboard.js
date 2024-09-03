@@ -5,8 +5,10 @@ import { LuSquareAsterisk } from 'react-icons/lu';
 import { FaSquarePollHorizontal } from 'react-icons/fa6';
 import { CiAt } from 'react-icons/ci';
 import { BiSolidMessageRoundedEdit } from 'react-icons/bi';
-
-import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH } from 'config';
+// import pluralize from 'pluralize';
+import { PROJECT_PATH, KEYWORD_PATH, MENTION_PATH, REPLY_PATH, PROMPT_PATH } from 'config';
+import textCapitalize from 'utils/textCapitalize';
+import { TbPrompt } from 'react-icons/tb';
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
 const dashboard = {
@@ -35,6 +37,14 @@ const dashboard = {
             type: 'item',
             url: MENTION_PATH,
             icon: CiAt,
+            breadcrumbs: false
+        },
+        {
+            id: PROMPT_PATH.replace('/', ''),
+            title: textCapitalize(PROMPT_PATH.replace('/', '')),
+            type: 'item',
+            url: PROMPT_PATH,
+            icon: TbPrompt,
             breadcrumbs: false
         },
         {

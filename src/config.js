@@ -46,6 +46,7 @@ export const SETTING_PATH = '/settings';
 export const REPORTS_PATH = '/reports';
 export const EXPIRED_PATH = '/expired';
 export const ONBOARDING_PATH = '/onboarding';
+export const PROMPT_PATH = '/prompts';
 
 export const UNAUTHENTICATEDROUTES = ['/login', '/register', '/forgot-password'];
 export const URL_TO_TITLE = {

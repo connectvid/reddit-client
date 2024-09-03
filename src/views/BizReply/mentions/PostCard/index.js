@@ -43,7 +43,8 @@ const PostCard = ({
     showMarkRepliedBtn,
     repliesCredits,
     brandLogo,
-    markReplyPosition = 'reply-section' // generate-reply-top
+    markReplyPosition = 'reply-section', // generate-reply-top
+    selectedPrompt
 }) => {
     const { getAccessToken, dbUser } = useAuth();
     // console.log(dbUser, 'dbUser');
@@ -74,6 +75,7 @@ const PostCard = ({
     //   Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
 
     const [showCustomPromptInput, setShowCustomPromptInput] = useState(false);
+
     const handleGenerateReply = async () => {
         if (dbUser?.needOpenAiKey === 'Yes' && !dbUser?.openAIkey) {
             setOpenAlert(true);
@@ -91,7 +93,8 @@ const PostCard = ({
             projectName: project.brandName,
             projectDomain: project.domain,
             projectDescription: project.shortDescription,
-            platform
+            platform,
+            prompt: selectedPrompt?.prompt
         };
         try {
             const token = await getAccessToken();
