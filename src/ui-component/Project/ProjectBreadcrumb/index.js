@@ -5,7 +5,7 @@ import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import { Typography } from '@mui/material';
 // import AllProjects from '../AllProjects';
 
-const ProjectBreadcrumb = () => {
+export default function () {
     return (
         <Breadcrumb title="Projects">
             <Typography
@@ -27,6 +27,4 @@ const ProjectBreadcrumb = () => {
             </BRButton>
         </Breadcrumb>
     );
-};
-
-export default ProjectBreadcrumb;
+}

@@ -18,7 +18,10 @@ const Reply = () => {
     const { getAccessToken } = useAuth();
     const [mentionsData, setMentionsData] = useState([]);
     const [loading, setLoading] = useState(false);
-    const { project } = useSelector((state) => state.project);
+    const {
+        project: { project },
+        prompt: { selectedPrompt }
+    } = useSelector((state) => state);
 
     useEffect(() => {
         const projectId = project?._id;
@@ -63,7 +66,13 @@ const Reply = () => {
                 <PostCard
                     key={item._id}
                     {...item}
-                    {...{ project, setObjItems: setMentionsData, markReplyPosition: 'generate-reply-top', brandLogo: project?.brandLogo }}
+                    {...{
+                        project,
+                        setObjItems: setMentionsData,
+                        markReplyPosition: 'generate-reply-top',
+                        brandLogo: project?.brandLogo,
+                        selectedPrompt
+                    }}
                 />
             ))}
         </>

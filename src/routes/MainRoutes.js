@@ -11,12 +11,14 @@ import {
     SUBSCRIPTION_PATH,
     EXPIRED_PATH,
     ONBOARDING_PATH,
-    REPORTS_PATH
+    REPORTS_PATH,
+    PROMPT_PATH
 } from 'config';
 import SetKeywords from 'views/BizReply/projects/SetKeywords';
 
 const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
 const Keywords = Loadable(lazy(() => import('views/BizReply/keywords')));
+const Prompts = Loadable(lazy(() => import('views/BizReply/prompts')));
 const AddNewKeyword = Loadable(lazy(() => import('views/BizReply/keywords/AddNewKeyword')));
 const Mentions = Loadable(lazy(() => import('views/BizReply/mentions')));
 const Reply = Loadable(lazy(() => import('views/BizReply/reply')));
@@ -50,6 +52,11 @@ const MainRoutes = {
             path: KEYWORD_PATH,
             element: <Keywords />
         },
+        {
+            path: PROMPT_PATH,
+            element: <Prompts />
+        },
+
         {
             path: MENTION_PATH,
             element: <Mentions />

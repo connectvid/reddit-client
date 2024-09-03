@@ -7,21 +7,20 @@ import authSlice from '../features/auth/authSlice';
 import menuSlice from 'features/menu/menuSlice';
 import planSlice from 'features/plan/plan';
 import projectSlice from 'features/project/projectSlice';
+import promptSlice from 'features/prompt/promptSlice';
 import subscriptionSlice from 'features/subscription/subscriptionSlice';
-// import scrapResultsSlice from 'features/scrap/scrapSlice';
 import snackbarSlice from 'features/snackbar/snackbar';
-// import cartSlice from 'features/cart/cart';
 
 // configure app store
 const store = configureStore({
     reducer: {
         auth: authSlice,
+        prompt: promptSlice,
+        project: projectSlice,
+        subscription: subscriptionSlice,
+        plan: planSlice,
         menu: menuSlice,
         snackbar: snackbarSlice,
-        project: projectSlice,
-        plan: planSlice,
-        subscription: subscriptionSlice,
-        // scrapedResults: scrapResultsSlice,
         [apiSlice.reducerPath]: apiSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>

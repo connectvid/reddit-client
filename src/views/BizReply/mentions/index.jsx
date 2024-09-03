@@ -36,6 +36,10 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     return reduced;
 };
 const Mentions = () => {
+    const {
+        project: { project, selectedPlatform },
+        prompt: { selectedPrompt }
+    } = useSelector((state) => state);
     const { state } = useLocation();
     // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
@@ -72,10 +76,7 @@ const Mentions = () => {
     //     setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
     // };
     // Change page
-    const {
-        project,
-        selectedPlatform // projectCreated
-    } = useSelector((state) => state.project);
+
     // console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
     // console.log(mentionsDataObj);
     // SOCKET
@@ -251,7 +252,8 @@ const Mentions = () => {
                                     project,
                                     setObjItems: setMentionsDataObj,
                                     selectedPlatform,
-                                    showMarkRepliedBtn: true
+                                    showMarkRepliedBtn: true,
+                                    selectedPrompt
                                 }}
                             />
                         );

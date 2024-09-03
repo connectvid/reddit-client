@@ -3,23 +3,18 @@
 import { Autocomplete, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { IconChevronDown } from '@tabler/icons';
-import { setSingleProjectSelect } from 'features/project/projectActions';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { changePrompt } from 'features/prompt/promptActions';
 
 export default function ({ projectListWidth = '210px' }) {
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
-    const {
-        project: { projects, project }
-    } = useSelector((state) => state);
-    const options = projects?.map?.(({ brandName: label, _id }) => ({ label, _id }));
-
+    const { prompts, selectedPrompt } = useSelector((s) => s.prompt);
+    const options = prompts?.map?.(({ name: label, _id }) => ({ label, _id }));
+    console.log({ options });
     return (
         <>
             {options?.length ? (
                 <Autocomplete
                     id="all_project_select_breadcrubm_area"
-                    defaultValue={{ label: project?.brandName, _id: project?._id }}
+                    defaultValue={options?.find?.((item) => item._id === selectedPrompt._id)}
                     options={options || []}
                     fullWidth
                     sx={{ width: projectListWidth }}
@@ -28,10 +23,8 @@ export default function ({ projectListWidth = '210px' }) {
                     onChange={(_, data) => {
                         const id = data?._id;
                         if (id) {
-                            setSingleProjectSelect(id)();
-                            navigate(`${pathname}?dp=${id}`);
+                            changePrompt(id)();
                         }
-                        console.log(data);
                         return data;
                     }}
                     renderInput={(params) => (
@@ -49,7 +42,7 @@ export default function ({ projectListWidth = '210px' }) {
                                     borderColor: '#CCD3D9 !important'
                                 }
                             }}
-                            placeholder="Project"
+                            placeholder="Prompt"
                         />
                     )}
                     disableClearable
