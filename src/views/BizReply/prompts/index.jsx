@@ -1,21 +1,22 @@
 /* eslint-disable no-nested-ternary */
 import { Box, Dialog, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import AddPrompt from './AddPrompt';
+import AddAndUpdatePrompt from './AddPrompt';
 import React from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
 // import useAuth from 'hooks/useAuth';
 import emptyImage from 'assets/images/projects.png';
 import { IconPlus } from '@tabler/icons';
 import PromptCard from './PromptCard';
-import { createPromptStatus } from 'features/prompt/promptActions';
+import { createPromptStatus, deletePromptStatus, updatePromptStatus } from 'features/prompt/promptActions';
 import { toast } from 'react-toastify';
 import PromptBreadcrumb from 'ui-component/Prompt/PromptBreadcrumb';
 
 export default function () {
     // const { getAccessToken } = useAuth();
-    const { prompts, loading, created } = useSelector((state) => state.prompt);
+    const { prompts, loading, created, updated, deleted } = useSelector((state) => state.prompt);
     const [openModal, setOpenModal] = React.useState(false);
+    const [editObj, setEditObj] = React.useState(null);
 
     // React.useEffect(() => {
     //     if (!prompts?.length) {
@@ -31,14 +32,32 @@ export default function () {
     // }, []);
     // console.log({ prompts });
     const handleModal = () => setOpenModal((p) => !p);
-    const modalClose = () => setOpenModal(false);
+    const handleEditor = (selectedObj) => {
+        handleModal();
+        setEditObj(selectedObj);
+    };
+
+    const modalClose = () => {
+        setEditObj(null);
+        setOpenModal(false);
+    };
     React.useEffect(() => {
         if (created) {
             modalClose();
             toast.success(`Prompt has been added!`);
             createPromptStatus(false)();
         }
-    }, [created]);
+        if (updated) {
+            modalClose();
+            toast.success(`Prompt has been updated!`);
+            updatePromptStatus(false)();
+            setEditObj(null);
+        }
+        if (deleted) {
+            toast.success(`Prompt has been deleted!`);
+            deletePromptStatus(false)();
+        }
+    }, [created, updated, deleted]);
     return (
         <>
             <PromptBreadcrumb {...{ handleModal }} />
@@ -56,7 +75,7 @@ export default function () {
                         }
                 }}
             >
-                <AddPrompt {...{ modalClose }} />
+                {(openModal && <AddAndUpdatePrompt {...{ modalClose, isUpdate: Boolean(editObj), initVals: editObj }} />) || ''}
             </Dialog>
             {loading ? (
                 <></>
@@ -79,7 +98,10 @@ export default function () {
                                     <Grid key={item._id} item xs={12} sm={6} md={4}>
                                         <PromptCard
                                             {...item}
-                                            // {...{  }}
+                                            {...{
+                                                setEditObj,
+                                                handleEditor
+                                            }}
                                         />
                                     </Grid>
                                 ))}

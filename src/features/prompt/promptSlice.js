@@ -98,8 +98,8 @@ const promptSlice = createSlice({
             state.updateLoading = payload;
         },
 
-        updatePrompt(state, action) {
-            const { item } = action.payload;
+        updatePrompt(state, { payload }) {
+            const { item } = payload;
             state.prompts = state.prompts.map((prompt) => {
                 if (prompt._id === item._id) {
                     return { ...prompt, ...item };

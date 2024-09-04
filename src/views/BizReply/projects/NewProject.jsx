@@ -83,14 +83,14 @@ export default function () {
             }}
         >
             {pathname === ONBOARDING_PATH ? (
-                <Box sx={{ textAlign: 'center', py: 3 }}>
+                <Box sx={{ textAlign: 'center', py: 1.5 }}>
                     <Typography variant="h3" sx={{ color: '#212121', fontSize: '20px', lineHeight: '24.4px', fontWeight: 700 }}>
                         Your BizReply Account Has Been Created 🔥
                     </Typography>
-                    <Typography sx={{ color: '#6E7478', fontSize: '14px', lineHeight: '20px', fontWeight: 400, display: 'block', mt: 2 }}>
+                    <Typography sx={{ color: '#6E7478', fontSize: '14px', lineHeight: '20px', fontWeight: 400, display: 'block', mt: 0.5 }}>
                         Let’s create a project to get your account setup and running.
                     </Typography>
-                    <Divider sx={{ my: 2.5, borderColor: '#CCD3D9' }} />
+                    <Divider sx={{ my: 1.5, borderColor: '#CCD3D9' }} />
                     <Typography variant="h4" sx={{ color: '#212121', fontSize: '18px', lineHeight: '22px', fontWeight: 700 }}>
                         Create a Project
                     </Typography>
@@ -144,7 +144,7 @@ export default function () {
                 <Typography
                     sx={{
                         textAlign: 'center',
-                        my: 3,
+                        mb: 1.5,
                         color: '#6E7478',
                         fontSize: '14px',
                         fontWeight: 500,

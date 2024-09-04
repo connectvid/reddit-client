@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, CircularProgress, Typography } from '@mui/material';
 import { useEffect } from 'react';
 // import ProjectsTable from './ProjectsTable';
 import { useSelector } from 'react-redux';
@@ -10,19 +10,34 @@ import { LiaTimesCircle } from 'react-icons/lia';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { addPromptAPI } from 'features/prompt/promptActions';
+import { addPromptAPI, updatePromptAPI } from 'features/prompt/promptActions';
 import useAuth from 'hooks/useAuth';
 
-export default function ({
-    modalClose,
-    initVals = {
-        name: '',
-        prompt: ''
-    }
-}) {
+export default function ({ modalClose, initVals, isUpdate = false }) {
     const { getAccessToken } = useAuth();
+    const initialValues = initVals
+        ? {
+              name: initVals?.name,
+              language: initVals?.language,
+              tone: initVals?.tone,
+              reply_character_limit: initVals?.reply_character_limit,
+              description: initVals?.description
+              // name: '',
+              // language: 'English',
+              // tone: 'Formal',
+              // reply_character_limit: 300,
+              // description: ''
+          }
+        : {
+              name: '',
+              language: 'English',
+              tone: 'Formal',
+              reply_character_limit: 300,
+              description: ''
+          };
+    // console.log({ initVals });
     const {
-        prompt: { createLoading }
+        prompt: { createLoading, updateLoading }
     } = useSelector((state) => state);
 
     // const remainingCredit = subscription?.remainingCredit;
@@ -40,7 +55,11 @@ export default function ({
             // setSubmitting(true);
             // await changePassword(values?.password);
             const token = await getAccessToken();
-            addPromptAPI(token, values)();
+            if (isUpdate) {
+                updatePromptAPI(token, initVals._id, values)();
+            } else {
+                addPromptAPI(token, values)();
+            }
             // resetForm();
         } catch (e) {
             console.log(e);
@@ -73,31 +92,28 @@ export default function ({
                     }}
                 >
                     <Formik
-                        initialValues={initVals}
+                        initialValues={initialValues}
                         validationSchema={Yup.object().shape({
                             name: Yup.string()
-                                .min(3, 'Name must be at least 3 characters')
-                                .max(100, 'Name must be at most 100 characters')
+                                // .min(3, 'Name must be at least 3 characters')
+                                // .max(100, 'Name must be at most 100 characters')
                                 .required('Name is required'),
-                            prompt: Yup.string()
-                                .min(10, 'Prompt must be at least 10 characters')
-                                .max(500, 'Prompt must be at most 500 characters')
-                                .required('Prompt is required')
+                            // prompt: Yup.string()
+                            //     // .min(10, 'Prompt must be at least 10 characters')
+                            //     // .max(500, 'Prompt must be at most 500 characters')
+                            //     .required('Prompt is required')
+                            description: Yup.string()
+                                // .min(10, 'Description must be at least 10 characters')
+                                // .max(500, 'Description must be at most 500 characters')
+                                .required('Description is required')
                         })}
                         onSubmit={handleSubmit}
                     >
-                        {({
-                            errors,
-                            handleBlur,
-                            handleChange,
-                            handleSubmit,
-                            touched,
-                            values //, setFieldValue
-                        }) => (
+                        {({ errors, handleBlur, handleChange, handleSubmit, touched, values, setFieldValue }) => (
                             <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
                                 <Box sx={{ mb: 2 }}>
                                     <BRInput2
-                                        placeholder="Enter Prompt Name"
+                                        placeholder="Enter your prompt name"
                                         label="Prompt Name"
                                         fullWidth
                                         required
@@ -109,23 +125,132 @@ export default function ({
                                     />
                                     {touched.name && errors.name && <Typography sx={{ color: 'red', mt: 1 }}>{errors.name}</Typography>}
                                 </Box>
+                                <Box
+                                    sx={{
+                                        mb: 2,
+                                        display: 'flex', // justifyContent: 'space-between'
+                                        gap: 2
+                                    }}
+                                >
+                                    <Box sx={{ width: '100%' }}>
+                                        <Autocomplete
+                                            onChange={(_, data) => {
+                                                setFieldValue('language', data);
+                                                return data;
+                                            }}
+                                            onBlur={handleBlur}
+                                            // defaultValue={options.find((item) => item.value === dbUser?.openAIModel)}
+                                            disablePortal
+                                            value={values.language || ''}
+                                            id="combo-box-demo"
+                                            options={['English', 'Bangla']}
+                                            getOptionLabel={(item) => item}
+                                            sx={{ minWidth: 250 }}
+                                            disableClearable
+                                            renderInput={(params) => (
+                                                <BRInput2
+                                                    placeholder="Choose prompt language"
+                                                    label="Choose Language"
+                                                    fullWidth
+                                                    required
+                                                    name="language"
+                                                    type="text"
+                                                    {...params}
+                                                />
+                                            )}
+                                            // renderInput={(params) => <TextField {...params} required placeholder="Choose Language" />}
+                                        />
+                                        {touched.language && errors.language && (
+                                            <Typography sx={{ color: 'red', mt: 1 }}>{errors.language}</Typography>
+                                        )}
+                                    </Box>
+                                    <Box sx={{ width: '100%' }}>
+                                        <Autocomplete
+                                            onChange={(_, data) => {
+                                                setFieldValue('tone', data);
+                                                return data;
+                                            }}
+                                            onBlur={handleBlur}
+                                            disablePortal
+                                            value={values.tone || ''}
+                                            id="combo-box-demo"
+                                            options={['Engaging', 'Ask Question', 'Formal', 'Informal', 'Funny', 'For Meeting', 'None']}
+                                            getOptionLabel={(item) => item.toString()}
+                                            sx={{ minWidth: 250 }}
+                                            disableClearable
+                                            renderInput={(params) => (
+                                                <BRInput2
+                                                    placeholder="Choose prompt tone"
+                                                    label="Choose Tone"
+                                                    fullWidth
+                                                    required
+                                                    name="tone"
+                                                    type="text"
+                                                    {...params}
+                                                />
+                                            )}
+                                        />
+                                        {touched.tone && errors.tone && <Typography sx={{ color: 'red', mt: 1 }}>{errors.tone}</Typography>}
+                                    </Box>
+                                </Box>
+                                <Box sx={{ mb: 2, display: 'flex', flex: { md: 'row', sm: 'column' } }}>
+                                    <Box sx={{ width: '100%' }}>
+                                        <Autocomplete
+                                            onChange={(_, data) => {
+                                                setFieldValue('reply_character_limit', data);
+                                                return data;
+                                            }}
+                                            onBlur={handleBlur}
+                                            disablePortal
+                                            value={values.reply_character_limit || ''}
+                                            id="combo-box-demo"
+                                            options={[300, 200]}
+                                            getOptionLabel={(item) => item}
+                                            sx={{ minWidth: 250 }}
+                                            disableClearable
+                                            renderInput={(params) => (
+                                                <BRInput2
+                                                    placeholder="Choose prompt reply_character_limit"
+                                                    label="Choose Character Count"
+                                                    fullWidth
+                                                    required
+                                                    name="reply_character_limit"
+                                                    type="text"
+                                                    {...params}
+                                                />
+                                            )}
+                                        />
+                                        {touched.reply_character_limit && errors.reply_character_limit && (
+                                            <Typography sx={{ color: 'red', mt: 1 }}>{errors.reply_character_limit}</Typography>
+                                        )}
+                                    </Box>
+                                </Box>
                                 <Box sx={{ mb: 2, mt: 3 }}>
+                                    <Typography sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 700 }}>
+                                        Prompt description
+                                    </Typography>
+
+                                    <Typography sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 400 }}>
+                                        {`Use {Brand_Name}, {Brand_Description} & {Brand_Domain} to use for writing persoalized
+                                        replies`}
+                                    </Typography>
+
                                     <BRInput2
                                         sx={{ height: 'unset' }}
-                                        placeholder="Enter prompt"
-                                        label="Write something for your prompt"
+                                        placeholder="Enter your prompt description"
+                                        // label="Prompt description"
                                         fullWidth
                                         required
                                         multiline
                                         rows={5}
-                                        value={values.prompt || ''}
-                                        name="prompt"
+                                        value={values.description || ''}
+                                        name="description"
                                         onBlur={handleBlur}
                                         onChange={handleChange}
                                         type="text"
                                     />
-                                    {touched.prompt && errors.prompt && (
-                                        <Typography sx={{ color: 'red', mt: 1 }}>{errors.prompt}</Typography>
+                                    {touched.description && errors.description && (
+                                        <Typography sx={{ color: 'red', mt: 1 }}>{errors.description}</Typography>
                                     )}
                                 </Box>
                                 {/* <Box sx={{ display: 'flex', gap: '10px', justifyContent: '', p: '20px' }}>
@@ -146,18 +271,23 @@ export default function ({
                                     <Button
                                         type="button"
                                         onClick={modalClose}
-                                        disabled={createLoading || Object.keys(errors || {}).length}
+                                        disabled={createLoading || updateLoading || Object.keys(errors || {}).length}
                                         sx={{ width: '156px', background: '#EAEAEA' }}
                                     >
                                         Cancel
                                     </Button>
                                     <BRButton
-                                        disabled={createLoading || Object.keys(errors || {}).length}
+                                        disabled={createLoading || updateLoading || Object.keys(errors || {}).length}
                                         variant="contained"
                                         sx={{ fontSize: '14px', fontWeight: 500, width: '196px' }}
                                         type="submit"
                                     >
-                                        {(createLoading && <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />) || 'Submit'}
+                                        {((createLoading || updateLoading) && (
+                                            <CircularProgress sx={{ maxWidth: 16, maxHeight: 16, ml: 1 }} />
+                                        )) ||
+                                        isUpdate
+                                            ? 'Update'
+                                            : 'Submit'}
                                     </BRButton>
                                 </Box>
                             </form>

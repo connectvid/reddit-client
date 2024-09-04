@@ -94,7 +94,7 @@ const PostCard = ({
             projectDomain: project.domain,
             projectDescription: project.shortDescription,
             platform,
-            prompt: selectedPrompt?.prompt
+            prompt: selectedPrompt
         };
         try {
             const token = await getAccessToken();
