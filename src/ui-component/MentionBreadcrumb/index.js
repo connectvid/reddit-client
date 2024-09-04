@@ -2,7 +2,7 @@
 import Breadcrumb from '../Breadcrumb';
 import AllProjects from 'ui-component/Project/AllProjects';
 import PostFilter from './PostFilter';
-import MoreMentions from 'views/BizReply/mentions/MoreMentions';
+// import MoreMentions from 'views/BizReply/mentions/MoreMentions';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { Typography } from '@mui/material';
 import { IconSettings } from '@tabler/icons';
@@ -21,7 +21,7 @@ export default function MentionBreadcrumb({
     return (
         <>
             <Breadcrumb title="Mentions">
-                <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} />
+                {/* <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} /> */}
                 <AllPrompts />
                 <BRButton
                     variant="outlined"
