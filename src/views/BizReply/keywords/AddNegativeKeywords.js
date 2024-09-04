@@ -21,7 +21,7 @@ const AddNegativeKeywords = ({ nCKeys }) => {
                             sx={{ fontWeight: 500, fontSize: '14px', cursor: 'pointer' }}
                             // onClick={() => setCustomKeywords((p) => [...p, p.length])}
                         >
-                            Add new negativev keywords
+                            Add new negative keywords
                         </Typography>
                     </GradinentText>
                 </Box>
