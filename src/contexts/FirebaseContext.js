@@ -174,19 +174,19 @@ export const FirebaseProvider = ({ children }) => {
                     })
                     .catch(async (e) => {
                         console.log('error', e?.response?.data || e.message, { isRegister });
-                        // if (isRegister === false) {
-                        //     console.log({ isRegister }, 'isRegisterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
-                        // localStorage.clear();
-                        // await logout();
-                        // signOut(auth);
-                        // }
-                        // if (e?.response?.status !== 404) {
-                        //     console.log(e, '===error==========');
-                        //     toast(`User not found. Please check the details and try again.`, {
-                        //         autoClose: 2500,
-                        //         type: 'warning'
-                        //     });
-                        // }
+                        if (isRegister === false) {
+                            console.log({ isRegister }, 'isRegisterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr');
+                            localStorage.clear();
+                            await logout();
+                            signOut(auth);
+                        }
+                        if (e?.response?.status !== 404) {
+                            console.log(e, '===error==========');
+                            toast(`User not found. Please check the details and try again.`, {
+                                autoClose: 2500,
+                                type: 'warning'
+                            });
+                        }
                     });
             } else {
                 dispatch({
@@ -250,13 +250,13 @@ export const FirebaseProvider = ({ children }) => {
                         // return navigate(DASHBOARD_PATH);
                     })
                     .catch(async () => {
-                        // await logout();
-                        // setIsLoading(false);
-                        // isRegister = false;
-                        // toast('User not found. Please check the details and try again.', {
-                        //     autoClose: 2500,
-                        //     type: 'warning'
-                        // });
+                        await logout();
+                        setIsLoading(false);
+                        isRegister = false;
+                        toast('User not found. Please check the details and try again.', {
+                            autoClose: 2500,
+                            type: 'warning'
+                        });
                     });
             })
             .catch((e1) => {

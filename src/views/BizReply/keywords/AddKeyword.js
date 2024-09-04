@@ -7,13 +7,15 @@ import {
     addingCustomKeywordForSave,
     removingCustomKeywordForSave,
     clearingCustomKeyword,
-    createdKeywordSuccess
+    createdKeywordSuccess,
+    clearingCustomNegativeKeyword
 } from 'features/project/projectActions';
 import { IconPlus } from 'tabler-icons';
 import BRInput2 from 'ui-component/bizreply/BRInput2';
 import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
 import { toast } from 'react-toastify';
+import AddNegativeKeywords from './AddNegativeKeywords';
 // import { useLocation, useNavigate } from 'react-router-dom';
 // import { MENTION_PATH } from 'config';
 // import axios from 'utils/axios';
@@ -22,13 +24,14 @@ import { toast } from 'react-toastify';
 const AddKeyword = ({ handleClose, unmountClear = false }) => {
     // const { search } = useLocation();
     const {
-        project: { project, customKeywords: cKeys, createKeywordSuccess },
+        project: { project, customKeywords: cKeys, customNegativeKeywords: nCKeys, createKeywordSuccess },
         subscription: { subscription }
     } = useSelector((state) => state);
     const [value, setValue] = React.useState('');
     const remainingCredit = subscription?.remainingCredit;
     const onClose = () => {
         clearingCustomKeyword()();
+        clearingCustomNegativeKeyword()();
         setValue('');
         handleClose?.();
     };
@@ -177,6 +180,7 @@ const AddKeyword = ({ handleClose, unmountClear = false }) => {
                         </Typography>
                     ))}
                 </Box>
+                <AddNegativeKeywords nCKeys={nCKeys} />
             </Box>
         </>
     );
