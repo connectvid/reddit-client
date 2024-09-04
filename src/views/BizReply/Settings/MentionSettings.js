@@ -48,6 +48,14 @@ const MentionSettings = () => {
             headers: { Authorization: `Bearer ${token}` }
         });
         console.log(response.data?.data, 'this is the response');
+        if (response.data?.data?._id) {
+            setValues({
+                chosenLanguage: response.data?.data?.chosenLanguage,
+                fetchTiming: response.data?.data?.fetchTiming,
+                postsPerRequest: response.data?.data?.postsPerRequest
+            });
+            setChecked(response.data?.data?.isActive);
+        }
     };
     useEffect(() => {
         getMentionSettings();
