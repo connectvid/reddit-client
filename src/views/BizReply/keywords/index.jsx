@@ -122,11 +122,14 @@ const Keywords = () => {
                                             </Grid>
                                         ))}
                                     </Grid>
-                                    <Typography sx={{ fontWeight: 'bold', fontSize: '30px', margin: '30px 0 20px' }}>
-                                        Negative Keywords:{' '}
-                                    </Typography>
+                                    {project.negativeKeywords?.length && (
+                                        <Typography sx={{ fontWeight: 'bold', fontSize: '30px', margin: '30px 0 20px' }}>
+                                            Negative Keywords:{' '}
+                                        </Typography>
+                                    )}
+
                                     <Grid container spacing={2}>
-                                        {project.negativeKeywords.map?.((item) => {
+                                        {project.negativeKeywords?.map?.((item) => {
                                             console.log(item, 1234);
                                             return (
                                                 <Grid key={item._id} item xs={12} sm={6} md={4}>
