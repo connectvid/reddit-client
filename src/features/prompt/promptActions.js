@@ -126,7 +126,7 @@ export const updatePromptAPI =
             dispatch(updatePrompt(response.data));
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
-            updatePromptLoader(true)();
+            updatePromptLoader(false)();
         }
     };
 
