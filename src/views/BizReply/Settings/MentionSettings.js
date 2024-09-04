@@ -55,6 +55,14 @@ const MentionSettings = () => {
                 postsPerRequest: response.data?.data?.postsPerRequest
             });
             setChecked(response.data?.data?.isActive);
+            console.log(
+                {
+                    chosenLanguage: response.data?.data?.chosenLanguage,
+                    fetchTiming: response.data?.data?.fetchTiming,
+                    postsPerRequest: response.data?.data?.postsPerRequest
+                },
+                response.data?.data?.isActive
+            );
         }
     };
     useEffect(() => {
