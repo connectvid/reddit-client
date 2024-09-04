@@ -111,20 +111,61 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                     >
                         {({ errors, handleBlur, handleChange, handleSubmit, touched, values, setFieldValue }) => (
                             <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
-                                <Box sx={{ mb: 2 }}>
-                                    <BRInput2
-                                        placeholder="Enter your prompt name"
-                                        label="Prompt Name"
-                                        fullWidth
-                                        required
-                                        value={values.name || ''}
-                                        name="name"
-                                        onBlur={handleBlur}
-                                        onChange={handleChange}
-                                        type="text"
-                                    />
-                                    {touched.name && errors.name && <Typography sx={{ color: 'red', mt: 1 }}>{errors.name}</Typography>}
+                                <Box
+                                    sx={{
+                                        mb: 2,
+                                        display: 'flex', // justifyContent: 'space-between'
+                                        gap: 2
+                                    }}
+                                >
+                                    <Box sx={{ width: '100%' }}>
+                                        <BRInput2
+                                            placeholder="Enter your prompt name"
+                                            label="Prompt Name"
+                                            fullWidth
+                                            required
+                                            value={values.name || ''}
+                                            name="name"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
+                                            type="text"
+                                        />
+                                        {touched.name && errors.name && <Typography sx={{ color: 'red', mt: 1 }}>{errors.name}</Typography>}
+                                    </Box>
+
+                                    <Box sx={{ width: '100%' }}>
+                                        <Autocomplete
+                                            onChange={(_, data) => {
+                                                setFieldValue('reply_character_limit', data);
+                                                return data;
+                                            }}
+                                            onBlur={handleBlur}
+                                            disablePortal
+                                            value={values.reply_character_limit || ''}
+                                            id="combo-box-demo"
+                                            options={[300, 200]}
+                                            getOptionLabel={(item) => item}
+                                            sx={{ width: '100%' }}
+                                            disableClearable
+                                            renderInput={(params) => (
+                                                <BRInput2
+                                                    placeholder="Choose prompt reply_character_limit"
+                                                    label="Choose Character Count"
+                                                    fullWidth
+                                                    required
+                                                    name="reply_character_limit"
+                                                    type="text"
+                                                    {...params}
+                                                />
+                                            )}
+                                        />
+                                        {touched.reply_character_limit && errors.reply_character_limit && (
+                                            <Typography sx={{ color: 'red', mt: 1 }}>{errors.reply_character_limit}</Typography>
+                                        )}
+                                    </Box>
                                 </Box>
+
+                                {/*  */}
                                 <Box
                                     sx={{
                                         mb: 2,
@@ -143,7 +184,14 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                             disablePortal
                                             value={values.language || ''}
                                             id="combo-box-demo"
-                                            options={['English', 'Bangla']}
+                                            options={[
+                                                'Arabic',
+                                                'Chinese (Traditional)',
+                                                'Chinese (Simplified)',
+                                                'English',
+                                                'German',
+                                                'Bengali'
+                                            ]}
                                             getOptionLabel={(item) => item}
                                             sx={{ minWidth: 250 }}
                                             disableClearable
@@ -193,7 +241,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                         {touched.tone && errors.tone && <Typography sx={{ color: 'red', mt: 1 }}>{errors.tone}</Typography>}
                                     </Box>
                                 </Box>
-                                <Box sx={{ mb: 2, display: 'flex', flex: { md: 'row', sm: 'column' } }}>
+                                {/* <Box sx={{ mb: 2, display: 'flex', flex: { md: 'row', sm: 'column' } }}>
                                     <Box sx={{ width: '100%' }}>
                                         <Autocomplete
                                             onChange={(_, data) => {
@@ -224,7 +272,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                             <Typography sx={{ color: 'red', mt: 1 }}>{errors.reply_character_limit}</Typography>
                                         )}
                                     </Box>
-                                </Box>
+                                </Box> */}
                                 <Box sx={{ mb: 2, mt: 3 }}>
                                     <Typography sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 700 }}>
                                         Prompt description
@@ -237,12 +285,14 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
 
                                     <BRInput2
                                         sx={{ height: 'unset' }}
-                                        placeholder="Enter your prompt description"
+                                        placeholder={`Write your prompt in as detail as possible including information on your brand voice, brand description, etc. You can also input examples of replies you would like to generate. Message us on support if you need any help for prompt writing.
+
+Suggestion: Different platforms get better responses with different kinds of replies, for better results try to write unique ones for each.`}
                                         // label="Prompt description"
                                         fullWidth
                                         required
                                         multiline
-                                        rows={5}
+                                        rows={9}
                                         value={values.description || ''}
                                         name="description"
                                         onBlur={handleBlur}

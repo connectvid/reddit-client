@@ -92,7 +92,14 @@ const CardFooter = ({
         </Box>
     );
 };
-const CardDetails = ({ language, tone, reply_character_limit, allowDescriptionLength, description, name, expand = false }) => {
+const CardDetails = ({ language, tone, reply_character_limit, description, name, expand = false }) => {
+    const str = description;
+
+    // const str = expand allowDescriptionLength,
+    // ? description
+    // : description?.length > allowDescriptionLength
+    // ? `${description.substring(0, allowDescriptionLength)}`
+    // : description;
     return (
         <Box>
             <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 2 }}>Prompt Name: {name}</Typography>
@@ -106,7 +113,7 @@ const CardDetails = ({ language, tone, reply_character_limit, allowDescriptionLe
             </Box>
 
             <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 0.5 }}>Prompt Description:</Typography>
-            <Typography
+            <Box
                 sx={{
                     fontWeight: 400,
                     fontSize: '16px',
@@ -120,12 +127,49 @@ const CardDetails = ({ language, tone, reply_character_limit, allowDescriptionLe
                     // height: '180px',
                 }}
             >
-                {expand
+                {/* {expand
                     ? description
                     : description?.length > allowDescriptionLength
                     ? `${description.substring(0, allowDescriptionLength)} ...`
-                    : description}
-            </Typography>
+                    : description} */}
+
+                {/* {expand
+                    ? description
+                    : description?.length > allowDescriptionLength
+                    ? `${description.substring(0, allowDescriptionLength).split(`\n`).join('\n')} ...`
+                    : description.split(`\n`).join('\n')} */}
+
+                {str.split('\n').map((item, i) => {
+                    console.log(item);
+                    return (
+                        <Box
+                            key={i}
+                            sx={
+                                {
+                                    // color: '#000',
+                                    // // fontWeight: 500,
+                                    // fontSize: '14px',
+                                    // lineHeight: '22px'
+                                }
+                            }
+                        >
+                            <Typography
+                                sx={{
+                                    color: '#000',
+                                    // fontWeight: 500,
+                                    fontSize: '14px',
+                                    lineHeight: '24px',
+                                    m: 0,
+                                    p: 0,
+                                    whiteSpace: 'pre-wrap'
+                                }}
+                            >
+                                {item}
+                            </Typography>
+                        </Box>
+                    );
+                })}
+            </Box>
         </Box>
     );
 };

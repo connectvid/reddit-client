@@ -3,7 +3,7 @@
 /* eslint-disable prefer-const */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import { Card, CardContent, Typography } from '@mui/material';
+// import { Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -81,7 +81,7 @@ const Mentions = () => {
     // console.log(mentionsDataObj);
     // SOCKET
     useEffect(() => {
-        function mentionsUpdate({ message: { items, percentage } }) {
+        function mentionsUpdate({ message: { items } }) {
             if (items?.length) {
                 // setAllDatas(items);
                 const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
@@ -104,16 +104,10 @@ const Mentions = () => {
                     setLoading(false);
                 }
             }
-            console.log(`fetching Mentions`, { percentage });
+            // console.log(`fetching Mentions`, { percentage });
             if (!haveData && items?.length) {
                 setHaveData(true);
                 console.log(`haveData true`);
-            }
-            if (percentage === 100) {
-                if (state) {
-                    // navigate(`${pathname}${search}`, { state: null, replace: true });
-                    console.log(`State Clear`);
-                }
             }
         }
         socket.connect();
@@ -220,24 +214,36 @@ const Mentions = () => {
 
             <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
             {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
-            {!loading && showEmpty && !filteredData?.length ? (
+            {!loading && showEmpty && !filteredData?.length ? <PostPlaceholder /> : ''}
+
+            {/* {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
                         <Typography variant="h3" sx={{ textAlign: 'center' }}>
                             Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
-                            {/* Sorry, there seems to be no posts
+                        </Typography>
+                    </CardContent>
+                </Card>
+            ) : (
+                ''
+            )} {!loading && showEmpty && !filteredData?.length ? (
+                <Card sx={{ mb: 1 }}>
+                    <CardContent>
+                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
+            {/* Sorry, there seems to be no posts
                             {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
                                 <strong> for your suggested {selectedKeyword?.title}</strong>
                             ) : (
                                 ''
                             )}
                             ! */}
-                        </Typography>
+            {/* </Typography>
                     </CardContent>
                 </Card>
             ) : (
                 ''
-            )}
+            )} */}
             {loading ? (
                 <PostPlaceholder />
             ) : (

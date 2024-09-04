@@ -11,10 +11,11 @@ import PromptCard from './PromptCard';
 import { createPromptStatus, deletePromptStatus, updatePromptStatus } from 'features/prompt/promptActions';
 import { toast } from 'react-toastify';
 import PromptBreadcrumb from 'ui-component/Prompt/PromptBreadcrumb';
+import { clearingError as promptElearingError } from 'features/project/projectActions';
 
 export default function () {
     // const { getAccessToken } = useAuth();
-    const { prompts, loading, created, updated, deleted } = useSelector((state) => state.prompt);
+    const { prompts, loading, created, updated, deleted, error: promptError } = useSelector((state) => state.prompt);
     const [openModal, setOpenModal] = React.useState(false);
     const [editObj, setEditObj] = React.useState(null);
 
@@ -31,6 +32,7 @@ export default function () {
     //     }
     // }, []);
     // console.log({ prompts });
+
     const handleModal = () => setOpenModal((p) => !p);
     const handleEditor = (selectedObj) => {
         handleModal();
@@ -57,14 +59,17 @@ export default function () {
             toast.success(`Prompt has been deleted!`);
             deletePromptStatus(false)();
         }
-    }, [created, updated, deleted]);
+        if (promptError) {
+            toast.warn(promptError);
+            promptElearingError()();
+        }
+    }, [created, updated, deleted, promptError]);
     return (
         <>
             <PromptBreadcrumb {...{ handleModal }} />
             <Dialog
                 open={openModal}
                 // onClose={modalClose}
-                className="------------------------------------"
                 aria-labelledby="responsive-dialog-title"
                 sx={{
                     '.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm':
