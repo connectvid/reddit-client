@@ -6,7 +6,6 @@
 // material-ui
 import { Button, Typography, ButtonGroup } from '@mui/material';
 import { Box } from '@mui/system';
-import GradinentText from 'ui-component/GradinentText';
 import AccountSettings from './AccountSettings';
 import { useState } from 'react';
 import MentionSettings from './MentionSettings';
@@ -34,46 +33,40 @@ const Settings = () => {
         border: 'none',
         background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)'
     };
-    const [ selectedComponent, setSelectedComponent ] = useState('account')
+    const [selectedComponent, setSelectedComponent] = useState('account');
 
     return (
-        <Box sx={{ }}>
+        <Box sx={{}}>
             <Typography sx={{ mb: 3, fontSize: '25px', fontWeight: '700' }}>Settings</Typography>
             <ButtonGroup
-            disableElevation
-            style={{ dixplay: 'flex', gap: '10px', padding: '10px', background: '#fff', borderRadius: '50px' }}
-        >
-            <Button
-                sx={{ flex: 1, width: '200px' }}
-                onClick={() => setSelectedComponent('account')}
-                style={selectedComponent === 'account' ? selectedStyle : notSelectedStyle}
+                disableElevation
+                style={{ dixplay: 'flex', gap: '10px', padding: '10px', background: '#fff', borderRadius: '50px' }}
             >
-                {selectedComponent === 'account' ? (
-                    <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Account settings</span>
-                ) : (
-                    <span>Account settings</span>
-                )}
-            </Button>
-            <Button
-                sx={{ flex: 1, width: '200px' }}
-                onClick={() => setSelectedComponent('mention')}
-                style={selectedComponent === 'mention' ? selectedStyle : notSelectedStyle}
-            >
-                {selectedComponent === 'mention' ? (
-                    <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Mention settings</span>
-                ) : (
-                    <span>Mention settings</span>
-                )}
-            </Button>
-        </ButtonGroup>
-            {
-                selectedComponent === 'account' &&
-                <AccountSettings />
-            }
-            {
-                selectedComponent === 'mention' &&
-                <MentionSettings />
-            }
+                <Button
+                    sx={{ flex: 1, width: '200px' }}
+                    onClick={() => setSelectedComponent('account')}
+                    style={selectedComponent === 'account' ? selectedStyle : notSelectedStyle}
+                >
+                    {selectedComponent === 'account' ? (
+                        <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Account settings</span>
+                    ) : (
+                        <span>Account settings</span>
+                    )}
+                </Button>
+                <Button
+                    sx={{ flex: 1, width: '200px' }}
+                    onClick={() => setSelectedComponent('mention')}
+                    style={selectedComponent === 'mention' ? selectedStyle : notSelectedStyle}
+                >
+                    {selectedComponent === 'mention' ? (
+                        <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Mention settings</span>
+                    ) : (
+                        <span>Mention settings</span>
+                    )}
+                </Button>
+            </ButtonGroup>
+            {selectedComponent === 'account' && <AccountSettings />}
+            {selectedComponent === 'mention' && <MentionSettings />}
         </Box>
     );
 };

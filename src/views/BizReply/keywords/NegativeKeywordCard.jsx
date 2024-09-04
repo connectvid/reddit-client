@@ -4,12 +4,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Card, CardContent, Typography } from '@mui/material';
-import { deleteKeywordAPI } from 'features/project/projectActions';
-import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
 import GradinentText from 'ui-component/GradinentText';
 
-export default function ({ _id, item, accessToken, brandLogo = '', brandName }) {
+export default function ({ item, brandLogo = '', brandName }) {
     return (
         <Card sx={{ border: '1px solid rgba(0,0,0,0.8)', height: '197px', borderRadius: '12px' }}>
             <CardContent sx={{}}>

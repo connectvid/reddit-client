@@ -1,19 +1,12 @@
 /* eslint-disable consistent-return */
 import { Box, Button, Divider, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 // import ProjectsTable from './ProjectsTable';
-import { useSelector } from 'react-redux';
-import {
-    addingNegativeCustomKeywordForSave,
-    removingNegativeCustomKeywordForSave,
-    clearingCustomKeyword,
-    createdKeywordSuccess
-} from 'features/project/projectActions';
+import { addingNegativeCustomKeywordForSave, removingNegativeCustomKeywordForSave } from 'features/project/projectActions';
 import { IconPlus } from 'tabler-icons';
 import BRInput2 from 'ui-component/bizreply/BRInput2';
 import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
-import { toast } from 'react-toastify';
 
 const AddNegativeKeywords = ({ nCKeys }) => {
     const [value, setValue] = React.useState('');

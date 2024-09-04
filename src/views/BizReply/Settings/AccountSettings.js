@@ -16,7 +16,6 @@ import pluralize from 'pluralize';
 import AddOpenAiKey from './AddOpenAiKey';
 import UpdatePassword from './UpdatePassword';
 // ==============================|| SETTINGS PAGE ||============================== //
-import React from 'react';
 
 const AccountSettings = () => {
     const navigate = useNavigate();
@@ -84,7 +83,6 @@ const AccountSettings = () => {
                                 }
                             })) ||
                             ''}
-
                     </Box>
                     <Button onClick={handleClick} style={{ background: '#000', color: '#fff', marginTop: '20px' }}>
                         Upgrade Plan

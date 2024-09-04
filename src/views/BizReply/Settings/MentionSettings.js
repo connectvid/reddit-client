@@ -1,13 +1,12 @@
-import { Autocomplete, Button, FormControlLabel, Switch, TextField, Typography } from '@mui/material';
+import { Autocomplete, FormControlLabel, Switch, TextField, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
-import BRInput from 'ui-component/bizreply/BRInput';
 import axios from 'utils/axios';
 
 const MentionSettings = () => {
-    const { dbUser, getAccessToken } = useAuth();
+    const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
 
     const handleChange = (event) => {
@@ -61,7 +60,7 @@ const MentionSettings = () => {
             ...values,
             isActive: checked
         };
-        const response = await axios.post(`mention-settings`, body, {
+        await axios.post(`mention-settings`, body, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
