@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 /* eslint-disable no-nested-ternary */
 import { Box, Button, CircularProgress, Dialog, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -14,12 +15,15 @@ import emptyImage from 'assets/images/projects.png';
 import { IconPlus } from '@tabler/icons';
 import EmptyProject from '../projects/EmptyProject';
 import KeywordCard from './KeywordCard';
+import NegativeKeywordCard from './NegativeKeywordCard';
 
 const Keywords = () => {
     const { search } = useLocation();
     const navigate = useNavigate();
     const { getAccessToken } = useAuth();
-    const { project, projects, createKeywordSuccess, createKeywordsLoading, customKeywords } = useSelector((state) => state.project);
+    const { project, projects, createKeywordSuccess, createKeywordsLoading, customKeywords, customNegativeKeywords } = useSelector(
+        (state) => state.project
+    );
 
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
@@ -73,13 +77,19 @@ const Keywords = () => {
                         </Button>
                         <BRButton
                             disabled={
-                                !Object.values(customKeywords || {})?.filter?.((item) => item.trim())?.length || createKeywordsLoading
+                                !(
+                                    Object.values(customNegativeKeywords || {}).filter((item) => item.trim()).length ||
+                                    Object.values(customKeywords || {}).filter((item) => item.trim()).length
+                                ) || createKeywordsLoading
                             }
                             onClick={async () => {
+                                console.log(customKeywords, customNegativeKeywords);
+                                // return 0;
                                 const token = await getAccessToken();
                                 const body = {
                                     projectId: project._id,
-                                    suggestedKeywords: [...Object.values(customKeywords).filter((item) => item.trim())]
+                                    suggestedKeywords: [...Object.values(customKeywords).filter((item) => item.trim())],
+                                    negativeKeywords: [...Object.values(customNegativeKeywords).filter((item) => item.trim())]
                                 };
                                 createKeywordsApi(token, body)();
                             }}
@@ -101,16 +111,39 @@ const Keywords = () => {
                     ) : project.Suggestedkeywords?.length ? (
                         <>
                             {!createKeywordSuccess ? (
-                                <Grid container spacing={2}>
-                                    {project.Suggestedkeywords.map?.((item) => (
-                                        <Grid key={item._id} item xs={12} sm={6} md={4}>
-                                            <KeywordCard
-                                                {...item}
-                                                {...{ accessToken, brandLogo: project?.brandLogo, brandName: project?.brandName }}
-                                            />
-                                        </Grid>
-                                    ))}
-                                </Grid>
+                                <>
+                                    <Grid container spacing={2}>
+                                        {project.Suggestedkeywords.map?.((item) => (
+                                            <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                                <KeywordCard
+                                                    {...item}
+                                                    {...{ accessToken, brandLogo: project?.brandLogo, brandName: project?.brandName }}
+                                                />
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                    <Typography sx={{ fontWeight: 'bold', fontSize: '30px', margin: '30px 0 20px' }}>
+                                        Negative Keywords:{' '}
+                                    </Typography>
+                                    <Grid container spacing={2}>
+                                        {project.negativeKeywords.map?.((item) => {
+                                            console.log(item, 1234);
+                                            return (
+                                                <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                                    <NegativeKeywordCard
+                                                        {...item}
+                                                        {...{
+                                                            accessToken,
+                                                            brandLogo: project?.brandLogo,
+                                                            brandName: project?.brandName,
+                                                            item
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            );
+                                        })}
+                                    </Grid>
+                                </>
                             ) : (
                                 ''
                             )}

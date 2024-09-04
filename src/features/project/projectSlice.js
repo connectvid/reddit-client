@@ -7,7 +7,9 @@ const initialState = {
     error: null,
     projects: [],
     suggestedKeywords: [],
+    negativeKeywords: [],
     customKeywords: {},
+    customNegativeKeywords: {},
     project: null,
     loading: false,
     projectDeleting: false,
@@ -97,7 +99,8 @@ const projectSlice = createSlice({
         },
         createKeywords(state, { payload }) {
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
-            const data = { ...state.project, Suggestedkeywords };
+            const negativeKeywords = [...(state.project?.negativeKeywords || []), ...(payload?.negativeKeywords || [])];
+            const data = { ...state.project, Suggestedkeywords, negativeKeywords };
             // console.log(data, 'createKeywords');
             state.project = data;
             const items = [];
@@ -107,6 +110,7 @@ const projectSlice = createSlice({
                 if (item._id === projectId) {
                     console.log(`Match`);
                     item.Suggestedkeywords = Suggestedkeywords;
+                    item.negativeKeywords = negativeKeywords;
                 }
                 items.push(item);
             }
@@ -153,6 +157,10 @@ const projectSlice = createSlice({
             const { keyword, index } = action.payload;
             state.customKeywords[index] = keyword;
         },
+        addNegativeCustomKeywordForSave(state, action) {
+            const { keyword, index } = action.payload;
+            state.customNegativeKeywords[index] = keyword;
+        },
         removeKeywordForSave(state, action) {
             state.suggestedKeywords.shift(action.payload);
         },
@@ -162,8 +170,17 @@ const projectSlice = createSlice({
             delete copy[idx];
             state.customKeywords = copy;
         },
+        removeNegativeCustomKeywordForSave(state, action) {
+            const idx = action.payload;
+            const copy = JSON.parse(JSON.stringify(state.customNegativeKeywords));
+            delete copy[idx];
+            state.customNegativeKeywords = copy;
+        },
         clearCustomKeyword(state) {
             state.customKeywords = {};
+        },
+        clearCustomNegativeKeyword(state) {
+            state.customNegativeKeywords = {};
         },
         toggleProjectCreateModal(state) {
             state.showProjectCreateModal = !state.showProjectCreateModal;
@@ -258,7 +275,9 @@ export const {
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
+    removeNegativeCustomKeywordForSave,
     addCustomKeywordForSave,
+    addNegativeCustomKeywordForSave,
     selectedPlatform,
     updateProject,
     updateProjectLoading,
@@ -267,7 +286,8 @@ export const {
     projectInit,
     clearError,
     keywordRemove,
-    clearCustomKeyword
+    clearCustomKeyword,
+    clearCustomNegativeKeyword
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

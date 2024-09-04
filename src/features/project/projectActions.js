@@ -19,14 +19,17 @@ import {
     projectRemove,
     removeKeywordForSave,
     removeCustomKeywordForSave,
+    removeNegativeCustomKeywordForSave,
     addCustomKeywordForSave,
+    addNegativeCustomKeywordForSave,
     selectedPlatform,
     updateProjectLoading,
     updateProjectSuccess,
     projectInit,
     clearError,
     keywordRemove,
-    clearCustomKeyword
+    clearCustomKeyword,
+    clearCustomNegativeKeyword
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -37,6 +40,9 @@ export const keywordRemoving = (value) => () => {
 };
 export const clearingCustomKeyword = () => () => {
     dispatch(clearCustomKeyword());
+};
+export const clearingCustomNegativeKeyword = () => () => {
+    dispatch(clearCustomNegativeKeyword());
 };
 export const changePlatform = (platform) => () => {
     dispatch(selectedPlatform(platform));
@@ -190,6 +196,11 @@ export const addingCustomKeywordForSave =
     () => {
         dispatch(addCustomKeywordForSave({ keyword, index }));
     };
+export const addingNegativeCustomKeywordForSave =
+    (keyword = '', index) =>
+    () => {
+        dispatch(addNegativeCustomKeywordForSave({ keyword, index }));
+    };
 export const removingKeywordForSave =
     (keyword = '') =>
     () => {
@@ -199,6 +210,11 @@ export const removingCustomKeywordForSave =
     (index = '') =>
     () => {
         dispatch(removeCustomKeywordForSave(index));
+    };
+export const removingNegativeCustomKeywordForSave =
+    (index = '') =>
+    () => {
+        dispatch(removeNegativeCustomKeywordForSave(index));
     };
 
 export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', async (_, { getState, dispatch }) => {
