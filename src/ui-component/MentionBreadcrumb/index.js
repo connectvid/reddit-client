@@ -11,11 +11,11 @@ import AllPrompts from 'ui-component/Prompt/AllPrompts';
 export default function MentionBreadcrumb({
     setSelectedKeyword,
     loading,
-    selectedKeyword,
-    setMentionsDataObj,
-    setMoreLoading,
-    moreLoading,
-    firstKeyword,
+    // selectedKeyword,
+    // setMentionsDataObj,
+    // setMoreLoading,
+    // moreLoading,
+    // firstKeyword,
     handleModal
 }) {
     return (

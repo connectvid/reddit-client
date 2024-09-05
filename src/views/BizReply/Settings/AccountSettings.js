@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
 import AddOpenAiKey from './AddOpenAiKey';
-import UpdatePassword from './UpdatePassword';
+// import UpdatePassword from './UpdatePassword';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const AccountSettings = () => {
@@ -71,7 +71,7 @@ const AccountSettings = () => {
                                 if (['projects', 'replies', 'keywords', 'mentions'].includes(item)) {
                                     const itemC = remainingCredit[item];
                                     return (
-                                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                                        <Box key={item} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                                             <Typography style={{ color: '#6E7478', textTransform: 'capitalize' }}>
                                                 Available {pluralize.singular(item)} Credits
                                             </Typography>
@@ -89,7 +89,7 @@ const AccountSettings = () => {
                     </Button>
                 </Box>
             </Box>
-            <UpdatePassword />
+            {/* <UpdatePassword /> */}
             <AddOpenAiKey />
         </>
     );
