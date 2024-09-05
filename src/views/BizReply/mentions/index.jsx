@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-const */
@@ -17,6 +18,7 @@ import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
 import postSorting from 'utils/postSorting';
+import EmptyProject from '../projects/EmptyProject';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -44,7 +46,7 @@ const Mentions = () => {
     // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [showEmpty, setShowEmpty] = useState(false);
+    // const [showEmpty, setShowEmpty] = useState(false);
     const [moreLoading, setMoreLoading] = useState(false);
     const [haveData, setHaveData] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
@@ -120,9 +122,9 @@ const Mentions = () => {
 
         socket.on(encoding, mentionsUpdate);
         // socket.off();
-        setTimeout(() => {
-            setShowEmpty(true);
-        }, 2500);
+        // setTimeout(() => {
+        //     setShowEmpty(true);
+        // }, 2500);
         return () => {
             socket.disconnect();
             setMentionsDataObj({});
@@ -212,9 +214,10 @@ const Mentions = () => {
                 }}
             />
 
-            <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
+            {(project?.platforms && <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />) ||
+                ''}
             {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
-            {!loading && showEmpty && !filteredData?.length ? <PostPlaceholder /> : ''}
+            {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
 
             {/* {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
@@ -248,23 +251,30 @@ const Mentions = () => {
                 <PostPlaceholder />
             ) : (
                 <>
-                    {/* filteredData   */}
-                    {currentPosts?.map?.((item) => {
-                        return (
-                            <PostCard
-                                key={item._id}
-                                {...item}
-                                {...{
-                                    project,
-                                    setObjItems: setMentionsDataObj,
-                                    selectedPlatform,
-                                    showMarkRepliedBtn: true,
-                                    selectedPrompt
-                                }}
+                    {currentPosts?.length ? (
+                        <>
+                            {currentPosts?.map?.((item) => {
+                                return (
+                                    <PostCard
+                                        key={item._id}
+                                        {...item}
+                                        {...{
+                                            project,
+                                            setObjItems: setMentionsDataObj,
+                                            selectedPlatform,
+                                            showMarkRepliedBtn: true,
+                                            selectedPrompt
+                                        }}
+                                    />
+                                );
+                            })}
+                            <Pagination
+                                {...{ data: filteredData, setCurrentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }}
                             />
-                        );
-                    })}
-                    <Pagination {...{ data: filteredData, setCurrentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }} />
+                        </>
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </>
