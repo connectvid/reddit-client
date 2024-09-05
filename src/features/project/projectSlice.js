@@ -75,7 +75,9 @@ const projectSlice = createSlice({
             }
             state.loading = false;
         },
-
+        addProjectLoading(state, action) {
+            state.addProjectLoading = action.payload;
+        },
         addNewProject(state, action) {
             const { item } = action.payload;
             state.project = item;
@@ -107,6 +109,8 @@ const projectSlice = createSlice({
             state.project = { ...state.project, ...item };
             state.updateProjectLoading = false;
             state.projectUpdated = true;
+            state.editProject = null;
+            state.isEditProject = false;
         },
         createKeywords(state, { payload }) {
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
@@ -127,9 +131,7 @@ const projectSlice = createSlice({
             }
             state.projects = items;
         },
-        addProjectLoading(state, action) {
-            state.createLoading = action.payload;
-        },
+
         updateProjectLoading(state, action) {
             state.updateProjectLoading = action.payload;
         },

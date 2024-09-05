@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography } from '@mui/material';
 // import { useSelector } from 'react-redux';
-import AddKeyword from './AddKeyword';
+import AddKeyword from './CreateKeyword';
 import React from 'react';
 import { MENTION_PATH } from 'config';
 import { useSelector } from 'react-redux';

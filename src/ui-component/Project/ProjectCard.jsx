@@ -7,7 +7,17 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import { MENTION_PATH } from 'config';
 
 export default function ({ navigate, editProject, deleteProject, ...item }) {
-    const { thumbnail = redditFeeds, brandName, domain, shortDescription, _id, platforms, Suggestedkeywords } = item;
+    const {
+        thumbnail = redditFeeds,
+        brandName,
+        domain,
+        shortDescription,
+        _id,
+        platforms,
+        Suggestedkeywords,
+        negativeKeywords,
+        keywords
+    } = item;
     console.log(item, 'item');
     return (
         <Grid item xs={12} sm={6} md={4}>
@@ -56,10 +66,12 @@ export default function ({ navigate, editProject, deleteProject, ...item }) {
                                         shortDescription,
                                         platforms,
                                         _id,
-                                        keywords: Suggestedkeywords?.map?.((keywordObj) => ({
+                                        Suggestedkeywords: Suggestedkeywords?.map?.((keywordObj) => ({
                                             _id: keywordObj._id,
                                             title: keywordObj.title
-                                        }))
+                                        })),
+                                        negativeKeywords,
+                                        keywords
                                     })
                                 }
                             >

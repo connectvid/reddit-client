@@ -29,7 +29,7 @@ const BRInput = ({ label, value = '', handleChange, type = 'text', disabled = fa
                 value={value}
                 onChange={handleChange}
                 type={type}
-                inputProps={{ minLength: 3, maxLength: 40 }}
+                // inputProps={{ minLength: 3, maxLength: 40 }}
                 {...rest}
             />
         </Box>
