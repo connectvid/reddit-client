@@ -7,7 +7,7 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import { MENTION_PATH } from 'config';
 
 export default function ({ navigate, editProject, deleteProject, ...item }) {
-    const { thumbnail = redditFeeds, brandName, domain, shortDescription, _id, platforms } = item;
+    const { thumbnail = redditFeeds, brandName, domain, shortDescription, _id, platforms, Suggestedkeywords } = item;
     console.log(item, 'item');
     return (
         <Grid item xs={12} sm={6} md={4}>
@@ -49,7 +49,19 @@ export default function ({ navigate, editProject, deleteProject, ...item }) {
                                     color: '#6E7478',
                                     borderRadius: '50%'
                                 }}
-                                onClick={() => editProject({ brandName, domain, shortDescription, platforms })}
+                                onClick={() =>
+                                    editProject({
+                                        brandName,
+                                        domain,
+                                        shortDescription,
+                                        platforms,
+                                        _id,
+                                        keywords: Suggestedkeywords?.map?.((keywordObj) => ({
+                                            _id: keywordObj._id,
+                                            title: keywordObj.title
+                                        }))
+                                    })
+                                }
                             >
                                 <IconEdit size={20} />
                             </Typography>

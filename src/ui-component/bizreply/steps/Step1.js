@@ -4,7 +4,7 @@ import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
 import { toast } from 'react-toastify';
 
-const Step1 = ({ values, setValues, setStep }) => {
+const Step1 = ({ values, setValues, setStep, isEditProject }) => {
     // console.log(editProject, 'editProject');
     const { typography } = useTheme();
     const handleNextStep = () => {
@@ -34,7 +34,7 @@ const Step1 = ({ values, setValues, setStep }) => {
                 handleChange={({ target: { value = '' } }) => {
                     setValues((p) => ({ ...p, domain: value }));
                 }}
-                // disabled={createdProject}
+                disabled={isEditProject}
             />
             <Typography
                 variant="subtitle2"

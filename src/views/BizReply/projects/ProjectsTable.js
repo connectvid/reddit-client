@@ -45,11 +45,7 @@ export default function ({
     const editProject = async (item) => {
         isEditProjectStatus(true)();
         editProjectSelect(item)();
-        setTimeout(() => {
-            toggleProjectCreateModalCtrl()();
-        }, 500);
-        // toast('We are working on this feature', { autoClose: 2500, type: 'warning' });
-        // setProjectToEdit(item);
+        toggleProjectCreateModalCtrl()();
     };
 
     return (

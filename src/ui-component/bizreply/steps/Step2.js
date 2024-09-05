@@ -3,27 +3,20 @@ import { Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import Stepper2 from './stepper/Stepper2';
 import AddKeyword from './AddKeyword';
-import useAuth from 'hooks/useAuth';
-import axios from 'utils/axios';
 import { toast } from 'react-toastify';
 
-const Step2 = ({ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }) => {
-    const { getAccessToken } = useAuth();
-    const fetchKeywords = async () => {
-        const token = await getAccessToken();
-        axios
-            .post(`keywords/generate-by-ai`, values, {
-                headers: { Authorization: `Bearer ${token}` }
-            })
-            .then(async (data) => {
-                if (data?.data?.isSuccess) {
-                    setSuggestedKeywords(data.data?.items);
-                }
-            });
-    };
-
+const Step2 = ({
+    setStep,
+    values,
+    addedKeywords,
+    setAddedKeywords,
+    suggestedKeywords,
+    isEditProject,
+    fetchKeywords
+    // editProject
+}) => {
     const handleNextButton = () => {
-        if (addedKeywords.length < 1) {
+        if (addedKeywords.length < 1 && isEditProject === false) {
             toast('Please select at least one keyword', { autoClose: 2500, type: 'warning' });
         } else {
             setStep(3);

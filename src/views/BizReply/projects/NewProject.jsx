@@ -5,7 +5,13 @@ import { Box, Divider, Modal, Typography } from '@mui/material';
 import crossIcon from '../../../assets/images/cross.svg';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addProjectAPI, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import {
+    addProjectAPI,
+    projectCreatedStatus,
+    projectUpdatedStatus,
+    toggleProjectCreateModalCtrl,
+    updateProjectAPI
+} from 'features/project/projectActions';
 import Step1 from 'ui-component/bizreply/steps/Step1';
 import Step2 from 'ui-component/bizreply/steps/Step2';
 import Step3 from 'ui-component/bizreply/steps/Step3';
@@ -14,6 +20,7 @@ import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DASHBOARD_PATH, ONBOARDING_PATH } from 'config';
+import axios from 'utils/axios';
 
 export default function () {
     const navigate = useNavigate();
@@ -22,31 +29,49 @@ export default function () {
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
     const [addedKeywords, setAddedKeywords] = useState([]);
     const {
-        project: { createLoading, projectCreated, isEditProject, editProject }
+        project: { createLoading, updateProjectLoading, projectCreated, projectUpdated, isEditProject, editProject }
     } = useSelector((state) => state);
     const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
+
     const [values, setValues] = useState({
         brandName: '',
         domain: '',
         shortDescription: ''
     });
+
     useEffect(() => {
         if (projectCreated) {
             setStep(4);
             projectCreatedStatus(false)();
         }
-    }, [projectCreated]);
+        if (projectUpdated) {
+            setStep(4);
+            projectUpdatedStatus(false)();
+        }
+    }, [projectCreated, projectUpdated]);
+
     useEffect(() => {
         if (editProject) {
-            const { brandName, domain, shortDescription } = editProject;
+            const { brandName, domain, shortDescription, platforms } = editProject;
             setValues({ brandName, domain, shortDescription });
+            setselectedPlatforms(platforms);
         }
     }, []);
-    // const handleChange = (_,target) => {
-    //     console.log(target);
-    //     // setValues((p) => ({ ...p, [name]: value }));
-    // };
+
+    const fetchKeywords = async () => {
+        const token = await getAccessToken();
+        axios
+            .post(`keywords/generate-by-ai`, values, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(async (data) => {
+                if (data?.data?.isSuccess) {
+                    setSuggestedKeywords(data.data?.items);
+                }
+            });
+    };
+
     const handleSubmit = async () => {
         let domainValue = values.domain;
         if (!domainValue.startsWith('https://')) {
@@ -65,6 +90,10 @@ export default function () {
         // console.log(body);
         try {
             const token = await getAccessToken();
+            if (isEditProject) {
+                updateProjectAPI(token, editProject?._id, body)();
+                return;
+            }
             addProjectAPI(token, body)();
         } catch (e) {
             const message = e.message;
@@ -127,17 +156,29 @@ export default function () {
 
             {step === 1 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step1 {...{ values, setValues, setStep, editProject }} />
+                    <Step1 {...{ values, setValues, setStep, editProject, isEditProject }} />
                 </Box>
             )}
             {step === 2 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step2 {...{ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }} />
+                    <Step2
+                        {...{
+                            setStep,
+                            values,
+                            addedKeywords,
+                            setAddedKeywords,
+                            suggestedKeywords,
+                            setSuggestedKeywords,
+                            isEditProject,
+                            editProject,
+                            fetchKeywords
+                        }}
+                    />
                 </Box>
             )}
             {step === 3 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading }} />
+                    <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading, updateProjectLoading }} />
                 </Box>
             )}
             {step === 4 && (

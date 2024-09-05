@@ -121,7 +121,7 @@ const Keywords = () => {
                                             </Grid>
                                         ))}
                                     </Grid>
-                                    {(project?.negativeKeywords?.length && (
+                                    {(project.negativeKeywords?.length && (
                                         <Typography sx={{ fontWeight: 'bold', fontSize: '30px', margin: '30px 0 20px' }}>
                                             Negative Keywords:{' '}
                                         </Typography>
@@ -130,11 +130,10 @@ const Keywords = () => {
 
                                     <Grid container spacing={2}>
                                         {project.negativeKeywords?.map?.((item) => {
-                                            console.log(item, 1234);
                                             return (
                                                 <Grid key={item._id} item xs={12} sm={6} md={4}>
                                                     <NegativeKeywordCard
-                                                        {...item}
+                                                        // {...item}
                                                         {...{
                                                             accessToken,
                                                             brandLogo: project?.brandLogo,

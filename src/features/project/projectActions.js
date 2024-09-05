@@ -31,7 +31,8 @@ import {
     clearCustomKeyword,
     clearCustomNegativeKeyword,
     isEditProject,
-    editProject
+    editProject,
+    projectUpdated
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -82,6 +83,9 @@ export const toggleProjectCreateModalCtrl = () => () => {
 export const projectCreatedStatus = (status) => () => {
     dispatch(projectCreated(status));
 };
+export const projectUpdatedStatus = (status) => () => {
+    dispatch(projectUpdated(status));
+};
 export const projectRemoving = (id) => () => {
     dispatch(projectRemove({ id }));
 };
@@ -125,7 +129,6 @@ export const addProjectAPI =
             // dispatch(toggleProjectCreateModal(false));
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
-        } finally {
             dispatch(addProjectLoading(false));
         }
     };
@@ -145,10 +148,10 @@ export const updateProjectAPI =
                 }
             });
             dispatch(updateProject(response.data));
-        } catch (error) {
-            dispatch(hasError(error));
-        } finally {
-            dispatch(updateProjectLoading(false));
+            subsctriptionCreditsSetter({ keywords: -(data?.suggestedKeywords?.length || 0) })();
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+            setUpdateProjectLoading(false)();
         }
     };
 

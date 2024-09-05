@@ -17,6 +17,7 @@ const initialState = {
     isEditProject: false,
     keywordDeleting: false,
     projectDeleted: false,
+    projectUpdated: false,
     createLoading: false,
     keywordCreateLoading: false,
     createKeywordsLoading: false,
@@ -83,6 +84,7 @@ const projectSlice = createSlice({
             }
             state.projects.push(item);
             state.selectedPlatform = item?.platforms?.[0];
+            state.addProjectLoading = false;
         },
         isEditProject(state, { payload }) {
             state.isEditProject = payload;
@@ -104,6 +106,7 @@ const projectSlice = createSlice({
             });
             state.project = { ...state.project, ...item };
             state.updateProjectLoading = false;
+            state.projectUpdated = true;
         },
         createKeywords(state, { payload }) {
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
@@ -206,6 +209,9 @@ const projectSlice = createSlice({
         projectCreated(state, action) {
             state.projectCreated = action.payload;
         },
+        projectUpdated(state, { payload }) {
+            state.projectUpdated = payload;
+        },
         projectDeleted(state, action) {
             state.projectDeleted = action.payload;
         },
@@ -297,7 +303,8 @@ export const {
     clearCustomKeyword,
     clearCustomNegativeKeyword,
     isEditProject,
-    editProject
+    editProject,
+    projectUpdated
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
