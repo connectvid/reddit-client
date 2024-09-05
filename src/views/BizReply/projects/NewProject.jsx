@@ -22,11 +22,10 @@ export default function () {
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
     const [addedKeywords, setAddedKeywords] = useState([]);
     const {
-        project: { showProjectCreateModal, projects, createLoading, projectCreated }
+        project: { createLoading, projectCreated, isEditProject, editProject }
     } = useSelector((state) => state);
     const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
-    const [createdProject, setCreatedProject] = useState(false);
     const [values, setValues] = useState({
         brandName: '',
         domain: '',
@@ -38,6 +37,12 @@ export default function () {
             projectCreatedStatus(false)();
         }
     }, [projectCreated]);
+    useEffect(() => {
+        if (editProject) {
+            const { brandName, domain, shortDescription } = editProject;
+            setValues({ brandName, domain, shortDescription });
+        }
+    }, []);
     // const handleChange = (_,target) => {
     //     console.log(target);
     //     // setValues((p) => ({ ...p, [name]: value }));
@@ -108,7 +113,7 @@ export default function () {
                         justifyContent: 'space-between'
                     }}
                 >
-                    <p className="mr-2">Create a new project</p>
+                    <p className="mr-2">{isEditProject ? 'Edit' : 'Create a new'} project</p>
                     <img
                         style={{
                             cursor: 'pointer'
@@ -122,7 +127,7 @@ export default function () {
 
             {step === 1 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step1 {...{ values, setValues, setStep, createdProject }} />
+                    <Step1 {...{ values, setValues, setStep, editProject }} />
                 </Box>
             )}
             {step === 2 && (

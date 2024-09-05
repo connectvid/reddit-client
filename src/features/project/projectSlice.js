@@ -11,8 +11,10 @@ const initialState = {
     customKeywords: {},
     customNegativeKeywords: {},
     project: null,
+    editProject: null,
     loading: false,
     projectDeleting: false,
+    isEditProject: false,
     keywordDeleting: false,
     projectDeleted: false,
     createLoading: false,
@@ -81,6 +83,12 @@ const projectSlice = createSlice({
             }
             state.projects.push(item);
             state.selectedPlatform = item?.platforms?.[0];
+        },
+        isEditProject(state, { payload }) {
+            state.isEditProject = payload;
+        },
+        editProject(state, { payload }) {
+            state.editProject = payload;
         },
         updateProject(state, action) {
             const { item } = action.payload;
@@ -287,7 +295,9 @@ export const {
     clearError,
     keywordRemove,
     clearCustomKeyword,
-    clearCustomNegativeKeyword
+    clearCustomNegativeKeyword,
+    isEditProject,
+    editProject
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

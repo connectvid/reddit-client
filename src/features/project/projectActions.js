@@ -29,12 +29,23 @@ import {
     clearError,
     keywordRemove,
     clearCustomKeyword,
-    clearCustomNegativeKeyword
+    clearCustomNegativeKeyword,
+    isEditProject,
+    editProject
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
+export const isEditProjectStatus =
+    (v = true) =>
+    () => {
+        dispatch(isEditProject(v));
+    };
+
+export const editProjectSelect = (v) => () => {
+    dispatch(editProject(v));
+};
 export const keywordRemoving = (value) => () => {
     dispatch(keywordRemove(value));
 };

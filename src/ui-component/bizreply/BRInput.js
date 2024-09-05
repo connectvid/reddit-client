@@ -1,10 +1,8 @@
 import { TextField, Typography, Box } from '@mui/material';
 
-const BRInput = ({ label, value = '', handleChange, placeholder, type, disabled = false, sx = {}, fullWidth = true, ...rest }) => {
+const BRInput = ({ label, value = '', handleChange, type = 'text', disabled = false, sx = {}, fullWidth = true, ...rest }) => {
     return (
         <Box sx={{ width: '100%' }}>
-            {' '}
-            {/* Set the width of the form */}
             {(label && (
                 <Typography
                     variant="subtitle2"
@@ -30,8 +28,7 @@ const BRInput = ({ label, value = '', handleChange, placeholder, type, disabled 
                 disabled={disabled}
                 value={value}
                 onChange={handleChange}
-                placeholder={placeholder || 'Brand name'}
-                type={type || 'text'}
+                type={type}
                 inputProps={{ minLength: 3, maxLength: 40 }}
                 {...rest}
             />

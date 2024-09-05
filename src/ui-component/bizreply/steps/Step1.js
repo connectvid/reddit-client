@@ -4,7 +4,8 @@ import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
 import { toast } from 'react-toastify';
 
-const Step1 = ({ values, setValues, setStep, createdProject }) => {
+const Step1 = ({ values, setValues, setStep }) => {
+    // console.log(editProject, 'editProject');
     const { typography } = useTheme();
     const handleNextStep = () => {
         if (!values.brandName || !values?.domain || !values?.shortDescription) {
@@ -23,17 +24,17 @@ const Step1 = ({ values, setValues, setStep, createdProject }) => {
                 handleChange={({ target: { value = '' } }) => {
                     setValues((p) => ({ ...p, brandName: value }));
                 }}
-                disabled={createdProject}
+                // disabled={createdProject}
             />
             <BRInput
                 label="Domain"
                 name="domain"
-                placeholder="ex: mailtoon.io"
+                placeholder="ex: https://mailtoon.io"
                 value={values.domain}
                 handleChange={({ target: { value = '' } }) => {
                     setValues((p) => ({ ...p, domain: value }));
                 }}
-                disabled={createdProject}
+                // disabled={createdProject}
             />
             <Typography
                 variant="subtitle2"
