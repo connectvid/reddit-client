@@ -208,8 +208,8 @@ const projectSlice = createSlice({
         selectedPlatform(state, action) {
             state.selectedPlatform = action.payload;
         },
-        projectRemove(state, action) {
-            const { id } = action.payload;
+        projectRemove(state, { payload }) {
+            const { id } = payload;
             const items = state.projects.filter((item) => item._id !== id);
             state.projects = items;
             const firstItem = items?.[0];

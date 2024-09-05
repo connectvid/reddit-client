@@ -61,26 +61,7 @@ const Mentions = () => {
 
     const handleModal = () => setOpenModal((p) => !p);
     const modalClose = () => setOpenModal(false);
-    // const postsPerPage = 2;
-
-    // // Get current posts
-    // const indexOfLastPost = currentPage * postsPerPage;
-    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    // const currentPosts = filteredData?.slice?.(indexOfFirstPost, indexOfLastPost) || [];
-    // const totalPages = Math.ceil(filteredData.length / postsPerPage);
-    // // Handle Previous button click
-    // const handlePrevClick = () => {
-    //     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
-    // };
-
-    // // Handle Next button click
-    // const handleNextClick = () => {
-    //     setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
-    // };
-    // Change page
-
-    // console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
-    // console.log(mentionsDataObj);
+    console.log({ currentPosts });
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items } }) {
@@ -268,13 +249,13 @@ const Mentions = () => {
                                     />
                                 );
                             })}
-                            <Pagination
-                                {...{ data: filteredData, setCurrentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }}
-                            />
                         </>
                     ) : (
                         ''
                     )}
+                    <Pagination
+                        {...{ data: filteredData, setCurrentPosts, currentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }}
+                    />
                 </>
             )}
         </>

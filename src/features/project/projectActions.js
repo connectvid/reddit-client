@@ -97,7 +97,7 @@ export const getProjects = (userId, token) => async () => {
 
 export const callOthers = (v) => subsctriptionCreditsSetter(v);
 
-export const addProject =
+export const addProjectAPI =
     (token, data = {}) =>
     async () => {
         try {
@@ -108,7 +108,8 @@ export const addProject =
                 }
             });
             dispatch(addNewProject(response.data));
-            subsctriptionCreditsSetter({ projects: -1 })();
+
+            subsctriptionCreditsSetter({ projects: -1, keywords: -(data?.suggestedKeywords?.length || 0) })();
             projectCreatedStatus(true)();
             // dispatch(toggleProjectCreateModal(false));
         } catch (e) {

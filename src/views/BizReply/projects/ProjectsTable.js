@@ -35,11 +35,10 @@ const ProjectTable = ({
             .delete(`projects/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
-            .then(() => {
+            .then(({ data: { deletedKeywords } }) => {
                 toast('Project deleted successfully!', { autoClose: 2500, type: 'success' });
                 projectRemoving(id)();
-
-                subsctriptionCreditsSetter({ projects: 1 })();
+                subsctriptionCreditsSetter({ projects: 1, keywords: deletedKeywords })();
             })
             .catch(async (e) => {
                 console.log(e);

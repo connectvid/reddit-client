@@ -5,7 +5,7 @@ import { Box, Divider, Modal, Typography } from '@mui/material';
 import crossIcon from '../../../assets/images/cross.svg';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import { addProjectAPI, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import Step1 from 'ui-component/bizreply/steps/Step1';
 import Step2 from 'ui-component/bizreply/steps/Step2';
 import Step3 from 'ui-component/bizreply/steps/Step3';
@@ -60,7 +60,7 @@ export default function () {
         // console.log(body);
         try {
             const token = await getAccessToken();
-            addProject(token, body)();
+            addProjectAPI(token, body)();
         } catch (e) {
             const message = e.message;
             toast.warning(message);
