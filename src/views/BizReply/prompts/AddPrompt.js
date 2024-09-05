@@ -81,7 +81,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                         borderRadius: '12px 12px 0 0'
                     }}
                 >
-                    <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>Create a new Prompt</Typography>
+                    <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>{isUpdate ? 'Update' : 'Create a new'} Prompt</Typography>
                     <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
                         <LiaTimesCircle color="#000" size={24} />
                     </Typography>
