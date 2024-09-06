@@ -9,9 +9,6 @@ import { toast } from 'react-toastify';
 import axios from 'utils/axios';
 import { Grid } from '@mui/material';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
-// import { useState } from 'react';
-// import { getItem } from 'features/project/projectSlice';
-// import EditProject from './editProject/EditProject';
 import { useNavigate } from 'react-router-dom';
 import ProjectCard from 'ui-component/Project/ProjectCard';
 
@@ -21,8 +18,6 @@ export default function ({
 }) {
     const navigate = useNavigate();
     const { getAccessToken } = useAuth();
-    // const [loading, setLoading] = React.useState(false);
-    // const [projectToEdit, setProjectToEdit] = useState({});
 
     const deleteProject = async (id) => {
         if (!confirm(`Are you sure to delete the Project?`)) return;
@@ -55,7 +50,6 @@ export default function ({
                     <ProjectCard key={item._id} {...item} deleteProject={deleteProject} editProject={editProject} navigate={navigate} />
                 ))}
             </Grid>
-            {/* {projectToEdit?._id && <EditProject {...{ projectToEdit, setProjectToEdit }} />} */}
         </Box>
     );
 }

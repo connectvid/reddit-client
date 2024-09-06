@@ -9,12 +9,7 @@ import { toast } from 'react-toastify';
 
 const VariableModal = ({ showVariableModal, setShowVariableModal }) => {
     return (
-        <Modal
-            open={showVariableModal}
-            onClose={() => setShowVariableModal(false)}
-            // sx={{ '.MuiBox-root:nth-child(3)': { minWidth: '600px' } }}
-            className="-----------------------------"
-        >
+        <Modal open={showVariableModal} onClose={() => setShowVariableModal(false)} className="-----------------------------">
             <Box
                 sx={{
                     position: 'absolute',

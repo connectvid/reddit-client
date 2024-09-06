@@ -13,6 +13,7 @@ const BRInput = ({ label, value = '', handleChange, type = 'text', disabled = fa
             )) ||
                 ''}
             <TextField
+                fullWidth={fullWidth}
                 sx={{
                     mb: 1.5,
                     height: '50px',
@@ -24,7 +25,6 @@ const BRInput = ({ label, value = '', handleChange, type = 'text', disabled = fa
                     fieldset: { height: '50px', borderRadius: '10px' },
                     ...sx
                 }}
-                fullWidth={fullWidth}
                 disabled={disabled}
                 value={value}
                 onChange={handleChange}

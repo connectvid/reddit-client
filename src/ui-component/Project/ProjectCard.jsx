@@ -18,9 +18,8 @@ export default function ({ navigate, editProject, deleteProject, ...item }) {
         negativeKeywords,
         keywords
     } = item;
-    console.log(item, 'item');
     return (
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
             <Card sx={{ p: 0, m: 0 }}>
                 <CardContent sx={{ p: 0, fontWeight: '500', m: 0 }}>
                     <Box sx={{ position: 'relative', p: 1.5 }}>

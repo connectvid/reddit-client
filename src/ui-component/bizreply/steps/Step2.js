@@ -33,7 +33,6 @@ const Step2 = ({
     return (
         <div>
             <Stepper2 />
-
             <Box
                 sx={{
                     p: '0px 20px'

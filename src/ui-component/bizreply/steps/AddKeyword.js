@@ -79,20 +79,23 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                             </Typography>
                         </GradinentText>
                     </Box>
-                    <BRInput
-                        fullWidth
-                        type="text"
-                        onChange={({ target: { value = '' } }) => {
-                            setValue(value);
-                        }}
-                        value={value}
-                        placeholder="Enter keyword"
-                        sx={{
-                            fontSize: '16px',
-                            fontWeight: 400,
-                            color: '#6E7478'
-                        }}
-                    />
+                    <Box>
+                        <BRInput
+                            fullWidth
+                            type="text"
+                            onChange={({ target: { value = '' } }) => {
+                                setValue(value);
+                            }}
+                            value={value}
+                            placeholder="Enter keyword"
+                            sx={{
+                                fontSize: '16px',
+                                fontWeight: 400,
+                                color: '#6E7478'
+                            }}
+                        />
+                    </Box>
+
                     <Button
                         type="button"
                         variant="contained"
