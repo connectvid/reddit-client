@@ -6,8 +6,8 @@
 // material-ui
 import { Button, Typography, ButtonGroup } from '@mui/material';
 import { Box } from '@mui/system';
-import AccountSettings from './AccountSettings';
 import { useState } from 'react';
+import AccountSettings from './AccountSettings';
 import MentionSettings from './MentionSettings';
 // ==============================|| SETTINGS PAGE ||============================== //
 
@@ -34,9 +34,14 @@ const Settings = () => {
         background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)'
     };
     const [selectedComponent, setSelectedComponent] = useState('account');
-
+    let Tab = () => <></>;
+    if (selectedComponent === 'account') {
+        Tab = AccountSettings;
+    } else if (selectedComponent === 'mention') {
+        Tab = MentionSettings;
+    }
     return (
-        <Box sx={{}}>
+        <Box>
             <Typography sx={{ mb: 3, fontSize: '25px', fontWeight: '700' }}>Settings</Typography>
             <ButtonGroup
                 disableElevation
@@ -65,8 +70,7 @@ const Settings = () => {
                     )}
                 </Button>
             </ButtonGroup>
-            {selectedComponent === 'account' && <AccountSettings />}
-            {selectedComponent === 'mention' && <MentionSettings />}
+            <Tab />
         </Box>
     );
 };

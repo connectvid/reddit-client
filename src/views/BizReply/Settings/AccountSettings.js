@@ -14,12 +14,13 @@ import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
 import AddOpenAiKey from './AddOpenAiKey';
-// import UpdatePassword from './UpdatePassword';
+import UpdatePassword from './UpdatePassword';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const AccountSettings = () => {
     const navigate = useNavigate();
-    const { dbUser } = useAuth();
+    const { dbUser, authProviders } = useAuth();
+    // console.log({ authProviders });
     const { subscription } = useSelector((state) => state.subscription);
 
     const remainingCredit = subscription?.remainingCredit;
@@ -89,7 +90,7 @@ const AccountSettings = () => {
                     </Button>
                 </Box>
             </Box>
-            {/* <UpdatePassword /> */}
+            {authProviders?.includes?.('password') ? <UpdatePassword /> : ''}
             <AddOpenAiKey />
         </>
     );

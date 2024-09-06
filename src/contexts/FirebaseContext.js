@@ -60,11 +60,15 @@ export const FirebaseProvider = ({ children }) => {
     const [isExpired] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [generalError, setGeneralError] = useState('');
+    const [authProviders, setAuthProviders] = useState([]);
     const [accessToken, setAccessToken] = useState(ReactSession.get('token') || '');
     const reduxDispatch = useDispatch();
-    console.log({ isRegister });
+    // console.log({ isRegister });
 
-    const changePassword = (newPassword) => updatePassword(getAuth().currentUser, newPassword);
+    const changePassword = async ({ oldPassword, password }) => {
+        await signInWithEmailAndPassword(auth, dbUser.email, oldPassword);
+        return updatePassword(auth.currentUser, password);
+    };
 
     async function refreshToken() {
         const user = auth?.currentUser;
@@ -143,6 +147,7 @@ export const FirebaseProvider = ({ children }) => {
                 const uid = user.uid;
                 setAccessToken(token);
                 ReactSession.set('token', token);
+                setAuthProviders(user.providerData.map((item) => item.providerId));
                 // console.log({ email, uid, token });
                 axios
                     .get(`user/get-user-by-email-and-uid/${email}/${uid}`, {
@@ -417,7 +422,8 @@ export const FirebaseProvider = ({ children }) => {
                 auth,
                 firebaseGoogleLoginOrSignup,
                 getAccessToken,
-                changePassword
+                changePassword,
+                authProviders
             }}
         >
             <ToastContainer position="top-right" autoClose={2000} />
