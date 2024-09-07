@@ -34,24 +34,26 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link }) => {
                 </BRButton>
             )} */}
 
-            <BRButton
-                variant="outlined"
-                sx={{
-                    height: '46px',
-                    width: '183px',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    fontSize: '14px',
-                    fontWeight: 500
-                }}
-                onClick={() => window.open(link, '_blank', 'noreferrer')}
-                childSx={{ justifyContent: 'center' }}
-            >
-                {/* <Link to={link} target="_blank" rel="noreferrer"> */}
-                View Post
-                {/* </Link> */}
-            </BRButton>
+            <a href={link} target="_blank" rel="noreferrer" style={{ textDecoration: 'none' }}>
+                <BRButton
+                    variant="outlined"
+                    sx={{
+                        height: '46px',
+                        width: '183px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '14px',
+                        fontWeight: 500
+                    }}
+                    // onClick={() => window.open(link, '_blank', 'noreferrer')}
+                    childSx={{ justifyContent: 'center' }}
+                >
+                    {/* <Link to={link} target="_blank" rel="noreferrer"> */}
+                    View Post
+                    {/* </Link> */}
+                </BRButton>
+            </a>
         </Box>
     );
 };

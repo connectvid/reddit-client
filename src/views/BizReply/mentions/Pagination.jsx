@@ -3,7 +3,17 @@ import React from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 // import MoreMentions from './MoreMentions';
 
-export default function ({ data = [], postsPerPage = 2, setCurrentPosts, currentPage, setCurrentPage, recall, currentPosts }) {
+export default function ({
+    data = [],
+    postsPerPage = 2,
+    setCurrentPosts,
+    currentPage,
+    setCurrentPage,
+    recall,
+    currentPosts,
+    loadMore,
+    moreLoading
+}) {
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage;
     const indexOfFirstPost = indexOfLastPost - postsPerPage;
@@ -27,7 +37,11 @@ export default function ({ data = [], postsPerPage = 2, setCurrentPosts, current
             {currentPosts?.length ? (
                 <>
                     <CustomButton handleClick={handlePrevClick} disabled={currentPage === 1} direction="left" />
-                    <CustomButton handleClick={handleNextClick} disabled={currentPage === totalPages} direction="right" />
+                    <CustomButton
+                        handleClick={() => (currentPage === totalPages ? loadMore() : handleNextClick())} // disabled={currentPage === totalPages}
+                        disabled={moreLoading}
+                        direction="right"
+                    />
                 </>
             ) : (
                 ''

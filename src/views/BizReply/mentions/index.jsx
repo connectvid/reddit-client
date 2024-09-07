@@ -19,6 +19,8 @@ import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
 import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
+import errorMsgHelper from 'utils/errorMsgHelper';
+import { toast } from 'react-toastify';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -58,6 +60,7 @@ const Mentions = () => {
     const [recall, setRecall] = useState(false);
     const handleRecall = () => setRecall((p) => !p);
     const [openModal, setOpenModal] = useState(false);
+    const postsPerPage = 10;
 
     const handleModal = () => setOpenModal((p) => !p);
     const modalClose = () => setOpenModal(false);
@@ -175,9 +178,62 @@ const Mentions = () => {
             }
         });
         setFilteredData(filtered);
-        setCurrentPage(1);
+        // setCurrentPage(1);
         handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length]);
+
+    const loadMore = async () => {
+        const firstKeyword = project?.Suggestedkeywords?.[0];
+        const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+        // console.log({ selectedKeyword });
+        if (!keyword?._id || !selectedPlatform) {
+            toast.warning(`Failed to load more posts. Please refresh and try again.`);
+            return;
+        }
+        const body = { keywordId: keyword._id, platform: selectedPlatform };
+        setMoreLoading?.(true);
+        try {
+            const token = await getAccessToken();
+            const {
+                data: { items }
+            } = await axios.post(`mentions/load-more`, body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (items?.length) {
+                // setMentionsDataObj?.((p) => {
+                //     if (selectedPlatform) {
+                //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
+                //         p[selectedPlatform] = postSorting({ data: allData });
+                //     } else {
+                //         const allData = [...items, ...p];
+                //         p = postSorting({ data: allData });
+                //     }
+                //     return p;
+                // });
+                setMentionsDataObj?.((p) => {
+                    if (selectedPlatform) {
+                        const allData = [...(p?.[selectedPlatform] || []), ...items];
+                        p[selectedPlatform] = postSorting({ data: allData });
+                    } else {
+                        const allData = [...p, ...items];
+                        p = postSorting({ data: allData });
+                    }
+                    return p;
+                });
+                // if (currentPosts?.length < postsPerPage) {
+                //     setCurrentPage((p) => p + 1);
+                // }
+            }
+
+            setMoreLoading?.(false);
+        } catch (e) {
+            console.log(e);
+            toast.warning(errorMsgHelper(e));
+            setMoreLoading?.(false);
+        }
+    };
 
     return (
         <>
@@ -190,7 +246,7 @@ const Mentions = () => {
                     setMentionsDataObj,
                     setMoreLoading,
                     moreLoading,
-                    firstKeyword: project?.Suggestedkeywords?.[0],
+                    // firstKeyword: project?.Suggestedkeywords?.[0],
                     handleModal
                 }}
             />
@@ -254,7 +310,17 @@ const Mentions = () => {
                         ''
                     )}
                     <Pagination
-                        {...{ data: filteredData, setCurrentPosts, currentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }}
+                        {...{
+                            data: filteredData,
+                            setCurrentPosts,
+                            currentPosts,
+                            postsPerPage,
+                            currentPage,
+                            setCurrentPage,
+                            recall,
+                            loadMore,
+                            moreLoading
+                        }}
                     />
                 </>
             )}
