@@ -8,7 +8,6 @@ import { changePrompt } from 'features/prompt/promptActions';
 export default function ({ projectListWidth = '210px' }) {
     const { prompts, selectedPrompt } = useSelector((s) => s.prompt);
     const options = prompts?.map?.(({ name: label, _id }) => ({ label, _id }));
-    console.log({ options });
     return (
         <>
             {options?.length ? (

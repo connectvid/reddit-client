@@ -14,7 +14,7 @@ const RemainingCredits = () => {
     } = useSelector((state) => state);
     const remainingCredit = subscription?.remainingCredit;
     const credit = subscription?.credit;
-    console.log({ credit }, remainingCredit);
+    // console.log({ credit }, remainingCredit);
     return (
         <Box sx={{ border: '1px solid #3F3A5F', borderRadius: '6px', p: '14px 14px', mb: 3 }}>
             <Typography sx={{ color: '#fff' }}>Credits:</Typography>

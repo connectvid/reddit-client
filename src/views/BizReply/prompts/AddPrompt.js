@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable consistent-return */
 import { Autocomplete, Box, Button, CircularProgress, Typography } from '@mui/material';
 import { useEffect } from 'react';
@@ -81,7 +82,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                         borderRadius: '12px 12px 0 0'
                     }}
                 >
-                    <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>Create a new Prompt</Typography>
+                    <Typography sx={{ fontSize: '18px', fontWeight: 700 }}>{isUpdate ? 'Update' : 'Create a new'} Prompt</Typography>
                     <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
                         <LiaTimesCircle color="#000" size={24} />
                     </Typography>
@@ -184,14 +185,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                             disablePortal
                                             value={values.language || ''}
                                             id="combo-box-demo"
-                                            options={[
-                                                'Arabic',
-                                                'Chinese (Traditional)',
-                                                'Chinese (Simplified)',
-                                                'English',
-                                                'German',
-                                                'Bengali'
-                                            ]}
+                                            options={languates}
                                             getOptionLabel={(item) => item}
                                             sx={{ minWidth: 250 }}
                                             disableClearable
@@ -348,3 +342,67 @@ Suggestion: Different platforms get better responses with different kinds of rep
         </>
     );
 }
+
+export const languates = [
+    'Afrikaans',
+    'Albanian',
+    'Amharic',
+    'Arabic',
+    'Armenian',
+    'Azerbaijani',
+    'Belarusian',
+    'Bosnian',
+    'Bulgarian',
+    'Catalan',
+    'Chinese (Simplified and Traditional)',
+    'Croatian',
+    'Czech',
+    'Danish',
+    'Dutch',
+    'English',
+    'Estonian',
+    'Finnish',
+    'French',
+    'Galician',
+    'German',
+    'Greek',
+    'Hebrew',
+    'Hindi',
+    'Hungarian',
+    'Icelandic',
+    'Indonesian',
+    'Italian',
+    'Japanese',
+    'Kannada',
+    'Kazakh',
+    'Korean',
+    'Latvian',
+    'Lithuanian',
+    'Macedonian',
+    'Malay',
+    'Marathi',
+    'Mongolian',
+    'Nepali',
+    'Norwegian',
+    'Persian (Farsi)',
+    'Polish',
+    'Portuguese',
+    'Punjabi',
+    'Romanian',
+    'Russian',
+    'Serbian',
+    'Slovak',
+    'Slovenian',
+    'Spanish',
+    'Swahili',
+    'Swedish',
+    'Tagalog',
+    'Tamil',
+    'Telugu',
+    'Thai',
+    'Turkish',
+    'Ukrainian',
+    'Urdu',
+    'Vietnamese',
+    'Welsh'
+];

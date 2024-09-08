@@ -87,30 +87,19 @@ const GeneretedReply = ({
                                 <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
                             </>
                         ) : (
-                            editReply.split('\n\n').map((item, i) => (
-                                <Box
-                                    key={i}
-                                    sx={{
-                                        color: '#000',
-                                        fontWeight: 500,
-                                        fontSize: '16px',
-                                        lineHeight: '22px'
-                                    }}
-                                >
-                                    <Typography
-                                        sx={{
-                                            color: '#000',
-                                            fontWeight: 500,
-                                            fontSize: '16px',
-                                            lineHeight: '22px',
-                                            m: 0,
-                                            p: 0
-                                        }}
-                                    >
-                                        {item}
-                                    </Typography>
-                                </Box>
-                            ))
+                            <Typography
+                                sx={{
+                                    color: '#000',
+                                    fontWeight: 500,
+                                    fontSize: '16px',
+                                    lineHeight: '22px',
+                                    m: 0,
+                                    p: 0,
+                                    whiteSpace: 'pre-wrap'
+                                }}
+                            >
+                                {editReply}
+                            </Typography>
                         )}
                         <Box display={{ sm: 'flex' }} sx={{ mt: '18px', justifyContent: 'space-between' }}>
                             <Box display={{ sm: 'flex' }} sx={{ mt: 0, gap: '20px' }}>

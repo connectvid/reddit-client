@@ -28,10 +28,10 @@ const subscriptionSlice = createSlice({
             state.subscription = payload.item;
         },
         setSubsctriptionCredits(state, { payload }) {
-            console.log(
-                `========================================================================================================================`,
-                payload
-            );
+            // console.log(
+            //     `========================================================================================================================`,
+            //     payload
+            // );
             const values = payload;
             const types = Object.keys(payload);
 
@@ -43,14 +43,14 @@ const subscriptionSlice = createSlice({
             const remCredit = { ...copy.remainingCredit };
             for (const type of types) {
                 const val = remCredit[type];
-                console.log({ val });
+                // console.log({ val });
                 if (val !== 'Unlimited') {
                     const upVals = val + values[type];
                     remCredit[type] = upVals < 0 ? 0 : upVals;
                 }
             }
             copy.remainingCredit = remCredit;
-            console.log({ copy }, remCredit);
+            // console.log({ copy }, remCredit);
             state.subscription = copy;
         },
         createKeywords(state, { payload }) {

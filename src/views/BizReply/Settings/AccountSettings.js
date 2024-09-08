@@ -19,7 +19,8 @@ import UpdatePassword from './UpdatePassword';
 
 const AccountSettings = () => {
     const navigate = useNavigate();
-    const { dbUser } = useAuth();
+    const { dbUser, authProviders } = useAuth();
+    // console.log({ authProviders });
     const { subscription } = useSelector((state) => state.subscription);
 
     const remainingCredit = subscription?.remainingCredit;
@@ -71,7 +72,7 @@ const AccountSettings = () => {
                                 if (['projects', 'replies', 'keywords', 'mentions'].includes(item)) {
                                     const itemC = remainingCredit[item];
                                     return (
-                                        <Box style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                                        <Box key={item} style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
                                             <Typography style={{ color: '#6E7478', textTransform: 'capitalize' }}>
                                                 Available {pluralize.singular(item)} Credits
                                             </Typography>
@@ -89,7 +90,7 @@ const AccountSettings = () => {
                     </Button>
                 </Box>
             </Box>
-            <UpdatePassword />
+            {authProviders?.includes?.('password') ? <UpdatePassword /> : ''}
             <AddOpenAiKey />
         </>
     );

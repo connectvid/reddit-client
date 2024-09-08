@@ -2,33 +2,20 @@
 import { Box, Button, Divider, Typography } from '@mui/material';
 import React from 'react';
 // import ProjectsTable from './ProjectsTable';
-import { addingNegativeCustomKeywordForSave, removingNegativeCustomKeywordForSave } from 'features/project/projectActions';
-import { IconPlus } from 'tabler-icons';
-import BRInput2 from 'ui-component/bizreply/BRInput2';
-import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
+import BRInput from 'ui-component/bizreply/BRInput';
 
-const AddNegativeKeywords = ({ nCKeys }) => {
+export default function ({ negativeKeywords, handleNegativeKeyword }) {
     const [value, setValue] = React.useState('');
     return (
         <>
             <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1, mb: 1.5 }}>
                     <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000' }}>Add Negative Keywords</Typography>
-                    <GradinentText sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconPlus size={16} color="#0C22E5" />
-                        <Typography
-                            sx={{ fontWeight: 500, fontSize: '14px', cursor: 'pointer' }}
-                            // onClick={() => setCustomKeywords((p) => [...p, p.length])}
-                        >
-                            Add new negativev keywords
-                        </Typography>
-                    </GradinentText>
                 </Box>
-                <BRInput2
+
+                <BRInput
                     fullWidth
-                    // name={item.toString()}
-                    // defaultValue={cKeys[item]}
                     type="text"
                     onChange={({ target: { value = '' } }) => {
                         setValue(value);
@@ -37,9 +24,8 @@ const AddNegativeKeywords = ({ nCKeys }) => {
                     placeholder="Enter Negative keyword"
                     sx={{
                         fontSize: '16px',
-                        fontWeight: 500,
-                        color: '#6E7478',
-                        boxShadow: '0px 1px 2px 0px #DEE3E8'
+                        fontWeight: 400,
+                        color: '#6E7478'
                     }}
                 />
                 <Button
@@ -48,7 +34,7 @@ const AddNegativeKeywords = ({ nCKeys }) => {
                     sx={{
                         background: '#000',
                         color: '#fff',
-                        mt: 2,
+                        // mt: 1,
                         fontSize: '12px',
                         fontWeight: 500,
                         height: '36px',
@@ -59,21 +45,20 @@ const AddNegativeKeywords = ({ nCKeys }) => {
                     }}
                     onClick={() => {
                         if (!value) return;
-                        const k = Date.now();
-                        addingNegativeCustomKeywordForSave(value, k)();
+                        handleNegativeKeyword(value);
                         setValue('');
                     }}
                 >
                     Add Negative keyword
                 </Button>
             </Box>
-            <Divider sx={{ borderColor: '#CCD3D9', my: 3 }} />
+            <Divider sx={{ borderColor: '#CCD3D9', my: 1 }} />
             <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>Selected Negative Keywords</Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 2 }}>
-                {Object.entries(nCKeys || {})?.map(([k, keyword], i) => (
+                {negativeKeywords?.map?.((keyword, i) => (
                     <Typography
                         onClick={() => {
-                            removingNegativeCustomKeywordForSave(k)();
+                            handleNegativeKeyword(keyword);
                         }}
                         sx={{
                             cursor: 'pointer',
@@ -96,6 +81,4 @@ const AddNegativeKeywords = ({ nCKeys }) => {
             </Box>
         </>
     );
-};
-
-export default AddNegativeKeywords;
+}
