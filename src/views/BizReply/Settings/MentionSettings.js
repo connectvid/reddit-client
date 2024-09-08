@@ -40,8 +40,8 @@ const MentionSettings = () => {
         { label: '100', value: 100 }
     ];
     const [values, setValues] = useState({
-        // country: 'us',
-        // chosenLanguage: 'en',
+        country: 'us',
+        chosenLanguage: 'en',
         fetchTiming: 1,
         postsPerRequest: 10
     });
@@ -59,7 +59,7 @@ const MentionSettings = () => {
             if (data?._id) {
                 setValues({
                     country: data?.country,
-                    // chosenLanguage: data?.chosenLanguage,
+                    chosenLanguage: data?.chosenLanguage,
                     fetchTiming: data?.fetchTiming,
                     postsPerRequest: data?.postsPerRequest
                 });
