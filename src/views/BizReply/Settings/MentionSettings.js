@@ -154,7 +154,7 @@ const MentionSettings = () => {
                                     renderInput={(params) => <TextField {...params} required placeholder="Choose language" />}
                                 />
                             </Box>
-                            {/* <Box>
+                            <Box>
                                 <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>Choose language</Typography>
                                 <Autocomplete
                                     onChange={(_, data) => {
@@ -177,7 +177,7 @@ const MentionSettings = () => {
                                     disableClearable
                                     renderInput={(params) => <TextField {...params} required placeholder="Choose language" />}
                                 />
-                            </Box> */}
+                            </Box>
                             <Box>
                                 <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>When to fetch posts</Typography>
                                 <Autocomplete
