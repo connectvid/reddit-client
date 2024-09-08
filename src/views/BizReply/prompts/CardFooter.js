@@ -5,11 +5,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Box, Card, CardContent, Dialog, Divider, Typography } from '@mui/material';
-import { deletePromptAPI } from 'features/prompt/promptActions';
-import useAuth from 'hooks/useAuth';
-import React from 'react';
-import { FaRegTimesCircle } from 'react-icons/fa';
+import { Box } from '@mui/material';
 // import { FaTrash } from 'react-icons/fa6';
 import BRButton from 'ui-component/bizreply/BRButton';
 // import { MdOutlineContentCopy } from 'react-icons/md';
