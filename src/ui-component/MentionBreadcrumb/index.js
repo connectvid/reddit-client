@@ -16,7 +16,8 @@ export default function MentionBreadcrumb({
     // setMoreLoading,
     // moreLoading,
     // firstKeyword,
-    handleModal
+    handleModal,
+    initFirstPage
 }) {
     return (
         <>
@@ -45,7 +46,7 @@ export default function MentionBreadcrumb({
                     </Typography>
                 </BRButton>
                 <AllProjects />
-                <PostFilter {...{ setSelectedKeyword, loading }} />
+                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage }} />
             </Breadcrumb>
         </>
     );

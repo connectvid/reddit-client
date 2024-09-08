@@ -1,8 +1,7 @@
 /* eslint-disable no-unreachable */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
-import { Autocomplete, CircularProgress, Switch, TextField, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
@@ -19,7 +18,8 @@ const MentionSettings = () => {
     };
 
     const fetchTimings = [
-        { label: '24  Hours', value: 1 },
+        { label: '1 day', value: 1 },
+        // { label: '24  Hours', value: 1 },
         { label: '2 days', value: 2 },
         { label: '3 days', value: 3 },
         { label: '4 days', value: 4 },
@@ -355,6 +355,7 @@ export const chosenLanguages = [
     { value: 'yo', label: 'Yoruba' },
     { value: 'zu', label: 'Zulu' }
 ];
+
 export const countries = [
     { code: 'af', name: 'Afghanistan' },
     { code: 'al', name: 'Albania' },

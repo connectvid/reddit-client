@@ -64,7 +64,7 @@ const Mentions = () => {
 
     const handleModal = () => setOpenModal((p) => !p);
     const modalClose = () => setOpenModal(false);
-    console.log({ currentPosts });
+    console.log({ currentPage });
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items } }) {
@@ -181,7 +181,7 @@ const Mentions = () => {
         // setCurrentPage(1);
         handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length]);
-
+    const initFirstPage = () => setCurrentPage(1);
     const loadMore = async () => {
         const firstKeyword = project?.Suggestedkeywords?.[0];
         const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
@@ -215,16 +215,18 @@ const Mentions = () => {
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
                         const allData = [...(p?.[selectedPlatform] || []), ...items];
-                        p[selectedPlatform] = postSorting({ data: allData });
+                        p[selectedPlatform] = allData;
+                        // p[selectedPlatform] = postSorting({ data: allData });
                     } else {
                         const allData = [...p, ...items];
-                        p = postSorting({ data: allData });
+                        p = allData;
+                        // p = postSorting({ data: allData });
                     }
                     return p;
                 });
-                // if (currentPosts?.length < postsPerPage) {
-                //     setCurrentPage((p) => p + 1);
-                // }
+                if (currentPosts?.length < postsPerPage) {
+                    setCurrentPage((p) => p + 1);
+                }
             }
 
             setMoreLoading?.(false);
@@ -247,11 +249,14 @@ const Mentions = () => {
                     setMoreLoading,
                     moreLoading,
                     // firstKeyword: project?.Suggestedkeywords?.[0],
-                    handleModal
+                    handleModal,
+                    initFirstPage
                 }}
             />
 
-            {(project?.platforms && <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />) ||
+            {(project?.platforms && (
+                <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform, initFirstPage }} />
+            )) ||
                 ''}
             {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
             {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}

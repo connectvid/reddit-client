@@ -2,7 +2,7 @@ import { Autocomplete, Box, TextField } from '@mui/material';
 import { IconChevronDown } from '@tabler/icons';
 import { useSelector } from 'react-redux';
 
-const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, loading, keywordsWidth = '210px' }) => {
+const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, loading, keywordsWidth = '210px', initFirstPage }) => {
     const {
         project
         // createKeywordSuccess
@@ -27,6 +27,7 @@ const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, l
                     onChange={(_, v) => {
                         const title = v || defaultKeyword;
                         setSelectedKeyword(title);
+                        initFirstPage?.();
                     }}
                     disableClearable
                     renderInput={(params) => (
