@@ -101,9 +101,9 @@ const PostCard = ({
             const response = await axios.post(`/mentions/${_id}/generate-reply`, body, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            const responseReply = response.data.reply;
+            const { reply: responseReply, apiPrompt } = response.data;
+            console.log(apiPrompt);
             setEditReply(responseReply);
-
             setObjItems((p) => {
                 if (selectedPlatform) {
                     const changed =

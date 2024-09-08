@@ -11,12 +11,13 @@ import AllPrompts from 'ui-component/Prompt/AllPrompts';
 export default function MentionBreadcrumb({
     setSelectedKeyword,
     loading,
-    selectedKeyword,
-    setMentionsDataObj,
-    setMoreLoading,
-    moreLoading,
-    firstKeyword,
-    handleModal
+    // selectedKeyword,
+    // setMentionsDataObj,
+    // setMoreLoading,
+    // moreLoading,
+    // firstKeyword,
+    handleModal,
+    initFirstPage
 }) {
     return (
         <>
@@ -45,7 +46,7 @@ export default function MentionBreadcrumb({
                     </Typography>
                 </BRButton>
                 <AllProjects />
-                <PostFilter {...{ setSelectedKeyword, loading }} />
+                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage }} />
             </Breadcrumb>
         </>
     );

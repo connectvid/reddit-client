@@ -1,11 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { Box, Divider, Modal, Typography } from '@mui/material';
-import crossIcon from '../../../assets/images/cross.svg';
+import { Box, Divider, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addProject, projectCreatedStatus, toggleProjectCreateModalCtrl } from 'features/project/projectActions';
+import {
+    addProjectAPI,
+    editProjectSelect,
+    isEditProjectStatus,
+    projectCreatedStatus,
+    projectUpdatedStatus,
+    toggleProjectCreateModalCtrl,
+    updateProjectAPI
+} from 'features/project/projectActions';
 import Step1 from 'ui-component/bizreply/steps/Step1';
 import Step2 from 'ui-component/bizreply/steps/Step2';
 import Step3 from 'ui-component/bizreply/steps/Step3';
@@ -14,34 +21,87 @@ import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DASHBOARD_PATH, ONBOARDING_PATH } from 'config';
+import axios from 'utils/axios';
+import { FaRegTimesCircle } from 'react-icons/fa';
 
 export default function () {
-    const navigate = useNavigate();
-    const { pathname } = useLocation();
-    const [suggestedKeywords, setSuggestedKeywords] = useState([]);
-    const [selectedPlatforms, setselectedPlatforms] = useState([]);
-    const [addedKeywords, setAddedKeywords] = useState([]);
-    const {
-        project: { showProjectCreateModal, projects, createLoading, projectCreated }
-    } = useSelector((state) => state);
-    const { getAccessToken } = useAuth();
-    const [step, setStep] = useState(1);
-    const [createdProject, setCreatedProject] = useState(false);
-    const [values, setValues] = useState({
+    const initVals = {
         brandName: '',
         domain: '',
         shortDescription: ''
-    });
+    };
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const [suggestedKeywords, setSuggestedKeywords] = useState([]);
+    const [addedKeywords, setAddedKeywords] = useState([]);
+    const [selectedPlatforms, setselectedPlatforms] = useState([]);
+    const [negativeKeywords, setNegativeKeywords] = useState([]);
+
+    const {
+        project: { addProjectLoading, updateProjectLoading, projectCreated, projectUpdated, isEditProject, editProject }
+    } = useSelector((state) => state);
+    const { getAccessToken } = useAuth();
+    const [step, setStep] = useState(1);
+    const handleNegativeKeyword = (keyword) => {
+        if (negativeKeywords.includes(keyword)) {
+            setNegativeKeywords((p) => p.filter((item) => item !== keyword));
+        } else {
+            setNegativeKeywords((p) => [...p, keyword]);
+        }
+    };
+
+    const [values, setValues] = useState(initVals);
+
     useEffect(() => {
         if (projectCreated) {
             setStep(4);
             projectCreatedStatus(false)();
         }
-    }, [projectCreated]);
-    // const handleChange = (_,target) => {
-    //     console.log(target);
-    //     // setValues((p) => ({ ...p, [name]: value }));
-    // };
+        if (projectUpdated) {
+            setStep(4);
+            projectUpdatedStatus(false)();
+        }
+
+        if (projectCreated || projectUpdated) {
+            setStep(4);
+            if (projectCreated) {
+                projectCreatedStatus(false)();
+            }
+            if (projectUpdated) {
+                projectUpdatedStatus(false)();
+            }
+            setSuggestedKeywords([]);
+            setAddedKeywords([]);
+            setselectedPlatforms([]);
+            setNegativeKeywords([]);
+            setValues(initVals);
+            isEditProjectStatus(false)();
+            editProjectSelect(null)();
+        }
+    }, [projectCreated, projectUpdated]);
+
+    useEffect(() => {
+        if (editProject) {
+            const { brandName, domain, shortDescription, platforms, negativeKeywords } = editProject;
+            setValues({ brandName, domain, shortDescription });
+            setselectedPlatforms(platforms);
+            setNegativeKeywords(negativeKeywords);
+        }
+    }, []);
+
+    const fetchKeywords = async () => {
+        const token = await getAccessToken();
+        axios
+            .post(`keywords/generate-by-ai`, values, {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(async (data) => {
+                if (data?.data?.isSuccess) {
+                    setSuggestedKeywords(data.data?.items);
+                }
+            });
+    };
+
     const handleSubmit = async () => {
         let domainValue = values.domain;
         if (!domainValue.startsWith('https://')) {
@@ -51,22 +111,35 @@ export default function () {
             brandName: values.brandName,
             domain: domainValue,
             shortDescription: values.shortDescription,
-            // userId: dbUser._id,
             platforms: selectedPlatforms,
             suggestedKeywords: addedKeywords,
-            keywords: suggestedKeywords
+            keywords: suggestedKeywords,
+            negativeKeywords
         };
 
         // console.log(body);
         try {
             const token = await getAccessToken();
-            addProject(token, body)();
+            if (isEditProject) {
+                updateProjectAPI(token, editProject?._id, body)();
+                return;
+            }
+            addProjectAPI(token, body)();
         } catch (e) {
             const message = e.message;
             toast.warning(message);
         }
     };
-
+    const onClose = () => {
+        setSuggestedKeywords([]);
+        setAddedKeywords([]);
+        setselectedPlatforms([]);
+        setNegativeKeywords([]);
+        setValues(initVals);
+        isEditProjectStatus(false)();
+        editProjectSelect(null)();
+        toggleProjectCreateModalCtrl()();
+    };
     return (
         <Box
             sx={{
@@ -97,42 +170,58 @@ export default function () {
                 </Box>
             ) : (
                 <Box
-                    style={{
+                    sx={{
                         backgroundColor: '#f1f1f1',
                         borderRadius: '12px 12px 0 0',
-                        padding: '0px 30px',
-                        fontWeight: 'bold',
-                        fontSize: '20px',
+                        px: 3,
+                        py: 2,
+
                         borderBottom: `2px solid #f0f0f0`,
                         display: 'flex',
                         justifyContent: 'space-between'
                     }}
                 >
-                    <p className="mr-2">Create a new project</p>
-                    <img
-                        style={{
+                    <Typography sx={{ fontWeight: 700, fontSize: '18px' }}>{isEditProject ? 'Edit' : 'Create a new'} project</Typography>
+                    <Typography
+                        sx={{
                             cursor: 'pointer'
                         }}
-                        onClick={toggleProjectCreateModalCtrl()}
-                        src={crossIcon}
-                        alt="icon"
-                    />
+                        onClick={onClose}
+                    >
+                        <FaRegTimesCircle size={20} color="#000" />
+                    </Typography>
                 </Box>
             )}
 
             {step === 1 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step1 {...{ values, setValues, setStep, createdProject }} />
+                    <Step1 {...{ values, setValues, setStep, editProject, isEditProject }} />
                 </Box>
             )}
             {step === 2 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step2 {...{ setStep, values, addedKeywords, setAddedKeywords, suggestedKeywords, setSuggestedKeywords }} />
+                    <Step2
+                        {...{
+                            setStep,
+                            values,
+                            addedKeywords,
+                            setAddedKeywords,
+                            suggestedKeywords,
+                            setSuggestedKeywords,
+                            isEditProject,
+                            editProject,
+                            fetchKeywords,
+                            negativeKeywords,
+                            handleNegativeKeyword
+                        }}
+                    />
                 </Box>
             )}
             {step === 3 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step3 {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading }} />
+                    <Step3
+                        {...{ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, addProjectLoading, updateProjectLoading }}
+                    />
                 </Box>
             )}
             {step === 4 && (

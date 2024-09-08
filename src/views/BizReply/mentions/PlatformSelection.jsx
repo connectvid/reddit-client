@@ -4,7 +4,7 @@ import { FaRegSquare } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 import { platformsSrc } from 'data';
 
-const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData }) => {
+const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData, initFirstPage }) => {
     return (
         <Card sx={{ mb: 3 }}>
             <CardContent sx={{ p: 3 }}>
@@ -29,7 +29,10 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
                                 position: 'relative'
                             }}
                             onClick={() => {
-                                if (selectedPlatform !== platform && loading === false && haveData) changePlatform(platform)();
+                                if (selectedPlatform !== platform && loading === false && haveData) {
+                                    changePlatform(platform)();
+                                    initFirstPage?.();
+                                }
                             }}
                         >
                             <Typography sx={{ position: 'absolute', top: '10px', right: '10px' }}>

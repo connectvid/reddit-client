@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import BRButton from 'ui-component/bizreply/BRButton';
-import Breadcrumb from '../Breadcrumb';
+import Breadcrumb from 'ui-component/Breadcrumb';
 import AllProjects from 'ui-component/Project/AllProjects';
 import { IconPlus } from '@tabler/icons';
 

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Stepper3 from './stepper/Stepper3';
 import PlatformSelection from 'ui-component/PlatformSelection';
 
-const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, createLoading }) => {
+const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit, addProjectLoading, updateProjectLoading }) => {
     const { subscription } = useSelector((state) => state.subscription);
     const handleSelectedPlatform = (platform) => {
         console.log(platform);
@@ -42,16 +42,27 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
                 >
                     Back to Previous
                 </BRButton>
-                <BRButton disabled={createLoading} variant="contained" style={{ width: '180px' }} onClick={handleNextButton}>
-                    Finish Steps {(createLoading && <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} />) || ''}
+                <BRButton
+                    disabled={addProjectLoading || updateProjectLoading}
+                    variant="contained"
+                    style={{ width: '180px' }}
+                    onClick={handleNextButton}
+                >
+                    Finish Steps{' '}
+                    {addProjectLoading || updateProjectLoading ? (
+                        <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} />
+                    ) : (
+                        ''
+                    )}
                 </BRButton>
             </Grid>
-            {(createLoading && (
+            {addProjectLoading || updateProjectLoading ? (
                 <Typography sx={{ fontSize: '16px', fontWeight: 400, textAlign: 'right', mt: 1.5 }}>
                     Please wait for a few seconds
                 </Typography>
-            )) ||
-                ''}
+            ) : (
+                ''
+            )}
         </div>
     );
 };

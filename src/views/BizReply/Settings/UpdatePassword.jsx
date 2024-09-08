@@ -13,12 +13,16 @@ export default function () {
     const handleSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             setSubmitting(true);
-            await changePassword(values?.password);
+            await changePassword(values);
             toast.success(`Password has been changed!`);
             resetForm();
         } catch (e) {
+            let msg = errorMsgHelper(e);
+            if (msg === 'Firebase: Error (auth/invalid-login-credentials).') {
+                msg = 'Login password invalid!';
+            }
+            toast.warn(msg);
             console.log(e);
-            toast.warn(errorMsgHelper(e));
         } finally {
             setSubmitting(false);
         }
@@ -32,21 +36,39 @@ export default function () {
 
                     <Formik
                         initialValues={{
+                            oldPassword: '',
                             password: '',
                             confirmPassword: ''
                         }}
                         validationSchema={Yup.object().shape({
-                            password: Yup.string().min(8).max(255).required('Password is required'),
+                            oldPassword: Yup.string().min(8).max(30).required('Old Password is required'),
+                            password: Yup.string().min(8).max(30).required('Password is required'),
                             confirmPassword: Yup.string()
                                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
                                 .min(8)
-                                .max(255)
-                                .required('Retype Password is required')
+                                .max(30)
+                                .required('Confirm password Password is required')
                         })}
                         onSubmit={handleSubmit}
                     >
                         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                             <form noValidate onSubmit={handleSubmit} style={{ width: '100%' }}>
+                                <Box sx={{ width: { md: '60%', sm: '100%' }, mb: 2 }}>
+                                    <BRInput2
+                                        placeholder="Enter old password"
+                                        label="Old Password"
+                                        fullWidth
+                                        required
+                                        value={values.oldPassword || ''}
+                                        name="oldPassword"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        type="password"
+                                    />
+                                    {touched.oldPassword && errors.oldPassword && (
+                                        <Typography sx={{ color: 'red', mt: 1 }}>{errors.oldPassword}</Typography>
+                                    )}
+                                </Box>
                                 <Box sx={{ width: { md: '60%', sm: '100%' }, mb: 2 }}>
                                     <BRInput2
                                         placeholder="Enter password"

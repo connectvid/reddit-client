@@ -29,12 +29,24 @@ import {
     clearError,
     keywordRemove,
     clearCustomKeyword,
-    clearCustomNegativeKeyword
+    clearCustomNegativeKeyword,
+    isEditProject,
+    editProject,
+    projectUpdated
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
+export const isEditProjectStatus =
+    (v = true) =>
+    () => {
+        dispatch(isEditProject(v));
+    };
+
+export const editProjectSelect = (v) => () => {
+    dispatch(editProject(v));
+};
 export const keywordRemoving = (value) => () => {
     dispatch(keywordRemove(value));
 };
@@ -71,6 +83,9 @@ export const toggleProjectCreateModalCtrl = () => () => {
 export const projectCreatedStatus = (status) => () => {
     dispatch(projectCreated(status));
 };
+export const projectUpdatedStatus = (status) => () => {
+    dispatch(projectUpdated(status));
+};
 export const projectRemoving = (id) => () => {
     dispatch(projectRemove({ id }));
 };
@@ -97,7 +112,7 @@ export const getProjects = (userId, token) => async () => {
 
 export const callOthers = (v) => subsctriptionCreditsSetter(v);
 
-export const addProject =
+export const addProjectAPI =
     (token, data = {}) =>
     async () => {
         try {
@@ -108,12 +123,12 @@ export const addProject =
                 }
             });
             dispatch(addNewProject(response.data));
-            subsctriptionCreditsSetter({ projects: -1 })();
+
+            subsctriptionCreditsSetter({ projects: -1, keywords: -(data?.suggestedKeywords?.length || 0) })();
             projectCreatedStatus(true)();
             // dispatch(toggleProjectCreateModal(false));
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
-        } finally {
             dispatch(addProjectLoading(false));
         }
     };
@@ -133,10 +148,10 @@ export const updateProjectAPI =
                 }
             });
             dispatch(updateProject(response.data));
-        } catch (error) {
-            dispatch(hasError(error));
-        } finally {
-            dispatch(updateProjectLoading(false));
+            subsctriptionCreditsSetter({ keywords: -(data?.suggestedKeywords?.length || 0) })();
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+            setUpdateProjectLoading(false)();
         }
     };
 

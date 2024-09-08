@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable prefer-const */
@@ -17,6 +18,9 @@ import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
 import postSorting from 'utils/postSorting';
+import EmptyProject from '../projects/EmptyProject';
+import errorMsgHelper from 'utils/errorMsgHelper';
+import { toast } from 'react-toastify';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -44,7 +48,7 @@ const Mentions = () => {
     // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
     const [loading, setLoading] = useState(false);
-    const [showEmpty, setShowEmpty] = useState(false);
+    // const [showEmpty, setShowEmpty] = useState(false);
     const [moreLoading, setMoreLoading] = useState(false);
     const [haveData, setHaveData] = useState(false);
     const [mentionsDataObj, setMentionsDataObj] = useState({});
@@ -56,29 +60,11 @@ const Mentions = () => {
     const [recall, setRecall] = useState(false);
     const handleRecall = () => setRecall((p) => !p);
     const [openModal, setOpenModal] = useState(false);
+    const postsPerPage = 10;
 
     const handleModal = () => setOpenModal((p) => !p);
     const modalClose = () => setOpenModal(false);
-    // const postsPerPage = 2;
-
-    // // Get current posts
-    // const indexOfLastPost = currentPage * postsPerPage;
-    // const indexOfFirstPost = indexOfLastPost - postsPerPage;
-    // const currentPosts = filteredData?.slice?.(indexOfFirstPost, indexOfLastPost) || [];
-    // const totalPages = Math.ceil(filteredData.length / postsPerPage);
-    // // Handle Previous button click
-    // const handlePrevClick = () => {
-    //     setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : prevPage));
-    // };
-
-    // // Handle Next button click
-    // const handleNextClick = () => {
-    //     setCurrentPage((prevPage) => (prevPage < totalPages ? prevPage + 1 : prevPage));
-    // };
-    // Change page
-
-    // console.log(project?.Suggestedkeywords, 'project?.Suggestedkeywords');
-    // console.log(mentionsDataObj);
+    // console.log({ currentPage });
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items } }) {
@@ -120,9 +106,9 @@ const Mentions = () => {
 
         socket.on(encoding, mentionsUpdate);
         // socket.off();
-        setTimeout(() => {
-            setShowEmpty(true);
-        }, 2500);
+        // setTimeout(() => {
+        //     setShowEmpty(true);
+        // }, 2500);
         return () => {
             socket.disconnect();
             setMentionsDataObj({});
@@ -192,9 +178,64 @@ const Mentions = () => {
             }
         });
         setFilteredData(filtered);
-        setCurrentPage(1);
+        // setCurrentPage(1);
         handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length]);
+    const initFirstPage = () => setCurrentPage(1);
+    const loadMore = async () => {
+        const firstKeyword = project?.Suggestedkeywords?.[0];
+        const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+        // console.log({ selectedKeyword });
+        if (!keyword?._id || !selectedPlatform) {
+            toast.warning(`Failed to load more posts. Please refresh and try again.`);
+            return;
+        }
+        const body = { keywordId: keyword._id, platform: selectedPlatform };
+        setMoreLoading?.(true);
+        try {
+            const token = await getAccessToken();
+            const {
+                data: { items }
+            } = await axios.post(`mentions/load-more`, body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (items?.length) {
+                // setMentionsDataObj?.((p) => {
+                //     if (selectedPlatform) {
+                //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
+                //         p[selectedPlatform] = postSorting({ data: allData });
+                //     } else {
+                //         const allData = [...items, ...p];
+                //         p = postSorting({ data: allData });
+                //     }
+                //     return p;
+                // });
+                setMentionsDataObj?.((p) => {
+                    if (selectedPlatform) {
+                        const allData = [...(p?.[selectedPlatform] || []), ...items];
+                        p[selectedPlatform] = allData;
+                        // p[selectedPlatform] = postSorting({ data: allData });
+                    } else {
+                        const allData = [...p, ...items];
+                        p = allData;
+                        // p = postSorting({ data: allData });
+                    }
+                    return p;
+                });
+                if (currentPosts?.length < postsPerPage) {
+                    setCurrentPage((p) => p + 1);
+                }
+            }
+
+            setMoreLoading?.(false);
+        } catch (e) {
+            console.log(e);
+            toast.warning(errorMsgHelper(e));
+            setMoreLoading?.(false);
+        }
+    };
 
     return (
         <>
@@ -207,14 +248,18 @@ const Mentions = () => {
                     setMentionsDataObj,
                     setMoreLoading,
                     moreLoading,
-                    firstKeyword: project?.Suggestedkeywords?.[0],
-                    handleModal
+                    // firstKeyword: project?.Suggestedkeywords?.[0],
+                    handleModal,
+                    initFirstPage
                 }}
             />
 
-            <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform }} />
+            {(project?.platforms && (
+                <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform, initFirstPage }} />
+            )) ||
+                ''}
             {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
-            {!loading && showEmpty && !filteredData?.length ? <PostPlaceholder /> : ''}
+            {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
 
             {/* {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
@@ -248,23 +293,40 @@ const Mentions = () => {
                 <PostPlaceholder />
             ) : (
                 <>
-                    {/* filteredData   */}
-                    {currentPosts?.map?.((item) => {
-                        return (
-                            <PostCard
-                                key={item._id}
-                                {...item}
-                                {...{
-                                    project,
-                                    setObjItems: setMentionsDataObj,
-                                    selectedPlatform,
-                                    showMarkRepliedBtn: true,
-                                    selectedPrompt
-                                }}
-                            />
-                        );
-                    })}
-                    <Pagination {...{ data: filteredData, setCurrentPosts, postsPerPage: 10, currentPage, setCurrentPage, recall }} />
+                    {currentPosts?.length ? (
+                        <>
+                            {currentPosts?.map?.((item) => {
+                                return (
+                                    <PostCard
+                                        key={item._id}
+                                        {...item}
+                                        {...{
+                                            project,
+                                            setObjItems: setMentionsDataObj,
+                                            selectedPlatform,
+                                            showMarkRepliedBtn: true,
+                                            selectedPrompt
+                                        }}
+                                    />
+                                );
+                            })}
+                        </>
+                    ) : (
+                        ''
+                    )}
+                    <Pagination
+                        {...{
+                            data: filteredData,
+                            setCurrentPosts,
+                            currentPosts,
+                            postsPerPage,
+                            currentPage,
+                            setCurrentPage,
+                            recall,
+                            loadMore,
+                            moreLoading
+                        }}
+                    />
                 </>
             )}
         </>

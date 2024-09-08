@@ -33,11 +33,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
 
     return (
         <>
-            <Box
-                sx={{
-                    p: '0px 20px'
-                }}
-            >
+            <Box>
                 <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>AI Suggested Keywords</Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 1, pb: 2 }}>
                     {suggestedKeywords?.map((keyword, i) => (
@@ -83,21 +79,23 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                             </Typography>
                         </GradinentText>
                     </Box>
-                    <BRInput
-                        // name={item.toString()}
-                        // defaultValue={cKeys[item]}
-                        type="text"
-                        onChange={({ target: { value = '' } }) => {
-                            setValue(value);
-                        }}
-                        value={value}
-                        placeholder="Enter keyword"
-                        sx={{
-                            fontSize: '16px',
-                            fontWeight: 400,
-                            color: '#6E7478'
-                        }}
-                    />
+                    <Box>
+                        <BRInput
+                            fullWidth
+                            type="text"
+                            onChange={({ target: { value = '' } }) => {
+                                setValue(value);
+                            }}
+                            value={value}
+                            placeholder="Enter keyword"
+                            sx={{
+                                fontSize: '16px',
+                                fontWeight: 400,
+                                color: '#6E7478'
+                            }}
+                        />
+                    </Box>
+
                     <Button
                         type="button"
                         variant="contained"
@@ -132,7 +130,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                         Add keyword
                     </Button>
                 </Box>
-                <Divider sx={{ borderColor: '#CCD3D9', my: 1 }} />
+                <Divider sx={{ borderColor: '#CCD3D9', my: 2 }} />
                 <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>Selected Keywords</Typography>
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 0.5, pb: 1 }}>
                     {addedKeywords?.map((keyword, i) => (

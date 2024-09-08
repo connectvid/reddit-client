@@ -33,7 +33,10 @@ const Header = () => {
                 <MobileSection />
             </Box>
 
-            <Modal open={showProjectCreateModal} sx={{ '.MuiBox-root:nth-child(3)': { minWidth: '600px' } }}>
+            <Modal
+                open={showProjectCreateModal}
+                sx={{ '.MuiBox-root:nth-child(3)': { minWidth: { md: '600px', sx: 'unset', sm: '500px' } } }}
+            >
                 <NewProject />
             </Modal>
         </>
