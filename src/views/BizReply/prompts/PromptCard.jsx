@@ -16,6 +16,7 @@ import BRButton from 'ui-component/bizreply/BRButton';
 // import { toast } from 'react-toastify';
 // import BRButton from 'ui-component/bizreply/BRButton';
 import CardDetails from './CardDetails';
+import CardFooter from './CardFooter';
 
 export default function (props) {
     const { getAccessToken } = useAuth();
@@ -74,18 +75,3 @@ export default function (props) {
         </>
     );
 }
-const CardFooter = ({
-    handleViewDetails,
-    handleEdit //, handleDelete
-}) => {
-    return (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <BRButton sx={{ height: '40px', width: '100%' }} variant="contained" onClick={handleViewDetails}>
-                View Details
-            </BRButton>
-            <BRButton sx={{ height: '40px', width: '100%' }} variant="contained" onClick={handleEdit}>
-                Edit
-            </BRButton>
-        </Box>
-    );
-};
