@@ -107,7 +107,7 @@ const MentionSettings = () => {
                                 if (data) setValues((p) => ({ ...p, chosenLanguage: data.value }));
                                 return data;
                             }}
-                            defaultValue={values.chosenLanguage}
+                            value={values.chosenLanguage}
                             disablePortal
                             id="combo-box-demo"
                             options={chosenLanguages}
@@ -121,7 +121,7 @@ const MentionSettings = () => {
                                 if (data) setValues((p) => ({ ...p, fetchTiming: data.value }));
                                 return data;
                             }}
-                            defaultValue={values.fetchTiming}
+                            value={values.fetchTiming}
                             disablePortal
                             id="combo-box-demo"
                             options={fetchTimings}
@@ -135,7 +135,7 @@ const MentionSettings = () => {
                                 if (data) setValues((p) => ({ ...p, postsPerRequest: data.value }));
                                 return data;
                             }}
-                            defaultValue={values.postsPerRequest}
+                            value={values.postsPerRequest}
                             disablePortal
                             id="combo-box-demo"
                             options={postsPerRequests}
