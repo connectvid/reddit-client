@@ -64,7 +64,7 @@ const Mentions = () => {
 
     const handleModal = () => setOpenModal((p) => !p);
     const modalClose = () => setOpenModal(false);
-    console.log({ currentPage });
+    // console.log({ currentPage });
     // SOCKET
     useEffect(() => {
         function mentionsUpdate({ message: { items } }) {
