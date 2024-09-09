@@ -15,9 +15,9 @@ const menu = createSlice({
         activeItem(state, action) {
             state.openItem = action.payload;
         },
-        openDrawer(state) {
-            state.drawerOpen = true;
-            // state.drawerOpen = action.payload;
+        openDrawer(state, { payload }) {
+            // state.drawerOpen = true;
+            state.drawerOpen = payload;
         }
     }
 });

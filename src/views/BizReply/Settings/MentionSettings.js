@@ -31,6 +31,7 @@ const MentionSettings = () => {
         { label: '15 days', value: 15 },
         { label: '30 days', value: 30 }
     ];
+
     const postsPerRequests = [
         { label: '10', value: 10 },
         { label: '20', value: 20 },
@@ -39,13 +40,16 @@ const MentionSettings = () => {
         { label: '50', value: 50 },
         { label: '100', value: 100 }
     ];
+
     const [values, setValues] = useState({
         country: 'us',
         chosenLanguage: 'en',
         fetchTiming: 1,
         postsPerRequest: 10
     });
+
     console.log({ values });
+
     const getMentionSettings = async () => {
         try {
             setLoading(true);
@@ -80,6 +84,7 @@ const MentionSettings = () => {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         getMentionSettings();
     }, []);

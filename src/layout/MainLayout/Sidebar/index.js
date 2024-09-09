@@ -63,9 +63,7 @@ const Sidebar = () => {
         () => (
             <Box bgcolor={theme.palette.background.sidebar}>
                 {matchDownMd ? (
-                    <>
-                        <Box sx={drawerSX}>{drawerContent}</Box>
-                    </>
+                    <>{/* <Box sx={drawerSX}>{drawerContent}</Box> */}</>
                 ) : (
                     <PerfectScrollbar
                         component="div"
