@@ -11,8 +11,7 @@ import { useNavigate, Link } from 'react-router-dom';
 const RegisterWithOTP = () => {
     const navigate = useNavigate();
     const theme = useTheme();
-    const { isLoggedIn, firebaseRegisterWithOTP, generalError, setGeneralError, dbUser, isLoading, firebaseGoogleLoginOrSignup } =
-        useAuth();
+    const { isLoggedIn, firebaseRegisterWithOTP, setGeneralError, dbUser } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     // const [formTitle, setFormTitle] = useState('Sign up');
     const [OTPValue, setOTPValue] = useState('');

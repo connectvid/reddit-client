@@ -1,32 +1,25 @@
 import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import { Button, Divider, FormControl, Grid, InputLabel, OutlinedInput, Typography, useMediaQuery } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import BizReplyLogo from 'assets/images/logo-black.svg';
 // project imports
 import ForgotPasswordImage from 'assets/images/svgIcons/forgotPassword.svg';
 // import AuthFooter from 'ui-component/cards/AuthFooter';
-import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
 import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
 
-import AnimateButton from 'ui-component/extended/AnimateButton';
 import { toast } from 'react-toastify';
-import { Box, textAlign } from '@mui/system';
+import { Box } from '@mui/system';
 import BRButton from 'ui-component/bizreply/BRButton';
 import BRInput from 'ui-component/bizreply/BRInput';
 import GradinentText from 'ui-component/GradinentText';
 // ============================|| AUTH3 - FORGOT PASSWORD ||============================ //
 
 const ForgotPassword = () => {
-    const theme = useTheme();
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuth();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const [email, setEmail] = useState('');
     // const [err, setErr] = useState('');
-    const [values] = useState('');
     const [sendMail, setSendMail] = useState(false);
 
     const handleClick = async () => {

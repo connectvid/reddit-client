@@ -1,4 +1,4 @@
-import { Box, Typography, Button, TextField, Link, Grid } from '@mui/material';
+import { Box, Typography, Link, Grid } from '@mui/material';
 import BizReplyLogo from 'assets/images/logo-black.svg';
 import emailVerifiedImage from 'assets/images/svgIcons/emailVerified.svg';
 import BRButton from 'ui-component/bizreply/BRButton';

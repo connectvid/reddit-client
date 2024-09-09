@@ -19,14 +19,14 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
                             sx={{
                                 cursor: 'pointer',
                                 p: 0,
-                                maxWidth: '154px',
+                                width: '122px',
                                 border: `1px solid ${selectedPlatform === platform ? '#0C22E5' : '#CCD3D9'}`,
-                                minHeight: '75px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 borderRadius: '10px',
-                                position: 'relative'
+                                position: 'relative',
+                                height: '64px'
                             }}
                             onClick={() => {
                                 if (selectedPlatform !== platform && loading === false && haveData) {
@@ -35,7 +35,7 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
                                 }
                             }}
                         >
-                            <Typography sx={{ position: 'absolute', top: '10px', right: '10px' }}>
+                            <Typography sx={{ position: 'absolute', top: '-5px', right: '-5px' }}>
                                 {selectedPlatform === platform ? (
                                     <Typography
                                         component="span"
@@ -52,7 +52,16 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
                                         <FaCheck size={10} color="#fff" />
                                     </Typography>
                                 ) : (
-                                    <FaRegSquare size={14} color="#667185" />
+                                    <Typography
+                                        sx={{
+                                            border: '1px solid #667185',
+                                            background: '#fff',
+                                            height: '14px',
+                                            width: '14px',
+                                            borderRadius: '3px'
+                                        }}
+                                    />
+                                    // <FaRegSquare size={14} color="#667185" style={{ background: '#fff', borderRadius: '3px' }} />
                                 )}
                             </Typography>
                             <img

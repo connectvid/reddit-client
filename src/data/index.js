@@ -1,16 +1,22 @@
 /* eslint-disable import/prefer-default-export */
-import reddit from 'assets/images/platforms/reddit.png';
-import linkedin from 'assets/images/platforms/linkedin.png';
-import quora from 'assets/images/platforms/quora.png';
-import twitter from 'assets/images/platforms/twitter.png';
-import facebook from 'assets/images/platforms/facebook.png';
+const reddit = 'platforms/reddit.png';
+const linkedin = 'platforms/linkedin.png';
+const quora = 'platforms/quora.png';
+const twitter = 'platforms/twitter.png';
+const facebook = 'platforms/facebook.png';
+const instagram = 'platforms/instagram.png';
+const pinterest = 'platforms/pinterest.png';
+const tiktok = 'platforms/tiktok.png';
 
 export const platformsSrc = {
     'reddit.com': reddit,
     'linkedin.com': linkedin,
     'quora.com': quora,
     'twitter.com': twitter,
-    'facebook.com': facebook
+    'facebook.com': facebook,
+    'instagram.com': instagram,
+    'pinterest.com': pinterest,
+    'tiktok.com': tiktok
 };
 
 export const keywordColors = {

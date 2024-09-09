@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Typography, Button, TextField, Link, Grid } from '@mui/material';
+import { Box, Typography, TextField, Link, Grid } from '@mui/material';
 import { toast } from 'react-toastify';
 import BizReplyLogo from 'assets/images/logo-black.svg';
 import VerifyEmail from 'assets/images/svgIcons/verifyEmail.svg';
@@ -7,17 +7,7 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import GradinentText from 'ui-component/GradinentText';
 import useAuth from 'hooks/useAuth';
 
-const AuthRegisterOTPForm = ({
-    isOTPVerifying,
-    OTPError,
-    setOTPError,
-    handleOPTSubmit,
-    OTPValue,
-    setOTPValue,
-    signUpUser,
-    setShowRegisterForm,
-    sendOTPAtEmail
-}) => {
+const AuthRegisterOTPForm = ({ isOTPVerifying, handleOPTSubmit, signUpUser, setShowRegisterForm, sendOTPAtEmail }) => {
     const { isLoading } = useAuth();
     const [code, setCode] = useState(Array(6).fill(''));
     const inputRefs = useRef(

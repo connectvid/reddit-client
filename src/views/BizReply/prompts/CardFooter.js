@@ -5,8 +5,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import { Box, Button } from '@mui/material';
-import { textAlign } from '@mui/system';
+import { Box } from '@mui/material';
 import { IconPencil, IconEye } from '@tabler/icons';
 // import { FaTrash } from 'react-icons/fa6';
 import BRButton from 'ui-component/bizreply/BRButton';

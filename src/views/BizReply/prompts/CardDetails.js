@@ -5,7 +5,6 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Typography } from '@mui/material';
-import { fontSize } from '@mui/system';
 import Prompt from 'assets/images/svgIcons/prompt.svg';
 import Character from 'assets/images/svgIcons/character.svg';
 import Tone from 'assets/images/svgIcons/tone.svg';
