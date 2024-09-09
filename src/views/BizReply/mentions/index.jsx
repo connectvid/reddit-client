@@ -21,6 +21,7 @@ import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
+import AdvancedSetting from 'ui-component/AdvancedSetting';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -59,11 +60,15 @@ const Mentions = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [recall, setRecall] = useState(false);
     const handleRecall = () => setRecall((p) => !p);
-    const [openModal, setOpenModal] = useState(false);
+    const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
+    const handleModal = () => setOpenMentionSettingModal((p) => !p);
+    const modalClose = () => setOpenMentionSettingModal(false);
     const postsPerPage = 10;
 
-    const handleModal = () => setOpenModal((p) => !p);
-    const modalClose = () => setOpenModal(false);
+    const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
+    const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
+    const modalASClose = () => setOpenAdvancedSettingModal(false);
+
     // console.log({ currentPage });
     // SOCKET
     useEffect(() => {
@@ -236,7 +241,48 @@ const Mentions = () => {
             setMoreLoading?.(false);
         }
     };
+    const mentionFetchAgain = async () => {
+        setLoading(true);
+        // const first = project?.Suggestedkeywords?.[0];
+        // if (first) setSelectedKeyword(first);
+        try {
+            const token = await getAccessToken();
+            setFilteredData([]);
+            const body = { project };
+            const {
+                data: { items }
+            } = await axios.post(`mentions/projects/${project._id}/refresh-scrap`, body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const len = items.length;
+            setHaveData(Boolean(len));
+            //   ////////////////////
+            const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
+            setMentionsDataObj(reduced);
+            const [platform] = project?.platforms || [];
+            // const title = first?.title;
+            // console.log(reduced, first);
 
+            // if (platform && title) {
+            //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
+            //     setFilteredData(filtered);
+            // }
+            const filtered = reduced[platform];
+            setFilteredData(filtered);
+            setLoading(false);
+            // if (!state?.socket || len) {
+            //     setLoading(false);
+            // }
+            if (!state?.socket) {
+                // navigate(`${pathname}${search}`, { state: null });
+            }
+        } catch (e) {
+            console.log(e);
+            setLoading(false);
+        }
+    };
     return (
         <>
             {/* <OpenAikeyPopup /> */}
@@ -250,7 +296,8 @@ const Mentions = () => {
                     moreLoading,
                     // firstKeyword: project?.Suggestedkeywords?.[0],
                     handleModal,
-                    initFirstPage
+                    initFirstPage,
+                    handleASModal
                 }}
             />
 
@@ -258,7 +305,8 @@ const Mentions = () => {
                 <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform, initFirstPage }} />
             )) ||
                 ''}
-            {(openModal && <ManageMentions {...{ modalClose }} />) || ''}
+            {(openMentionSettionModal && <ManageMentions {...{ modalClose }} />) || ''}
+            {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose }} />) || ''}
             {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
 
             {/* {!loading && showEmpty && !filteredData?.length ? (

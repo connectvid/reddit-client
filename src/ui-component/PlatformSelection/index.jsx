@@ -9,7 +9,7 @@ export default function ({ platforms = [], selectedPlatforms = [], handleSelecte
                 Select social profile (s) where you want to see posts from.
             </Typography>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
                 {platforms?.map?.((platform) => (
                     <Typography
                         key={platform}
@@ -17,9 +17,9 @@ export default function ({ platforms = [], selectedPlatforms = [], handleSelecte
                         sx={{
                             cursor: 'pointer',
                             p: 0,
-                            maxWidth: '154px',
+                            width: '154px',
                             border: `1px solid ${selectedPlatforms.includes(platform) ? '#0C22E5' : '#CCD3D9'}`,
-                            minHeight: '75px',
+                            minHeight: '65px',
                             display: 'flex',
                             flex: 1,
                             alignItems: 'center',

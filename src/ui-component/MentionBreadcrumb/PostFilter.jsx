@@ -1,8 +1,8 @@
-import { Autocomplete, Box, TextField } from '@mui/material';
-import { IconChevronDown } from '@tabler/icons';
+import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
+import BRAC from 'views/BizReply/BRAC';
 
-const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, loading, keywordsWidth = '210px', initFirstPage }) => {
+const PostFilter = ({ placeholder = 'Choose Keyword', setSelectedKeyword, loading, initFirstPage }) => {
     const {
         project
         // createKeywordSuccess
@@ -14,41 +14,60 @@ const PostFilter = ({ placeholder = 'Choose Your Keyword', setSelectedKeyword, l
     return (
         <Box>
             {(!loading && keywords?.length && (
-                <Autocomplete
-                    disablePortal
-                    id="combo-box-demo"
-                    options={[defaultKeyword, ...keywords]}
-                    sx={{
-                        width: keywordsWidth
+                <BRAC
+                    {...{
+                        title: placeholder,
+                        placeholder: 'Select keyword',
+                        options: [defaultKeyword, ...keywords],
+                        getOptionLabel: (item) => item.title,
+                        disableClearable: true,
+                        disablePortal: true,
+                        defaultValue: defaultKeyword,
+                        wrapperSx: {
+                            minWidth: '300px'
+                        },
+                        onChange: (_, v) => {
+                            const title = v || defaultKeyword;
+                            setSelectedKeyword(title);
+                            initFirstPage?.();
+                        }
                     }}
-                    popupIcon={<IconChevronDown size={20} />}
-                    defaultValue={defaultKeyword}
-                    getOptionLabel={(item) => item.title}
-                    onChange={(_, v) => {
-                        const title = v || defaultKeyword;
-                        setSelectedKeyword(title);
-                        initFirstPage?.();
-                    }}
-                    disableClearable
-                    renderInput={(params) => (
-                        <TextField
-                            fullWidth
-                            {...params}
-                            sx={{
-                                height: '40px',
-                                input: {
-                                    px: '20px!important',
-                                    py: `1px!important`
-                                },
-                                fieldset: {
-                                    borderRadius: '10px',
-                                    borderColor: '#CCD3D9 !important'
-                                }
-                            }}
-                            placeholder={placeholder}
-                        />
-                    )}
                 />
+                // <Autocomplete
+                //     disablePortal
+                //     id="combo-box-demo"
+                //     options={[defaultKeyword, ...keywords]}
+                //     sx={{
+                //         width: keywordsWidth
+                //     }}
+                //     popupIcon={<IconChevronDown size={20} />}
+                //     defaultValue={defaultKeyword}
+                //     getOptionLabel={(item) => item.title}
+                //     onChange={(_, v) => {
+                //         const title = v || defaultKeyword;
+                //         setSelectedKeyword(title);
+                //         initFirstPage?.();
+                //     }}
+                //     disableClearable
+                //     renderInput={(params) => (
+                //         <TextField
+                //             fullWidth
+                //             {...params}
+                //             sx={{
+                //                 height: '40px',
+                //                 input: {
+                //                     px: '20px!important',
+                //                     py: `1px!important`
+                //                 },
+                //                 fieldset: {
+                //                     borderRadius: '10px',
+                //                     borderColor: '#CCD3D9 !important'
+                //                 }
+                //             }}
+                //             placeholder={placeholder}
+                //         />
+                //     )}
+                // />
             )) ||
                 ''}
         </Box>

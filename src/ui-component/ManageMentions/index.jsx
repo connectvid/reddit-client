@@ -103,6 +103,4 @@ export default function ({ modalClose }) {
             </Box>
         </Dialog>
     );
-
-    // return ;
 }

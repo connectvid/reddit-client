@@ -1,15 +1,14 @@
 import { Card, CardContent, Box, Typography } from '@mui/material';
 import { changePlatform } from 'features/project/projectActions';
-import { FaRegSquare } from 'react-icons/fa';
 import { FaCheck } from 'react-icons/fa6';
 import { platformsSrc } from 'data';
 
-const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData, initFirstPage }) => {
+export default function ({ platforms = [], selectedPlatform, loading, haveData, initFirstPage }) {
     return (
         <Card sx={{ mb: 3 }}>
             <CardContent sx={{ p: 3 }}>
                 <Typography sx={{ color: '#000', fontWeight: 500, fontSize: '16px', mb: 3 }}>
-                    Select the social media you want to see relevant posts below 👇🏽{' '}
+                    Select the social media you want to see relevant posts below 👇🏽
                 </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                     {platforms?.map?.((platform) => (
@@ -61,7 +60,6 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
                                             borderRadius: '3px'
                                         }}
                                     />
-                                    // <FaRegSquare size={14} color="#667185" style={{ background: '#fff', borderRadius: '3px' }} />
                                 )}
                             </Typography>
                             <img
@@ -77,5 +75,4 @@ const PlatformSelection = ({ platforms = [], selectedPlatform, loading, haveData
             </CardContent>
         </Card>
     );
-};
-export default PlatformSelection;
+}

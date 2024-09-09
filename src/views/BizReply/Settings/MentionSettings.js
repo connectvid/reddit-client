@@ -4,16 +4,26 @@
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BRButton from 'ui-component/bizreply/BRButton';
 import axios from 'utils/axios';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
-const MentionSettings = () => {
+export default function ({
+    formContentSx = { width: { lg: '50%', md: '80%', xs: '100%' } },
+    submitButtonSx = {},
+    wrapperSx = {
+        p: 3,
+        mt: 4
+    },
+    title = 'Mention settings'
+}) {
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false);
     const [updating, setUpdating] = useState(false);
+    // const { pathname } = useLocation();
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
@@ -48,7 +58,7 @@ const MentionSettings = () => {
         postsPerRequest: 10
     });
 
-    console.log({ values });
+    // console.log({ values });
 
     const getMentionSettings = async () => {
         try {
@@ -119,21 +129,24 @@ const MentionSettings = () => {
             <Box
                 sx={{
                     background: '#fff',
-                    p: 3,
-                    mt: 4,
-                    borderRadius: '10px'
+                    borderRadius: '10px',
+                    ...wrapperSx
                 }}
             >
                 <Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography variant="h4" style={{ fontWeight: 700, fontSize: '18px' }}>
-                            Mention settings
-                        </Typography>
-                    </Box>
+                    {title ? (
+                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="h4" style={{ fontWeight: 700, fontSize: '18px' }}>
+                                {title}
+                            </Typography>
+                        </Box>
+                    ) : (
+                        ''
+                    )}
                     {loading ? (
                         <></>
                     ) : (
-                        <Box style={{ width: '50%', minWidth: '300px', marginTop: '20px' }}>
+                        <Box sx={{ minWidth: '300px', mt: 2, ...formContentSx }}>
                             <Box>
                                 <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>Choose Country</Typography>
                                 <Autocomplete
@@ -156,7 +169,7 @@ const MentionSettings = () => {
                                     options={countries}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
-                                    renderInput={(params) => <TextField {...params} required placeholder="Choose language" />}
+                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                 />
                             </Box>
                             <Box>
@@ -180,7 +193,7 @@ const MentionSettings = () => {
                                     options={chosenLanguages}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
-                                    renderInput={(params) => <TextField {...params} required placeholder="Choose language" />}
+                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                 />
                             </Box>
                             <Box>
@@ -204,7 +217,7 @@ const MentionSettings = () => {
                                     options={fetchTimings}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
-                                    renderInput={(params) => <TextField {...params} required placeholder="When to fetch posts" />}
+                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="When to fetch posts" />}
                                 />
                             </Box>
                             <Box>
@@ -223,7 +236,7 @@ const MentionSettings = () => {
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
                                     renderInput={(params) => (
-                                        <TextField {...params} required placeholder="Number of posts to fetch on each request" />
+                                        <TextField fullWidth {...params} required placeholder="Number of posts to fetch on each request" />
                                     )}
                                 />
                             </Box>
@@ -240,16 +253,14 @@ const MentionSettings = () => {
                     )}
                 </Box>
             </Box>
-            <Box style={{ display: 'flex', float: 'right', marginTop: '20px', marginBottom: '100px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'right', mt: 2, ...submitButtonSx }}>
                 <BRButton sx={{ height: '40px', width: '180px' }} disabled={updating} variant="contained" onClick={updateMentionSettings}>
                     {updating ? <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} /> : 'Save Changes'}
                 </BRButton>
             </Box>
         </>
     );
-};
-
-export default MentionSettings;
+}
 
 export const chosenLanguages = [
     { value: 'af', label: 'Afrikaans' },

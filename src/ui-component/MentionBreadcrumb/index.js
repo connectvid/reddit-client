@@ -8,7 +8,7 @@ import { Typography } from '@mui/material';
 import { IconSettings } from '@tabler/icons';
 import AllPrompts from 'ui-component/Prompt/AllPrompts';
 
-export default function MentionBreadcrumb({
+export default function ({
     setSelectedKeyword,
     loading,
     // selectedKeyword,
@@ -16,15 +16,43 @@ export default function MentionBreadcrumb({
     // setMoreLoading,
     // moreLoading,
     // firstKeyword,
-    handleModal,
+    // handleModal,
+    handleASModal,
     initFirstPage
 }) {
     return (
         <>
-            <Breadcrumb title="Mentions">
+            <Breadcrumb
+                title="Mentions"
+                sx={{ display: { lg: 'flex', md: 'block' } }}
+                titleSx={{ mb: { lg: 0, xs: 2 }, textAlign: { lg: 'left', xs: 'center' } }}
+            >
                 {/* <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} /> */}
                 <AllPrompts />
+                <AllProjects />
+                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage }} />
                 <BRButton
+                    variant="outlined"
+                    sx={{ width: '170px', height: '40px' }}
+                    childSx={{ width: '100%', fontSize: '160x', fontWeight: 500 }}
+                    grandChildSx={{ width: '100%' }}
+                    onClick={handleASModal}
+                >
+                    <Typography
+                        sx={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            fontSize: '160x',
+                            fontWeight: 500
+                        }}
+                    >
+                        <IconSettings size={16} color="#0C22E5" style={{ marginRight: '3px' }} />
+                        Advanced settings
+                    </Typography>
+                </BRButton>
+                {/* <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}
                     childSx={{ width: '100%', fontSize: '160x', fontWeight: 500 }}
@@ -44,9 +72,7 @@ export default function MentionBreadcrumb({
                         <IconSettings size={16} color="#0C22E5" />
                         Manage mentions
                     </Typography>
-                </BRButton>
-                <AllProjects />
-                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage }} />
+                </BRButton> */}
             </Breadcrumb>
         </>
     );
