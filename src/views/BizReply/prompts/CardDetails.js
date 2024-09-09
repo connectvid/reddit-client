@@ -5,11 +5,11 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Typography } from '@mui/material';
-// import { FaTrash } from 'react-icons/fa6';
-// import { MdOutlineContentCopy } from 'react-icons/md';
-// import { toast } from 'react-toastify';
-// import BRButton from 'ui-component/bizreply/BRButton';
-// import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { fontSize } from '@mui/system';
+import Prompt from 'assets/images/svgIcons/prompt.svg';
+import Character from 'assets/images/svgIcons/character.svg';
+import Tone from 'assets/images/svgIcons/tone.svg';
+import Language from 'assets/images/svgIcons/language.svg';
 
 const CardDetails = ({ language, tone, reply_character_limit, description, name, expand = false }) => {
     const str = description;
@@ -21,43 +21,103 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
     // : description;
     return (
         <Box>
-            <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 2 }}>Prompt Name: {name}</Typography>
-
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 2 }}>Language: {language}</Typography>
-                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 2 }}>Tone: {tone}</Typography>
-                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 2 }}>
-                    Character Count: {reply_character_limit}
-                </Typography>
+            <Box sx={{ display: 'flex', mb: 2 }}>
+                <img src={Prompt} alt="Prompt" style={{ width: '20px' }} />
+                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', ml: 2 }}>Prompt Name: {name}</Typography>
             </Box>
 
-            <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 0.5 }}>Prompt Description:</Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
+                <Box
+                    sx={{
+                        fontWeight: 700,
+                        fontSize: '16px',
+                        color: '#000',
+                        mb: 2,
+                        background: '#f4f8fd',
+                        border: '1px solid #0C22E5',
+                        borderRadius: '8px',
+                        flex: '1',
+                        height: '100%',
+                        padding: '8px',
+                        display: 'flex',
+                        gap: '5px'
+                    }}
+                >
+                    <img src={Language} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <Box>
+                        <Typography
+                            sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
+                        >
+                            Language
+                        </Typography>
+                        <Typography>{language}</Typography>
+                    </Box>
+                </Box>
+                <Box
+                    sx={{
+                        fontWeight: 700,
+                        fontSize: '16px',
+                        color: '#000',
+                        mb: 2,
+                        background: '#f4f8fd',
+                        border: '1px solid #0C22E5',
+                        borderRadius: '8px',
+                        flex: '1',
+                        height: '100%',
+                        padding: '8px',
+                        display: 'flex',
+                        gap: '5px'
+                    }}
+                >
+                    <img src={Tone} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <Box>
+                        <Typography
+                            sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
+                        >
+                            Tone
+                        </Typography>
+                        <Typography>{tone}</Typography>
+                    </Box>
+                </Box>
+                <Box
+                    sx={{
+                        fontWeight: 700,
+                        fontSize: '16px',
+                        color: '#000',
+                        mb: 2,
+                        background: '#f4f8fd',
+                        border: '1px solid #0C22E5',
+                        borderRadius: '8px',
+                        flex: '1',
+                        height: '100%',
+                        padding: '8px',
+                        display: 'flex',
+                        gap: '5px'
+                    }}
+                >
+                    <img src={Character} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <Box>
+                        <Typography
+                            sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
+                        >
+                            Character
+                        </Typography>
+                        <Typography>{reply_character_limit}</Typography>
+                    </Box>
+                </Box>
+            </Box>
+
+            <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', mb: 0.5 }}>Description:</Typography>
             <Box
                 sx={{
-                    fontWeight: 400,
+                    fontWeight: 300,
                     fontSize: '16px',
                     color: '#3A3D41',
                     lineHeight: '24px',
                     height: expand ? '' : '173px',
                     overflow: 'hidden'
-                    // border: '1px solid #CCD3D9',
-                    // p: 2,
-                    // borderRadius: '10px',
-                    // height: '180px',
                 }}
             >
-                {/* {expand
-                    ? description
-                    : description?.length > allowDescriptionLength
-                    ? `${description.substring(0, allowDescriptionLength)} ...`
-                    : description} */}
-
-                {/* {expand
-                    ? description
-                    : description?.length > allowDescriptionLength
-                    ? `${description.substring(0, allowDescriptionLength).split(`\n`).join('\n')} ...`
-                    : description.split(`\n`).join('\n')} */}
-
                 {str.split('\n').map((item, i) => {
                     console.log(item);
                     return (
@@ -65,7 +125,7 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
                             key={i}
                             sx={
                                 {
-                                    // color: '#000',
+                                    // color: '#f4f8fd',
                                     // // fontWeight: 500,
                                     // fontSize: '14px',
                                     // lineHeight: '22px'
