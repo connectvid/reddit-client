@@ -371,7 +371,8 @@ export const FirebaseProvider = ({ children }) => {
                             }
                         });
                         setIsLoading(false);
-                        return navigate(ONBOARDING_PATH);
+                        return navigate('/email-verified');
+                        // return navigate(ONBOARDING_PATH);
                     })
                     .catch(async (eRR) => {
                         localStorage.clear();

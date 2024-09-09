@@ -101,6 +101,16 @@ export default function () {
                             <Grid container spacing={2}>
                                 {prompts.map?.((item) => (
                                     <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                        {/* <Grid
+                                        key={item._id}
+                                        item
+                                        style={{
+                                            flexBasis: 'calc(33.33% - 16px)', // Base width for three items per row
+                                            minWidth: '450px', // Minimum width for each card
+                                            padding: '8px', // Padding for spacing between items
+                                            boxSizing: 'border-box' // Ensures padding is included in width calculation
+                                        }}
+                                    > */}
                                         <PromptCard
                                             {...item}
                                             {...{

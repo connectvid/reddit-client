@@ -13,10 +13,11 @@ const Login = () => {
     const { isLoggedIn, dbUser } = useAuth();
 
     useEffect(() => {
+        console.log(dbUser, '1234');
         if (dbUser?.email) {
             navigate('/');
         }
-    }, [dbUser?.email, navigate]);
+    }, []);
 
     return (
         <Grid direction="column" justifyContent="center" alignItems="center" style={{ height: '100vh', backgroundColor: '#ffffff' }}>

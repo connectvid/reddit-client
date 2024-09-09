@@ -51,24 +51,11 @@ export default function (props) {
                     <CardDetails {...restProps} {...{ expand }} />
                 </Box>
             </Dialog>
-            <Card sx={{ border: '1px solid rgba(0,0,0,0.8)', borderRadius: '12px' }}>
+            <Card sx={{ borderRadius: '12px' }}>
                 <CardContent>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                         <CardDetails {...restProps} {...{ allowDescriptionLength, setExpand }} />
                         <CardFooter {...{ handleViewDetails, handleEdit, handleDelete }} />
-                        {/* <Box>
-                    <BRButton
-                        variant="outlined"
-                        sx={{ borderRadius: '6px', height: '38px', mt: 1.5 }}
-                        childSx={{ borderRadius: '6px', px: 1.5 }}
-                    >
-                        <CopyToClipboard text={prompt} onCopy={() => toast.success(`Coppied!`)}>
-                            <Typography component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>
-                                <MdOutlineContentCopy color="#0C22E5" /> <Typography ml={0.5}>Copy prompt</Typography>
-                            </Typography>
-                        </CopyToClipboard>
-                    </BRButton>
-                </Box> */}
                     </Box>
                 </CardContent>
             </Card>

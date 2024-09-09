@@ -1,16 +1,18 @@
 import { Box, Typography, Grid, useMediaQuery } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import AuthRegisterWithOTP from './AuthRegisterWithOTP';
 import AuthRegisterOTPForm from './AuthRegisterOTPForm';
 import useAuth from 'hooks/useAuth';
 import BizReplyLogo from 'assets/images/logo-black.svg'; // Update the path to the correct location
 import axios from 'utils/axios';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const RegisterWithOTP = () => {
+    const navigate = useNavigate();
     const theme = useTheme();
-    const { isLoggedIn, firebaseRegisterWithOTP, setGeneralError } = useAuth();
+    const { isLoggedIn, firebaseRegisterWithOTP, generalError, setGeneralError, dbUser, isLoading, firebaseGoogleLoginOrSignup } =
+        useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     // const [formTitle, setFormTitle] = useState('Sign up');
     const [OTPValue, setOTPValue] = useState('');
@@ -21,13 +23,18 @@ const RegisterWithOTP = () => {
         password: ''
     });
 
+    useEffect(() => {
+        console.log(dbUser, '1234');
+        if (dbUser?.email) {
+            navigate('/');
+        }
+    }, [dbUser?.email]);
+
     const [OTPError, setOTPError] = useState('');
     const [isOTPVerifying, setIsOTPVerifying] = useState(false);
     const [sendingOTP, setSendingOTP] = useState(false);
 
-    const handleOPTSubmit = async (e) => {
-        e.preventDefault();
-
+    const handleOPTSubmit = async (OTPValue) => {
         setGeneralError('');
 
         if (!OTPValue || OTPValue?.length !== 6) {
@@ -89,6 +96,24 @@ const RegisterWithOTP = () => {
             });
     };
 
+    if (!showRegisterForm) {
+        return (
+            <AuthRegisterOTPForm
+                {...{
+                    OTPError,
+                    setOTPError,
+                    handleOPTSubmit,
+                    OTPValue,
+                    setOTPValue,
+                    isOTPVerifying,
+                    signUpUser,
+                    setShowRegisterForm,
+                    sendOTPAtEmail
+                }}
+            />
+        );
+    }
+
     return (
         <Grid direction="column" justifyContent="center" alignItems="center" style={{ backgroundColor: '#ffffff' }}>
             {/* BizReply Logo Section */}
@@ -146,7 +171,7 @@ const RegisterWithOTP = () => {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12}>
-                                {showRegisterForm ? (
+                                {/* {showRegisterForm ? (
                                     <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
                                 ) : (
                                     <AuthRegisterOTPForm
@@ -160,7 +185,8 @@ const RegisterWithOTP = () => {
                                             signUpUser
                                         }}
                                     />
-                                )}
+                                )} */}
+                                <AuthRegisterWithOTP {...{ sendingOTP, sendOTPAtEmail }} />
                             </Grid>
                             <Grid item xs={12}>
                                 <Grid item container direction="column" alignItems="center" xs={12} style={{ marginTop: '20px' }}>

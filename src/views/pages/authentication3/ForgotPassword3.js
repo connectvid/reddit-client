@@ -1,21 +1,27 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Button, Divider, FormControl, Grid, InputLabel, OutlinedInput, Typography, useMediaQuery } from '@mui/material';
-
+import BizReplyLogo from 'assets/images/logo-black.svg';
 // project imports
-import Logo from 'ui-component/Logo';
+import ForgotPasswordImage from 'assets/images/svgIcons/forgotPassword.svg';
 // import AuthFooter from 'ui-component/cards/AuthFooter';
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
 import { sendPasswordResetEmail, getAuth } from 'firebase/auth';
+
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { toast } from 'react-toastify';
+import { Box, textAlign } from '@mui/system';
+import BRButton from 'ui-component/bizreply/BRButton';
+import BRInput from 'ui-component/bizreply/BRInput';
+import GradinentText from 'ui-component/GradinentText';
 // ============================|| AUTH3 - FORGOT PASSWORD ||============================ //
 
 const ForgotPassword = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const { isLoggedIn } = useAuth();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const [email, setEmail] = useState('');
@@ -44,81 +50,77 @@ const ForgotPassword = () => {
         }
     };
 
+    const navigateLoginPage = () => {
+        navigate('/login');
+    };
+
     return (
-        <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
-            <Grid item xs={12}>
-                <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-                    <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
-                        <Grid container spacing={2} alignItems="center" justifyContent="center">
-                            <Grid item sx={{ mb: 3 }}>
-                                <Link to="#">
-                                    <Logo />
-                                </Link>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Grid container alignItems="center" justifyContent="center" textAlign="center" spacing={2}>
-                                    <Grid item xs={12}>
-                                        <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                                            Forgot password?
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography variant="caption" fontSize="16px" textAlign="center">
-                                            Enter your email address below and we&apos;ll send you a reset password email.
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                            <Grid item xs={12} style={{ textAlign: 'center', maxWidth: '400px' }}>
-                                <FormControl fullWidth sx={{ ...theme.typography.customInput }}>
-                                    <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-email-login"
-                                        type="email"
-                                        value={values.email}
-                                        name="email"
-                                        onChange={(e) => {
-                                            setEmail(e.target.value);
-                                        }}
-                                        label="Email Address"
-                                        inputProps={{}}
-                                    />
-                                </FormControl>
-                                <AnimateButton>
-                                    <Button
-                                        onClick={handleClick}
-                                        disableElevation
-                                        fullWidth
-                                        size="large"
-                                        type="submit"
-                                        variant="outlined"
-                                        color="secondary"
-                                        disabled={sendMail}
-                                    >
-                                        Send Reset Email Link
-                                    </Button>
-                                </AnimateButton>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Grid item container direction="column" alignItems="center" xs={12}>
-                                    <Typography
-                                        component={Link}
-                                        to={isLoggedIn ? '/pages/login/login3' : '/login'}
-                                        variant="subtitle1"
-                                        sx={{ textDecoration: 'none' }}
-                                    >
-                                        Already have an account?
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
+        <Box display="flex" flexDirection="column" alignItems="center" minHeight="100vh" bgcolor="#fff" p={3}>
+            <Box
+                style={{
+                    padding: '10px',
+                    marginTop: '20px'
+                }}
+            >
+                <Link to="https://bizreply.co" target="_blank" style={{ textDecoration: 'none' }}>
+                    <img src={BizReplyLogo} alt="BizReply" style={{ height: '40px' }} />
+                </Link>
+            </Box>
+            <img src={ForgotPasswordImage} alt="BizReply" style={{ height: '70px', marginTop: '15px' }} />
+            <Grid
+                item
+                xs={12}
+                sm={8}
+                md={5}
+                lg={4}
+                style={{ width: '40%', minWidth: '400px', maxWidth: '667px', alignItems: 'center', textAlign: 'center', color: '#000' }}
+            >
+                <Typography sx={{ fontSize: '32px', marginTop: '20px' }} variant="h5" fontWeight="bold" gutterBottom>
+                    Forgot Password
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                    Please enter the email address for your account that you would
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                    like to reset the password for
+                </Typography>
+
+                <Box sx={{ marginTop: '20px', textAlign: 'left', width: '100%' }}>
+                    <BRInput
+                        label="Email"
+                        type="text"
+                        placeholder="johnsmith@gmail.com"
+                        name="email"
+                        value={email}
+                        handleChange={(e) => {
+                            console.log(e.target.value);
+                            // setValues((p) => ({ ...p, email: value }));
+                            setEmail(e.target.value);
+                        }}
+                    />
+                </Box>
+                <BRButton
+                    disabled={sendMail}
+                    onClick={handleClick}
+                    variant="contained"
+                    sx={{ width: '100%', marginTop: '20px', marginBottom: '15px' }}
+                >
+                    Request reset link
+                </BRButton>
+                <GradinentText
+                    sx={{
+                        cursor: 'pointer',
+                        margin: '0 auto 0',
+                        textDecoration: 'underline'
+                    }}
+                    underline="none"
+                    color="primary"
+                    onClick={navigateLoginPage}
+                >
+                    Back to login
+                </GradinentText>
             </Grid>
-        </Grid>
+        </Box>
     );
 };
 

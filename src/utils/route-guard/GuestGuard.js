@@ -19,7 +19,7 @@ const GuestGuard = ({ children }) => {
     const { pathname } = useLocation();
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn && window.location.pathname !== '/email-verified') {
             navigate(DASHBOARD_PATH, { replace: true });
         } else if (isLoggedIn) {
             navigate(pathname, { replace: true });
