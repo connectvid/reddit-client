@@ -24,7 +24,7 @@ const PostFilter = ({ placeholder = 'Choose Keyword', setSelectedKeyword, loadin
                         disablePortal: true,
                         defaultValue: defaultKeyword,
                         wrapperSx: {
-                            minWidth: '300px'
+                            minWidth: '280px'
                         },
                         onChange: (_, v) => {
                             const title = v || defaultKeyword;

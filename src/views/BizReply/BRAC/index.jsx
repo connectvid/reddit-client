@@ -23,12 +23,13 @@ export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {
             <Autocomplete
                 popupIcon={<IconChevronDown size={20} />}
                 sx={{
-                    ...sx,
                     background: 'transparent',
                     '.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot':
                         { background: 'transparent', px: '0px!important' },
                     px: '0px!important',
-                    width: '100%'
+                    width: '100%',
+                    ...sx,
+                    fontSize: '12px !important'
                 }}
                 {...rest}
                 renderInput={(params) => (
@@ -41,7 +42,8 @@ export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {
                             input: {
                                 px: '0px!important',
                                 py: `1px!important`,
-                                background: 'transparent'
+                                background: 'transparent',
+                                fontSize: '14px !important'
                             },
                             fieldset: {
                                 // borderRadius: '10px',

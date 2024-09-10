@@ -5,7 +5,7 @@ import { setSingleProjectSelect } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BRAC from 'views/BizReply/BRAC';
 
-export default function ({ projectListWidth = '280px' }) {
+export default function ({ projectListWidth = '270px' }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const {
