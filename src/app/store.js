@@ -9,6 +9,7 @@ import planSlice from 'features/plan/plan';
 import projectSlice from 'features/project/projectSlice';
 import promptSlice from 'features/prompt/promptSlice';
 import subscriptionSlice from 'features/subscription/subscriptionSlice';
+import mentionSlice from 'features/mention/mentionSlice';
 import snackbarSlice from 'features/snackbar/snackbar';
 
 // configure app store
@@ -18,6 +19,7 @@ const store = configureStore({
         prompt: promptSlice,
         project: projectSlice,
         subscription: subscriptionSlice,
+        mention: mentionSlice,
         plan: planSlice,
         menu: menuSlice,
         snackbar: snackbarSlice,

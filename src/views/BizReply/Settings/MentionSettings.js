@@ -2,13 +2,39 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
+import { mentionSettingCretedOrUpdatedStatus, updateMentionSettingAPI } from 'features/mention/mentionActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 // import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BRButton from 'ui-component/bizreply/BRButton';
-import axios from 'utils/axios';
+import PlatformSelection from 'ui-component/PlatformSelection';
 import errorMsgHelper from 'utils/errorMsgHelper';
+
+const fetchTimings = [
+    { label: '1 day', value: 1 },
+    // { label: '24  Hours', value: 1 },
+    { label: '2 days', value: 2 },
+    { label: '3 days', value: 3 },
+    { label: '4 days', value: 4 },
+    { label: '5 days', value: 5 },
+    { label: '6 days', value: 6 },
+    { label: '7 days', value: 7 },
+    { label: '15 days', value: 15 },
+    { label: '30 days', value: 30 }
+];
+
+// const postsPerRequests = [
+//     { label: '10', value: 10 },
+//     { label: '20', value: 20 },
+//     { label: '30', value: 30 },
+//     { label: '40', value: 40 },
+//     { label: '50', value: 50 },
+//     { label: '100', value: 100 }
+// ];
+
+const postsPerRequests = [10, 20, 30, 40, 50, 100];
 
 export default function ({
     formContentSx = { width: { lg: '50%', md: '80%', xs: '100%' } },
@@ -19,37 +45,19 @@ export default function ({
     },
     title = 'Mention settings'
 }) {
+    const {
+        mention: { mentionSetting, loading, mentionSettingCreteOrUpdateLoading, mentionSettingCretedOrUpdated },
+        project: { project },
+        subscription: { subscription }
+    } = useSelector((s) => s);
+
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [updating, setUpdating] = useState(false);
-    // const { pathname } = useLocation();
+    const [selectedPlatforms, setSelectedPlatforms] = useState([]);
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
     };
-
-    const fetchTimings = [
-        { label: '1 day', value: 1 },
-        // { label: '24  Hours', value: 1 },
-        { label: '2 days', value: 2 },
-        { label: '3 days', value: 3 },
-        { label: '4 days', value: 4 },
-        { label: '5 days', value: 5 },
-        { label: '6 days', value: 6 },
-        { label: '7 days', value: 7 },
-        { label: '15 days', value: 15 },
-        { label: '30 days', value: 30 }
-    ];
-
-    const postsPerRequests = [
-        { label: '10', value: 10 },
-        { label: '20', value: 20 },
-        { label: '30', value: 30 },
-        { label: '40', value: 40 },
-        { label: '50', value: 50 },
-        { label: '100', value: 100 }
-    ];
 
     const [values, setValues] = useState({
         country: 'us',
@@ -59,69 +67,54 @@ export default function ({
     });
 
     // console.log({ values });
-
-    const getMentionSettings = async () => {
-        try {
-            setLoading(true);
-            const token = await getAccessToken();
-            const {
-                data: { data }
-            } = await axios.get(`mention-settings`, {
-                headers: { Authorization: `Bearer ${token}` }
+    useEffect(() => {
+        if (mentionSetting) {
+            setValues({
+                country: mentionSetting?.country,
+                chosenLanguage: mentionSetting?.chosenLanguage,
+                fetchTiming: mentionSetting?.fetchTiming,
+                postsPerRequest: mentionSetting?.postsPerRequest
             });
-            console.log(data, 'this is the response');
-            if (data?._id) {
-                setValues({
-                    country: data?.country,
-                    chosenLanguage: data?.chosenLanguage,
-                    fetchTiming: data?.fetchTiming,
-                    postsPerRequest: data?.postsPerRequest
-                });
-                setChecked(data?.isActive);
-                // console.log(
-                //     {
-                //         chosenLanguage: data?.chosenLanguage,
-                //         // chosenLanguage: data?.chosenLanguage,
-                //         fetchTiming: data?.fetchTiming,
-                //         postsPerRequest: data?.postsPerRequest
-                //     },
-                //     data?.isActive
-                // );
-            }
-            setLoading(false);
-        } catch (e) {
-            console.error(e);
-            setLoading(false);
+            setChecked(mentionSetting?.isActive);
         }
-    };
+    }, []);
 
     useEffect(() => {
-        getMentionSettings();
-    }, []);
+        if (mentionSettingCretedOrUpdated) {
+            toast.success(`Data has been updated`);
+            mentionSettingCretedOrUpdatedStatus(false)();
+        }
+    }, [mentionSettingCretedOrUpdated]);
+    useEffect(() => {
+        if (project?.platforms?.length) setSelectedPlatforms(project.platforms);
+        return () => {
+            setSelectedPlatforms([]);
+        };
+    }, [project?.platforms?.length]);
 
     const updateMentionSettings = async () => {
         try {
-            setUpdating(true);
             const token = await getAccessToken();
-            // console.log(checked, values);
+            const platforms = selectedPlatforms;
             const body = {
+                platforms,
+                projectId: project._id,
                 ...values,
                 isActive: checked
             };
-            await axios.post(`mention-settings`, body, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            toast.success('Setting has been updated');
-            setUpdating(false);
+            updateMentionSettingAPI({ token, data: body })();
         } catch (e) {
             console.error(e);
             toast.warn(errorMsgHelper(e));
-            setUpdating(false);
         }
-        // console.log(response, 'THIS IS the response');
+    };
+
+    const handleSelectedPlatform = (platform) => {
+        if (!selectedPlatforms.includes(platform)) {
+            setSelectedPlatforms((p) => [...p, platform]);
+        } else {
+            setSelectedPlatforms(selectedPlatforms.filter((item) => item !== platform));
+        }
     };
 
     return (
@@ -153,6 +146,7 @@ export default function ({
                                         Choose Country
                                     </Typography>
                                     <Autocomplete
+                                        fullWidth
                                         onChange={(_, data) => {
                                             if (data) setValues((p) => ({ ...p, country: data.code }));
                                             return data;
@@ -168,9 +162,11 @@ export default function ({
                                             return null;
                                         })()}
                                         disablePortal
-                                        id="combo-box-demo"
                                         options={countries}
-                                        sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                        sx={{
+                                            mt: 1,
+                                            mb: 2
+                                        }}
                                         disableClearable
                                         renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                     />
@@ -181,6 +177,7 @@ export default function ({
                                         Choose language
                                     </Typography>
                                     <Autocomplete
+                                        fullWidth
                                         onChange={(_, data) => {
                                             if (data) setValues((p) => ({ ...p, chosenLanguage: data.value }));
                                             return data;
@@ -195,9 +192,8 @@ export default function ({
                                             return null;
                                         })()}
                                         disablePortal
-                                        id="combo-box-demo"
                                         options={chosenLanguages}
-                                        sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                        sx={{ mt: 1, mb: 2 }}
                                         disableClearable
                                         renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                     />
@@ -212,15 +208,13 @@ export default function ({
                                     }}
                                     defaultValue={(() => {
                                         for (const im of fetchTimings) {
-                                            if (im.value === values?.fetchTiming) {
+                                            if (im.value === mentionSetting?.fetchTiming) {
                                                 return im;
                                                 break;
                                             }
                                         }
                                         return null;
                                     })()}
-                                    disablePortal
-                                    id="combo-box-demo"
                                     options={fetchTimings}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
@@ -232,15 +226,19 @@ export default function ({
                                     Number of posts to fetch on each request
                                 </Typography>
                                 <Autocomplete
+                                    fullWidth
                                     onChange={(_, data) => {
-                                        if (data) setValues((p) => ({ ...p, postsPerRequest: data.value }));
+                                        if (data) setValues((p) => ({ ...p, postsPerRequest: data }));
                                         return data;
                                     }}
-                                    defaultValue={values.postsPerRequest}
+                                    defaultValue={mentionSetting?.postsPerRequest}
+                                    getOptionLabel={(item) => item}
                                     disablePortal
-                                    id="combo-box-demo"
                                     options={postsPerRequests}
-                                    sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                    sx={{
+                                        mt: 1,
+                                        mb: 2
+                                    }}
                                     disableClearable
                                     renderInput={(params) => (
                                         <TextField fullWidth {...params} required placeholder="Number of posts to fetch on each request" />
@@ -259,10 +257,32 @@ export default function ({
                         </Box>
                     )}
                 </Box>
+                <PlatformSelection
+                    {...{
+                        platforms: subscription.platforms,
+                        selectedPlatforms,
+                        handleSelectedPlatform,
+                        sx: { mt: 2 },
+                        cardSx: { minWidth: '100px', maxWidth: '100px' },
+                        platformsSx: { gap: 1 }
+                    }}
+                />
+                {/* <Box sx={{ width: '50%', mt: 2 }}>
+                </Box> */}
             </Box>
+
             <Box sx={{ display: 'flex', justifyContent: 'right', mt: 2, ...submitButtonSx }}>
-                <BRButton sx={{ height: '40px', width: '180px' }} disabled={updating} variant="contained" onClick={updateMentionSettings}>
-                    {updating ? <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} /> : 'Save Changes'}
+                <BRButton
+                    sx={{ height: '40px', width: '180px' }}
+                    disabled={mentionSettingCreteOrUpdateLoading}
+                    variant="contained"
+                    onClick={updateMentionSettings}
+                >
+                    {mentionSettingCreteOrUpdateLoading ? (
+                        <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} />
+                    ) : (
+                        'Save Changes'
+                    )}
                 </BRButton>
             </Box>
         </>

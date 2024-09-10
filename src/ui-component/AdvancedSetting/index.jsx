@@ -12,7 +12,8 @@ export default function ({ modalClose }) {
                 height: '100%',
                 right: 0,
                 background: '#fff !important',
-                zIndex: 99999
+                zIndex: 9990,
+                width: '500px'
             }}
         >
             <Box
@@ -35,7 +36,7 @@ export default function ({ modalClose }) {
                     display: 'flex',
                     justifyContent: 'center',
                     flexDirection: 'column',
-                    px: 3,
+                    px: 4,
                     pb: 3
                 }}
             >

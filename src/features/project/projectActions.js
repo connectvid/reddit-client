@@ -136,6 +136,9 @@ export const addProjectAPI =
 export const setUpdateProjectLoading = (v) => () => {
     dispatch(updateProjectLoading(v));
 };
+export const updateProjectData = (v) => () => {
+    dispatch(updateProject(v));
+};
 
 export const updateProjectAPI =
     (token, id, data = {}) =>
@@ -147,7 +150,7 @@ export const updateProjectAPI =
                     Authorization: `Bearer ${token}`
                 }
             });
-            dispatch(updateProject(response.data));
+            updateProjectData(response.data)();
             subsctriptionCreditsSetter({ keywords: -(data?.suggestedKeywords?.length || 0) })();
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
