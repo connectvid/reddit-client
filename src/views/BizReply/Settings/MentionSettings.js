@@ -147,55 +147,61 @@ export default function ({
                         <></>
                     ) : (
                         <Box sx={{ minWidth: '300px', mt: 2, ...formContentSx }}>
-                            <Box>
-                                <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>Choose Country</Typography>
-                                <Autocomplete
-                                    onChange={(_, data) => {
-                                        if (data) setValues((p) => ({ ...p, country: data.code }));
-                                        return data;
-                                    }}
-                                    getOptionLabel={(item) => item.name}
-                                    defaultValue={(() => {
-                                        for (const im of countries) {
-                                            if (im.code === values?.country) {
-                                                return im;
-                                                break;
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                <Box sx={{ width: '100%' }}>
+                                    <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
+                                        Choose Country
+                                    </Typography>
+                                    <Autocomplete
+                                        onChange={(_, data) => {
+                                            if (data) setValues((p) => ({ ...p, country: data.code }));
+                                            return data;
+                                        }}
+                                        getOptionLabel={(item) => item.name}
+                                        defaultValue={(() => {
+                                            for (const im of countries) {
+                                                if (im.code === values?.country) {
+                                                    return im;
+                                                    break;
+                                                }
                                             }
-                                        }
-                                        return null;
-                                    })()}
-                                    disablePortal
-                                    id="combo-box-demo"
-                                    options={countries}
-                                    sx={{ minWidth: 250, mt: 1, mb: 2 }}
-                                    disableClearable
-                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
-                                />
-                            </Box>
-                            {/* <Box></Box> */}
-                            <Box>
-                                <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>Choose language</Typography>
-                                <Autocomplete
-                                    onChange={(_, data) => {
-                                        if (data) setValues((p) => ({ ...p, chosenLanguage: data.value }));
-                                        return data;
-                                    }}
-                                    defaultValue={(() => {
-                                        for (const im of chosenLanguages) {
-                                            if (im.value === values?.chosenLanguage) {
-                                                return im;
-                                                break;
+                                            return null;
+                                        })()}
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        options={countries}
+                                        sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                        disableClearable
+                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
+                                    />
+                                </Box>
+
+                                <Box sx={{ width: '100%' }}>
+                                    <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
+                                        Choose language
+                                    </Typography>
+                                    <Autocomplete
+                                        onChange={(_, data) => {
+                                            if (data) setValues((p) => ({ ...p, chosenLanguage: data.value }));
+                                            return data;
+                                        }}
+                                        defaultValue={(() => {
+                                            for (const im of chosenLanguages) {
+                                                if (im.value === values?.chosenLanguage) {
+                                                    return im;
+                                                    break;
+                                                }
                                             }
-                                        }
-                                        return null;
-                                    })()}
-                                    disablePortal
-                                    id="combo-box-demo"
-                                    options={chosenLanguages}
-                                    sx={{ minWidth: 250, mt: 1, mb: 2 }}
-                                    disableClearable
-                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
-                                />
+                                            return null;
+                                        })()}
+                                        disablePortal
+                                        id="combo-box-demo"
+                                        options={chosenLanguages}
+                                        sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                        disableClearable
+                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
+                                    />
+                                </Box>
                             </Box>
                             <Box>
                                 <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>When to fetch posts</Typography>

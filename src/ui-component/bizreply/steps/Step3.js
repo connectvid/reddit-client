@@ -1,4 +1,4 @@
-import { CircularProgress, Grid, Typography } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import BRButton from '../BRButton';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -25,13 +25,15 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
     };
 
     return (
-        <div>
+        <Box>
             <Stepper3 />
-            <PlatformSelection {...{ platforms: subscription.platforms, selectedPlatforms, handleSelectedPlatform }} />
-            <Typography sx={{ color: '#6E7478', fontWeight: 500, fontSize: '14px', mb: 3, mt: 2 }}>
-                <span style={{ color: '#000', textDecoration: 'underline' }}>Skip and finish the step for now,</span> you’ll be able to
-                connect your socials later.
-            </Typography>
+            <Box sx={{ px: 5 }}>
+                <PlatformSelection {...{ platforms: subscription.platforms, selectedPlatforms, handleSelectedPlatform }} />
+                <Typography sx={{ color: '#6E7478', fontWeight: 500, fontSize: '14px', mb: 3, mt: 2 }}>
+                    <span style={{ color: '#000', textDecoration: 'underline' }}>Skip and finish the step for now,</span> you’ll be able to
+                    connect your socials later.
+                </Typography>
+            </Box>
 
             <Grid sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
                 <BRButton
@@ -63,7 +65,7 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
             ) : (
                 ''
             )}
-        </div>
+        </Box>
     );
 };
 
