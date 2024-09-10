@@ -9,6 +9,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import AccountSettings from './AccountSettings';
 import MentionSettings from './MentionSettings';
+import TeamSettings from './TeamSettings';
 // ==============================|| SETTINGS PAGE ||============================== //
 
 const Settings = () => {
@@ -39,6 +40,8 @@ const Settings = () => {
         Tab = AccountSettings;
     } else if (selectedComponent === 'mention') {
         Tab = MentionSettings;
+    }else if (selectedComponent === 'team') {
+        Tab = TeamSettings;
     }
     return (
         <Box>
@@ -67,6 +70,17 @@ const Settings = () => {
                         <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Mention settings</span>
                     ) : (
                         <span>Mention settings</span>
+                    )}
+                </Button>
+                <Button
+                    sx={{ flex: 1, width: '200px' }}
+                    onClick={() => setSelectedComponent('team')}
+                    style={selectedComponent === 'team' ? selectedStyle : notSelectedStyle}
+                >
+                    {selectedComponent === 'team' ? (
+                        <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Team members</span>
+                    ) : (
+                        <span>Team members</span>
                     )}
                 </Button>
             </ButtonGroup>
