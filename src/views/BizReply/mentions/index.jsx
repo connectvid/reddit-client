@@ -43,7 +43,10 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
 const Mentions = () => {
     const {
         project: { project, selectedPlatform },
-        prompt: { selectedPrompt }
+        prompt: { selectedPrompt },
+        subscription: {
+            subscription: { platforms }
+        }
     } = useSelector((state) => state);
     const { state } = useLocation();
     // const navigate = useNavigate();
@@ -58,6 +61,7 @@ const Mentions = () => {
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
     const [currentPosts, setCurrentPosts] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    // const [filterAgain, setFilterAgain] = useState(0);
     const [recall, setRecall] = useState(false);
     const handleRecall = () => setRecall((p) => !p);
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
@@ -69,45 +73,49 @@ const Mentions = () => {
     const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
-    // console.log({ currentPage });
+    console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
     // SOCKET
-    useEffect(() => {
-        function mentionsUpdate({ message: { items } }) {
-            if (items?.length) {
-                // setAllDatas(items);
-                const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
-                setMentionsDataObj((p) => {
-                    const upObj = {};
-                    for (const platform of project.platforms || []) {
-                        // console.log({ platform });
-                        if (reduced[platform]?.length) {
-                            const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
-                            upObj[platform] = postSorting({ data: allData });
-                        } else {
-                            const allData = p?.[platform];
-                            upObj[platform] = postSorting({ data: allData });
-                        }
+    function mentionsUpdate({ message: { items }, purposeName }) {
+        if (items?.length) {
+            // setAllDatas(items);
+            console.log(`Get new Data by socket`, platforms);
+            const reduced = dataGrouppingInPlatform({ data: items, platforms });
+            console.log(reduced, 'reduced');
+            setMentionsDataObj((p) => {
+                const upObj = {};
+                for (const platform of platforms || []) {
+                    // console.log({ platform });
+                    if (reduced[platform]?.length) {
+                        const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
+                        upObj[platform] = postSorting({ data: allData });
+                    } else {
+                        const allData = p?.[platform];
+                        upObj[platform] = postSorting({ data: allData });
                     }
-                    return upObj;
-                });
-                // console.log('socket', reduced);
-                if (loading) {
-                    setLoading(false);
                 }
+                return upObj;
+            });
+            // console.log('socket', reduced);
+            if (loading) {
+                setLoading(false);
             }
-            // console.log(`fetching Mentions`, { percentage });
-            if (!haveData && items?.length) {
-                setHaveData(true);
-                console.log(`haveData true`);
+            console.log({ purposeName });
+            if (purposeName === 'manage-mentions') {
+                // setFilterAgain((p) => p + 1);
             }
         }
+        // console.log(`fetching Mentions`, { percentage });
+        if (!haveData && items?.length) {
+            setHaveData(true);
+            console.log(`haveData true`);
+        }
+    }
+    useEffect(() => {
         socket.connect();
-        console.log(`Socket is connected`);
         const encoding = `project:${project?._id}`;
+        console.log(`Socket is connected`, encoding);
         // if (state?.socket) {
         socket.connect();
-        //     console.log(`Socket is connected`);
-        // }
 
         socket.on(encoding, mentionsUpdate);
         // socket.off();
@@ -139,16 +147,10 @@ const Mentions = () => {
                 const len = items.length;
                 setHaveData(Boolean(len));
                 //   ////////////////////
-                const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
+                const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj(reduced);
-                const [platform] = project?.platforms || [];
-                // const title = first?.title;
-                // console.log(reduced, first);
+                const [platform] = platforms || [];
 
-                // if (platform && title) {
-                //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
-                //     setFilteredData(filtered);
-                // }
                 const filtered = reduced[platform];
                 setFilteredData(filtered);
                 setLoading(false);
@@ -185,8 +187,10 @@ const Mentions = () => {
         setFilteredData(filtered);
         // setCurrentPage(1);
         handleRecall();
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length]);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
+
     const initFirstPage = () => setCurrentPage(1);
+
     const loadMore = async () => {
         const firstKeyword = project?.Suggestedkeywords?.[0];
         const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
@@ -241,6 +245,7 @@ const Mentions = () => {
             setMoreLoading?.(false);
         }
     };
+
     const mentionFetchAgain = async () => {
         setLoading(true);
         // const first = project?.Suggestedkeywords?.[0];
@@ -251,7 +256,7 @@ const Mentions = () => {
             const body = { project };
             const {
                 data: { items }
-            } = await axios.post(`mentions/projects/${project._id}/refresh-scrap`, body, {
+            } = await axios.post(`mentions/projects/${project?._id}/refresh-scrap`, body, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -259,9 +264,9 @@ const Mentions = () => {
             const len = items.length;
             setHaveData(Boolean(len));
             //   ////////////////////
-            const reduced = dataGrouppingInPlatform({ data: items, platforms: project.platforms });
+            const reduced = dataGrouppingInPlatform({ data: items, platforms });
             setMentionsDataObj(reduced);
-            const [platform] = project?.platforms || [];
+            const [platform] = platforms || [];
             // const title = first?.title;
             // console.log(reduced, first);
 
@@ -283,6 +288,7 @@ const Mentions = () => {
             setLoading(false);
         }
     };
+
     return (
         <>
             {/* <OpenAikeyPopup /> */}

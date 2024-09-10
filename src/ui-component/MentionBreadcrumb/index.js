@@ -16,7 +16,7 @@ export default function ({
     // setMoreLoading,
     // moreLoading,
     // firstKeyword,
-    // handleModal,
+    handleModal,
     handleASModal,
     initFirstPage
 }) {
@@ -52,7 +52,7 @@ export default function ({
                         Advanced settings
                     </Typography>
                 </BRButton>
-                {/* <BRButton
+                <BRButton
                     variant="outlined"
                     sx={{ width: '210px', height: '40px' }}
                     childSx={{ width: '100%', fontSize: '160x', fontWeight: 500 }}
@@ -72,7 +72,7 @@ export default function ({
                         <IconSettings size={16} color="#0C22E5" />
                         Manage mentions
                     </Typography>
-                </BRButton> */}
+                </BRButton>
             </Breadcrumb>
         </>
     );

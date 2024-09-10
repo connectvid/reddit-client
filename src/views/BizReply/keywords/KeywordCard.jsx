@@ -9,7 +9,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { TbSquareAsterisk } from 'react-icons/tb';
 import GradinentText from 'ui-component/GradinentText';
 
-export default function ({ _id, title, accessToken, brandLogo = '', brandName }) {
+export default function ({ _id, title, accessToken, brandLogo = '', brandName, mentions }) {
     return (
         <Card sx={{ border: '1px solid rgba(0,0,0,0.8)', height: '197px', borderRadius: '12px' }}>
             <CardContent sx={{}}>
@@ -77,11 +77,16 @@ export default function ({ _id, title, accessToken, brandLogo = '', brandName })
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: '6px' }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,0.8)' }}>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px' }}>Last month:</Typography>
-                                <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}> 0</Typography>
+                                <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}>
+                                    {' '}
+                                    {mentions?.lastMonth}
+                                </Typography>
                             </Box>{' '}
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,1)' }}>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px' }}>Last 24h:</Typography>
-                                <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}> 0</Typography>
+                                <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}>
+                                    {mentions?.last24hrs}
+                                </Typography>
                             </Box>
                         </Box>
                     </Box>
