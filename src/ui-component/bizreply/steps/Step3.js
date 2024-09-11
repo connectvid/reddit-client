@@ -28,7 +28,18 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
         <Box>
             <Stepper3 />
             <Box sx={{ px: 5 }}>
-                <PlatformSelection {...{ platforms: subscription.platforms, selectedPlatforms, handleSelectedPlatform }} />
+                <PlatformSelection
+                    {...{
+                        platforms: subscription.platforms,
+                        selectedPlatforms,
+                        handleSelectedPlatform,
+                        cardSx: {
+                            minWidth: { xs: '154px', sm: '120px', md: '120px', lg: '120px', xl: '154px' },
+                            maxWidth: { xs: '154px', sm: '120px', md: '120px', lg: '120px', xl: '154px' }
+                        },
+                        platformsSx: { gap: { xs: 3, md: 3, lg: 2, xl: 4 } }
+                    }}
+                />
                 <Typography sx={{ color: '#6E7478', fontWeight: 500, fontSize: '14px', mb: 3, mt: 2 }}>
                     <span style={{ color: '#000', textDecoration: 'underline' }}>Skip and finish the step for now,</span> you’ll be able to
                     connect your socials later.
