@@ -91,13 +91,13 @@ export default function ({ _id, title, accessToken, brandLogo = '', brandName, m
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px' }}>Last month:</Typography>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}>
                                     {' '}
-                                    {mentions?.lastMonth}
+                                    {mentions?.lastMonth ?? 0}
                                 </Typography>
                             </Box>{' '}
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', color: 'rgba(0,0,0,1)' }}>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px' }}>Last 24h:</Typography>
                                 <Typography sx={{ fontWeight: 700, color: 'rgba(0,0,0,1)', fontSize: '16px', ml: '2px' }}>
-                                    {mentions?.last24hrs}
+                                    {mentions?.last24hrs ?? 0}
                                 </Typography>
                             </Box>
                         </Box>
