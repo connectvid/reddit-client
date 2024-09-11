@@ -5,7 +5,7 @@ import { setSingleProjectSelect } from 'features/project/projectActions';
 import { useLocation, useNavigate } from 'react-router-dom';
 import BRAC from 'views/BizReply/BRAC';
 
-export default function ({ projectListWidth = '270px' }) {
+export default function ({ width = '270px' }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const {
@@ -24,7 +24,7 @@ export default function ({ projectListWidth = '270px' }) {
                         disableClearable: true,
                         defaultValue: { label: project?.brandName, _id: project?._id },
                         wrapperSx: {
-                            width: projectListWidth
+                            width
                         },
                         onChange: (_, data) => {
                             const id = data?._id;

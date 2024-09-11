@@ -43,7 +43,9 @@ export default function ({
         p: 3,
         mt: 4
     },
-    title = 'Mention settings'
+    title = 'Mention settings',
+    platformCardSx = {},
+    switchSx = {}
 }) {
     const {
         mention: { mentionSetting, loading, mentionSettingCreteOrUpdateLoading, mentionSettingCretedOrUpdated },
@@ -139,7 +141,7 @@ export default function ({
                     {loading ? (
                         <></>
                     ) : (
-                        <Box sx={{ minWidth: '300px', mt: 2, ...formContentSx }}>
+                        <Box sx={{ minWidth: '300px', mt: 0, ...formContentSx }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
@@ -245,9 +247,15 @@ export default function ({
                                     )}
                                 />
                             </Box>
-                            <Box style={{ alignItems: 'center' }}>
-                                <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>Ability to on/off fetching request</Typography>
-                                <br />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    textAlign: 'start',
+                                    ...switchSx
+                                }}
+                            >
+                                <Typography sx={{ fontWeight: 'bold', fontSize: '16px' }}>Ability to on/off fetching request</Typography>
                                 <Typography sx={{ display: 'flex', alignItems: 'center' }}>
                                     Off
                                     <Switch checked={checked} onChange={handleChange} color="secondary" />
@@ -263,7 +271,7 @@ export default function ({
                         selectedPlatforms,
                         handleSelectedPlatform,
                         sx: { mt: 2 },
-                        cardSx: { minWidth: '100px', maxWidth: '100px' },
+                        cardSx: { ...platformCardSx },
                         platformsSx: { gap: 1 }
                     }}
                 />

@@ -13,7 +13,8 @@ export default function ({ modalClose }) {
                 right: 0,
                 background: '#fff !important',
                 zIndex: 9990,
-                width: '500px'
+                width: '510px',
+                overflowY: 'scroll'
             }}
         >
             <Box
@@ -36,14 +37,16 @@ export default function ({ modalClose }) {
                     display: 'flex',
                     justifyContent: 'center',
                     flexDirection: 'column',
-                    px: 4,
-                    pb: 3
+                    px: 4
+                    // pb: 3
                 }}
             >
                 <MentionSettings
                     formContentSx={{ width: '100%' }}
                     submitButtonSx={{ mt: 2, justifyContent: 'start' }}
                     wrapperSx={{}}
+                    platformCardSx={{ minWidth: '100px', maxWidth: '100px', minHeight: '65px' }}
+                    switchSx={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
                     title=""
                 />
             </Box>

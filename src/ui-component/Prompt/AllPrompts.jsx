@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { changePrompt } from 'features/prompt/promptActions';
 import BRAC from 'views/BizReply/BRAC';
 
-export default function ({ projectListWidth = '270px' }) {
+export default function ({ width = '270px' }) {
     const { prompts, selectedPrompt } = useSelector((s) => s.prompt);
     const options = prompts?.map?.(({ name: label, _id }) => ({ label, _id }));
     return (
@@ -18,7 +18,7 @@ export default function ({ projectListWidth = '270px' }) {
                         disableClearable: true,
                         defaultValue: options?.find?.((item) => item._id === selectedPrompt._id),
                         wrapperSx: {
-                            width: projectListWidth
+                            width
                         },
                         onChange: (_, data) => {
                             const id = data?._id;

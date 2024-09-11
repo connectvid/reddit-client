@@ -24,13 +24,14 @@ export default function ({
         <>
             <Breadcrumb
                 title="Mentions"
-                sx={{ display: { lg: 'flex', md: 'block' } }}
+                sx={{ display: { lg: 'flex', md: 'block' }, gap: '6px' }}
+                contentSx={{ gap: '6px' }}
                 titleSx={{ mb: { lg: 0, xs: 2 }, textAlign: { lg: 'left', xs: 'center' } }}
             >
                 {/* <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} /> */}
-                <AllPrompts />
-                <AllProjects />
-                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage }} />
+                <AllPrompts width="260px" />
+                <AllProjects width="260px" />
+                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage, width: '275px' }} />
                 <BRButton
                     variant="outlined"
                     sx={{ width: '170px', height: '40px' }}

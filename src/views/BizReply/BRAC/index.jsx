@@ -25,7 +25,7 @@ export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {
                 sx={{
                     background: 'transparent',
                     '.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot':
-                        { background: 'transparent', px: '0px!important' },
+                        { background: 'transparent', px: '8px!important' },
                     px: '0px!important',
                     width: '100%',
                     ...sx,
@@ -40,7 +40,8 @@ export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {
                             height: '40px',
                             px: '0px!important',
                             input: {
-                                px: '0px!important',
+                                pl: '0 !important',
+                                pr: '24px !important',
                                 py: `1px!important`,
                                 background: 'transparent',
                                 fontSize: '14px !important'

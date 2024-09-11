@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import { useSelector } from 'react-redux';
 import BRAC from 'views/BizReply/BRAC';
 
-const PostFilter = ({ placeholder = 'Choose Keyword', setSelectedKeyword, loading, initFirstPage }) => {
+const PostFilter = ({ placeholder = 'Choose Keyword', setSelectedKeyword, loading, initFirstPage, width }) => {
     const {
         project
         // createKeywordSuccess
@@ -24,7 +24,7 @@ const PostFilter = ({ placeholder = 'Choose Keyword', setSelectedKeyword, loadin
                         disablePortal: true,
                         defaultValue: defaultKeyword,
                         wrapperSx: {
-                            minWidth: '280px'
+                            minWidth: width
                         },
                         onChange: (_, v) => {
                             const title = v || defaultKeyword;
