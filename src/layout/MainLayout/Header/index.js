@@ -7,14 +7,15 @@ import { Box, Modal } from '@mui/material';
 import MobileSection from './MobileSection';
 import ProfileSection from './ProfileSection';
 import { useSelector } from 'react-redux';
-import { clearingError } from 'features/project/projectActions';
+import { clearingError, updateMentionFetchStatusChangerOfProject } from 'features/project/projectActions';
 import React from 'react';
 import { toast } from 'react-toastify';
 import NewProject from 'views/BizReply/projects/NewProject';
+import socket from 'socket';
 
 const Header = () => {
     const {
-        project: { error, showProjectCreateModal }
+        project: { error, showProjectCreateModal, project }
     } = useSelector((state) => state);
     React.useEffect(() => {
         if (error) {
@@ -22,6 +23,20 @@ const Header = () => {
             clearingError()();
         }
     }, [error]);
+
+    React.useEffect(() => {
+        socket.connect();
+
+        if (project?._id) {
+            const projectMentionStatus = `mentionsStatus:${project?._id}`;
+            console.log(`Socket is connected mentionsStatus`, projectMentionStatus);
+            socket.on(projectMentionStatus, ({ message: { mentionsStatus } }) => {
+                // "succeed"
+                updateMentionFetchStatusChangerOfProject({ _id: project._id, mentionsStatus })();
+                console.log({ mentionsStatus });
+            });
+        }
+    }, [project?._id]);
 
     return (
         <>

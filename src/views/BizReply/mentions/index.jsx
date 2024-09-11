@@ -22,6 +22,7 @@ import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
+import { Card, CardContent, Typography } from '@mui/material';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -40,6 +41,7 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     }, platfms);
     return reduced;
 };
+
 const Mentions = () => {
     const {
         project: { project, selectedPlatform },
@@ -72,9 +74,9 @@ const Mentions = () => {
     const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
-    console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
+    // console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
     // SOCKET
-    function mentionsUpdate({ message: { items }, purposeName }) {
+    function mentionsUpdate({ message: { items, percentage }, purposeName }) {
         if (items?.length) {
             // setAllDatas(items);
             console.log(`Get new Data by socket`, platforms);
@@ -103,7 +105,7 @@ const Mentions = () => {
                 // setFilterAgain((p) => p + 1);
             }
         }
-        // console.log(`fetching Mentions`, { percentage });
+        console.log(`fetching Mentions`, { percentage });
         if (!haveData && items?.length) {
             setHaveData(true);
             console.log(`haveData true`);
@@ -287,7 +289,29 @@ const Mentions = () => {
     //         setLoading(false);
     //     }
     // };
-
+    let Ele = <></>;
+    // {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
+    if (!loading && !filteredData?.length) {
+        if (project) {
+            if (project?.mentionsStatus === 'succeed') {
+                if (!currentPosts?.length) {
+                    Ele = (
+                        <Card sx={{ mb: 1 }}>
+                            <CardContent>
+                                <Typography variant="h3" sx={{ textAlign: 'center' }}>
+                                    Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    );
+                }
+            } else if (project?.mentionsStatus === 'progress') {
+                Ele = <PostPlaceholder />;
+            }
+        } else {
+            Ele = <EmptyProject {...{ description: '' }} />;
+        }
+    }
     return (
         <>
             {/* <OpenAikeyPopup /> */}
@@ -312,7 +336,8 @@ const Mentions = () => {
                 ''}
             {(openMentionSettionModal && <ManageMentions {...{ modalClose }} />) || ''}
             {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose }} />) || ''}
-            {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
+            {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
+            {Ele}
 
             {/* {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>

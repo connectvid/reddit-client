@@ -32,7 +32,8 @@ import {
     clearCustomNegativeKeyword,
     isEditProject,
     editProject,
-    projectUpdated
+    projectUpdated,
+    updateMentionFetchStatusOfProject
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -44,6 +45,9 @@ export const isEditProjectStatus =
         dispatch(isEditProject(v));
     };
 
+export const updateMentionFetchStatusChangerOfProject = (v) => () => {
+    dispatch(updateMentionFetchStatusOfProject(v));
+};
 export const editProjectSelect = (v) => () => {
     dispatch(editProject(v));
 };

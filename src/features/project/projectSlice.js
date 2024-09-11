@@ -112,6 +112,18 @@ const projectSlice = createSlice({
             state.editProject = null;
             state.isEditProject = false;
         },
+        updateMentionFetchStatusOfProject(state, { payload }) {
+            const item = payload;
+            if (state?.project && state.project._id === item._id) {
+                state.project = { ...state.project, ...item };
+            }
+            state.projects = state.projects.map((project) => {
+                if (project._id === item._id) {
+                    return { ...project, ...item };
+                }
+                return project;
+            });
+        },
         createKeywords(state, { payload }) {
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
             const negativeKeywords = [...(state.project?.negativeKeywords || []), ...(payload?.negativeKeywords || [])];
@@ -228,11 +240,18 @@ const projectSlice = createSlice({
             const { id } = payload;
             const items = state.projects.filter((item) => item._id !== id);
             state.projects = items;
-            const firstItem = items?.[0];
-            if (firstItem) {
-                state.project = firstItem;
-                state.selectedPlatform = firstItem.platforms?.[0];
+            if (id === state.project?._id) {
+                const firstItem = items?.[0];
+                state.project = firstItem || null;
+                state.selectedPlatform = firstItem?.platforms?.[0] || '';
+                // const { search, replace, origin, pathname } = window.location;
+                // const qs = new URLSearchParams(search);
+                // const findKey = qs.get('dp');
+                // if (findKey === id) {
+                //     replace(`${origin}${pathname}`);
+                // }
             }
+            console.log();
         },
         keywordRemove(state, { payload }) {
             const { id } = payload;
@@ -306,7 +325,8 @@ export const {
     clearCustomNegativeKeyword,
     isEditProject,
     editProject,
-    projectUpdated
+    projectUpdated,
+    updateMentionFetchStatusOfProject
 } = projectSlice.actions;
 
 export default projectSlice.reducer;
