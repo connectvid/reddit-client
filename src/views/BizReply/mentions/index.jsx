@@ -44,10 +44,9 @@ const Mentions = () => {
     const {
         project: { project, selectedPlatform },
         prompt: { selectedPrompt },
-        subscription: {
-            subscription: { platforms = [] }
-        }
+        subscription: { subscription }
     } = useSelector((state) => state);
+    const { platforms = [] } = subscription || {};
     const { state } = useLocation();
     // const navigate = useNavigate();
     const { getAccessToken } = useAuth();
