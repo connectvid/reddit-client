@@ -13,6 +13,7 @@ export default function ({ modalClose }) {
                 right: 0,
                 background: '#fff !important',
                 zIndex: 9990,
+                // width: '100%',
                 width: '510px',
                 overflowY: 'scroll'
             }}

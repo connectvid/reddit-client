@@ -12,19 +12,6 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import PlatformSelection from 'ui-component/PlatformSelection';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
-const fetchTimings = [
-    { label: '1 day', value: 1 },
-    // { label: '24  Hours', value: 1 },
-    { label: '2 days', value: 2 },
-    { label: '3 days', value: 3 },
-    { label: '4 days', value: 4 },
-    { label: '5 days', value: 5 },
-    { label: '6 days', value: 6 },
-    { label: '7 days', value: 7 },
-    { label: '15 days', value: 15 },
-    { label: '30 days', value: 30 }
-];
-
 // const postsPerRequests = [
 //     { label: '10', value: 10 },
 //     { label: '20', value: 20 },
@@ -33,8 +20,6 @@ const fetchTimings = [
 //     { label: '50', value: 50 },
 //     { label: '100', value: 100 }
 // ];
-
-const postsPerRequests = [10, 20, 30, 40, 50, 100];
 
 export default function ({
     formContentSx = { width: { lg: '50%', md: '80%', xs: '100%' } },
@@ -119,6 +104,20 @@ export default function ({
         }
     };
 
+    const fetchTimings = [
+        { label: '1 day', value: 1 },
+        // { label: '24  Hours', value: 1 },
+        { label: '2 days', value: 2 },
+        { label: '3 days', value: 3 },
+        { label: '4 days', value: 4 },
+        { label: '5 days', value: 5 },
+        { label: '6 days', value: 6 },
+        { label: '7 days', value: 7 },
+        { label: '15 days', value: 15 },
+        { label: '30 days', value: 30 }
+    ];
+
+    const postsPerRequests = [20, 30, 40, 50, 100];
     return (
         <>
             <Box
@@ -204,6 +203,8 @@ export default function ({
                             <Box>
                                 <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>When to fetch posts</Typography>
                                 <Autocomplete
+                                    id="Whentofetchposts"
+                                    disablePortal
                                     onChange={(_, data) => {
                                         if (data) setValues((p) => ({ ...p, fetchTiming: data?.value }));
                                         return data;
@@ -228,6 +229,7 @@ export default function ({
                                     Number of posts to fetch on each request
                                 </Typography>
                                 <Autocomplete
+                                    id="Numberofpoststofetchoneachrequest"
                                     fullWidth
                                     onChange={(_, data) => {
                                         if (data) setValues((p) => ({ ...p, postsPerRequest: data }));

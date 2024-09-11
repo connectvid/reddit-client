@@ -16,7 +16,19 @@ export default function ({ _id, title, accessToken, brandLogo = '', brandName, m
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography sx={{ fontWeight: 700 }}>
-                            {brandLogo ? <img src={brandLogo} alt={`${brandName} logo`} style={{ height: '25px' }} /> : brandName}
+                            {brandLogo ? (
+                                <Typography
+                                    component="span"
+                                    sx={{
+                                        // background: 'rgb(141, 149, 219)',
+                                        height: '25px'
+                                    }}
+                                >
+                                    <img src={brandLogo} alt={`${brandName} logo`} style={{ height: '25px', maxWidth: '100%' }} />
+                                </Typography>
+                            ) : (
+                                brandName
+                            )}
                         </Typography>
                         <Typography
                             sx={{ cursor: 'pointer' }}
