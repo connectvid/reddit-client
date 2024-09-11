@@ -46,11 +46,25 @@ export default function ({
         setChecked(event.target.checked);
     };
 
+    const fetchTimings = [
+        { label: '1 day', value: 1 },
+        // { label: '24  Hours', value: 1 },
+        { label: '2 days', value: 2 },
+        { label: '3 days', value: 3 },
+        { label: '4 days', value: 4 },
+        { label: '5 days', value: 5 },
+        { label: '6 days', value: 6 },
+        { label: '7 days', value: 7 },
+        { label: '15 days', value: 15 },
+        { label: '30 days', value: 30 }
+    ];
+
+    const postsPerRequests = [20, 30, 40, 50, 100];
     const [values, setValues] = useState({
         country: 'us',
         chosenLanguage: 'en',
-        fetchTiming: 1,
-        postsPerRequest: 10
+        fetchTiming: fetchTimings[0].value,
+        postsPerRequest: postsPerRequests[0]
     });
 
     // console.log({ values });
@@ -104,20 +118,6 @@ export default function ({
         }
     };
 
-    const fetchTimings = [
-        { label: '1 day', value: 1 },
-        // { label: '24  Hours', value: 1 },
-        { label: '2 days', value: 2 },
-        { label: '3 days', value: 3 },
-        { label: '4 days', value: 4 },
-        { label: '5 days', value: 5 },
-        { label: '6 days', value: 6 },
-        { label: '7 days', value: 7 },
-        { label: '15 days', value: 15 },
-        { label: '30 days', value: 30 }
-    ];
-
-    const postsPerRequests = [20, 30, 40, 50, 100];
     return (
         <>
             <Box

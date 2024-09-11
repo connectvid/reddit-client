@@ -245,48 +245,48 @@ const Mentions = () => {
         }
     };
 
-    const mentionFetchAgain = async () => {
-        setLoading(true);
-        // const first = project?.Suggestedkeywords?.[0];
-        // if (first) setSelectedKeyword(first);
-        try {
-            const token = await getAccessToken();
-            setFilteredData([]);
-            const body = { project };
-            const {
-                data: { items }
-            } = await axios.post(`mentions/projects/${project?._id}/refresh-scrap`, body, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            const len = items.length;
-            setHaveData(Boolean(len));
-            //   ////////////////////
-            const reduced = dataGrouppingInPlatform({ data: items, platforms });
-            setMentionsDataObj(reduced);
-            const [platform] = platforms || [];
-            // const title = first?.title;
-            // console.log(reduced, first);
+    // const mentionFetchAgain = async () => {
+    //     setLoading(true);
+    //     // const first = project?.Suggestedkeywords?.[0];
+    //     // if (first) setSelectedKeyword(first);
+    //     try {
+    //         const token = await getAccessToken();
+    //         setFilteredData([]);
+    //         const body = { project };
+    //         const {
+    //             data: { items }
+    //         } = await axios.post(`mentions/projects/${project?._id}/refresh-scrap`, body, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         const len = items.length;
+    //         setHaveData(Boolean(len));
+    //         //   ////////////////////
+    //         const reduced = dataGrouppingInPlatform({ data: items, platforms });
+    //         setMentionsDataObj(reduced);
+    //         const [platform] = platforms || [];
+    //         // const title = first?.title;
+    //         // console.log(reduced, first);
 
-            // if (platform && title) {
-            //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
-            //     setFilteredData(filtered);
-            // }
-            const filtered = reduced[platform];
-            setFilteredData(filtered);
-            setLoading(false);
-            // if (!state?.socket || len) {
-            //     setLoading(false);
-            // }
-            if (!state?.socket) {
-                // navigate(`${pathname}${search}`, { state: null });
-            }
-        } catch (e) {
-            console.log(e);
-            setLoading(false);
-        }
-    };
+    //         // if (platform && title) {
+    //         //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
+    //         //     setFilteredData(filtered);
+    //         // }
+    //         const filtered = reduced[platform];
+    //         setFilteredData(filtered);
+    //         setLoading(false);
+    //         // if (!state?.socket || len) {
+    //         //     setLoading(false);
+    //         // }
+    //         if (!state?.socket) {
+    //             // navigate(`${pathname}${search}`, { state: null });
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //         setLoading(false);
+    //     }
+    // };
 
     return (
         <>
