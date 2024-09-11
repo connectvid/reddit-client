@@ -155,7 +155,7 @@ export default function ({
                                         getOptionLabel={(item) => item.name}
                                         defaultValue={(() => {
                                             for (const im of countries) {
-                                                if (im.code === values?.country) {
+                                                if (im.code === mentionSetting?.country) {
                                                     return im;
                                                     break;
                                                 }
@@ -185,7 +185,7 @@ export default function ({
                                         }}
                                         defaultValue={(() => {
                                             for (const im of chosenLanguages) {
-                                                if (im.value === values?.chosenLanguage) {
+                                                if (im.value === mentionSetting?.chosenLanguage) {
                                                     return im;
                                                     break;
                                                 }

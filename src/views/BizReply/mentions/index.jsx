@@ -45,7 +45,7 @@ const Mentions = () => {
         project: { project, selectedPlatform },
         prompt: { selectedPrompt },
         subscription: {
-            subscription: { platforms }
+            subscription: { platforms = [] }
         }
     } = useSelector((state) => state);
     const { state } = useLocation();

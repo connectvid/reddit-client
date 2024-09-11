@@ -39,10 +39,11 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
                         height: '100%',
                         padding: '8px',
                         display: 'flex',
-                        gap: '5px'
+                        gap: '5px',
+                        alignItems: 'center'
                     }}
                 >
-                    <img src={Language} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <img src={Language} alt="Prompt" style={{ width: '20px', marginTop: '-22px' }} />
                     <Box>
                         <Typography
                             sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
@@ -68,7 +69,7 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
                         gap: '5px'
                     }}
                 >
-                    <img src={Tone} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <img src={Tone} alt="Prompt" style={{ width: '20px', marginTop: '-22px' }} />
                     <Box>
                         <Typography
                             sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
@@ -94,7 +95,7 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
                         gap: '5px'
                     }}
                 >
-                    <img src={Character} alt="Prompt" style={{ width: '20px', marginTop: '-18px' }} />
+                    <img src={Character} alt="Prompt" style={{ width: '14px', marginTop: '-22px' }} />
                     <Box>
                         <Typography
                             sx={{ color: '#6E7478', fontWeight: '300', textTransform: 'uppercase', fontSize: '12px', marginBottom: '8px' }}
