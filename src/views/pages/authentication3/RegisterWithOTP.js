@@ -7,6 +7,8 @@ import useAuth from 'hooks/useAuth';
 import BizReplyLogo from 'assets/images/logo-black.svg'; // Update the path to the correct location
 import axios from 'utils/axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import errorMsgHelper from 'utils/errorMsgHelper';
 
 const RegisterWithOTP = () => {
     const navigate = useNavigate();
@@ -64,10 +66,11 @@ const RegisterWithOTP = () => {
             .catch((e) => {
                 setGeneralError(e.response?.data?.message || e?.message);
                 setIsOTPVerifying(false);
+                toast.warn(errorMsgHelper(e));
             });
     };
 
-    const sendOTPAtEmail = async ({ name, ...rest }) => {
+    const sendOTPAtEmail = async ({ name, resend = false, ...rest }) => {
         const userObject = { name, ...rest };
         // console.log(userObject);
         // console.log(userObject);
@@ -86,9 +89,12 @@ const RegisterWithOTP = () => {
             .then(() => {
                 // setFormTitle('Verify OTP');
                 setShowRegisterForm(false);
+                toast.success(`OTP ${resend ? 're' : ''}send successfully!`);
             })
             .catch((e) => {
-                setGeneralError(e.response?.data?.message || e.message || 'Something went wrong');
+                const msg = errorMsgHelper(e);
+                setGeneralError(msg);
+                toast.warn(msg);
             })
             .finally(() => {
                 setSendingOTP(false);
@@ -107,7 +113,9 @@ const RegisterWithOTP = () => {
                     isOTPVerifying,
                     signUpUser,
                     setShowRegisterForm,
-                    sendOTPAtEmail
+                    sendOTPAtEmail,
+                    setSendingOTP,
+                    sendingOTP
                 }}
             />
         );

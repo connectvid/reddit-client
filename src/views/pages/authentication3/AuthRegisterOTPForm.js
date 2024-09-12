@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Box, Typography, TextField, Link, Grid } from '@mui/material';
+import { Box, Typography, TextField, Link, Grid, CircularProgress } from '@mui/material';
 import { toast } from 'react-toastify';
 import BizReplyLogo from 'assets/images/logo-black.svg';
 import VerifyEmail from 'assets/images/svgIcons/verifyEmail.svg';
@@ -7,7 +7,15 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import GradinentText from 'ui-component/GradinentText';
 import useAuth from 'hooks/useAuth';
 
-const AuthRegisterOTPForm = ({ isOTPVerifying, handleOPTSubmit, signUpUser, setShowRegisterForm, sendOTPAtEmail }) => {
+const AuthRegisterOTPForm = ({
+    isOTPVerifying,
+    handleOPTSubmit,
+    signUpUser,
+    setShowRegisterForm,
+    sendOTPAtEmail,
+    setSendingOTP,
+    sendingOTP
+}) => {
     const { isLoading } = useAuth();
     const [code, setCode] = useState(Array(6).fill(''));
     const inputRefs = useRef(
@@ -90,7 +98,8 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, handleOPTSubmit, signUpUser, setS
 
     // Your handleResendOTP function with updated debounce
     const handleResendOTP = debounce(() => {
-        sendOTPAtEmail({ name: signUpUser.name, email: signUpUser.email, password: signUpUser.password });
+        setSendingOTP?.(true);
+        sendOTPAtEmail({ name: signUpUser.name, email: signUpUser.email, password: signUpUser.password, resend: true });
     }, 5000);
 
     return (
@@ -185,9 +194,12 @@ const AuthRegisterOTPForm = ({ isOTPVerifying, handleOPTSubmit, signUpUser, setS
                         }}
                         underline="none"
                         color="primary"
-                        onClick={handleResendOTP}
+                        onClick={() => {
+                            if (sendingOTP) return;
+                            handleResendOTP();
+                        }}
                     >
-                        Resend code
+                        Resend code {sendingOTP ? <CircularProgress sx={{ maxWidth: '12px', maxHeight: '12px' }} /> : ''}
                     </GradinentText>
                 </Box>
             </Grid>
