@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -55,26 +57,6 @@ const PostCard = ({
     const [openAlert, setOpenAlert] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
     const { pathname } = useLocation();
-    // const [showVariableModal, setShowVariableModal] = useState(false);
-    // const [customPrompt, setCustomPrompt] =
-    //     useState(`Incorporate the details of a product/service subtly within the comments, and make sure to include the brand as a clickable link (with the domain URL explicitly mentioned). Here are the specifics:
-    //   Brand name: {projectName}
-    //   Domain URL: {projectDomain}
-    //   Description of the brand: {projectDescription}
-    //   The comments should:
-    //   1. Be concise and relevant, getting to the point quickly and adding value to the discussion.
-    //   2. Integrate a subtle mention of the brand and its benefits without making it the primary focus.
-    //   3. Include the brand and the product URL only once per comment, in the format "teamsynergypro.com".
-    //   4. Ensure the links do not have any kind of brackets or asterisks around them like ()[]{}**.
-    //   5. Be between 250 and 300 characters to ensure higher engagement.
-    //   6. Maintain high content quality by including insightful, humorous, or informative content that resonates with the community.
-    //   The post title is as follows:
-    //   "{title}"
-    //   The post snippet is as follows:
-    //   "{snippet}"
-    //   Use the above guidelines to craft one good comment that encourage discussion and interest in the product/service. `);
-
-    const [showCustomPromptInput, setShowCustomPromptInput] = useState(false);
 
     const handleGenerateReply = async () => {
         if (dbUser?.needOpenAiKey === 'Yes' && !dbUser?.openAIkey) {
@@ -245,14 +227,6 @@ const PostCard = ({
                                 </Typography>
                             </Box>
                         </Box>
-                        {/* <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
-                        {title.split(keyword).map((part, index, arr) => (
-                            <React.Fragment key={index}>
-                                {part}
-                                {index < arr.length - 1 && <strong>{keyword}</strong>}
-                            </React.Fragment>
-                        ))}
-                    </Typography> */}
 
                         <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
                             {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
@@ -366,9 +340,7 @@ const PostCard = ({
                                 handleGenerateReply,
                                 link,
                                 platform,
-                                repliesCredits,
-                                showCustomPromptInput,
-                                setShowCustomPromptInput
+                                repliesCredits
                             }}
                         />
                         {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}

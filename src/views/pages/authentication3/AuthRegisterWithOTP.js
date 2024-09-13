@@ -14,7 +14,6 @@ import Google from '../../../assets/images/svgIcons/google.svg';
 const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
     const theme = useTheme();
     const [showPassword, setShowPassword] = React.useState(false);
-
     const [strength, setStrength] = React.useState(0);
     const [level, setLevel] = React.useState();
     const { firebaseGoogleLoginOrSignup, isLoading } = useAuth();

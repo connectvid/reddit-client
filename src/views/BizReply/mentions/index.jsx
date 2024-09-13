@@ -299,7 +299,12 @@ const Mentions = () => {
                         <Card sx={{ mb: 1 }}>
                             <CardContent>
                                 <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                                    Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                                    Sorry, there seems to be no posts
+                                    {selectedKeyword?.title && selectedKeyword?.title !== 'All Keywords'
+                                        ? `for this keyword ${selectedKeyword.title} `
+                                        : ''}
+                                    on {selectedPlatform}
+                                    {/* Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -339,16 +344,7 @@ const Mentions = () => {
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
 
-            {/* {!loading && showEmpty && !filteredData?.length ? (
-                <Card sx={{ mb: 1 }}>
-                    <CardContent>
-                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
-                        </Typography>
-                    </CardContent>
-                </Card>
-            ) : (
-                ''
+            {/* 
             )} {!loading && showEmpty && !filteredData?.length ? (
                 <Card sx={{ mb: 1 }}>
                     <CardContent>
@@ -361,12 +357,7 @@ const Mentions = () => {
                                 ''
                             )}
                             ! */}
-            {/* </Typography>
-                    </CardContent>
-                </Card>
-            ) : (
-                ''
-            )} */}
+
             {loading ? (
                 <PostPlaceholder />
             ) : (

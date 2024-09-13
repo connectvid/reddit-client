@@ -37,7 +37,11 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
                             minWidth: { xs: '154px', sm: '120px', md: '120px', lg: '120px', xl: '154px' },
                             maxWidth: { xs: '154px', sm: '120px', md: '120px', lg: '120px', xl: '154px' }
                         },
-                        platformsSx: { gap: { xs: 3, md: 3, lg: 2, xl: 4 } }
+                        platformsSx: {
+                            gap: { xs: 3, md: 3, lg: 2, xl: 4 },
+                            width: { xs: '100%', sm: '100%', md: '95%', lg: '92.5%', xl: '95%' },
+                            mx: 'auto'
+                        }
                     }}
                 />
                 <Typography sx={{ color: '#6E7478', fontWeight: 500, fontSize: '14px', mb: 3, mt: 2 }}>
