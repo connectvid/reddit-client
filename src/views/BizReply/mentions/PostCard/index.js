@@ -17,7 +17,7 @@ import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionAc
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { IconBrandReddit } from '@tabler/icons';
-import { LinkedIn, Twitter } from '@mui/icons-material';
+import { LinkedIn, Twitter, Facebook, Instagram, Pinterest } from '@mui/icons-material';
 import IconQuora from 'ui-component/icons/IconQuora';
 import { keywordColors } from 'data';
 import { random } from 'lodash';
