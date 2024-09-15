@@ -59,23 +59,24 @@ export default function () {
         }
     };
 
-    // const handleDelete = async () => {
-    //     try {
-    //         // setLoading(true);
-    //         const token = await getAccessToken();
-    //         const { data } = await axios.delete(`user/open-ai-key`, {
-    //             headers: { Authorization: `Bearer ${token}` }
-    //         });
-    //         toast.success(data.message);
-    //         // setValues({});
-    //         // setOpenUpdate(false);
-    //     } catch (e) {
-    //         console.log(e);
-    //         toast.warn(errorMsgHelper(e));
-    //     } finally {
-    //         // setLoading(false);
-    //     }
-    // };
+    const handleDelete = async () => {
+        try {
+            setLoading(true);
+            const token = await getAccessToken();
+            const { data } = await axios.delete(`user/open-ai-key`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            toast.success(data.message);
+            // setValues({});
+            setDbUser((p) => ({ ...p, openAIkey: '', openAIModel: '' }));
+            setOpenUpdate(false);
+        } catch (e) {
+            console.log(e);
+            toast.warn(errorMsgHelper(e));
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <>
@@ -107,7 +108,7 @@ export default function () {
                                         <BRInput2
                                             placeholder="Enter Open API Key"
                                             fullWidth
-                                            required
+                                            required={!openUpdate}
                                             value={values?.openAIkey || ''}
                                             name="openAIkey"
                                             onChange={({ target: { value = '' } }) => {
@@ -140,7 +141,9 @@ export default function () {
                                         </BRButton>
                                         {/* {openUpdate && (
                                             <BRButton
-                                                disabled={loading || !openAIkey}
+                                                disabled={loading}
+                                                // || !openAIkey
+                                                onClick={() => setOpenUpdate(false)}
                                                 variant="outlined"
                                                 sx={{ width: '120px', height: '50px' }}
                                                 grandChildSx={{ textAlign: 'center', width: '100%', display: 'block' }}
@@ -156,7 +159,7 @@ export default function () {
                                         <Typography sx={{ mb: 1 }}>Open AI API key:</Typography>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                                             <Typography>{dbUser?.openAIkey}</Typography>
-                                            {/* <BRButton
+                                            <BRButton
                                                 sx={{ color: '#fff', width: '100px' }}
                                                 onClick={() => {
                                                     setOpenUpdate(true);
@@ -164,10 +167,9 @@ export default function () {
                                             >
                                                 Edit
                                             </BRButton>
-                                             */}
-                                            {/* <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleDelete}>
+                                            <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleDelete}>
                                                 Delete
-                                            </BRButton> */}
+                                            </BRButton>
                                         </Box>
                                     </Box>
                                 </>
