@@ -56,6 +56,7 @@ const PostCard = ({
     const [editOpen, setEditOpen] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
+    const [deletePost, setDeletePost] = useState(false);
     const { pathname } = useLocation();
 
     const handleGenerateReply = async () => {
@@ -186,6 +187,33 @@ const PostCard = ({
             toast.warning(errorMsgHelper(e));
         }
         setUpdatingReply(false);
+    };
+    const handleDeletePost = async () => {
+        setDeletePost(true);
+
+        try {
+            const token = await getAccessToken();
+            await axios.delete(`/mentions/${_id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (pathname === REPLY_PATH) {
+                setObjItems((p) => {
+                    return p?.filter?.((item) => item._id !== _id) || [];
+                });
+            } else {
+                setObjItems((p) => {
+                    const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                    return { ...p, [selectedPlatform]: filtered };
+                });
+            }
+
+            toast.success('Post has been skiped');
+        } catch (e) {
+            console.log(e);
+            toast.warning(errorMsgHelper(e));
+        }
+        setDeletePost(false);
     };
     return (
         <>
@@ -340,7 +368,9 @@ const PostCard = ({
                                 handleGenerateReply,
                                 link,
                                 platform,
-                                repliesCredits
+                                repliesCredits,
+                                handleDeletePost,
+                                deletePost
                             }}
                         />
                         {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
@@ -370,9 +400,9 @@ const SocialIcons = ({ platform }) => {
     if (platform === 'quora.com') return <IconQuora style={{ height: '28px', width: '28px', color: '#b82b27' }} />;
     if (platform === 'twitter.com') return <Twitter sx={{ height: '28px', width: '28px', color: '#17a3f1' }} />;
     if (platform === 'linkedin.com') return <LinkedIn sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'tiktok.com') return <IconBrandTiktok sx={{ height: '28px', width: '28px', color: '#006699' }} />;
+    if (platform === 'tiktok.com') return <IconBrandTiktok sx={{ height: '28px', width: '28px', color: '#FE2C55' }} />;
     if (platform === 'facebook.com') return <Facebook sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'instagram.com') return <Instagram sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'pinterest.com') return <Pinterest sx={{ height: '28px', width: '28px', color: '#006699' }} />;
+    if (platform === 'instagram.com') return <Instagram sx={{ height: '28px', width: '28px', color: '#cd486b' }} />;
+    if (platform === 'pinterest.com') return <Pinterest sx={{ height: '28px', width: '28px', color: '#e8443d' }} />;
     return <></>;
 };
