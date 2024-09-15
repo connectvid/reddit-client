@@ -12,15 +12,6 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import PlatformSelection from 'ui-component/PlatformSelection';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
-// const postsPerRequests = [
-//     { label: '10', value: 10 },
-//     { label: '20', value: 20 },
-//     { label: '30', value: 30 },
-//     { label: '40', value: 40 },
-//     { label: '50', value: 50 },
-//     { label: '100', value: 100 }
-// ];
-
 export default function ({
     formContentSx = { width: { lg: '50%', md: '80%', xs: '100%' } },
     submitButtonSx = {},

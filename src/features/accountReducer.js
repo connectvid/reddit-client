@@ -1,5 +1,5 @@
 // action - state management
-import { LOGIN, LOGOUT, REGISTER } from './actions';
+import { LOGIN, LOGOUT, REGISTER, UPDATE_USER } from './actions';
 
 // ==============================|| ACCOUNT REDUCER ||============================== //
 
@@ -25,6 +25,15 @@ const accountReducer = (state = initialState, action) => {
                 isLoggedIn: true,
                 isInitialized: true,
                 user
+            };
+        }
+        case UPDATE_USER: {
+            const { data } = action.payload;
+            return {
+                ...state,
+                isInitialized: true,
+                isLoggedIn: false,
+                user: { ...(state.user || {}), ...(data || {}) }
             };
         }
         case LOGOUT: {
