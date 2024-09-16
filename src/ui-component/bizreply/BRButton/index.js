@@ -52,6 +52,7 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
                             width: '100%',
                             ...child
                         }}
+                        id="child"
                     >
                         <Typography
                             component="span"
@@ -63,6 +64,7 @@ const BRButton = ({ sx = {}, children, buttonType = 'primary', type = 'button', 
                                 alignItems: 'center',
                                 ...grandChildSx
                             }}
+                            id="grandChild"
                         >
                             {children}
                         </Typography>
