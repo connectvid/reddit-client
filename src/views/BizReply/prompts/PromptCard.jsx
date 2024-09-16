@@ -18,7 +18,7 @@ import CardDetails from './CardDetails';
 import CardFooter from './CardFooter';
 
 export default function (props) {
-    const { getAccessToken } = useAuth();
+    const { getAccessToken, dbUser } = useAuth();
     const [expand, setExpand] = React.useState(false);
     const allowDescriptionLength = 394;
     const handleViewDetails = () => setExpand((p) => !p);
@@ -27,6 +27,9 @@ export default function (props) {
     const handleEdit = () => {
         handleEditor?.(restProps);
     };
+    React.useEffect(() => {
+        //
+    }, []);
     const handleDelete = async () => {
         if (!confirm(`Are you sure to delte the prompt!`)) return;
         try {
@@ -54,7 +57,7 @@ export default function (props) {
                 <CardContent>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
                         <CardDetails {...restProps} {...{ allowDescriptionLength, setExpand }} />
-                        <CardFooter {...{ handleViewDetails, handleEdit, handleDelete }} />
+                        <CardFooter {...{ handleViewDetails, handleEdit, handleDelete, hideEdit: dbUser?._id !== restProps.userId }} />
                     </Box>
                 </CardContent>
             </Card>

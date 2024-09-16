@@ -38,18 +38,32 @@ export default function () {
     const [openUpdate, setOpenUpdate] = React.useState(false);
     console.log(dbUser, 'dbUser');
     const options = ALLOWED_OPEN_AI_MODELS.map((item) => ({ label: item, value: item }));
-
+    // React.useEffect(() => {
+    //     if (dbUser?.openAIkey) {
+    //         // setValues({ openAIkey: dbUser?.openAIkey });
+    //     }
+    // }, []);
+    const handleEditOpen = () => {
+        if (dbUser?.openAIModel) {
+            setValues({ openAIModel: dbUser?.openAIModel });
+        }
+        setOpenUpdate(true);
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
             const token = await getAccessToken();
-            const { data } = await axios.post(`user/open-ai-key`, values, {
+            const { data } = await axios({
+                url: `user/open-ai-key`,
+                method: openUpdate ? 'PUT' : 'POST',
+                data: values,
                 headers: { Authorization: `Bearer ${token}` }
             });
             setDbUser((p) => ({ ...p, openAIkey: data.openAIkey, openAIModel: data.openAIModel }));
             toast.success(data.message);
             setValues({});
+            // setValues((p) => ({ ...p, openAIkey: '' }));
             setOpenUpdate(false);
         } catch (e) {
             console.log(e);
@@ -67,8 +81,8 @@ export default function () {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success(data.message);
-            // setValues({});
             setDbUser((p) => ({ ...p, openAIkey: '', openAIModel: '' }));
+            setValues({});
             setOpenUpdate(false);
         } catch (e) {
             console.log(e);
@@ -159,12 +173,7 @@ export default function () {
                                         <Typography sx={{ mb: 1 }}>Open AI API key:</Typography>
                                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                                             <Typography>{dbUser?.openAIkey}</Typography>
-                                            <BRButton
-                                                sx={{ color: '#fff', width: '100px' }}
-                                                onClick={() => {
-                                                    setOpenUpdate(true);
-                                                }}
-                                            >
+                                            <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleEditOpen}>
                                                 Edit
                                             </BRButton>
                                             <BRButton sx={{ color: '#fff', width: '100px' }} onClick={handleDelete}>

@@ -14,6 +14,8 @@ import * as Yup from 'yup';
 import { addPromptAPI, updatePromptAPI } from 'features/prompt/promptActions';
 import useAuth from 'hooks/useAuth';
 
+const characters = [200, 300, 400, 500, 600, 700, 800, 900, 1000];
+
 export default function ({ modalClose, initVals, isUpdate = false }) {
     const { getAccessToken } = useAuth();
     const initialValues = initVals
@@ -144,7 +146,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                             disablePortal
                                             value={values.reply_character_limit || ''}
                                             id="combo-box-demo"
-                                            options={[300, 200]}
+                                            options={characters}
                                             getOptionLabel={(item) => item}
                                             sx={{ width: '100%' }}
                                             disableClearable
