@@ -208,7 +208,7 @@ const PostCard = ({
                 });
             }
 
-            toast.success('Post has been skiped');
+            toast.success('Post has been skipped');
         } catch (e) {
             console.log(e);
             toast.warning(errorMsgHelper(e));
