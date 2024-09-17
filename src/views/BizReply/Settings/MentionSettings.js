@@ -25,7 +25,7 @@ export default function ({
 }) {
     const {
         mention: { mentionSetting, loading, mentionSettingCreteOrUpdateLoading, mentionSettingCretedOrUpdated },
-        project: { project },
+        project: { project, projects },
         subscription: { subscription }
     } = useSelector((s) => s);
 
@@ -86,6 +86,14 @@ export default function ({
 
     const updateMentionSettings = async () => {
         try {
+            if (!projects?.length) {
+                toast.warn(`Please create a new project first to setup advance settings!`);
+                return;
+            }
+            if (!project) {
+                toast.warn(`Please select a project first to setup advance settings!`);
+                return;
+            }
             const token = await getAccessToken();
             const platforms = selectedPlatforms;
             const body = {
