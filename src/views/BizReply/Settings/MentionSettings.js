@@ -90,7 +90,7 @@ export default function ({
             const platforms = selectedPlatforms;
             const body = {
                 platforms,
-                projectId: project._id,
+                projectId: project?._id,
                 ...values,
                 isActive: checked
             };
