@@ -28,7 +28,7 @@ export default function ({ modalClose }) {
                     px: 2.5
                 }}
             >
-                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>Mention Settinge</Typography>
+                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>Mention Settings</Typography>
                 <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
                     <FaTimes color="#757B89" size={14} />
                 </Typography>
