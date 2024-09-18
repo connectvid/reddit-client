@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 // import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import AiModels from 'ui-component/AiModels';
 import BRButton from 'ui-component/bizreply/BRButton';
 import PlatformSelection from 'ui-component/PlatformSelection';
 import errorMsgHelper from 'utils/errorMsgHelper';
@@ -32,6 +33,7 @@ export default function ({
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
     const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+    const [selectedModel, setSelectedModel] = useState(null);
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
@@ -78,7 +80,7 @@ export default function ({
         }
     }, [mentionSettingCretedOrUpdated]);
     useEffect(() => {
-        if (project?.platforms?.length) setSelectedPlatforms(project.platforms);
+        if (project?.platforms?.length) setSelectedPlatforms(project?.platforms);
         return () => {
             setSelectedPlatforms([]);
         };
@@ -276,6 +278,7 @@ export default function ({
                         platformsSx: { gap: 1 }
                     }}
                 />
+                <AiModels {...{ selectedModel, setSelectedModel }} />
                 {/* <Box sx={{ width: '50%', mt: 2 }}>
                 </Box> */}
             </Box>

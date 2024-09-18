@@ -34,13 +34,14 @@ const Settings = () => {
         border: 'none',
         background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)'
     };
-    const [selectedComponent, setSelectedComponent] = useState('account');
+    const [selectedComponent, setSelectedComponent] = useState('mention');
+    // const [selectedComponent, setSelectedComponent] = useState('account');
     let Tab = () => <></>;
     if (selectedComponent === 'account') {
         Tab = AccountSettings;
     } else if (selectedComponent === 'mention') {
         Tab = MentionSettings;
-    }else if (selectedComponent === 'team') {
+    } else if (selectedComponent === 'team') {
         Tab = TeamSettings;
     }
     return (
