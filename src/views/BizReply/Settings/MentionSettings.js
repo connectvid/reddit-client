@@ -27,7 +27,8 @@ export default function ({
     const {
         mention: { mentionSetting, loading, mentionSettingCreteOrUpdateLoading, mentionSettingCretedOrUpdated },
         project: { project, projects },
-        subscription: { subscription }
+        subscription: { subscription },
+        aiModel: { selectedAiModel }
     } = useSelector((s) => s);
 
     const { getAccessToken } = useAuth();
@@ -71,6 +72,9 @@ export default function ({
             });
             setChecked(mentionSetting?.isActive);
         }
+        if (selectedAiModel) {
+            setSelectedModel(selectedAiModel);
+        }
     }, []);
 
     useEffect(() => {
@@ -79,6 +83,7 @@ export default function ({
             mentionSettingCretedOrUpdatedStatus(false)();
         }
     }, [mentionSettingCretedOrUpdated]);
+
     useEffect(() => {
         if (project?.platforms?.length) setSelectedPlatforms(project?.platforms);
         return () => {
@@ -270,7 +275,7 @@ export default function ({
                 </Box>
                 <PlatformSelection
                     {...{
-                        platforms: subscription.platforms,
+                        platforms: subscription?.platforms,
                         selectedPlatforms,
                         handleSelectedPlatform,
                         sx: { mt: 2 },

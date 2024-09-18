@@ -6,6 +6,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     error: null,
     aiModels: [],
+    aiModelsGroup: { OpenAi: [], Straico: [], Gemini: [] },
+    aiModelsString: [],
     selectedAiModel: null,
     aiModel: null,
     aiModelLoading: false,
@@ -19,7 +21,7 @@ const initialState = {
 };
 
 const mentionSlice = createSlice({
-    name: 'AiModel',
+    name: 'aiModel',
     initialState,
     reducers: {
         hasError(state, action) {
@@ -43,7 +45,18 @@ const mentionSlice = createSlice({
             state.singleAiModelloading = false;
         },
         getAiModels(state, { payload }) {
-            state.aiModels = payload.items;
+            const items = payload.items;
+            state.aiModels = items;
+            const group = {};
+            const strings = [];
+            for (const item of items) {
+                group[item.modelGroupName] = item.model;
+                strings.push(item.model);
+            }
+            state.aiModelsGroup = { ...state.aiModelsGroup, ...group };
+            state.aiModelsString = strings;
+            const defaultModel = items.find((item) => item.type === 'default');
+            state.selectedAiModel = defaultModel;
             state.loading = false;
         },
         updateAiModel(state, { payload }) {

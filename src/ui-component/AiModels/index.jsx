@@ -2,14 +2,26 @@ import { Box, Typography } from '@mui/material';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons';
 import { OPEN_AI_MODELS, STRAICO_MODELS } from 'data';
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 export default function ({ selectedModel, setSelectedModel }) {
+    const {
+        aiModel: {
+            // aiModelsGroup,
+            aiModelsString
+        }
+    } = useSelector((s) => s);
     const openAi = 'ai-logo/open-ai.png';
-    // const gemini = 'ai-logo/gemini.png';
+    const gemini = 'ai-logo/gemini.png';
     const straico = 'ai-logo/straico.svg';
+    const aiImages = {
+        OpenAi: openAi,
+        Straico: straico,
+        Gemini: gemini
+    };
     const options = [
-        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAi', iconSrc: openAi })),
-        ...STRAICO_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Straico', iconSrc: straico }))
+        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAi' })),
+        ...STRAICO_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Straico' }))
     ];
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -49,11 +61,12 @@ export default function ({ selectedModel, setSelectedModel }) {
                                 '&:hover': {
                                     background: 'rgba(0,0,0,0.1)'
                                 },
+                                background: aiModelsString?.includes?.(item.model) ? 'rgba(0,0,0,0.05)' : '',
                                 transition: '0.4s all ease-in-out'
                             }}
                             onClick={() => handleSelectedModel(item)}
                         >
-                            <img src={item.iconSrc} alt={item.model} style={{ maxWidth: '20px' }} />
+                            <img src={aiImages[item.modelGroupName]} alt={item.model} style={{ maxWidth: '20px' }} />
                             <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>{item.model}</Typography>
                         </Box>
                     ))}
@@ -85,7 +98,7 @@ export default function ({ selectedModel, setSelectedModel }) {
                                 transition: '0.4s all ease-in-out'
                             }}
                         >
-                            <img src={selectedModel.iconSrc} alt={selectedModel.model} style={{ maxWidth: '20px' }} />
+                            <img src={aiImages[selectedModel.modelGroupName]} alt={selectedModel.model} style={{ maxWidth: '20px' }} />
                             <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>{selectedModel.model}</Typography>
                         </Box>
                     ) : (

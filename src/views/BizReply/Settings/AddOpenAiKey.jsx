@@ -14,7 +14,7 @@ export default function () {
     const [values, setValues] = React.useState({});
     const [loading, setLoading] = React.useState(false);
     const [openUpdate, setOpenUpdate] = React.useState(false);
-    console.log(dbUser, 'dbUser');
+    // console.log(dbUser, 'dbUser');
     const options = OPEN_AI_MODELS.map((item) => ({ label: item, value: item }));
     // React.useEffect(() => {
     //     if (dbUser?.openAIkey) {
