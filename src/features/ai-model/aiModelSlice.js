@@ -49,16 +49,21 @@ const mentionSlice = createSlice({
             const newItem = payload.item;
             // state.aiModels = items;
             const group = {};
-            const prevAllItems = JSON.parse(JSON.stringify(state.aiModels));
+            const prevAllItems = [newItem, ...JSON.parse(JSON.stringify(state.aiModels))];
+            // if (!prevAllItems?.length) {
+            //     prevAllItems = [newItem];
+            // }
             const strings = [];
 
             const mapped = prevAllItems.map((item) => {
                 group[item.modelGroupName] = item._id;
                 strings.push(item.model);
-                item.type = 'normal';
+                if (item._id === newItem._id) {
+                    item.type = 'normal';
+                } else item.type = 'normal';
                 return item;
             });
-            const items = [newItem, ...mapped];
+            const items = [...mapped];
             state.aiModels = items;
             state.aiModelsGroup = { ...state.aiModelsGroup, ...group };
             state.aiModelsString = strings;
