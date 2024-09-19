@@ -52,7 +52,18 @@ export default function ({
                         </Typography>
                     </Box>
                 ) : (
-                    <Typography onClick={handleToggle} sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>
+                    <Typography
+                        onClick={handleToggle}
+                        sx={{
+                            fontSize: '14px',
+                            fontWeight: 400,
+                            ml: 1,
+                            width: '100%',
+                            height: '42px',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    >
                         Choose language model
                     </Typography>
                 )}
