@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
-import { mentionSettingCretedOrUpdatedStatus, updateMentionSettingAPI } from 'features/mention/mentionActions';
+import { mentionErrorClear, mentionSettingCretedOrUpdatedStatus, updateMentionSettingAPI } from 'features/mention/mentionActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -25,16 +25,20 @@ export default function ({
     switchSx = {}
 }) {
     const {
-        mention: { mentionSetting, loading, mentionSettingCreteOrUpdateLoading, mentionSettingCretedOrUpdated },
+        mention: { mentionSetting, loading, mentionSettingUpdateLoading, mentionSettingCretedOrUpdated, error },
         project: { project, projects },
         subscription: { subscription },
-        aiModel: { selectedAiModel }
+        aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
-
+    console.log({ error });
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
     const [selectedPlatforms, setSelectedPlatforms] = useState([]);
     const [selectedModel, setSelectedModel] = useState(null);
+    const [aIkey, setAIkey] = useState('');
+    const [needAddAIkey, setNeedAddAIkey] = useState(false);
+    const [actionType, setActionType] = useState(''); // add, update
+    console.log({ needAddAIkey });
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
@@ -76,11 +80,34 @@ export default function ({
             setSelectedModel(selectedAiModel);
         }
     }, []);
+    useEffect(() => {
+        if (error) {
+            toast.warn(error);
+            mentionErrorClear(null)();
+        }
+    }, [error]);
+
+    useEffect(() => {
+        if (selectedModel?.model) {
+            const { modelGroupName } = selectedModel;
+            if (!aiModelsGroup?.[modelGroupName]) {
+                if (needAddAIkey) return;
+                setNeedAddAIkey(true);
+                setActionType('add');
+            } else if (needAddAIkey) {
+                setNeedAddAIkey(false);
+            }
+        }
+    }, [selectedModel?.model]);
 
     useEffect(() => {
         if (mentionSettingCretedOrUpdated) {
             toast.success(`Data has been updated`);
             mentionSettingCretedOrUpdatedStatus(false)();
+            if (needAddAIkey) {
+                setNeedAddAIkey(false);
+                setAIkey('');
+            }
         }
     }, [mentionSettingCretedOrUpdated]);
 
@@ -101,15 +128,30 @@ export default function ({
                 toast.warn(`Please select a project first to setup advance settings!`);
                 return;
             }
+            if (needAddAIkey && !aIkey?.trim?.()) {
+                toast.warn(`Please enter ${selectedModel?.modelGroupName} API key!`);
+                return;
+            }
             const token = await getAccessToken();
             const platforms = selectedPlatforms;
+            const ai_model = {
+                actionType,
+                modelId: aiModelsGroup[selectedModel?.modelGroupName],
+                aIkey,
+                ...selectedModel
+            };
+            if (!actionType && aiModelsString?.includes?.(ai_model?.model)) {
+                ai_model.actionType = 'update';
+            }
             const body = {
                 platforms,
                 projectId: project?._id,
                 ...values,
-                isActive: checked
+                isActive: checked,
+                ai_model
             };
             updateMentionSettingAPI({ token, data: body })();
+            console.log(body);
         } catch (e) {
             console.error(e);
             toast.warn(errorMsgHelper(e));
@@ -283,7 +325,7 @@ export default function ({
                         platformsSx: { gap: 1 }
                     }}
                 />
-                <AiModels {...{ selectedModel, setSelectedModel }} />
+                <AiModels {...{ selectedModel, setSelectedModel, aIkey, setAIkey, needAddAIkey, setNeedAddAIkey, setActionType }} />
                 {/* <Box sx={{ width: '50%', mt: 2 }}>
                 </Box> */}
             </Box>
@@ -291,11 +333,11 @@ export default function ({
             <Box sx={{ display: 'flex', justifyContent: 'right', mt: 2, ...submitButtonSx }}>
                 <BRButton
                     sx={{ height: '40px', width: '180px' }}
-                    disabled={mentionSettingCreteOrUpdateLoading}
+                    disabled={mentionSettingUpdateLoading}
                     variant="contained"
                     onClick={updateMentionSettings}
                 >
-                    {mentionSettingCreteOrUpdateLoading ? (
+                    {mentionSettingUpdateLoading ? (
                         <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} />
                     ) : (
                         'Save Changes'

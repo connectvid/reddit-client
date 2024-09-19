@@ -1,15 +1,22 @@
-import { Box, Typography } from '@mui/material';
-import { IconChevronDown, IconChevronUp } from '@tabler/icons';
-import { OPEN_AI_MODELS, STRAICO_MODELS } from 'data';
+import { Box } from '@mui/material';
+import { GEMINI_MODELS, OPEN_AI_MODELS, STRAICO_MODELS } from 'data';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import BRInput2 from 'ui-component/bizreply/BRInput2';
+import ModelSelect from './ModelSelect';
 
-export default function ({ selectedModel, setSelectedModel }) {
+export default function ({
+    selectedModel,
+    setSelectedModel,
+    selectedItemSx = {},
+    aIkey,
+    setAIkey,
+    needAddAIkey,
+    setNeedAddAIkey,
+    setActionType
+}) {
     const {
-        aiModel: {
-            // aiModelsGroup,
-            aiModelsString
-        }
+        aiModel: { aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
     const openAi = 'ai-logo/open-ai.png';
     const gemini = 'ai-logo/gemini.png';
@@ -21,94 +28,85 @@ export default function ({ selectedModel, setSelectedModel }) {
     };
     const options = [
         ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAi' })),
+        ...GEMINI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Gemini' })),
         ...STRAICO_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Straico' }))
     ];
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
+    // const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleToggle = () => setOpen((p) => !p);
+    console.log({ needAddAIkey });
+
     const handleSelectedModel = (model) => {
+        if (aiModelsGroup[model?.modelGroupName] && !aiModelsString?.includes?.(model?.model)) {
+            setActionType?.('update');
+        } else if (aiModelsGroup[model?.modelGroupName] && aiModelsString?.includes?.(model?.model) && !needAddAIkey) {
+            setActionType?.('');
+        }
         setSelectedModel(model);
         handleClose();
     };
 
+    const handleAPIKeyEdit = () => {
+        setNeedAddAIkey?.(true);
+        if (aiModelsGroup[selectedModel?.modelGroupName] && aiModelsString?.includes?.(selectedModel?.model)) {
+            setActionType?.('');
+        } else {
+            setActionType?.('update');
+        }
+        handleClose();
+    };
+    const handleAPIKeyEditCancel = () => {
+        setNeedAddAIkey?.(false);
+        handleClose();
+    };
     return (
         <Box>
-            <Box sx={{ position: 'relative', mt: 3 }}>
+            <ModelSelect
+                {...{
+                    open,
+                    options,
+                    aiModelsString,
+                    handleSelectedModel,
+                    aiImages,
+                    handleAPIKeyEdit,
+                    handleAPIKeyEditCancel,
+                    handleToggle,
+                    selectedModel,
+                    selectedItemSx,
+                    aiModelsGroup
+                }}
+            />
+            {needAddAIkey ? (
                 <Box
                     sx={{
-                        overflowY: 'scroll',
-                        height: '254px',
-                        maxWidth: '100%',
-                        position: 'absolute',
-                        bottom: '58px',
-                        background: '#fff',
-                        width: '100%',
-                        boxShadow: '0px 16px 50px 0px #12052242',
-                        borderRadius: '10px',
-                        display: open ? 'block' : 'none'
+                        mt: 2
+                        // border: '1px solid #6E7478',
+                        // height: '48px',
+                        // display: 'flex',
+                        // alignItems: 'center',
+                        // borderRadius: '10px',
+                        // justifyContent: 'space-between',
+                        // px: 2,
+                        // cursor: 'pointer'
                     }}
+                    // onClick={handleToggle}
                 >
-                    {options.map((item) => (
-                        <Box
-                            key={item.value}
-                            sx={{
-                                display: 'flex',
-                                height: '42px',
-                                alignItems: 'center',
-                                px: 3,
-                                cursor: 'pointer',
-                                '&:hover': {
-                                    background: 'rgba(0,0,0,0.1)'
-                                },
-                                background: aiModelsString?.includes?.(item.model) ? 'rgba(0,0,0,0.05)' : '',
-                                transition: '0.4s all ease-in-out'
-                            }}
-                            onClick={() => handleSelectedModel(item)}
-                        >
-                            <img src={aiImages[item.modelGroupName]} alt={item.model} style={{ maxWidth: '20px' }} />
-                            <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>{item.model}</Typography>
-                        </Box>
-                    ))}
+                    <BRInput2
+                        placeholder="Enter API Key"
+                        fullWidth
+                        required
+                        value={aIkey}
+                        name="aIkey"
+                        label="AI key"
+                        onChange={({ target: { value = '' } }) => {
+                            setAIkey(value);
+                        }}
+                    />
                 </Box>
-                <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#000', mb: 2 }}>Choose language model</Typography>
-                <Box
-                    sx={{
-                        border: '1px solid #6E7478',
-                        height: '48px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        borderRadius: '10px',
-                        justifyContent: 'space-between',
-                        px: 2,
-                        cursor: 'pointer'
-                    }}
-                    onClick={handleToggle}
-                >
-                    {/* <Box sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}></Box> */}
-                    {selectedModel ? (
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                height: '42px',
-                                alignItems: 'center',
-                                px: 2,
-                                cursor: 'pointer',
-
-                                transition: '0.4s all ease-in-out'
-                            }}
-                        >
-                            <img src={aiImages[selectedModel.modelGroupName]} alt={selectedModel.model} style={{ maxWidth: '20px' }} />
-                            <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>{selectedModel.model}</Typography>
-                        </Box>
-                    ) : (
-                        <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>Choose language model</Typography>
-                    )}
-                    <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1, display: 'flex', alignItems: 'center' }}>
-                        {!open ? <IconChevronDown /> : <IconChevronUp />}
-                    </Typography>
-                </Box>
-            </Box>
+            ) : (
+                ''
+            )}
         </Box>
     );
 }

@@ -10,12 +10,25 @@ import {
     getAiModels,
     updateAiModel,
     mentionInit,
-    singleAiModelloading
+    singleAiModelloading,
+    addAiModel,
+    deleteAiModel
 } from './aiModelSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
 export const mentionClear = () => () => {
     dispatch(mentionInit());
+};
+
+export const addingAiNewModel = (vals) => () => {
+    dispatch(addAiModel(vals));
+};
+export const updatedaiModelSetter = (vals) => () => {
+    dispatch(updateAiModel(vals));
+};
+
+export const deletingAiNewModel = (vals) => () => {
+    dispatch(deleteAiModel(vals));
 };
 // single model
 export const aiModelSetter = (vals) => () => {
@@ -49,9 +62,6 @@ export const getAiModelsAPI = (token) => async () => {
         dispatch(hasError(errorMsgHelper(e)));
         dispatch(loading(false));
     }
-};
-export const updatedaiModelSetter = (vals) => () => {
-    dispatch(updateAiModel(vals));
 };
 
 export const AiModelCretedOrUpdatedStatus = (vals) => () => {

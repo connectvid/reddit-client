@@ -7,14 +7,19 @@ import {
     getMentionSetting,
     updateMentionSetting,
     mentionSettingCretedOrUpdated,
-    mentionInit,
+    // mentionInit,
     mentionSettingUpdateLoading
 } from './mentionSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { updateProjectData } from 'features/project/projectActions';
+import { addingAiNewModel, deletingAiNewModel, updatedaiModelSetter } from 'features/ai-model/aiModelActions';
 
 export const mentionClear = () => () => {
-    dispatch(mentionInit());
+    // dispatch(mentionInit());
+    dispatch(hasError(null));
+};
+export const mentionErrorClear = () => () => {
+    dispatch(hasError(null));
 };
 export const mentionSetter = (vals) => () => {
     dispatch(getMentionSetting(vals));
@@ -51,6 +56,16 @@ export const updateMentionSettingAPI =
                     Authorization: `Bearer ${token}`
                 }
             });
+            if (respData?.model) {
+                const { actionType } = respData?.model;
+                if (actionType === 'add') {
+                    addingAiNewModel({ item: respData?.model })();
+                } else if (actionType === 'update') {
+                    updatedaiModelSetter({ item: respData?.model })();
+                } else if (actionType === 'delete') {
+                    deletingAiNewModel({ item: respData?.model })();
+                }
+            }
             updatedMentionSetter(respData)();
             const { platforms } = data;
             updateProjectData({ item: { platforms } })();
@@ -59,7 +74,3 @@ export const updateMentionSettingAPI =
             dispatch(mentionSettingUpdateLoading(false));
         }
     };
-
-// export const addingKeywords = (data) => () => {
-//     dispatch(createKeywords(data));
-// };

@@ -57,7 +57,8 @@ export const OPEN_AI_MODELS = [
     'gpt-4o-2024-08-06',
     'chatgpt-4o-latest'
 ];
-export const GEMINI_MODELS = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-1.0-pro	'];
+export const GEMINI_MODELS = ['gemini-1.5-flash-latest', 'gemini-1.5-flash', 'gemini-1.0-pro', 'gemini-1.5-pro'];
+// const geminiModels = ['gemini-1.5-flash', 'gemini-1.5', 'gemini', 'gemini-ultra', 'gemini-advanced'];
 export const STRAICO_MODELS = [
     'anthropic/claude-3-haiku:beta',
     'anthropic/claude-3-opus',
@@ -87,7 +88,7 @@ export const STRAICO_MODELS = [
     'openai/gpt-4o-mini',
     'perplexity/llama-3.1-sonar-huge-128k-online',
     'perplexity/llama-3-sonar-large-32k-online',
-    'perplexity/llama-3-sonar-small-32k-online',
+    // '    /llama-3-sonar-small-32k-online',
     'qwen/qwen-2-72b-instruct',
     'mattshumer/reflection-70b'
 ];
