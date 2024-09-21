@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable consistent-return */
 import axios from 'utils/axios';
 import { dispatch } from 'app/store';
@@ -13,7 +14,8 @@ import {
     reportCreateLoading,
     addReport,
     reportDeleteLoading,
-    removeReport
+    removeReport,
+    getAllReports
 } from './reportSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { updateProjectData } from 'features/project/projectActions';
@@ -23,7 +25,7 @@ export const reportClear = () => () => {
 };
 
 export const allReportSetter = (vals) => () => {
-    dispatch(getReport(vals));
+    dispatch(getAllReports(vals));
 };
 
 export const getAllReportsAPI = (token) => async () => {
@@ -71,7 +73,7 @@ export const createReportAPI =
             const { data: respData } = await axios.post(`reports`, data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            reportSetter(respData)();
+            createdReportSetter(respData)();
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
             createReportLoadingStatus(true)();
@@ -126,3 +128,22 @@ export const deleteReportAPI =
             deleteReportLoadingStatus(false)();
         }
     };
+
+export const fielUploadAPI = async ({ token, data = {} }) => {
+    console.log(data);
+    const formData = new FormData();
+
+    for (const k of Object.keys(data)) {
+        formData.append(k, data[k]);
+        console.log(data[k]);
+    }
+    // formData.append('file', files[0]);
+    const { data: respData } = await axios.post('reports/file-upload', formData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+
+    return respData;
+};

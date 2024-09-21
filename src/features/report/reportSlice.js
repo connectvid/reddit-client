@@ -84,7 +84,8 @@ export const {
     reportCreateLoading,
     addReport,
     reportDeleteLoading,
-    removeReport
+    removeReport,
+    getAllReports
 } = reportSlice.actions;
 
 export default reportSlice.reducer;

@@ -7,14 +7,20 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 import BRButton from 'ui-component/bizreply/BRButton';
 import BRInput2 from 'ui-component/bizreply/BRInput2';
 import { FaCheck } from 'react-icons/fa6';
-import { platformsSrc } from 'data';
 import SocialIcons from 'views/BizReply/SocialIcons';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import useAuth from 'hooks/useAuth';
+import { createReportAPI } from 'features/report/reportActions';
+import axios from 'utils/axios';
+import { toast } from 'react-toastify';
 
 export default function ({ projects = [], project }) {
+    const { getAccessToken } = useAuth();
     const initVals = {
         projectName: '',
         projectDescription: '',
-        dateRange: { from: '', to: '' },
+        dateRange: { from: new Date(), to: new Date() },
         keywords: [],
         platforms: [],
         clientLogo: null,
@@ -22,9 +28,10 @@ export default function ({ projects = [], project }) {
         projectId: ''
     };
     const options = projects?.map?.(({ _id, brandName }) => ({ _id, brandName })) || [];
-    // console.log(projects);
     const [values, setValues] = React.useState(initVals);
     const [keysAndPlatforms, setKeysAndPlatforms] = React.useState({ platforms: [], keywords: [] });
+    // const [valueBasic, setValueBasic] = React.useState(new Date());
+    console.log(values);
     React.useEffect(() => {
         if (values?.projectId) {
             const {
@@ -72,10 +79,12 @@ export default function ({ projects = [], project }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            //
+            const token = await getAccessToken();
+            createReportAPI({ token, data: values })();
         } catch (e) {
             const msg = errorMsgHelper(e);
             console.error(e);
+            toast.warn(msg);
         }
     };
     const handlePlatformSelection = (platform) => {
@@ -159,15 +168,117 @@ export default function ({ projects = [], project }) {
                         name="projectName"
                         value={values.projectName}
                         handleChange={handleChange}
+                        required
                     />
                     <BRInput
                         label="Project Description"
-                        placeholder="Enter project descritpion"
+                        placeholder="Enter project descripion"
                         name="projectDescription"
                         value={values.projectDescription}
                         handleChange={handleChange}
+                        required
                     />
-
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <DatePicker
+                                inputFormat="YYYY-MM-DD"
+                                maxDate={new Date()}
+                                renderInput={(props) => <BRInput {...props} label="Date from" />}
+                                value={values?.dateRange?.from}
+                                onChange={(from) => {
+                                    setValues((p) => ({ ...p, dateRange: { ...p.dateRange, from } }));
+                                }}
+                            />
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterMoment}>
+                            <DatePicker
+                                inputFormat="YYYY-MM-DD"
+                                minDate={values?.dateRange?.from}
+                                maxDate={new Date()}
+                                renderInput={(props) => <BRInput {...props} label="Date to" />}
+                                value={values?.dateRange?.to}
+                                onChange={(to) => {
+                                    setValues((p) => ({ ...p, dateRange: { ...p.dateRange, to } }));
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Box sx={{}}>
+                            <Typography>Agency Logo</Typography>
+                            <Typography>
+                                <input
+                                    type="file"
+                                    placeholder="Agency Logo"
+                                    name="agencyLogo"
+                                    accept="image/*"
+                                    onChange={async ({ target: { files } }) => {
+                                        try {
+                                            const token = await getAccessToken();
+                                            const formData = new FormData();
+                                            formData.append('file', files[0]);
+                                            const {
+                                                data: {
+                                                    item: { secure_url }
+                                                }
+                                            } = await axios.post('reports/file-upload', formData, {
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                    'Content-Type': 'multipart/form-data'
+                                                }
+                                            });
+                                            handleChange({ target: { name: 'agencyLogo', value: secure_url } });
+                                            // console.log(respData);
+                                        } catch (e) {
+                                            console.error(e);
+                                        }
+                                    }}
+                                />
+                                {values?.agencyLogo ? (
+                                    <img src={values?.agencyLogo} style={{ height: '50px', width: '50px' }} alt="Agency Logo" />
+                                ) : (
+                                    ''
+                                )}
+                            </Typography>
+                        </Box>{' '}
+                        <Box sx={{}}>
+                            <Typography>Agency Logo</Typography>
+                            <Typography>
+                                <input
+                                    type="file"
+                                    placeholder="Client Logo"
+                                    name="clientLogo"
+                                    accept="image/*"
+                                    onChange={async ({ target: { files } }) => {
+                                        try {
+                                            const token = await getAccessToken();
+                                            const formData = new FormData();
+                                            formData.append('file', files[0]);
+                                            const {
+                                                data: {
+                                                    item: { secure_url }
+                                                }
+                                            } = await axios.post('reports/file-upload', formData, {
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                    'Content-Type': 'multipart/form-data'
+                                                }
+                                            });
+                                            handleChange({ target: { name: 'clientLogo', value: secure_url } });
+                                            // console.log(respData);
+                                        } catch (e) {
+                                            console.error(e);
+                                        }
+                                    }}
+                                />
+                                {values?.clientLogo ? (
+                                    <img src={values?.clientLogo} style={{ height: '50px', width: '50px' }} alt="Client Logo" />
+                                ) : (
+                                    ''
+                                )}
+                            </Typography>
+                        </Box>
+                    </Box>
                     <PlatformSelection
                         {...{ options: keysAndPlatforms.platforms, selectedPlatforms: values?.platforms, handlePlatformSelection }}
                     />
