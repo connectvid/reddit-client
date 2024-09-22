@@ -242,7 +242,7 @@ export default function ({ projects = [], project }) {
                             </Typography>
                         </Box>{' '}
                         <Box sx={{}}>
-                            <Typography>Agency Logo</Typography>
+                            <Typography>Client Logo</Typography>
                             <Typography>
                                 <input
                                     type="file"
