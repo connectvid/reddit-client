@@ -292,8 +292,19 @@ const AuthRegisterWithOTP = ({ sendingOTP, sendOTPAtEmail }) => {
                                         disabled={isSubmitting || isLoading || sendingOTP}
                                         fullWidth
                                         sx={{ color: 'white' }} // This sets the text color to white
+                                        endIcon={
+                                            isLoading || sendingOTP ? (
+                                                <CircularProgress
+                                                    disableShrink
+                                                    sx={{ maxWidth: '13px !important', maxHeight: '13px !important' }}
+                                                    style={{ color: 'white' }}
+                                                />
+                                            ) : (
+                                                <></>
+                                            )
+                                        }
                                     >
-                                        {isLoading || sendingOTP ? 'Sign up...' : 'Sign up'}
+                                        Sign up
                                     </BRButton>
                                 </AnimateButton>
                             </Grid>

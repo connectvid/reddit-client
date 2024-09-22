@@ -29,7 +29,7 @@ export default function () {
     };
 
     return (
-        <Card sx={{ mt: 4 }} id="add-open-ai-key">
+        <Card sx={{ mt: 4 }} id="account-update-password">
             <CardContent>
                 <Box>
                     <Typography sx={{ color: '#000', mt: 2, mb: 3, fontSize: '18px', fontWeight: 700 }}>Security</Typography>

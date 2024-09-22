@@ -238,7 +238,7 @@ const FirebaseLogin = ({ ...others }) => {
                                         isLoading ? (
                                             <CircularProgress
                                                 disableShrink
-                                                sx={{ width: '30px !important', height: '30px !important' }}
+                                                sx={{ maxWidth: '13px !important', maxHeight: '13px !important' }}
                                                 style={{ color: 'white' }}
                                             />
                                         ) : (
@@ -246,7 +246,7 @@ const FirebaseLogin = ({ ...others }) => {
                                         )
                                     }
                                 >
-                                    {isLoading ? 'Log in...' : 'Log in'}
+                                    Log in
                                 </BRButton>
                             </AnimateButton>
                         </Box>

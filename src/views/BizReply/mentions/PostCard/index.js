@@ -16,15 +16,13 @@ import replaceDomainWithLink from 'utils/replaceDomainWithLink';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import { toast } from 'react-toastify';
 import errorMsgHelper from 'utils/errorMsgHelper';
-import { IconBrandReddit, IconBrandTiktok } from '@tabler/icons';
-import { LinkedIn, Twitter, Facebook, Instagram, Pinterest } from '@mui/icons-material';
-import IconQuora from 'ui-component/icons/IconQuora';
 import { keywordColors } from 'data';
 import { random } from 'lodash';
 // import crossIcon from '../../../../assets/images/cross.svg';
 // import VariableModal from './VariableModal';
 // import { display } from '@mui/system';
 import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
+import SocialIcons from 'views/BizReply/SocialIcons';
 
 const PostCard = ({
     project,
@@ -56,6 +54,7 @@ const PostCard = ({
     const [editOpen, setEditOpen] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
     const [updatingReply, setUpdatingReply] = useState(false);
+    const [deletePost, setDeletePost] = useState(false);
     const { pathname } = useLocation();
 
     const handleGenerateReply = async () => {
@@ -186,6 +185,33 @@ const PostCard = ({
             toast.warning(errorMsgHelper(e));
         }
         setUpdatingReply(false);
+    };
+    const handleDeletePost = async () => {
+        setDeletePost(true);
+
+        try {
+            const token = await getAccessToken();
+            await axios.delete(`/mentions/${_id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            if (pathname === REPLY_PATH) {
+                setObjItems((p) => {
+                    return p?.filter?.((item) => item._id !== _id) || [];
+                });
+            } else {
+                setObjItems((p) => {
+                    const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                    return { ...p, [selectedPlatform]: filtered };
+                });
+            }
+
+            toast.success('Post has been skipped');
+        } catch (e) {
+            console.log(e);
+            toast.warning(errorMsgHelper(e));
+        }
+        setDeletePost(false);
     };
     return (
         <>
@@ -340,7 +366,9 @@ const PostCard = ({
                                 handleGenerateReply,
                                 link,
                                 platform,
-                                repliesCredits
+                                repliesCredits,
+                                handleDeletePost,
+                                deletePost
                             }}
                         />
                         {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
@@ -352,27 +380,3 @@ const PostCard = ({
 };
 
 export default PostCard;
-
-const SocialIcons = ({ platform }) => {
-    if (platform === 'reddit.com')
-        return (
-            <IconBrandReddit
-                style={{
-                    background: '#ff4500',
-                    padding: '5px',
-                    height: '28px',
-                    width: '28px',
-                    borderRadius: '50%',
-                    color: '#fff'
-                }}
-            />
-        );
-    if (platform === 'quora.com') return <IconQuora style={{ height: '28px', width: '28px', color: '#b82b27' }} />;
-    if (platform === 'twitter.com') return <Twitter sx={{ height: '28px', width: '28px', color: '#17a3f1' }} />;
-    if (platform === 'linkedin.com') return <LinkedIn sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'tiktok.com') return <IconBrandTiktok sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'facebook.com') return <Facebook sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'instagram.com') return <Instagram sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    if (platform === 'pinterest.com') return <Pinterest sx={{ height: '28px', width: '28px', color: '#006699' }} />;
-    return <></>;
-};

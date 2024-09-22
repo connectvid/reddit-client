@@ -44,7 +44,7 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
 
 const Mentions = () => {
     const {
-        project: { project, selectedPlatform },
+        project: { project, selectedPlatform, projects },
         prompt: { selectedPrompt },
         subscription: { subscription }
     } = useSelector((state) => state);
@@ -71,7 +71,18 @@ const Mentions = () => {
     const postsPerPage = 10;
 
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-    const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
+    // const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
+    const handleASOpenModal = () => {
+        if (!projects?.length) {
+            toast.warn(`Please create a new project first to setup advance settings!`);
+            return;
+        }
+        if (!project) {
+            toast.warn(`Please select a project first to setup advance settings!`);
+            return;
+        }
+        setOpenAdvancedSettingModal(true);
+    };
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
     // console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
@@ -301,7 +312,7 @@ const Mentions = () => {
                                 <Typography variant="h3" sx={{ textAlign: 'center' }}>
                                     Sorry, there seems to be no posts
                                     {selectedKeyword?.title && selectedKeyword?.title !== 'All Keywords'
-                                        ? `for this keyword ${selectedKeyword.title} `
+                                        ? ` for this keyword ${selectedKeyword.title} `
                                         : ''}
                                     on {selectedPlatform}
                                     {/* Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
@@ -331,7 +342,7 @@ const Mentions = () => {
                     // firstKeyword: project?.Suggestedkeywords?.[0],
                     handleModal,
                     initFirstPage,
-                    handleASModal
+                    handleASModal: handleASOpenModal
                 }}
             />
 

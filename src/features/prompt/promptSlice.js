@@ -130,7 +130,7 @@ const promptSlice = createSlice({
                 }
             }
             state.deleteLoading = false;
-            state.deleted = false;
+            state.deleted = true;
         }
     }
 });

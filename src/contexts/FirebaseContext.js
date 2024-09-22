@@ -33,7 +33,8 @@ import { settingAccessToken, settingUser } from 'features/auth/authSlice';
 import { getProjects, projectClear } from 'features/project/projectActions';
 import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
 import { getPromptsAPI } from 'features/prompt/promptActions';
-import { getMentionSettingAPI } from 'features/mention/mentionActions';
+import { getMentionSettingAPI, mentionSetter } from 'features/mention/mentionActions';
+import { getAllReportsAPI } from 'features/report/reportActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -73,7 +74,7 @@ export const FirebaseProvider = ({ children }) => {
 
     async function refreshToken() {
         const user = auth?.currentUser;
-        console.log('Current user:', user); // Debug
+        // console.log('Current user:', user); // Debug
         if (user) {
             try {
                 const token = await user.getIdToken(); // Force refresh
@@ -88,7 +89,7 @@ export const FirebaseProvider = ({ children }) => {
 
     useEffect(() => {
         const unsubscribe = onIdTokenChanged(auth, async (user) => {
-            console.log('Id token changed:', user); // Debug
+            // console.log('Id token changed:', user); // Debug
             if (user) {
                 refreshToken();
             }
@@ -165,6 +166,7 @@ export const FirebaseProvider = ({ children }) => {
                         getMySubscriptionAPI(token)();
                         getPromptsAPI(token)();
                         getMentionSettingAPI(token)();
+                        getAllReportsAPI(token)();
                         dispatch({
                             type: LOGIN,
                             payload: {
@@ -238,6 +240,10 @@ export const FirebaseProvider = ({ children }) => {
                         if (data.subscription) {
                             subsctriptionSetter({ item: data.subscription })();
                         }
+                        if (data.mentionSetting) {
+                            mentionSetter({ item: data.mentionSetting })();
+                        }
+                        //
                         dispatch({
                             type: LOGIN,
                             payload: {
@@ -306,6 +312,9 @@ export const FirebaseProvider = ({ children }) => {
                 if (data.subscription) {
                     subsctriptionSetter({ item: data.subscription })();
                 }
+                if (data?.mentionSetting) {
+                    mentionSetter({ item: data.mentionSetting })();
+                }
                 dispatch({
                     type: LOGIN,
                     payload: {
@@ -360,6 +369,9 @@ export const FirebaseProvider = ({ children }) => {
                         if (data.subscription) {
                             subsctriptionSetter({ item: data.subscription })();
                         }
+                        if (data?.mentionSetting) {
+                            mentionSetter({ item: data.mentionSetting })();
+                        }
                         dispatch({
                             type: LOGIN,
                             payload: {
@@ -400,7 +412,28 @@ export const FirebaseProvider = ({ children }) => {
         await sendPasswordResetEmail(email);
     };
 
-    const updateProfile = () => {};
+    const updateProfile = async ({ name }) => {
+        const token = await getAccessToken();
+        const { data } = await axios.put(
+            `user`,
+            { name },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+        setDbUser((p) => ({ ...p, name, displayName: name }));
+        // dispatch({
+        //     type: UPDATE_USER,
+        //     payload: {
+        //         data: {
+        //             name
+        //         }
+        //     }
+        // });
+        return data;
+    };
     if (state.isInitialized !== undefined && !state.isInitialized) {
         return <Loader />;
     }

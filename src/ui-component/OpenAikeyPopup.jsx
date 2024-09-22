@@ -25,7 +25,7 @@ export default function ({ handleClose }) {
                     <DialogContentText id="alert-dialog-description">Your Subscription has been Expired!</DialogContentText>
                 </DialogContent> */}
                 <DialogActions sx={{ px: 3 }}>
-                    <BRButton variant="contained" onClick={() => navigate(SETTING_PATH, { replace: true })}>
+                    <BRButton variant="contained" onClick={() => navigate(`${SETTING_PATH}/#add-open-ai-key`, { replace: true })}>
                         Go to Settings
                     </BRButton>
                 </DialogActions>
