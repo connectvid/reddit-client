@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { IconButton } from '@material-ui/core';
 import { Autocomplete, Box, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
