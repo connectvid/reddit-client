@@ -144,15 +144,28 @@ export default function ({
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
-                                        Choose Country
+                                        Choose CountrygetOptionLabel
                                     </Typography>
                                     <Autocomplete
                                         fullWidth
                                         onChange={(_, data) => {
+                                            console.log(data.code, 1234);
                                             if (data) setValues((p) => ({ ...p, country: data.code }));
                                             return data;
                                         }}
-                                        getOptionLabel={(item) => item.name}
+                                        getOptionLabel={(item) => {
+                                            return (
+                                                <div>
+                                                    <img
+                                                        style={{ width: '20px', marginRight: '10px', marginBottom: '-5px' }}
+                                                        src={`https://flagsapi.com/${item.code?.toUpperCase()}/flat/64.png`}
+                                                        alt={item.code}
+                                                    />
+                                                    {item.name}
+                                                </div>
+                                            );
+                                        }}
+                                        // getOptionLabel={(item) => item.name}
                                         defaultValue={(() => {
                                             for (const im of countries) {
                                                 if (im.code === mentionSetting?.country) {
