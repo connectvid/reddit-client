@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Inter;
+}
+body {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.full_report_wrapper {
+    margin: 15px 0;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.report_generate_date {
+    margin: 0;
+    padding: 0;
+    font-size: 12;
+    font-weight: 400;
+}
+
+/*=============================================
+  =            Mid Section            =
+  =============================================*/
+
+.mid_section {
+    display: block;
+}
+.keyword_title,
+.platform_title {
+    margin: 15px 0 10px 0;
+}
+.mid_section .keywords {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mid_section .platforms {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+/*=====  End of Mid Section  ======*/
+
+/*=============================================
+  =            Post Section            =
+  =============================================*/
+
+.posts {
+    display: block;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.posts .single_post {
+    border: 1px solid #ccd3d9;
+    padding: 20px;
+    border-radius: 6px;
+}
+.posts .single_post .post_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.single_post_platform_social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.post_header_social .platform_src {
+    height: 100%;
+}
+.post_header_platform {
+    padding: 10px 20px;
+    background: #c7fceb;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+.post_url {
+    font-size: 12px;
+    font-weight: 700;
+}
+.post_anchore {
+    font-size: 12px;
+    font-weight: 400;
+    color: #2a53e5;
+    text-decoration: underline;
+}
+.generated_reply_title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #000000;
+    margin: 15px 0 10px 0;
+}
+.generated_reply_para {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 16px;
+}
+.post_title {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+    margin: 10px 0 8px 0;
+}
+/*=====  End of Post Section  ======*/
+
+/*=============================================
+  =            Powered by            =
+  =============================================*/
+p.powered_by {
+    text-align: center;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #6e7478;
+    background: #f6f6f6;
+}
+
+/*=====  End of Powered by  ======*/
