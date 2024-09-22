@@ -35,8 +35,8 @@ body {
 }
 .mid_section .keywords {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 .mid_section .platforms {
     display: flex;
