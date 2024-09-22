@@ -15,7 +15,8 @@ import {
     addReport,
     reportDeleteLoading,
     removeReport,
-    getAllReports
+    getAllReports,
+    reportCreated
 } from './reportSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { updateProjectData } from 'features/project/projectActions';
@@ -62,6 +63,9 @@ export const createdReportSetter = (vals) => () => {
     dispatch(addReport(vals));
 };
 
+export const reportCreatedStatus = (vals) => () => {
+    dispatch(reportCreated(vals));
+};
 export const createReportLoadingStatus = (vals) => () => {
     dispatch(reportCreateLoading(vals));
 };

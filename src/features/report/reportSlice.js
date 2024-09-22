@@ -50,7 +50,9 @@ const reportSlice = createSlice({
             state.reportCreateLoading = false;
             state.reportCreated = true;
         },
-
+        reportCreated(state, { payload = true }) {
+            state.reportCreated = payload;
+        },
         reportUpdateLoading(state, { payload }) {
             state.reportUpdateLoading = payload;
         },
@@ -85,7 +87,8 @@ export const {
     addReport,
     reportDeleteLoading,
     removeReport,
-    getAllReports
+    getAllReports,
+    reportCreated
 } = reportSlice.actions;
 
 export default reportSlice.reducer;
