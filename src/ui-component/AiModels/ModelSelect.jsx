@@ -49,7 +49,7 @@ export default function ({
                     >
                         <img src={aiImages?.[selectedModel?.modelGroupName]} alt={selectedModel?.model} style={{ maxWidth: '20px' }} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1, width: '100%' }}>
-                            {selectedModel?.model} ({selectedModel?.modelGroupName})
+                            {selectedModel?.model} ({selectedModel?.modelGroupName === 'OpenAi' ? 'OpenAI' : selectedModel?.modelGroupName})
                         </Typography>
                     </Box>
                 ) : (
@@ -146,7 +146,7 @@ const ModelList = ({ open, options, aiModelsString, handleSelectedModel, aiImage
                 >
                     <img src={aiImages?.[item?.modelGroupName]} alt={item.model} style={{ maxWidth: '20px' }} />
                     <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }}>
-                        {item.model} ({item?.modelGroupName})
+                        {item.model} ({item?.modelGroupName === 'OpenAi' ? 'OpenAI' : item?.modelGroupName})
                     </Typography>
                 </Box>
                 {/* {aiModelsString?.includes?.(item.model) ? (

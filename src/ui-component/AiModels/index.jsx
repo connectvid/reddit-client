@@ -22,12 +22,12 @@ export default function ({
     const gemini = 'ai-logo/gemini.png';
     const straico = 'ai-logo/straico.svg';
     const aiImages = {
-        OpenAI: openAi,
+        OpenAi: openAi,
         Straico: straico,
         Gemini: gemini
     };
     const options = [
-        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAI' })),
+        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAi' })),
         ...GEMINI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Gemini' })),
         ...STRAICO_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Straico' }))
     ];
