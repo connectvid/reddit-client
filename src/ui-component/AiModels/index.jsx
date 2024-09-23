@@ -22,7 +22,7 @@ export default function ({
     const gemini = 'ai-logo/gemini.png';
     const straico = 'ai-logo/straico.svg';
     const aiImages = {
-        OpenAi: openAi,
+        OpenAI: openAi,
         Straico: straico,
         Gemini: gemini
     };
