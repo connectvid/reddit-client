@@ -1,26 +1,8 @@
-/* eslint-disable import/extensions */
-/* eslint-disable no-lone-blocks */
-/* eslint-disable no-alert */
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Typography } from '@mui/material';
-import {
-    IconPencil,
-    IconEye //, IconTrash
-} from '@tabler/icons';
-// import { FaTrash } from 'react-icons/fa6';
+import { IconPencil, IconEye } from '@tabler/icons';
 import BRButton from 'ui-component/bizreply/BRButton';
-// import { MdOutlineContentCopy } from 'react-icons/md';
-// import { toast } from 'react-toastify';
-// import BRButton from 'ui-component/bizreply/BRButton';
 
-const CardFooter = ({
-    handleViewDetails,
-    handleEdit, // handleDelete,
-    hideEdit = false
-}) => {
+const CardFooter = ({ handleViewDetails, handleEdit, hideEdit = false }) => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             {hideEdit ? (

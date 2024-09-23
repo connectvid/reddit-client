@@ -51,13 +51,16 @@ export default function ({
         setNeedAddAIkey?.(true);
         if (aiModelsGroup[selectedModel?.modelGroupName] && aiModelsString?.includes?.(selectedModel?.model)) {
             setActionType?.('');
+            // setAIkey(Date.now().toString());
         } else {
             setActionType?.('update');
+            setAIkey(Date.now().toString());
         }
         handleClose();
     };
     const handleAPIKeyEditCancel = () => {
         setNeedAddAIkey?.(false);
+        setAIkey('');
         handleClose();
     };
     return (

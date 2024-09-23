@@ -91,7 +91,9 @@ export default function ({
         if (selectedModel?.model) {
             const { modelGroupName } = selectedModel;
             if (!aiModelsGroup?.[modelGroupName]) {
-                if (needAddAIkey) return;
+                if (needAddAIkey) {
+                    return;
+                }
                 setNeedAddAIkey(true);
                 setActionType('add');
             } else if (needAddAIkey) {
