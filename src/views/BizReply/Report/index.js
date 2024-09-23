@@ -6,7 +6,6 @@
 // material-ui
 import { Card, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import NewReport from 'ui-component/Report/NewReport';
 
 // import useAuth from 'hooks/useAuth';
 // // import { useState } from 'react';
@@ -14,6 +13,7 @@ import NewReport from 'ui-component/Report/NewReport';
 import { useSelector } from 'react-redux';
 import ReportBreadcrumb from 'ui-component/Report/ReportBreadcrumb';
 import ViewReports from './viewReports/ViewReports';
+import NewReport from './addNewReport/NewReport';
 // import { DateRangePicker } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css';
@@ -141,13 +141,12 @@ const Report = () => {
     return (
         <>
             <ReportBreadcrumb />
-            {/* <Card>
+            <Card>
                 <Box sx={{ minHeight: '100%' }}>
-                    <Typography>There is not report</Typography>
                     <NewReport {...{ projects, project }} />
                 </Box>
-            </Card> */}
-            <ViewReports projects={demoProjects} />
+            </Card>
+            {/* <ViewReports projects={demoProjects} /> */}
         </>
     );
 };
