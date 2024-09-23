@@ -25,6 +25,7 @@ import { random } from 'lodash';
 // import VariableModal from './VariableModal';
 // import { display } from '@mui/system';
 import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
+import { useSelector } from 'react-redux';
 
 const PostCard = ({
     project,
@@ -49,6 +50,7 @@ const PostCard = ({
     selectedPrompt
 }) => {
     const { getAccessToken, dbUser } = useAuth();
+    const { aiModels } = useSelector((s) => s.aiModel);
     // console.log(dbUser, 'dbUser');
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
     const [editReply, setEditReply] = useState(filteredReply);
@@ -60,7 +62,7 @@ const PostCard = ({
     const { pathname } = useLocation();
 
     const handleGenerateReply = async () => {
-        if (dbUser?.needOpenAiKey === 'Yes' && !dbUser?.openAIkey) {
+        if (dbUser?.needOpenAiKey === 'Yes' && !aiModels?.length) {
             setOpenAlert(true);
             return;
         }

@@ -56,7 +56,7 @@ export default function (props) {
             <Card sx={{ borderRadius: '12px' }}>
                 <CardContent>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                        <CardDetails {...restProps} {...{ allowDescriptionLength, setExpand }} />
+                        <CardDetails {...restProps} {...{ allowDescriptionLength, setExpand, handleDelete }} />
                         <CardFooter {...{ handleViewDetails, handleEdit, handleDelete, hideEdit: dbUser?._id !== restProps.userId }} />
                     </Box>
                 </CardContent>

@@ -40,7 +40,7 @@ const Settings = () => {
         Tab = AccountSettings;
     } else if (selectedComponent === 'mention') {
         Tab = MentionSettings;
-    }else if (selectedComponent === 'team') {
+    } else if (selectedComponent === 'team') {
         Tab = TeamSettings;
     }
     return (

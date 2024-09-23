@@ -6,14 +6,21 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Box, Typography } from '@mui/material';
-import { IconPencil, IconEye, IconTrash } from '@tabler/icons';
+import {
+    IconPencil,
+    IconEye //, IconTrash
+} from '@tabler/icons';
 // import { FaTrash } from 'react-icons/fa6';
 import BRButton from 'ui-component/bizreply/BRButton';
 // import { MdOutlineContentCopy } from 'react-icons/md';
 // import { toast } from 'react-toastify';
 // import BRButton from 'ui-component/bizreply/BRButton';
 
-const CardFooter = ({ handleViewDetails, handleEdit, handleDelete, hideEdit = false }) => {
+const CardFooter = ({
+    handleViewDetails,
+    handleEdit, // handleDelete,
+    hideEdit = false
+}) => {
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             {hideEdit ? (
@@ -35,7 +42,7 @@ const CardFooter = ({ handleViewDetails, handleEdit, handleDelete, hideEdit = fa
                     >
                         <IconPencil style={{ marginRight: '2px', color: '#2a98d5', marginTop: '-3px' }} size={18} /> Edit Prompt
                     </BRButton>
-                    <Typography
+                    {/* <Typography
                         onClick={handleDelete}
                         sx={{
                             border: '1px solid #0c22e5',
@@ -49,7 +56,7 @@ const CardFooter = ({ handleViewDetails, handleEdit, handleDelete, hideEdit = fa
                         }}
                     >
                         <IconTrash style={{ color: '#e1002d' }} size={20} />
-                    </Typography>
+                    </Typography> */}
                     {/* <BRButton
                         sx={{
                             height: '40px',

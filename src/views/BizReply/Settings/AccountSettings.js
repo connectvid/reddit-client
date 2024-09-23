@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import BRInput from 'ui-component/bizreply/BRInput';
 import pluralize from 'pluralize';
-import AddOpenAiKey from './AddOpenAiKey';
+// import AddOpenAiKey from './AddOpenAiKey';
 import UpdatePassword from './UpdatePassword';
 import React from 'react';
 import { toast } from 'react-toastify';
@@ -135,7 +135,7 @@ const AccountSettings = () => {
                 </Box>
             </Box>
             {authProviders?.includes?.('password') ? <UpdatePassword /> : ''}
-            <AddOpenAiKey />
+            {/* <AddOpenAiKey /> */}
         </>
     );
 };

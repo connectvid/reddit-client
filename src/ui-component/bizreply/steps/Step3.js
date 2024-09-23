@@ -30,7 +30,7 @@ const Step3 = ({ setStep, selectedPlatforms, setselectedPlatforms, handleSubmit,
             <Box sx={{ px: 5 }}>
                 <PlatformSelection
                     {...{
-                        platforms: subscription.platforms,
+                        platforms: subscription?.platforms,
                         selectedPlatforms,
                         handleSelectedPlatform,
                         cardSx: {

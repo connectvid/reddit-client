@@ -41,6 +41,7 @@ const mentionSlice = createSlice({
             state.mentionSetting = payload.item;
             state.mentionSettingCreteOrUpdateLoading = false;
             state.mentionSettingCretedOrUpdated = true;
+            state.mentionSettingUpdateLoading = false;
         },
         mentionSettingCretedOrUpdated(state, { payload }) {
             state.mentionSettingCretedOrUpdated = payload;
