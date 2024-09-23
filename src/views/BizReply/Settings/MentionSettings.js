@@ -330,7 +330,7 @@ export default function ({
                 </Box> */}
             </Box>
 
-            <Box sx={{ display: 'flex', justifyContent: 'right', mt: 2, ...submitButtonSx }}>
+            <Box sx={{ display: 'flex', justifyContent: 'right', my: 2, ...submitButtonSx }}>
                 <BRButton
                     sx={{ height: '40px', width: '180px' }}
                     disabled={mentionSettingUpdateLoading}
