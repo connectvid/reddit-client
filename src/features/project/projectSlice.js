@@ -25,8 +25,10 @@ const initialState = {
     updateProjectSuccess: false,
     projectCreated: false,
     keywordDeleted: false,
+    negativeKeywordDeleted: false,
     updateLoading: false,
     createKeywordSuccess: false,
+    createNegativeKeywordSuccess: false,
     showProjectsList: false,
     showProjectCreateModal: false,
     selectedPlatform: ''
@@ -125,23 +127,29 @@ const projectSlice = createSlice({
             });
         },
         createKeywords(state, { payload }) {
-            const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...(payload?.items || [])];
-            const negativeKeywords = [...(state.project?.negativeKeywords || []), ...(payload?.negativeKeywords || [])];
-            const data = { ...state.project, Suggestedkeywords, negativeKeywords };
-            // console.log(data, 'createKeywords');
+            const { items: dItems = [], negativeKeywords = [] } = payload;
+            const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...dItems];
+            const nks = [...(state.project?.negativeKeywords || []), ...negativeKeywords];
+            const data = { ...state.project, Suggestedkeywords, negativeKeywords: nks };
+            console.log(dItems, 'createKeywords', negativeKeywords);
             state.project = data;
             const items = [];
-            state.createKeywordSuccess = true;
+            if (dItems?.length) {
+                state.createKeywordSuccess = true;
+            } else if (negativeKeywords?.length) {
+                state.createNegativeKeywordSuccess = true;
+            }
             const projectId = state?.project?._id;
             for (const item of state.projects) {
                 if (item._id === projectId) {
                     console.log(`Match`);
                     item.Suggestedkeywords = Suggestedkeywords;
-                    item.negativeKeywords = negativeKeywords;
+                    item.negativeKeywords = nks;
                 }
                 items.push(item);
             }
             state.projects = items;
+            state.createKeywordsLoading = false;
         },
 
         updateProjectLoading(state, action) {
@@ -217,6 +225,10 @@ const projectSlice = createSlice({
         createKeywordSuccess(state, action) {
             state.createKeywordSuccess = action.payload;
         },
+        createNegativeKeywordSuccess(state, action) {
+            state.createNegativeKeywordSuccess = action.payload;
+        },
+
         updateProjectSuccess(state, action) {
             state.updateProjectSuccess = action.payload;
         },
@@ -253,6 +265,9 @@ const projectSlice = createSlice({
             }
             console.log();
         },
+        keywordDeleted(state, action) {
+            state.keywordDeleted = action.payload;
+        },
         keywordRemove(state, { payload }) {
             const { id } = payload;
             const Suggestedkeywords = state.project.Suggestedkeywords.filter((item) => item._id !== id);
@@ -267,6 +282,24 @@ const projectSlice = createSlice({
             }
             state.projects = items;
             state.keywordDeleted = true;
+        },
+        negativeKeywordDeleted(state, action) {
+            state.negativeKeywordDeleted = action.payload;
+        },
+        negativeKeywordRemove(state, { payload }) {
+            const { keyword, _id } = payload;
+            const project = state.project;
+            state.projects = state.projects.map((item) => {
+                if (item._id === _id) {
+                    const negativeKeywords = item.negativeKeywords.filter((item) => item !== keyword);
+                    if (project?._id === _id) {
+                        state.project = { ...project, negativeKeywords };
+                    }
+                    item.negativeKeywords = negativeKeywords;
+                }
+                return item;
+            });
+            state.negativeKeywordDeleted = true;
         }
     }
 
@@ -326,7 +359,9 @@ export const {
     isEditProject,
     editProject,
     projectUpdated,
-    updateMentionFetchStatusOfProject
+    updateMentionFetchStatusOfProject,
+    createNegativeKeywordSuccess,
+    negativeKeywordRemove
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

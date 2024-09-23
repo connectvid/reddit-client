@@ -9,14 +9,9 @@ import AddKeyword from 'ui-component/bizreply/steps/AddKeyword';
 import { LiaTimesCircle } from 'react-icons/lia';
 import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
-// import { useLocation, useNavigate } from 'react-router-dom';
-// import { MENTION_PATH } from 'config';
-// import axios from 'utils/axios';
-// import { createKeywords, hasError } from 'features/project/projectSlice';
+import { toast } from 'react-toastify';
 
 export default function ({ modalClose }) {
-    // const { search } = useLocation();
-
     const { getAccessToken } = useAuth();
     const {
         project: { project, createKeywordSuccess, createKeywordsLoading }
@@ -94,7 +89,13 @@ export default function ({ modalClose }) {
                         </Button>
                         <BRButton
                             onClick={async () => {
-                                if (!addedKeywords.length || createKeywordsLoading) return;
+                                if (!addedKeywords.length && !negativeKeywords.length) {
+                                    toast.warn('Please add some keywords or negative keywords!');
+                                    return;
+                                }
+                                if (createKeywordsLoading) {
+                                    return;
+                                }
                                 // console.log(customKeywords, customNegativeKeywords);
                                 // return 0;
                                 const token = await getAccessToken();

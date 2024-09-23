@@ -19,7 +19,7 @@ import SetKeywords from 'views/BizReply/projects/SetKeywords';
 const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
 const Keywords = Loadable(lazy(() => import('views/BizReply/keywords')));
 const Prompts = Loadable(lazy(() => import('views/BizReply/prompts')));
-const AddNewKeyword = Loadable(lazy(() => import('views/BizReply/keywords/AddNewKeyword')));
+// const AddNewKeyword = Loadable(lazy(() => import('views/BizReply/keywords/AddNewKeyword')));
 const Mentions = Loadable(lazy(() => import('views/BizReply/mentions')));
 const Reply = Loadable(lazy(() => import('views/BizReply/reply')));
 const Subscription = Loadable(lazy(() => import('views/BizReply/subscription')));
@@ -44,10 +44,10 @@ const MainRoutes = {
             path: PROJECT_PATH,
             element: <Projects />
         },
-        {
-            path: `${KEYWORD_PATH}/add`,
-            element: <AddNewKeyword />
-        },
+        // {
+        //     path: `${KEYWORD_PATH}/add`,
+        //     element: <AddNewKeyword />
+        // },
         {
             path: KEYWORD_PATH,
             element: <Keywords />

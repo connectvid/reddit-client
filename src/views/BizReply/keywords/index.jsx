@@ -2,7 +2,7 @@
 /* eslint-disable no-nested-ternary */
 import { Dialog, Grid, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { createdKeywordSuccess } from 'features/project/projectActions';
+import { createdKeywordSuccess, createdNegativeKeywordSuccess } from 'features/project/projectActions';
 import CreateKeyword from './CreateKeyword';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MENTION_PATH } from 'config';
@@ -13,25 +13,31 @@ import EmptyProject from '../projects/EmptyProject';
 import KeywordCard from './KeywordCard';
 import NegativeKeywordCard from './NegativeKeywordCard';
 import Empty from '../Empty';
+import { toast } from 'react-toastify';
 
 const Keywords = () => {
     const { search } = useLocation();
     const navigate = useNavigate();
     // const { getAccessToken } = useAuth();
-    const { project, projects, createKeywordSuccess } = useSelector((state) => state.project);
+    const { project, projects, createKeywordSuccess, createNegativeKeywordSuccess } = useSelector((state) => state.project);
 
     // keywordDeleted
     const { accessToken } = useSelector((state) => state.auth);
     const [openModal, setOpenModal] = React.useState(false);
-
+    const modalClose = () => setOpenModal(false);
     React.useEffect(() => {
         if (createKeywordSuccess) {
+            toast.success('Keyword has been added!');
             navigate(`${MENTION_PATH}${search}`, { state: { socket: true } });
             createdKeywordSuccess(false)();
+        } else if (createNegativeKeywordSuccess) {
+            toast.success('Negative keyword has been added!');
+            createdNegativeKeywordSuccess(false)();
         }
-    }, [createKeywordSuccess]);
+        modalClose();
+    }, [createKeywordSuccess, createNegativeKeywordSuccess]);
+    console.log({ createNegativeKeywordSuccess, createKeywordSuccess });
     const handleModal = () => setOpenModal((p) => !p);
-    const modalClose = () => setOpenModal(false);
 
     return (
         <>
@@ -78,16 +84,17 @@ const Keywords = () => {
                                         ''}
 
                                     <Grid container spacing={2}>
-                                        {project.negativeKeywords?.map?.((item) => {
+                                        {project.negativeKeywords?.map?.((keyword) => {
                                             return (
-                                                <Grid key={item._id} item xs={12} sm={6} md={4}>
+                                                <Grid key={keyword._id} item xs={12} sm={6} md={4}>
                                                     <NegativeKeywordCard
                                                         // {...item}
                                                         {...{
                                                             accessToken,
                                                             brandLogo: project?.brandLogo,
                                                             brandName: project?.brandName,
-                                                            item
+                                                            projectId: project?._id,
+                                                            keyword
                                                         }}
                                                     />
                                                 </Grid>

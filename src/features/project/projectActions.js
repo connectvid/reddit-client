@@ -33,7 +33,9 @@ import {
     isEditProject,
     editProject,
     projectUpdated,
-    updateMentionFetchStatusOfProject
+    updateMentionFetchStatusOfProject,
+    createNegativeKeywordSuccess,
+    negativeKeywordRemove
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -53,6 +55,9 @@ export const editProjectSelect = (v) => () => {
 };
 export const keywordRemoving = (value) => () => {
     dispatch(keywordRemove(value));
+};
+export const negativeKeywordRemovover = (value) => () => {
+    dispatch(negativeKeywordRemove(value));
 };
 export const clearingCustomKeyword = () => () => {
     dispatch(clearCustomKeyword());
@@ -95,6 +100,9 @@ export const projectRemoving = (id) => () => {
 };
 export const createdKeywordSuccess = (value) => () => {
     dispatch(createKeywordSuccess(value));
+};
+export const createdNegativeKeywordSuccess = (value) => () => {
+    dispatch(createNegativeKeywordSuccess(value));
 };
 
 export const getProjects = (userId, token) => async () => {
@@ -176,7 +184,7 @@ export const createKeywordsApi =
                     Authorization: `Bearer ${token}`
                 }
             });
-            const keywords = data?.suggestedKeywords?.length;
+            const keywords = data?.suggestedKeywords?.length || 0;
             subsctriptionCreditsSetter({ keywords: -keywords })();
             // createdKeywordSuccess(true)();
             addingKeywords(response.data)();
@@ -185,8 +193,6 @@ export const createKeywordsApi =
             return response.data;
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
-        } finally {
-            dispatch(createKeywordsLoading(false));
         }
     };
 
@@ -206,6 +212,23 @@ export const deleteKeywordAPI = (token, id) => async () => {
         // dispatch(createKeywordsLoading(false));
     }
 };
+
+export const deleteNegativeKeywordAPI =
+    ({ token, id, keyword }) =>
+    async () => {
+        try {
+            // dispatch(createKeywordsLoading(true));
+            await axios.delete(`projects/${id}/negative-keyword/${keyword}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            subsctriptionCreditsSetter({ keywords: 1 })();
+            negativeKeywordRemovover({ keyword, _id: id })();
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+        }
+    };
 
 export const addingKeywordForSave =
     (keyword = '', index) =>
