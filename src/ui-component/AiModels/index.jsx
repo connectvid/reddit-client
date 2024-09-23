@@ -27,7 +27,7 @@ export default function ({
         Gemini: gemini
     };
     const options = [
-        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAi' })),
+        ...OPEN_AI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'OpenAI' })),
         ...GEMINI_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Gemini' })),
         ...STRAICO_MODELS.map((item) => ({ label: item, model: item, modelGroupName: 'Straico' }))
     ];
