@@ -9,8 +9,9 @@ import Prompt from 'assets/images/svgIcons/prompt.svg';
 import Character from 'assets/images/svgIcons/character.svg';
 import Tone from 'assets/images/svgIcons/tone.svg';
 import Language from 'assets/images/svgIcons/language.svg';
+import { IconTrash } from '@tabler/icons';
 
-const CardDetails = ({ language, tone, reply_character_limit, description, name, expand = false }) => {
+const CardDetails = ({ language, tone, reply_character_limit, description, name, expand = false, handleDelete }) => {
     const str = description;
 
     // const str = expand allowDescriptionLength,
@@ -26,9 +27,26 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
     // Character, Character, reply_character_limit
     return (
         <Box>
-            <Box sx={{ display: 'flex', mb: 2 }}>
-                <img src={Prompt} alt="Prompt" style={{ width: '20px' }} />
-                <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', ml: 2 }}>Prompt Name: {name}</Typography>
+            <Box sx={{ display: 'flex', mb: 2, justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex' }}>
+                    <img src={Prompt} alt="Prompt" style={{ width: '20px' }} />
+                    <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000', ml: 2 }}>Prompt Name: {name}</Typography>
+                </Box>
+                <Typography
+                    onClick={handleDelete}
+                    sx={{
+                        // border: '1px solid #0c22e5',
+                        // height: '40px',
+                        // width: '95px',
+                        // borderRadius: '10px',
+                        // justifyContent: 'center',
+                        // alignItems: 'center',
+                        display: 'flex',
+                        cursor: 'pointer'
+                    }}
+                >
+                    <IconTrash style={{ color: '#6E7478' }} size={20} />
+                </Typography>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px' }}>
                 <Tags {...{ src: Language, title: 'Language', subtitle: language }} />

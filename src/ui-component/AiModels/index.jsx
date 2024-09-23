@@ -74,7 +74,8 @@ export default function ({
                     handleToggle,
                     selectedModel,
                     selectedItemSx,
-                    aiModelsGroup
+                    aiModelsGroup,
+                    needAddAIkey
                 }}
             />
             {needAddAIkey ? (

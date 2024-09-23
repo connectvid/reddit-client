@@ -12,7 +12,8 @@ export default function ({
     handleToggle,
     selectedModel,
     selectedItemSx,
-    aiModelsGroup
+    aiModelsGroup,
+    needAddAIkey
 }) {
     return (
         <Box sx={{ position: 'relative', mt: 3 }}>
@@ -69,12 +70,15 @@ export default function ({
                 )}
                 {aiModelsGroup[selectedModel?.modelGroupName] ? (
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }} onClick={handleAPIKeyEdit}>
-                            <IconPencil size={18} />
-                        </Typography>
-                        <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }} onClick={handleAPIKeyEditCancel}>
-                            <IconCircleX size={18} />
-                        </Typography>
+                        {needAddAIkey ? (
+                            <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }} onClick={handleAPIKeyEditCancel}>
+                                <IconCircleX size={18} />
+                            </Typography>
+                        ) : (
+                            <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1 }} onClick={handleAPIKeyEdit}>
+                                <IconPencil size={18} />
+                            </Typography>
+                        )}
                     </Box>
                 ) : (
                     ''
