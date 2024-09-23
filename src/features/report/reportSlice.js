@@ -50,6 +50,16 @@ const reportSlice = createSlice({
             state.reportCreateLoading = false;
             state.reportCreated = true;
         },
+        succeedReportUpdate(state, { payload }) {
+            const { _id, status = 'succeed', pdfUrl } = payload;
+            state.reports = state.reports.map((item) => {
+                if (item._id === _id) {
+                    item.pdfUrl = pdfUrl;
+                    item.status = status;
+                }
+                return item;
+            });
+        },
         reportCreated(state, { payload = true }) {
             state.reportCreated = payload;
         },
@@ -88,7 +98,8 @@ export const {
     reportDeleteLoading,
     removeReport,
     getAllReports,
-    reportCreated
+    reportCreated,
+    succeedReportUpdate
 } = reportSlice.actions;
 
 export default reportSlice.reducer;

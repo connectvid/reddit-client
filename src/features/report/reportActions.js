@@ -16,7 +16,8 @@ import {
     reportDeleteLoading,
     removeReport,
     getAllReports,
-    reportCreated
+    reportCreated,
+    succeedReportUpdate
 } from './reportSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { updateProjectData } from 'features/project/projectActions';
@@ -29,6 +30,9 @@ export const allReportSetter = (vals) => () => {
     dispatch(getAllReports(vals));
 };
 
+export const updateSucceedReport = (vals) => () => {
+    dispatch(succeedReportUpdate(vals));
+};
 export const getAllReportsAPI = (token) => async () => {
     try {
         dispatch(loading(true));
