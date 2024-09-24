@@ -224,6 +224,7 @@ export const deleteNegativeKeywordAPI =
                     Authorization: `Bearer ${token}`
                 }
             });
+            negativeKeywordRemovover({ keyword, _id: id })();
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
         }
