@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import BRButton from 'ui-component/bizreply/BRButton';
 import ShowSocialIcons from './ShowSocialIcons';
 
-const ProjectsTableView = ({ projects }) => {
+export default function ({ reports }) {
     function formatTimestampToDate(timestamp) {
         const date = new Date(timestamp);
 
@@ -17,7 +17,6 @@ const ProjectsTableView = ({ projects }) => {
         // Formatting the date as YYYY-MM-DD
         return `${year}-${month}-${day}`;
     }
-    console.log(projects);
     return (
         <TableContainer component={Paper} style={{ marginTop: '30px' }}>
             <Table sx={{ minWidth: 1000 }}>
@@ -34,18 +33,18 @@ const ProjectsTableView = ({ projects }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {projects.map((project) => (
-                        <TableRow key={project._id}>
+                    {reports.map((report) => (
+                        <TableRow key={report._id}>
                             <TableCell component="th" scope="row">
-                                {project.projectName}
+                                {report.projectName}
                             </TableCell>
-                            {/* <TableCell>{project.status}</TableCell> */}
-                            <TableCell>{project.projectDescription}</TableCell>
+                            {/* <TableCell>{report.status}</TableCell> */}
+                            <TableCell>{report.projectDescription}</TableCell>
                             <TableCell>
-                                {formatTimestampToDate(project.dateRange.from)} - {formatTimestampToDate(project.dateRange.to)}
+                                {formatTimestampToDate(report.dateRange.from)} - {formatTimestampToDate(report.dateRange.to)}
                             </TableCell>
                             <TableCell>
-                                <ShowSocialIcons platforms={project.platforms} />
+                                <ShowSocialIcons platforms={report.platforms} />
                             </TableCell>
                             <TableCell align="center">
                                 <BRButton
@@ -53,14 +52,22 @@ const ProjectsTableView = ({ projects }) => {
                                     fullWidth
                                     startIcon={<LuDownloadCloud />}
                                     style={{
-                                        marginTop: '20px'
-                                        // backgroundColor: '#1976d2',
-                                        // color: 'white',
-                                        // borderRadius: '25px',
-                                        // textTransform: 'none'
+                                        marginTop: '20px',
+                                        opacity: report?.pdfUrl ? 1 : 0.7
                                     }}
                                 >
-                                    Download report
+                                    {report?.pdfUrl ? (
+                                        <a
+                                            href={report?.pdfUrl}
+                                            target="_blank"
+                                            style={{ textDecoration: 'none', color: 'inherit' }}
+                                            rel="noreferrer"
+                                        >
+                                            Download report
+                                        </a>
+                                    ) : (
+                                        'Download report'
+                                    )}
                                 </BRButton>
                             </TableCell>
                         </TableRow>
@@ -69,6 +76,4 @@ const ProjectsTableView = ({ projects }) => {
             </Table>
         </TableContainer>
     );
-};
-
-export default ProjectsTableView;
+}

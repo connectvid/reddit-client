@@ -6,7 +6,7 @@ import searchIcon from '../../../../assets/images/svgIcons/reports/search.svg';
 import gridViewIcon from '../../../../assets/images/svgIcons/reports/gridView.svg';
 import listViewIcon from '../../../../assets/images/svgIcons/reports/listView.svg';
 
-const SearchBar = ({ setShowComponent, projects, setFilteredProjectes }) => {
+const SearchBar = ({ setShowComponent, reports, setFilteredReports }) => {
     const [searchInput, setSearchInput] = useState('');
     let timeoutId;
     const handleChangeSearchInput = (e) => {
@@ -19,8 +19,8 @@ const SearchBar = ({ setShowComponent, projects, setFilteredProjectes }) => {
         // Set a new timeout
         timeoutId = setTimeout(() => {
             console.log(1234, 'executing search');
-            const filtered = projects.filter((project) => project.projectName.toLowerCase().includes(value.toLowerCase()));
-            setFilteredProjectes(filtered);
+            const filtered = reports.filter((report) => report.projectName.toLowerCase().includes(value.toLowerCase()));
+            setFilteredReports(filtered);
         }, 1000);
     };
 

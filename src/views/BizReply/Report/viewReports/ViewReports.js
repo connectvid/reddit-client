@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Box } from '@mui/system';
 import SearchBar from './SearchBar';
-import ProjectsGridView from './ProjectsGridView';
-import ProjectsTableView from './ProjectsTableView';
+import ReportsGridView from './ReportsGridView';
+import ReportsTableView from './ReportsTableView';
 
-const ViewReports = ({ projects }) => {
+const ViewReports = ({ reports }) => {
     const [showComponent, setShowComponent] = useState('gridView');
-    const [filteredProjectes, setFilteredProjectes] = useState(projects || []);
+    const [filteredReports, setFilteredReports] = useState(reports || []);
     return (
         <Box
             style={{
@@ -15,12 +15,8 @@ const ViewReports = ({ projects }) => {
                 borderRadius: '10px'
             }}
         >
-            <SearchBar {...{ setShowComponent, projects, setFilteredProjectes }} />
-            {showComponent === 'gridView' ? (
-                <ProjectsGridView projects={filteredProjectes} />
-            ) : (
-                <ProjectsTableView projects={filteredProjectes} />
-            )}
+            <SearchBar {...{ setShowComponent, reports, setFilteredReports }} />
+            {showComponent === 'gridView' ? <ReportsGridView reports={filteredReports} /> : <ReportsTableView reports={filteredReports} />}
         </Box>
     );
 };

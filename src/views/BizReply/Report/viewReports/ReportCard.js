@@ -3,7 +3,7 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import ShowSocialIcons from './ShowSocialIcons';
 import { LuDownloadCloud } from 'react-icons/lu';
 
-const ProjectCard = ({ project }) => {
+export default function ({ report }) {
     function formatTimestampToDate(timestamp) {
         const date = new Date(timestamp);
 
@@ -15,7 +15,6 @@ const ProjectCard = ({ project }) => {
         // Formatting the date as YYYY-MM-DD
         return `${year}-${month}-${day}`;
     }
-    console.log(project);
     return (
         <Card
             variant="outlined"
@@ -39,7 +38,7 @@ const ProjectCard = ({ project }) => {
                                 alt="ClickUp"
                                 style={{ width: '20px', height: '20px' }}
                             /> */}
-                            <Typography variant="body2">{project.projectName}</Typography>
+                            <Typography variant="body2">{report.projectName}</Typography>
                         </div>
                     </Grid>
                     <Grid item>
@@ -47,7 +46,7 @@ const ProjectCard = ({ project }) => {
                             DATE RANGE
                         </Typography>
                         <Typography variant="body2">
-                            {formatTimestampToDate(project.dateRange.from)} - {formatTimestampToDate(project.dateRange.to)}
+                            {formatTimestampToDate(report.dateRange.from)} - {formatTimestampToDate(report.dateRange.to)}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -57,7 +56,7 @@ const ProjectCard = ({ project }) => {
                     <Typography variant="caption" color="textSecondary">
                         PROJECT STATUS
                     </Typography>
-                    <Typography variant="body1">{project.status}</Typography>
+                    <Typography variant="body1">{report.status}</Typography>
                 </Box>
 
                 {/* Description */}
@@ -65,7 +64,7 @@ const ProjectCard = ({ project }) => {
                     <Typography variant="caption" color="textSecondary" style={{ marginTop: '15px' }}>
                         DESCRIPTION
                     </Typography>
-                    <Typography variant="body2">{project.projectDescription}</Typography>
+                    <Typography variant="body2">{report.projectDescription}</Typography>
                 </Box>
 
                 {/* Social Media */}
@@ -73,7 +72,7 @@ const ProjectCard = ({ project }) => {
                     <Typography variant="caption" color="textSecondary">
                         SOCIAL MEDIA
                     </Typography>
-                    <ShowSocialIcons platforms={project.platforms} />
+                    <ShowSocialIcons platforms={report.platforms} />
                 </Box>
 
                 {/* Download Report Button */}
@@ -81,19 +80,20 @@ const ProjectCard = ({ project }) => {
                     variant="contained"
                     fullWidth
                     startIcon={<LuDownloadCloud />}
-                    style={{
-                        marginTop: '20px'
-                        // backgroundColor: '#1976d2',
-                        // color: 'white',
-                        // borderRadius: '25px',
-                        // textTransform: 'none'
+                    sx={{
+                        marginTop: '20px',
+                        opacity: report?.pdfUrl ? 1 : 0.7
                     }}
                 >
-                    Download report
+                    {report?.pdfUrl ? (
+                        <a href={report?.pdfUrl} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }} rel="noreferrer">
+                            Download report
+                        </a>
+                    ) : (
+                        'Download report'
+                    )}
                 </BRButton>
             </CardContent>
         </Card>
     );
-};
-
-export default ProjectCard;
+}
