@@ -34,7 +34,7 @@ import { getProjects, projectClear } from 'features/project/projectActions';
 import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
 import { getPromptsAPI } from 'features/prompt/promptActions';
 import { getMentionSettingAPI, mentionSetter } from 'features/mention/mentionActions';
-import { getAiModelsAPI } from 'features/ai-model/aiModelActions';
+import { getAllReportsAPI } from 'features/report/reportActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
 ReactSession.setStoreType('localStorage');
@@ -166,7 +166,7 @@ export const FirebaseProvider = ({ children }) => {
                         getMySubscriptionAPI(token)();
                         getPromptsAPI(token)();
                         getMentionSettingAPI(token)();
-                        getAiModelsAPI(token)();
+                        getAllReportsAPI(token)();
                         dispatch({
                             type: LOGIN,
                             payload: {
