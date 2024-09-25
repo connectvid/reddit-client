@@ -140,6 +140,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 17px;
+    width: 96%;
+    margin-left: auto;
+    margin-right: auto;
 }
 .posts .single_post {
     border: 1px solid #ccd3d9;
