@@ -131,7 +131,7 @@ body {
     margin-top: -166px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 17px;
 }
 .posts .single_post {
     border: 1px solid #ccd3d9;
@@ -146,6 +146,7 @@ body {
 
 .posts .single_post .post_date {
     color: #6e7478;
+    font-size: 14px;
 }
 .single_post_platform_social {
     display: flex;
