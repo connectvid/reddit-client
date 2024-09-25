@@ -152,7 +152,8 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
         // console.log(values);
         try {
             const token = await getAccessToken();
-            const bodyData = { ...values, dateRange: { from: from.format('YYYY-MM-DD'), to: to.format('YYYY-MM-DD') } };
+            const toPlusOneDay = to.clone().add(1, 'days');
+            const bodyData = { ...values, dateRange: { from: from.format('YYYY-MM-DD'), to: toPlusOneDay.format('YYYY-MM-DD') } };
             console.log(bodyData);
             createReportAPI({ token, data: bodyData })();
         } catch (e) {
