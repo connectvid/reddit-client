@@ -144,6 +144,9 @@ body {
     align-items: center;
 }
 
+.posts .single_post .post_date {
+    color: #6e7478;
+}
 .single_post_platform_social {
     display: flex;
     align-items: center;
@@ -157,6 +160,7 @@ body {
     background: #c7fceb;
     border-radius: 10px;
     text-transform: uppercase;
+    font-size: 12px;
 }
 .post_url {
     font-size: 14px;
@@ -185,6 +189,10 @@ body {
     font-weight: 400;
     color: #000000;
     margin: 10px 0 8px 0;
+}
+.post_url_content {
+    color: #000000;
+    margin-top: 7px;
 }
 /*=====  End of Post Section  ======*/
 
