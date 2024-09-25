@@ -193,6 +193,7 @@ export const createKeywordsApi =
             return response.data;
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
+            dispatch(createKeywordsLoading(false));
         }
     };
 
@@ -223,7 +224,6 @@ export const deleteNegativeKeywordAPI =
                     Authorization: `Bearer ${token}`
                 }
             });
-            subsctriptionCreditsSetter({ keywords: 1 })();
             negativeKeywordRemovover({ keyword, _id: id })();
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));

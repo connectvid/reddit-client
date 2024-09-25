@@ -129,7 +129,9 @@ const projectSlice = createSlice({
         createKeywords(state, { payload }) {
             const { items: dItems = [], negativeKeywords = [] } = payload;
             const Suggestedkeywords = [...(state.project?.Suggestedkeywords || []), ...dItems];
-            const nks = [...(state.project?.negativeKeywords || []), ...negativeKeywords];
+            const previousNKs = state.project?.negativeKeywords || [];
+            const nks = [...previousNKs, ...negativeKeywords.filter((nk) => !previousNKs.includes(nk))];
+            // const nks = [...(state.project?.negativeKeywords || []), ...negativeKeywords];
             const data = { ...state.project, Suggestedkeywords, negativeKeywords: nks };
             console.log(dItems, 'createKeywords', negativeKeywords);
             state.project = data;

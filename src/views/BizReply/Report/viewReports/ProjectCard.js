@@ -1,9 +1,7 @@
 import { Box, Card, CardContent, Typography, Grid } from '@mui/material';
-// import DownloadIcon from '@mui/icons-material/Download';
-import DownloadIcon from '../../../../assets/images/svgIcons/reports/download.svg';
-
 import BRButton from 'ui-component/bizreply/BRButton';
 import ShowSocialIcons from './ShowSocialIcons';
+import { LuDownloadCloud } from 'react-icons/lu';
 
 const ProjectCard = ({ project }) => {
     function formatTimestampToDate(timestamp) {
@@ -82,7 +80,7 @@ const ProjectCard = ({ project }) => {
                 <BRButton
                     variant="contained"
                     fullWidth
-                    startIcon={<img src={DownloadIcon} alt="DownloadIcon" />}
+                    startIcon={<LuDownloadCloud />}
                     style={{
                         marginTop: '20px'
                         // backgroundColor: '#1976d2',

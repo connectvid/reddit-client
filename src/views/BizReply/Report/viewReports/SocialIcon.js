@@ -1,11 +1,19 @@
-import fb from '../../../../assets/images/social/fb.webp';
-import quora from '../../../../assets/images/social/quora.png';
-import insta from '../../../../assets/images/social/insta.png';
-import reddit from '../../../../assets/images/social/reddit.png';
-import linkedin from '../../../../assets/images/social/linkedin.png';
-import pinterest from '../../../../assets/images/social/pinterest.png';
-import tiktok from '../../../../assets/images/social/tiktok.png';
-import twitter from '../../../../assets/images/social/twitter.png';
+// import fb from '../../../../assets/images/social/fb.webp';
+// import quora from '../../../../assets/images/social/quora.png';
+// import insta from '../../../../assets/images/social/insta.png';
+// import reddit from '../../../../assets/images/social/reddit.png';
+// import linkedin from '../../../../assets/images/social/linkedin.png';
+// import pinterest from '../../../../assets/images/social/pinterest.png';
+// import tiktok from '../../../../assets/images/social/tiktok.png';
+// import twitter from '../../../../assets/images/social/twitter.png';
+const fb = 'platforms/icons/facebook.png';
+const quora = 'platforms/icons/quora.png';
+const insta = 'platforms/icons/instagram.png';
+const reddit = 'platforms/icons/reddit.png';
+const linkedin = 'platforms/icons/linkedin.png';
+const pinterest = 'platforms/icons/pinterest.png';
+const tiktok = 'platforms/icons/tiktok.png';
+const twitter = 'platforms/icons/twitter.png';
 
 export default function ({ platform }) {
     // if (platform === 'reddit.com')

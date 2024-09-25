@@ -12,12 +12,8 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import NewProject from 'views/BizReply/projects/NewProject';
 import socket from 'socket';
-import useAuth from 'hooks/useAuth';
-import { updateSucceedReport } from 'features/report/reportActions';
-import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 
 const Header = () => {
-    const { dbUser, user } = useAuth();
     const {
         project: { error, showProjectCreateModal, project }
     } = useSelector((state) => state);
@@ -41,28 +37,6 @@ const Header = () => {
             });
         }
     }, [project?._id]);
-    const userId = dbUser?._id || user?.id;
-    React.useEffect(() => {
-        // if (dbUser, user) {
-        const report = `report:${userId}`;
-        console.log(report);
-        console.log(`Socket is connected mentionsStatus`, report);
-        socket.on(
-            report,
-            ({
-                message: {
-                    reportId,
-                    item: { pdfUrl, pageCount }
-                }
-            }) => {
-                const payload = { pdfUrl, _id: reportId };
-                updateSucceedReport(payload)();
-                subsctriptionCreditsSetter({ reports: -pageCount })();
-                console.log({ reportId, pdfUrl, pageCount });
-            }
-        );
-        // }
-    }, [userId]);
 
     return (
         <>

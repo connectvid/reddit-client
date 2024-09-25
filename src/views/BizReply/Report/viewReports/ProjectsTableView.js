@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import DownloadIcon from '../../../../assets/images/svgIcons/reports/download.svg';
+import { LuDownloadCloud } from 'react-icons/lu';
 // import { Grid } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
@@ -51,7 +51,7 @@ const ProjectsTableView = ({ projects }) => {
                                 <BRButton
                                     variant="contained"
                                     fullWidth
-                                    startIcon={<img src={DownloadIcon} alt="DownloadIcon" />}
+                                    startIcon={<LuDownloadCloud />}
                                     style={{
                                         marginTop: '20px'
                                         // backgroundColor: '#1976d2',
