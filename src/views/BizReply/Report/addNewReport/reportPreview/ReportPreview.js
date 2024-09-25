@@ -1,12 +1,10 @@
 import { Typography } from '@mui/material';
-import { borderRadius, Box, display, margin, textAlign, textTransform } from '@mui/system';
-import React from 'react';
-import BRButton from 'ui-component/bizreply/BRButton';
+import { Box } from '@mui/system';
 import ShowSocialIcons from './ShowSocialIcons';
 import DemoData from './DemoData';
 import DateRangeDisplay from './DateRangeDisplay';
 
-const ReportPreview = ({ values, handleSubmit, keywordsData }) => {
+const ReportPreview = ({ values, keywordsData }) => {
     function getTitleById(id) {
         const foundObject = keywordsData.find((obj) => obj._id === id);
         return foundObject ? foundObject.title : '';

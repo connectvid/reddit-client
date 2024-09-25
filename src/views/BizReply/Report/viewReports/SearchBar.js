@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import FilterListIcon from '@mui/icons-material/FilterList';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import { borderRadius, Box } from '@mui/system';
+import { Box } from '@mui/system';
 import filterIcon from '../../../../assets/images/svgIcons/reports/filter.svg';
 import searchIcon from '../../../../assets/images/svgIcons/reports/search.svg';
 import gridViewIcon from '../../../../assets/images/svgIcons/reports/gridView.svg';

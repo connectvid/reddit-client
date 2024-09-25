@@ -1,6 +1,3 @@
-import { IconBrandReddit, IconBrandTiktok } from '@tabler/icons';
-import { LinkedIn, Twitter, Facebook, Instagram, Pinterest } from '@mui/icons-material';
-
 import fb from '../../../../assets/images/social/fb.webp';
 import quora from '../../../../assets/images/social/quora.png';
 import insta from '../../../../assets/images/social/insta.png';
@@ -9,7 +6,6 @@ import linkedin from '../../../../assets/images/social/linkedin.png';
 import pinterest from '../../../../assets/images/social/pinterest.png';
 import tiktok from '../../../../assets/images/social/tiktok.png';
 import twitter from '../../../../assets/images/social/twitter.png';
-import IconQuora from 'ui-component/icons/IconQuora';
 
 export default function ({ platform }) {
     // if (platform === 'reddit.com')

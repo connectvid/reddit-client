@@ -1,5 +1,4 @@
 /* eslint-disable react/button-has-type */
-import React from 'react';
 import DownloadIcon from '../../../../assets/images/svgIcons/reports/download.svg';
 // import { Grid } from '@mui/material';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';

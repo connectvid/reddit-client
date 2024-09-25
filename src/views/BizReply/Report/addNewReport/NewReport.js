@@ -4,9 +4,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Autocomplete, Box, Button, Modal, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Modal } from '@mui/material';
 import BRInput from 'ui-component/bizreply/BRInput';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';

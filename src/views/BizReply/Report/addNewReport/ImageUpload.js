@@ -1,18 +1,17 @@
+/* eslint-disable no-alert */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
 import { Box } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import { useRef } from 'react';
 import uploadIcon from '../../../../assets/images/svgIcons/upload.svg';
-import GradinentText from 'ui-component/GradinentText';
 import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
 
 const ImageUpload = ({ name, handleFormInputChange }) => {
     const { getAccessToken } = useAuth();
-    const [image, setImage] = useState(null);
     const inputRef = useRef(null); // Reference for the file input
 
     const handleDragOver = (e) => {

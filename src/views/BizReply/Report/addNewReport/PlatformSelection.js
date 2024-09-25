@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Autocomplete, Box, Modal, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FaCheck } from 'react-icons/fa6';
 import SocialIcons from 'views/BizReply/SocialIcons';
 

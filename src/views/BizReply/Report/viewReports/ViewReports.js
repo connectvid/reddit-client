@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
-import { borderRadius, Box } from '@mui/system';
+import { useState } from 'react';
+import { Box } from '@mui/system';
 import SearchBar from './SearchBar';
 import ProjectsGridView from './ProjectsGridView';
 import ProjectsTableView from './ProjectsTableView';

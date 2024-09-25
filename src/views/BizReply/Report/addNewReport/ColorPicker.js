@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Box, Typography, TextField, InputAdornment } from '@mui/material';
 
 const ColorPicker = ({ values, handleChange }) => {

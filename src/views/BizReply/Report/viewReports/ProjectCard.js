@@ -1,14 +1,9 @@
-import React from 'react';
-import { Card, CardContent, Typography, Button, Grid, Avatar } from '@mui/material';
+import { Box, Card, CardContent, Typography, Grid } from '@mui/material';
 // import DownloadIcon from '@mui/icons-material/Download';
 import DownloadIcon from '../../../../assets/images/svgIcons/reports/download.svg';
 
-import { Box, margin } from '@mui/system';
 import BRButton from 'ui-component/bizreply/BRButton';
-import SocialIcon from './SocialIcon';
 import ShowSocialIcons from './ShowSocialIcons';
-import Projects from 'views/BizReply/projects';
-// import ClickUpIcon from 'path-to-your-icon'; // You can use any icon for the project logo or replace it with an image link
 
 const ProjectCard = ({ project }) => {
     function formatTimestampToDate(timestamp) {
