@@ -182,7 +182,7 @@ body {
     font-size: 14px;
     font-weight: 400;
     color: #000000;
-    line-height: 16px;
+    line-height: 20px;
 }
 .post_title {
     font-size: 14px;
@@ -193,6 +193,9 @@ body {
 .post_url_content {
     color: #000000;
     margin-top: 7px;
+}
+.post_url_content span {
+    font-size: 14px;
 }
 /*=====  End of Post Section  ======*/
 
