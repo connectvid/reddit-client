@@ -7,6 +7,7 @@ import authSlice from '../features/auth/authSlice';
 import menuSlice from 'features/menu/menuSlice';
 import planSlice from 'features/plan/plan';
 import projectSlice from 'features/project/projectSlice';
+import reportSlice from 'features/report/reportSlice';
 import promptSlice from 'features/prompt/promptSlice';
 import subscriptionSlice from 'features/subscription/subscriptionSlice';
 import mentionSlice from 'features/mention/mentionSlice';
@@ -19,6 +20,7 @@ const store = configureStore({
         auth: authSlice,
         prompt: promptSlice,
         project: projectSlice,
+        report: reportSlice,
         subscription: subscriptionSlice,
         mention: mentionSlice,
         aiModel: aiModelSlice,
