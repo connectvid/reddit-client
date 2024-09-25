@@ -2,6 +2,8 @@ import { Box, Typography } from '@mui/material';
 import { FaCheck } from 'react-icons/fa6';
 
 const KeywordSelection = ({ options, selectedKeywords, handleKeywordSelection }) => {
+    // keywordsData
+
     return (
         <Box style={{ marginBottom: '10px' }}>
             <Typography variant="subtitle2" sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
@@ -31,12 +33,11 @@ const KeywordSelection = ({ options, selectedKeywords, handleKeywordSelection })
                                 boxSizing: 'border-box' // Include padding in width calculation
                             }}
                             onClick={() => {
-                                // console.log(keyword);
-                                handleKeywordSelection?.(keyword.title);
+                                handleKeywordSelection?.(keyword._id);
                             }}
                         >
                             <Typography sx={{}}>
-                                {selectedKeywords?.includes(keyword.title) ? (
+                                {selectedKeywords?.includes(keyword._id) ? (
                                     <Typography
                                         component="span"
                                         sx={{

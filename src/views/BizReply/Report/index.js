@@ -14,12 +14,14 @@ import { useSelector } from 'react-redux';
 import ReportBreadcrumb from 'ui-component/Report/ReportBreadcrumb';
 import ViewReports from './viewReports/ViewReports';
 import NewReport from './addNewReport/NewReport';
+import { useState } from 'react';
 // import { DateRangePicker } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
     const { projects = [], project } = useSelector((s) => s.project);
+    const [showCreateModal, setShowCreateModal] = useState(false);
 
     const demoProjects = [
         {
@@ -140,13 +142,13 @@ const Report = () => {
     // };
     return (
         <>
-            <ReportBreadcrumb />
+            <ReportBreadcrumb setShowCreateModal={setShowCreateModal} />
             <Card>
                 <Box sx={{ minHeight: '100%' }}>
-                    <NewReport {...{ projects, project }} />
+                    <NewReport {...{ projects, project, showCreateModal, setShowCreateModal }} />
                 </Box>
             </Card>
-            {/* <ViewReports projects={demoProjects} /> */}
+            <ViewReports projects={demoProjects} />
         </>
     );
 };

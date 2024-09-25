@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, InputAdornment } from '@mui/material';
 
-const ColorPicker = () => {
-    const [color, setColor] = useState('#0A0626');
+const ColorPicker = ({ values, handleChange }) => {
+    // const [color, setColor] = useState('#0A0626');
 
     const handleColorChange = (event) => {
-        setColor(event.target.value);
+        // setColor(event.target.value);
+        handleChange({ target: { name: 'reportColor', value: event.target.value } });
     };
 
     return (
@@ -25,7 +26,7 @@ const ColorPicker = () => {
 
             <TextField
                 variant="outlined"
-                value={color}
+                value={values.reportColor}
                 onChange={handleColorChange}
                 InputProps={{
                     endAdornment: (
@@ -45,10 +46,16 @@ const ColorPicker = () => {
                                 }}
                             /> */}
                             <input
-                                style={{ height: '24px', width: '24px', borderRadius: '50%', background: color, border: 'none' }}
+                                style={{
+                                    height: '24px',
+                                    width: '24px',
+                                    borderRadius: '50%',
+                                    background: values.reportColor,
+                                    border: 'none'
+                                }}
                                 type="color"
                                 id="colorPicker"
-                                value={color}
+                                value={values.reportColor}
                                 onChange={handleColorChange}
                             />
                         </InputAdornment>

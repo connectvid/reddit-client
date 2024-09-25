@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Autocomplete, Box, Modal, Typography } from '@mui/material';
+import { Autocomplete, Box, Button, Modal, Typography } from '@mui/material';
 import BRInput from 'ui-component/bizreply/BRInput';
 import React, { useEffect, useRef, useState } from 'react';
 import BRButton from 'ui-component/bizreply/BRButton';
@@ -17,11 +19,15 @@ import BRInput2 from 'ui-component/bizreply/BRInput2';
 import ColorPicker from './ColorPicker';
 import ReportPreview from './reportPreview/ReportPreview';
 import KeywordSelection from './KeywordSelection';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { createReportAPI } from 'features/report/reportActions';
+import errorMsgHelper from 'utils/errorMsgHelper';
 
-export default function ({ projects = [], project }) {
+export default function ({ projects = [], project, showCreateModal, setShowCreateModal }) {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const [keywordsData, setKeywordsData] = useState([]);
     useEffect(() => {
-        console.log(window.innerWidth);
         if (window.innerWidth < 1200) {
             setIsSmallScreen(true);
         } else {
@@ -36,17 +42,18 @@ export default function ({ projects = [], project }) {
         agencyName: '',
         // agencyWebsite: '',
         agencyLogo: null,
-        dateRange: { from: new Date(), to: new Date() },
+        dateRange: { from: '', to: '' },
         platforms: [],
         keywords: [],
         projectId: '',
         projectName: '',
-        projectDomain: ''
+        projectDescription: '',
+        projectDomain: '',
+        reportColor: '#0A0626'
     };
     const options = projects?.map?.(({ _id, brandName }) => ({ _id, brandName })) || [];
     const [values, setValues] = React.useState(initVals);
     const [keysAndPlatforms, setKeysAndPlatforms] = React.useState({ platforms: [], keywords: [] });
-    console.log(values);
     React.useEffect(() => {
         if (values?.projectId) {
             const {
@@ -68,6 +75,7 @@ export default function ({ projects = [], project }) {
                 platforms,
                 keywords: keyWords.map((item) => item._id)
             }));
+            setKeywordsData(keyWords);
         }
     }, [values?.projectId]);
 
@@ -85,6 +93,7 @@ export default function ({ projects = [], project }) {
                 platforms,
                 keywords: keyWords.map((item) => item._id)
             }));
+            setKeywordsData(keyWords);
         }
     }, []);
 
@@ -93,46 +102,99 @@ export default function ({ projects = [], project }) {
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(values);
-        // try {
-        //     const token = await getAccessToken();
-        //     createReportAPI({ token, data: values })();
-        // } catch (e) {
-        //     const msg = errorMsgHelper(e);
-        //     console.error(e);
-        //     toast.warn(msg);
-        // }
+        // validation part starts
+        const { dateRange } = values || {};
+        const { from, to } = dateRange || {};
+        if (!from || !to || !moment.isMoment(from) || !moment.isMoment(to) || !from.isValid() || !to.isValid()) {
+            toast('Please select a valid date range.', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+        if (!values.companyName || !values.companyLogo || !values.agencyName || !values.agencyLogo) {
+            toast('Please enter company/agency name and logo perperly.', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+        if (values.platforms.length === 0 || values.keywords.length === 0) {
+            toast('Please select at least one platform and at least one keyword', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+
+        if (!values.projectId || !values.projectName || !values.projectDomain) {
+            toast('Please select a valid project', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+        if (!values.projectDescription || values.projectDescription.trim().length === 0) {
+            toast('Please enter valid description', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+        if (!values.reportColor || !values.reportColor.trim().length === 7) {
+            toast('Please enter valid color with Hex code', {
+                autoClose: 2500,
+                type: 'warning'
+            });
+            return;
+        }
+
+        // console.log(values);
+        try {
+            const token = await getAccessToken();
+            const bodyData = { ...values, dateRange: { from: from.format('YYYY-MM-DD'), to: to.format('YYYY-MM-DD') } };
+            console.log(bodyData);
+            createReportAPI({ token, data: bodyData })();
+        } catch (e) {
+            // console.log(e);
+            const msg = errorMsgHelper(e);
+            console.error(e, msg);
+            toast.warn('Faild to create report');
+        }
     };
 
     const handlePlatformSelection = (platform) => {
         setValues((p) => {
-            const copy = JSON.parse(JSON.stringify(p));
-            const platforms = copy.platforms;
+            let platforms = p.platforms;
             if (platforms.includes(platform)) {
-                copy.platforms = platforms.filter((item) => item !== platform);
+                platforms = platforms.filter((item) => item !== platform);
             } else {
-                copy.platforms = [...platforms, platform];
+                platforms = [...platforms, platform];
             }
-            return copy;
+            return {
+                ...p,
+                platforms
+            };
         });
     };
 
     const handleKeywordSelection = (keyword) => {
-        console.log(keyword);
         setValues((p) => {
-            const copy = JSON.parse(JSON.stringify(p));
-            const keywords = copy.keywords;
+            let keywords = p.keywords;
             if (keywords.includes(keyword)) {
-                copy.keywords = keywords.filter((item) => item !== keyword);
+                keywords = keywords.filter((item) => item !== keyword);
             } else {
-                copy.keywords = [...keywords, keyword];
+                keywords = [...keywords, keyword];
             }
-            return copy;
+            return {
+                ...p,
+                keywords
+            };
         });
     };
 
     return (
-        <Modal open>
+        <Modal open={showCreateModal} onClose={() => setShowCreateModal(false)}>
             <Box
                 sx={{
                     position: 'absolute',
@@ -167,7 +229,7 @@ export default function ({ projects = [], project }) {
                         style={{
                             cursor: 'pointer'
                         }}
-                        // onClick={onClostModal}
+                        onClick={() => setShowCreateModal(false)}
                         src={crossIcon}
                         alt="icon"
                     />
@@ -178,10 +240,12 @@ export default function ({ projects = [], project }) {
                         padding: '25px',
                         display: isSmallScreen ? 'block' : 'flex', // Use block for small screens, flex otherwise
                         flexDirection: isSmallScreen ? 'column' : 'row', // Change direction if needed
-                        width: '100%'
+                        width: '100%',
+                        gap: '20px',
+                        alighItems: 'stretch'
                     }}
                 >
-                    <Box style={{ flex: 1 }} onSubmit={handleSubmit}>
+                    <Box style={{ flex: 1, overflow: 'hidden' }}>
                         <Box sx={{ width: '100%', display: 'block', mb: 2 }}>
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <BRInput
@@ -203,11 +267,11 @@ export default function ({ projects = [], project }) {
                             </Box>
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
-                                    <ImageUpload handleFormInputChange={handleChange} />
+                                    <ImageUpload name="companyLogo" handleFormInputChange={handleChange} />
                                     <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
                                 </Box>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
-                                    <ImageUpload handleFormInputChange={handleChange} />
+                                    <ImageUpload name="agencyLogo" handleFormInputChange={handleChange} />
                                     <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
                                 </Box>
                             </Box>
@@ -216,6 +280,9 @@ export default function ({ projects = [], project }) {
                                     onChange={(_, data) => {
                                         // setFieldValue('reply_character_limit', data);
                                         if (data) setValues((p) => ({ ...p, projectId: data._id }));
+                                        // if (data) setValues((p) => ({ ...p, projectId: data._id }));
+                                        // if (data) setValues((p) => ({ ...p, projectId: data._id }));
+                                        // if (data) setValues((p) => ({ ...p, projectId: data._id }));
                                         return data;
                                     }}
                                     defaultValue={options.find((item) => item._id === project?._id)}
@@ -242,15 +309,19 @@ export default function ({ projects = [], project }) {
                             </Box>
                         </Box>
                         <KeywordSelection
-                            {...{ options: keysAndPlatforms.keywords, selectedKeywords: values?.keywords, handleKeywordSelection }}
+                            {...{
+                                options: keysAndPlatforms.keywords,
+                                selectedKeywords: values?.keywords,
+                                handleKeywordSelection
+                            }}
                         />
                         <BRTextArea
                             // style={{ height: '20px' }}
                             rows={4}
                             label="Description"
                             placeholder="Enter description"
-                            name="description"
-                            value={values.description}
+                            name="projectDescription"
+                            value={values.projectDescription}
                             handleChange={handleChange}
                             required
                         />
@@ -282,14 +353,19 @@ export default function ({ projects = [], project }) {
                         <PlatformSelection
                             {...{ options: keysAndPlatforms.platforms, selectedPlatforms: values?.platforms, handlePlatformSelection }}
                         />
-                        <ColorPicker />
-                        <BRButton type="submit" sx={{ color: '#fff', display: 'inline-block', mt: 2, width: '150px' }}>
-                            Create report
-                        </BRButton>
+                        <ColorPicker {...{ values, handleChange }} />
                     </Box>
-                    <Box style={{ flex: 1 }}>
-                        <ReportPreview />
+                    <Box style={{ flex: 1, overflow: 'hidden', height: '100%' }}>
+                        <ReportPreview {...{ values, handleSubmit, keywordsData }} />
                     </Box>
+                </Box>
+                <Box style={{ display: 'flex', padding: '20px', mt: 2, mb: 2, float: 'right', gap: '15px' }}>
+                    <Button onClick={() => setShowCreateModal(false)} sx={{ color: '#000', width: '150px', background: '#EAEAEA' }}>
+                        Cancel
+                    </Button>
+                    <BRButton onClick={handleSubmit} sx={{ color: '#fff', width: '150px' }}>
+                        Create report
+                    </BRButton>
                 </Box>
             </Box>
         </Modal>

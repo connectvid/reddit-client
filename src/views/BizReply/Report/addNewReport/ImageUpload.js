@@ -10,7 +10,7 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
 
-const ImageUpload = ({ handleFormInputChange }) => {
+const ImageUpload = ({ name, handleFormInputChange }) => {
     const { getAccessToken } = useAuth();
     const [image, setImage] = useState(null);
     const inputRef = useRef(null); // Reference for the file input
@@ -43,7 +43,7 @@ const ImageUpload = ({ handleFormInputChange }) => {
                 }
             });
             console.log(secure_url);
-            // handleChange({ target: { name: 'clientLogo', value: secure_url } });
+            handleFormInputChange({ target: { name, value: secure_url } });
         } else {
             alert('Please upload an image file.');
         }
