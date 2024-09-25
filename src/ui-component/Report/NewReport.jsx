@@ -1,8 +1,12 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable no-undef */
+/* eslint-disable import/no-extraneous-dependencies */
 import { IconButton } from '@material-ui/core';
-import { Autocomplete, Box, Typography } from '@mui/material';
+import { Autocomplete, Box, Modal, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import BRInput from 'ui-component/bizreply/BRInput';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import BRButton from 'ui-component/bizreply/BRButton';
 import BRInput2 from 'ui-component/bizreply/BRInput2';
@@ -14,12 +18,16 @@ import useAuth from 'hooks/useAuth';
 import { createReportAPI } from 'features/report/reportActions';
 import axios from 'utils/axios';
 import { toast } from 'react-toastify';
+import crossIcon from '../../assets/images/cross.svg';
+import uploadIcon from '../../assets/images/svgIcons/upload.svg';
+import GradinentText from 'ui-component/GradinentText';
 
 export default function ({ projects = [], project }) {
+    const [image, setImage] = useState(null);
     const { getAccessToken } = useAuth();
     const initVals = {
-        projectName: '',
-        projectDescription: '',
+        companyName: '',
+        companyWebsite: '',
         dateRange: { from: new Date(), to: new Date() },
         keywords: [],
         platforms: [],
@@ -87,6 +95,47 @@ export default function ({ projects = [], project }) {
             toast.warn(msg);
         }
     };
+    // const [image, setImage] = useState(null);
+    const inputRef = useRef(null); // Reference for the file input
+
+    const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    };
+
+    const processFiles = (files) => {
+        const file = files[0];
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImage(reader.result); // Set the image URL to state
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please upload an image file.');
+        }
+    };
+    const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const files = e.dataTransfer.files;
+        if (files && files.length > 0) {
+            processFiles(files);
+        }
+    };
+
+    const handleImageChange = (e) => {
+        const files = e.target.files;
+        if (files && files.length > 0) {
+            processFiles(files);
+        }
+    };
+
+    const handleClick = () => {
+        inputRef.current.click(); // Trigger click on the hidden input
+    };
+
     const handlePlatformSelection = (platform) => {
         setValues((p) => {
             const copy = JSON.parse(JSON.stringify(p));
@@ -101,196 +150,248 @@ export default function ({ projects = [], project }) {
 
         // console.log(platform, values?.platforms);
     };
-    const handleKeywordSelection = (keyword) => {
-        setValues((p) => {
-            const copy = JSON.parse(JSON.stringify(p));
-            const keywords = copy.keywords;
-            if (keywords.includes(keyword)) {
-                copy.keywords = keywords.filter((item) => item !== keyword);
-            } else {
-                copy.keywords = [...keywords, keyword];
-            }
-            return copy;
-        });
-    };
 
     return (
-        <Box>
+        <Modal open>
             <Box
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    background: 'rgba(241, 241, 241, 1)',
-                    padding: '16px'
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    borderRadius: '12px',
+                    width: '40%',
+                    minWidth: '300px',
+                    color: '#000'
                 }}
             >
-                Create a new project
-                <IconButton sx={{ border: '2px solid #000' }}>
-                    {/* onClick={() => navigate('/some-path')} */}
-                    <CloseIcon />
-                </IconButton>
-            </Box>
+                <Box
+                    style={{
+                        backgroundColor: '#f1f1f1',
+                        borderRadius: '12px 12px 0 0',
+                        padding: '0px 30px',
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                        borderBottom: `2px solid #f0f0f0`,
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <p className="mr-2">Create a new project</p>
+                    <img
+                        style={{
+                            cursor: 'pointer'
+                        }}
+                        // onClick={onClostModal}
+                        src={crossIcon}
+                        alt="icon"
+                    />
+                </Box>
 
-            <Box>
-                <form onSubmit={handleSubmit}>
-                    <Box sx={{ width: '100%', display: 'block', mb: 2 }}>
-                        <Autocomplete
-                            onChange={(_, data) => {
-                                // setFieldValue('reply_character_limit', data);
-                                if (data) setValues((p) => ({ ...p, projectId: data._id }));
-                                return data;
-                            }}
-                            defaultValue={options.find((item) => item._id === project?._id)}
-                            // onBlur={handleBlur}
-                            disablePortal
-                            // value={values.reply_character_limit || ''}
-                            id="combo-box-demo"
-                            options={options}
-                            getOptionLabel={(item) => item.brandName}
-                            sx={{ width: '100%' }}
-                            disableClearable
-                            renderInput={(params) => (
-                                <BRInput2
-                                    placeholder="Choose Project for report"
-                                    label="Choose Project for report"
-                                    fullWidth
+                <Box style={{ padding: '25px' }}>
+                    <form onSubmit={handleSubmit}>
+                        <Box sx={{ width: '100%', display: 'block', mb: 2 }}>
+                            <Box style={{ display: 'flex', gap: '10px' }}>
+                                <BRInput
+                                    label="You company name"
+                                    placeholder="mailtoon"
+                                    name="companyName"
+                                    value={values.companyName}
+                                    handleChange={handleChange}
                                     required
-                                    // name="reply_character_limit"
-                                    type="text"
-                                    {...params}
                                 />
-                            )}
-                        />
-                    </Box>
-                    <BRInput
-                        label="Project Name"
-                        placeholder="Enter project name"
-                        name="projectName"
-                        value={values.projectName}
-                        handleChange={handleChange}
-                        required
-                    />
-                    <BRInput
-                        label="Project Description"
-                        placeholder="Enter project descripion"
-                        name="projectDescription"
-                        value={values.projectDescription}
-                        handleChange={handleChange}
-                        required
-                    />
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <DatePicker
-                                inputFormat="YYYY-MM-DD"
-                                maxDate={new Date()}
-                                renderInput={(props) => <BRInput {...props} label="Date from" />}
-                                value={values?.dateRange?.from}
-                                onChange={(from) => {
-                                    setValues((p) => ({ ...p, dateRange: { ...p.dateRange, from } }));
+                                <BRInput
+                                    label="Company Website"
+                                    placeholder="mailtoon.io"
+                                    name="companyWebsite"
+                                    value={values.companyWebsite}
+                                    handleChange={handleChange}
+                                    required
+                                />
+                            </Box>
+
+                            <Typography sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 700 }}>
+                                Upload your company logo
+                            </Typography>
+                            <Box
+                                sx={{
+                                    border: '2px dashed #2583D8',
+                                    borderRadius: '12px',
+                                    padding: '20px',
+                                    textAlign: 'center',
+                                    backgroundColor: '#F1F5FD',
+                                    width: '100%',
+                                    maxWidth: '600px',
+                                    margin: '0 auto'
                                 }}
-                            />
-                        </LocalizationProvider>
-                        <LocalizationProvider dateAdapter={AdapterMoment}>
-                            <DatePicker
-                                inputFormat="YYYY-MM-DD"
-                                minDate={values?.dateRange?.from}
-                                maxDate={new Date()}
-                                renderInput={(props) => <BRInput {...props} label="Date to" />}
-                                value={values?.dateRange?.to}
-                                onChange={(to) => {
-                                    setValues((p) => ({ ...p, dateRange: { ...p.dateRange, to } }));
-                                }}
-                            />
-                        </LocalizationProvider>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Box sx={{}}>
-                            <Typography>Agency Logo</Typography>
-                            <Typography>
+                                onDragOver={handleDragOver}
+                                onDrop={handleDrop}
+                            >
                                 <input
                                     type="file"
-                                    placeholder="Agency Logo"
-                                    name="agencyLogo"
-                                    accept="image/*"
-                                    onChange={async ({ target: { files } }) => {
-                                        try {
-                                            const token = await getAccessToken();
-                                            const formData = new FormData();
-                                            formData.append('file', files[0]);
-                                            const {
-                                                data: {
-                                                    item: { secure_url }
-                                                }
-                                            } = await axios.post('reports/file-upload', formData, {
-                                                headers: {
-                                                    Authorization: `Bearer ${token}`,
-                                                    'Content-Type': 'multipart/form-data'
-                                                }
-                                            });
-                                            handleChange({ target: { name: 'agencyLogo', value: secure_url } });
-                                            // console.log(respData);
-                                        } catch (e) {
-                                            console.error(e);
-                                        }
-                                    }}
+                                    ref={inputRef}
+                                    style={{ display: 'none' }} // Hide the input
+                                    accept="image/*" // Accept only image files
+                                    onChange={handleImageChange}
                                 />
-                                {values?.agencyLogo ? (
-                                    <img src={values?.agencyLogo} style={{ height: '50px', width: '50px' }} alt="Agency Logo" />
-                                ) : (
-                                    ''
-                                )}
-                            </Typography>
-                        </Box>{' '}
-                        <Box sx={{}}>
-                            <Typography>Client Logo</Typography>
-                            <Typography>
-                                <input
-                                    type="file"
-                                    placeholder="Client Logo"
-                                    name="clientLogo"
-                                    accept="image/*"
-                                    onChange={async ({ target: { files } }) => {
-                                        try {
-                                            const token = await getAccessToken();
-                                            const formData = new FormData();
-                                            formData.append('file', files[0]);
-                                            const {
-                                                data: {
-                                                    item: { secure_url }
-                                                }
-                                            } = await axios.post('reports/file-upload', formData, {
-                                                headers: {
-                                                    Authorization: `Bearer ${token}`,
-                                                    'Content-Type': 'multipart/form-data'
-                                                }
-                                            });
-                                            handleChange({ target: { name: 'clientLogo', value: secure_url } });
-                                            // console.log(respData);
-                                        } catch (e) {
-                                            console.error(e);
-                                        }
+                                <Box
+                                    color="primary"
+                                    aria-label="upload logo"
+                                    component="span"
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        color: '#2196f3'
                                     }}
-                                />
-                                {values?.clientLogo ? (
-                                    <img src={values?.clientLogo} style={{ height: '50px', width: '50px' }} alt="Client Logo" />
-                                ) : (
-                                    ''
+                                >
+                                    {/* <CloudUploadIcon sx={{ fontSize: 50 }} /> */}
+                                    <img src={uploadIcon} alt="crosstab" />
+                                    <GradinentText variant="body1">Upload logo</GradinentText>
+                                </Box>
+                            </Box>
+                            <Autocomplete
+                                onChange={(_, data) => {
+                                    // setFieldValue('reply_character_limit', data);
+                                    if (data) setValues((p) => ({ ...p, projectId: data._id }));
+                                    return data;
+                                }}
+                                defaultValue={options.find((item) => item._id === project?._id)}
+                                // onBlur={handleBlur}
+                                disablePortal
+                                // value={values.reply_character_limit || ''}
+                                id="combo-box-demo"
+                                options={options}
+                                getOptionLabel={(item) => item.brandName}
+                                sx={{ width: '100%' }}
+                                disableClearable
+                                renderInput={(params) => (
+                                    <BRInput2
+                                        placeholder="Choose Project for report"
+                                        label="Choose Project for report"
+                                        fullWidth
+                                        required
+                                        // name="reply_character_limit"
+                                        type="text"
+                                        {...params}
+                                    />
                                 )}
-                            </Typography>
+                            />
                         </Box>
-                    </Box>
-                    <PlatformSelection
-                        {...{ options: keysAndPlatforms.platforms, selectedPlatforms: values?.platforms, handlePlatformSelection }}
-                    />
-                    <KeywordSelection
-                        {...{ handleKeywordSelection, selectedKeywords: values?.keywords, options: keysAndPlatforms.keywords }}
-                    />
-                    <BRButton type="submit" sx={{ color: '#fff', display: 'inline-block', mt: 2, width: '150px' }}>
-                        Create report
-                    </BRButton>
-                </form>
+
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                <DatePicker
+                                    inputFormat="YYYY-MM-DD"
+                                    maxDate={new Date()}
+                                    renderInput={(props) => <BRInput {...props} label="Date from" />}
+                                    value={values?.dateRange?.from}
+                                    onChange={(from) => {
+                                        setValues((p) => ({ ...p, dateRange: { ...p.dateRange, from } }));
+                                    }}
+                                />
+                            </LocalizationProvider>
+                            <LocalizationProvider dateAdapter={AdapterMoment}>
+                                <DatePicker
+                                    inputFormat="YYYY-MM-DD"
+                                    minDate={values?.dateRange?.from}
+                                    maxDate={new Date()}
+                                    renderInput={(props) => <BRInput {...props} label="Date to" />}
+                                    value={values?.dateRange?.to}
+                                    onChange={(to) => {
+                                        setValues((p) => ({ ...p, dateRange: { ...p.dateRange, to } }));
+                                    }}
+                                />
+                            </LocalizationProvider>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Box sx={{}}>
+                                <Typography>Agency Logo</Typography>
+                                <Typography>
+                                    <input
+                                        type="file"
+                                        placeholder="Agency Logo"
+                                        name="agencyLogo"
+                                        accept="image/*"
+                                        onChange={async ({ target: { files } }) => {
+                                            try {
+                                                const token = await getAccessToken();
+                                                const formData = new FormData();
+                                                formData.append('file', files[0]);
+                                                const {
+                                                    data: {
+                                                        item: { secure_url }
+                                                    }
+                                                } = await axios.post('reports/file-upload', formData, {
+                                                    headers: {
+                                                        Authorization: `Bearer ${token}`,
+                                                        'Content-Type': 'multipart/form-data'
+                                                    }
+                                                });
+                                                handleChange({ target: { name: 'agencyLogo', value: secure_url } });
+                                                // console.log(respData);
+                                            } catch (e) {
+                                                console.error(e);
+                                            }
+                                        }}
+                                    />
+                                    {values?.agencyLogo ? (
+                                        <img src={values?.agencyLogo} style={{ height: '50px', width: '50px' }} alt="Agency Logo" />
+                                    ) : (
+                                        ''
+                                    )}
+                                </Typography>
+                            </Box>{' '}
+                            <Box sx={{}}>
+                                <Typography>Agency Logo</Typography>
+                                <Typography>
+                                    <input
+                                        type="file"
+                                        placeholder="Client Logo"
+                                        name="clientLogo"
+                                        accept="image/*"
+                                        onChange={async ({ target: { files } }) => {
+                                            try {
+                                                const token = await getAccessToken();
+                                                const formData = new FormData();
+                                                formData.append('file', files[0]);
+                                                const {
+                                                    data: {
+                                                        item: { secure_url }
+                                                    }
+                                                } = await axios.post('reports/file-upload', formData, {
+                                                    headers: {
+                                                        Authorization: `Bearer ${token}`,
+                                                        'Content-Type': 'multipart/form-data'
+                                                    }
+                                                });
+                                                handleChange({ target: { name: 'clientLogo', value: secure_url } });
+                                                // console.log(respData);
+                                            } catch (e) {
+                                                console.error(e);
+                                            }
+                                        }}
+                                    />
+                                    {values?.clientLogo ? (
+                                        <img src={values?.clientLogo} style={{ height: '50px', width: '50px' }} alt="Client Logo" />
+                                    ) : (
+                                        ''
+                                    )}
+                                </Typography>
+                            </Box>
+                        </Box>
+                        <PlatformSelection
+                            {...{ options: keysAndPlatforms.platforms, selectedPlatforms: values?.platforms, handlePlatformSelection }}
+                        />
+                        <BRButton type="submit" sx={{ color: '#fff', display: 'inline-block', mt: 2, width: '150px' }}>
+                            Create report
+                        </BRButton>
+                    </form>
+                </Box>
             </Box>
-        </Box>
+        </Modal>
     );
 }
 
