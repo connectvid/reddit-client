@@ -68,6 +68,7 @@ body {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 .mid_inner h3 {
     font-size: 14px;
