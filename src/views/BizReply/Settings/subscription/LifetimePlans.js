@@ -10,9 +10,9 @@ import { gridSpacing } from 'features/constant';
 
 import useAuth from 'hooks/useAuth';
 // import { toast } from 'react-toastify';
-import Available from '../../../assets/images/svgIcons/available.svg';
-import NotAllowed from '../../../assets/images/svgIcons/notAllowed.svg';
-import AvailableWhite from '../../../assets/images/svgIcons/availableWhite.svg';
+import Available from 'assets/images/svgIcons/available.svg';
+import NotAllowed from 'assets/images/svgIcons/notAllowed.svg';
+import AvailableWhite from 'assets/images/svgIcons/availableWhite.svg';
 import BRButton from 'ui-component/bizreply/BRButton';
 import GradinentText from 'ui-component/GradinentText';
 import socket from 'socket';

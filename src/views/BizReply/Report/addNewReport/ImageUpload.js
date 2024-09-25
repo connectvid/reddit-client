@@ -5,7 +5,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Box } from '@mui/material';
 import { useRef } from 'react';
-import uploadIcon from '../../../../assets/images/svgIcons/upload.svg';
+import uploadIcon from 'assets/images/svgIcons/upload.svg';
 import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
 import axios from 'utils/axios';
