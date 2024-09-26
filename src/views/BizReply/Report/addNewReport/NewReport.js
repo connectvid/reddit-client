@@ -42,7 +42,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
         companyName: 'COMPANY',
         // companyWebsite: '',
         companyLogo: null,
-        agencyName: 'AGENCY',
+        agencyName: 'CLIENT',
         // agencyWebsite: '',
         agencyLogo: null,
         dateRange: { from: '', to: '' },
