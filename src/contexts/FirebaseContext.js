@@ -34,6 +34,7 @@ import { getProjects, projectClear } from 'features/project/projectActions';
 import { getMySubscriptionAPI, subscriptionClear, subsctriptionSetter } from 'features/subscription/subscriptionActions';
 import { getPromptsAPI } from 'features/prompt/promptActions';
 import { getMentionSettingAPI, mentionSetter } from 'features/mention/mentionActions';
+import { getAllReportsAPI } from 'features/report/reportActions';
 import { getAiModelsAPI } from 'features/ai-model/aiModelActions';
 // import { firebase } from 'googleapis/build/src/apis/firebase';
 
@@ -166,7 +167,9 @@ export const FirebaseProvider = ({ children }) => {
                         getMySubscriptionAPI(token)();
                         getPromptsAPI(token)();
                         getMentionSettingAPI(token)();
+                        getAllReportsAPI(token)();
                         getAiModelsAPI(token)();
+
                         dispatch({
                             type: LOGIN,
                             payload: {

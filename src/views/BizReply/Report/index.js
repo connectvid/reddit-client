@@ -10,42 +10,44 @@ import { Box } from '@mui/system';
 // import useAuth from 'hooks/useAuth';
 // // import { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
-import ReportBreadcrumb from 'ui-component/ReportBreadcrumb';
+import { useSelector } from 'react-redux';
+import ReportBreadcrumb from 'ui-component/Report/ReportBreadcrumb';
+import ViewReports from './viewReports/ViewReports';
+import NewReport from './addNewReport/NewReport';
+import { useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
+// import useAuth from 'hooks/useAuth';
+import UpgradeScreen from './showUpgradeScreen/UpgradeScreen';
 // import { DateRangePicker } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main style file
 // import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
+    const {
+        project: { projects = [], project },
+        report: { reports = [] }
+    } = useSelector((s) => s);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+
     // const navigate = useNavigate();
     // const { dbUser } = useAuth();
-    // const { subscription } = useSelector((state) => state.subscription);
+    const { subscription } = useSelector((state) => state.subscription);
 
-    // const remainingCredit = subscription?.remainingCredit;
+    const remainingCredit = subscription?.remainingCredit;
 
-    // const handleClick = () => {
-    //     navigate('/subscription');
-    // };
-    // const selectionRange = {
-    //     startDate: new Date(),
-    //     endDate: new Date(),
-    //     key: 'selection'
-    // };
-    // const handleSelect = (ranges) => {
-    //     console.log(ranges);
-    //     // {
-    //     //   selection: {
-    //     //     startDate: [native Date Object],
-    //     //     endDate: [native Date Object],
-    //     //   }
-    //     // }
-    // };
+    if (!subscription.credit?.reports) {
+        return <UpgradeScreen />;
+    }
+
     return (
         <>
-            <ReportBreadcrumb />
+            <ReportBreadcrumb remainingCredit={remainingCredit} setShowCreateModal={setShowCreateModal} />
             <Card>
-                <Box sx={{ minHeight: '100%' }}>{/* <DateRangePicker ranges={[selectionRange]} onChange={handleSelect} /> */}</Box>
+                <Box sx={{ minHeight: '100%' }}>
+                    <NewReport {...{ projects, project, showCreateModal, setShowCreateModal }} />
+                </Box>
             </Card>
+            <ViewReports reports={reports} />
         </>
     );
 };
