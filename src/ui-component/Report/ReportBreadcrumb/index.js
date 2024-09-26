@@ -11,9 +11,11 @@ export default function ({ setShowCreateModal, remainingCredit = { reports: 0 } 
                 sx={{ height: '40px', width: '230px', fontWeight: 500, fontSize: '16px', color: '#fff' }}
                 variant="contained"
                 onClick={() => {
-                    console.log(remainingCredit?.reports);
-                    setShowCreateModal(true);
-                    toast('You dont have enough credit to create a report', { autoClose: 2500, type: 'warning' });
+                    if (remainingCredit?.reports) {
+                        setShowCreateModal(true);
+                    } else {
+                        toast('You dont have enough credit to create a report', { autoClose: 2500, type: 'warning' });
+                    }
                 }}
             >
                 <IconPlus size={20} /> Create a new Prompt
