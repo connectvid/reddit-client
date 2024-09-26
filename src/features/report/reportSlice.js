@@ -11,6 +11,7 @@ const initialState = {
     reportUpdateLoading: false,
     reportCreateLoading: false,
     reportDeleteLoading: false,
+    PDFReportStatusChange: false,
     reportUpdated: false,
     reportCreated: false,
     reportDeleted: false,
@@ -60,6 +61,7 @@ const reportSlice = createSlice({
                 }
                 return item;
             });
+            state.PDFReportStatusChange = !state.PDFReportStatusChange;
         },
         reportCreated(state, { payload = true }) {
             state.reportCreated = payload;
