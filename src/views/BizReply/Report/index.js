@@ -15,8 +15,8 @@ import ReportBreadcrumb from 'ui-component/Report/ReportBreadcrumb';
 import ViewReports from './viewReports/ViewReports';
 import NewReport from './addNewReport/NewReport';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import useAuth from 'hooks/useAuth';
+// import { useNavigate } from 'react-router-dom';
+// import useAuth from 'hooks/useAuth';
 import UpgradeScreen from './showUpgradeScreen/UpgradeScreen';
 // import { DateRangePicker } from 'react-date-range';
 // import 'react-date-range/dist/styles.css'; // main style file
@@ -29,16 +29,15 @@ const Report = () => {
     } = useSelector((s) => s);
     const [showCreateModal, setShowCreateModal] = useState(false);
 
-    const navigate = useNavigate();
-    const { dbUser } = useAuth();
+    // const navigate = useNavigate();
+    // const { dbUser } = useAuth();
     const { subscription } = useSelector((state) => state.subscription);
 
     const remainingCredit = subscription?.remainingCredit;
 
-    if(!subscription.credit?.reports){
-        return <UpgradeScreen/>
+    if (!subscription.credit?.reports) {
+        return <UpgradeScreen />;
     }
-
 
     return (
         <>

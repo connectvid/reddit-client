@@ -1,19 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, fontSize } from '@mui/system';
+import { Box } from '@mui/material';
 import gridPreviewImage from '../../../../assets/images/gridPreview.png';
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Autocomplete,
-    TextField,
-    Typography
-} from '@mui/material';
+
 import BRButton from 'ui-component/bizreply/BRButton';
 
 const UpgradeScreen = () => {

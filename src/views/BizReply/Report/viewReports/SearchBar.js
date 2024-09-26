@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { Box } from '@mui/system';
 import filterIcon from '../../../../assets/images/svgIcons/reports/filter.svg';
