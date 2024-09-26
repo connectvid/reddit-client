@@ -162,11 +162,11 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
             createReportAPI({ token, data: bodyData, setShowCreateModal, setIsCreatingReport })();
             // setShowCreateModal(false);
         } catch (e) {
-            setIsCreatingReport(false);
             // console.log(e);
             const msg = errorMsgHelper(e);
             console.error(e, msg);
-            toast.warn('Faild to create report');
+            toast.warn(msg || 'Faild to create report');
+            // setIsCreatingReport(false);
         }
     };
 

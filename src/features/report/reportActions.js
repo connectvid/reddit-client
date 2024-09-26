@@ -87,8 +87,10 @@ export const createReportAPI =
             setShowCreateModal(false);
             setIsCreatingReport(false);
         } catch (e) {
+            toast.warn(errorMsgHelper(e) || 'Faild to create report');
             dispatch(hasError(errorMsgHelper(e)));
             createReportLoadingStatus(true)();
+            // toast.warn(e || 'Faild to create report');
         }
     };
 export const updatedReportSetter = (vals) => () => {
