@@ -46,6 +46,7 @@ const reportSlice = createSlice({
             state.reportCreateLoading = payload;
         },
         addReport(state, { payload }) {
+            console.log(payload.item, 1234);
             state.reports = [payload.item, ...state.reports];
             state.reportCreateLoading = false;
             state.reportCreated = true;
