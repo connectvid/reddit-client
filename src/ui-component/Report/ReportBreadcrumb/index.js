@@ -4,7 +4,7 @@ import Breadcrumb from '../../Breadcrumb';
 import { IconPlus } from '@tabler/icons';
 import { toast } from 'react-toastify';
 
-export default function ({ setShowCreateModal, remainingCredit = { reports: 0 } }) {
+export default function ({ handleModal, remainingCredit = { reports: 0 } }) {
     return (
         <Breadcrumb title="Report">
             <BRButton
@@ -12,13 +12,13 @@ export default function ({ setShowCreateModal, remainingCredit = { reports: 0 } 
                 variant="contained"
                 onClick={() => {
                     if (remainingCredit?.reports) {
-                        setShowCreateModal(true);
+                        handleModal();
                     } else {
                         toast('You dont have enough credit to create a report', { autoClose: 2500, type: 'warning' });
                     }
                 }}
             >
-                <IconPlus size={20} /> Create a new Prompt
+                <IconPlus size={20} /> Create a new Report
             </BRButton>
         </Breadcrumb>
     );

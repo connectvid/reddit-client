@@ -15,39 +15,32 @@ import ReportBreadcrumb from 'ui-component/Report/ReportBreadcrumb';
 import ViewReports from './viewReports/ViewReports';
 import NewReport from './addNewReport/NewReport';
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import useAuth from 'hooks/useAuth';
 import UpgradeScreen from './showUpgradeScreen/UpgradeScreen';
-// import { DateRangePicker } from 'react-date-range';
-// import 'react-date-range/dist/styles.css'; // main style file
-// import 'react-date-range/dist/theme/default.css';
 
 const Report = () => {
     const {
         project: { projects = [], project },
-        report: { reports = [] }
+        report: { reports = [], loading },
+        subscription: { subscription }
     } = useSelector((s) => s);
     const [showCreateModal, setShowCreateModal] = useState(false);
-
-    // const navigate = useNavigate();
-    // const { dbUser } = useAuth();
-    const { subscription } = useSelector((state) => state.subscription);
+    const openModalHandler = () => setShowCreateModal(true);
 
     const remainingCredit = subscription?.remainingCredit;
 
-    if (!subscription.credit?.reports) {
+    if (!subscription?.credit?.reports) {
         return <UpgradeScreen />;
     }
 
     return (
         <>
-            <ReportBreadcrumb remainingCredit={remainingCredit} setShowCreateModal={setShowCreateModal} />
+            <ReportBreadcrumb remainingCredit={remainingCredit} handleModal={openModalHandler} />
             <Card>
                 <Box sx={{ minHeight: '100%' }}>
                     <NewReport {...{ projects, project, showCreateModal, setShowCreateModal }} />
                 </Box>
             </Card>
-            <ViewReports reports={reports} />
+            <ViewReports reports={reports} handleModal={openModalHandler} loading={loading} />
         </>
     );
 };
