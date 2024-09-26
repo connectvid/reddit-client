@@ -110,8 +110,7 @@ body {
 }
 
 .platforms_content p img {
-    max-height: 80px;
-    width: auto;
+    max-width: 30px;
 }
 .keyword_title,
 .platform_title {
