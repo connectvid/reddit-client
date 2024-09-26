@@ -20,7 +20,7 @@ import UpgradeScreen from './showUpgradeScreen/UpgradeScreen';
 const Report = () => {
     const {
         project: { projects = [], project },
-        report: { reports = [], loading },
+        report: { reports = [], loading, PDFReportStatusChange },
         subscription: { subscription }
     } = useSelector((s) => s);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -40,7 +40,7 @@ const Report = () => {
                     <NewReport {...{ projects, project, showCreateModal, setShowCreateModal }} />
                 </Box>
             </Card>
-            <ViewReports reports={reports} handleModal={openModalHandler} loading={loading} />
+            <ViewReports reports={reports} handleModal={openModalHandler} loading={loading} PDFReportStatusChange={PDFReportStatusChange} />
         </>
     );
 };

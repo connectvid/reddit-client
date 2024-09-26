@@ -5,7 +5,7 @@ import ReportsGridView from './ReportsGridView';
 import ReportsTableView from './ReportsTableView';
 import Empty from 'views/BizReply/Empty';
 
-const ViewReports = ({ reports, loading, handleModal }) => {
+const ViewReports = ({ reports, loading, handleModal, PDFReportStatusChange }) => {
     const [showComponent, setShowComponent] = useState('gridView');
     const [filteredReports, setFilteredReports] = useState(reports || []);
     const [searchInput, setSearchInput] = useState('');
@@ -13,7 +13,7 @@ const ViewReports = ({ reports, loading, handleModal }) => {
     useEffect(() => {
         setSearchInput('');
         setFilteredReports(reports);
-    }, [reports?.length]);
+    }, [reports?.length, PDFReportStatusChange]);
 
     return (
         <Box
