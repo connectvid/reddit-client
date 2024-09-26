@@ -264,7 +264,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                                     required
                                 />
                                 <BRInput
-                                    label="Agency name"
+                                    label="Client name"
                                     placeholder="Bizreply"
                                     name="agencyName"
                                     value={values.agencyName}
