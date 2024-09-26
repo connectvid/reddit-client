@@ -85,7 +85,7 @@ const ImageUpload = ({ name, handleFormInputChange }) => {
                 // display: 'flex',
                 // alignItems: 'center',
                 // justifyContent: 'center'
-                minWidth: '150px'
+                width: '130px'
             }}
             onDragOver={handleDragOver}
             onDrop={handleDrop}

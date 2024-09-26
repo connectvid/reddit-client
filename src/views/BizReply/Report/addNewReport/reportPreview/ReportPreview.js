@@ -13,7 +13,7 @@ const ReportPreview = ({ values, keywordsData }) => {
         <Box style={{ background: '#f1f2f2', padding: '15px 15px 0', borderRadius: '10px', height: '100%' }}>
             <Typography style={{ color: '#6E7478', marginBottom: '15px' }}>Preview</Typography>
             <Box style={{ background: '#fff' }}>
-                <Box style={{ background: '#000', color: '#fff', padding: '10px', height: '150px' }}>
+                <Box style={{ background: values.reportColor || '#000', color: '#fff', padding: '10px', height: '150px' }}>
                     <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Typography>Report</Typography>
                         <Typography>
@@ -35,26 +35,24 @@ const ReportPreview = ({ values, keywordsData }) => {
                 >
                     <Box style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
                         <Box>
-                            <Typography style={{ color: '#6e7478' }}>COMPANY</Typography>
+                            <Typography style={{ color: '#6e7478' }}>{values.companyName}</Typography>
                             {values.companyLogo && (
                                 <img
-                                    style={{ maxWidth: '50px', maxHeight: '50px', margin: '10px 0' }}
+                                    style={{ maxWidth: '120px', maxHeight: '120px', margin: '20px 0' }}
                                     src={values.companyLogo}
                                     alt="companyLogo"
                                 />
                             )}
-                            <Typography style={{ color: '#6e7478' }}>{values.companyName}</Typography>
                         </Box>
                         <Box>
-                            <Typography style={{ color: '#6e7478' }}>AGENCY</Typography>
+                            <Typography style={{ color: '#6e7478' }}>{values.agencyName}</Typography>
                             {values.agencyLogo && (
                                 <img
-                                    style={{ maxWidth: '50px', maxHeight: '50px', margin: '10px 0' }}
+                                    style={{ maxWidth: '120px', maxHeight: '120px', margin: '20px 0' }}
                                     src={values.agencyLogo}
                                     alt="agencyLogo"
                                 />
                             )}
-                            <Typography style={{ color: '#6e7478' }}>{values.agencyName}</Typography>
                         </Box>
                     </Box>
                     <Box

@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 export default function ({ handleModal, remainingCredit = { reports: 0 } }) {
     return (
-        <Breadcrumb title="Report">
+        <Breadcrumb title="Report Builder (Beta)">
             <BRButton
                 sx={{ height: '40px', width: '230px', fontWeight: 500, fontSize: '16px', color: '#fff' }}
                 variant="contained"

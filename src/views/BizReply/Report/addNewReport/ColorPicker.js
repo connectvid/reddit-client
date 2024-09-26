@@ -20,7 +20,7 @@ const ColorPicker = ({ values, handleChange }) => {
             }}
         >
             <Typography variant="subtitle2" sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
-                Choose report header colour
+                Choose Report Header Color
             </Typography>
 
             <TextField
