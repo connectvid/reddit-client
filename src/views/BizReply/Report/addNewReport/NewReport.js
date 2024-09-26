@@ -274,11 +274,11 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="companyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
+                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 50*50 px</i>
                                 </Box>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="agencyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
+                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 50*50 px</i>
                                 </Box>
                             </Box>
                             <Box sx={{ width: '100%', display: 'block', mb: 2, mt: 2 }}>

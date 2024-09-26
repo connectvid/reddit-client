@@ -21,6 +21,7 @@ import {
 } from './reportSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { updateProjectData } from 'features/project/projectActions';
+import { toast } from 'react-toastify';
 
 export const reportClear = () => () => {
     dispatch(reportInit());
@@ -82,6 +83,7 @@ export const createReportAPI =
                 headers: { Authorization: `Bearer ${token}` }
             });
             createdReportSetter(respData)();
+            toast.success('Report creation process started successfully');
             setShowCreateModal(false);
             setIsCreatingReport(false);
         } catch (e) {
