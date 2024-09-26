@@ -37,13 +37,13 @@ const ReportPreview = ({ values, keywordsData }) => {
                         <Box>
                             <Typography style={{ color: '#6e7478' }}>COMPANY</Typography>
                             {values.companyLogo && (
-                                <img style={{ maxWidth: '100px', maxHeight: '100px' }} src={values.companyLogo} alt="companyLogo" />
+                                <img style={{ maxWidth: '50px', maxHeight: '50px' }} src={values.companyLogo} alt="companyLogo" />
                             )}
                         </Box>
                         <Box>
                             <Typography style={{ color: '#6e7478' }}>AGENCY</Typography>
                             {values.agencyLogo && (
-                                <img style={{ maxWidth: '100px', maxHeight: '100px' }} src={values.agencyLogo} alt="agencyLogo" />
+                                <img style={{ maxWidth: '50px', maxHeight: '50px' }} src={values.agencyLogo} alt="agencyLogo" />
                             )}
                         </Box>
                     </Box>

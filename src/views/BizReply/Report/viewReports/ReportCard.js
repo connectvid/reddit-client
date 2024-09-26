@@ -84,14 +84,30 @@ export default function ({ report }) {
                         marginTop: '20px',
                         opacity: report?.pdfUrl ? 1 : 0.7
                     }}
+                    disabled={!report.pdfUrl}
+                    onClick={() => {
+                        // const link = document.createElement('a');
+                        // link.href = report.pdfUrl;
+                        // link.download = 'report.pdf';
+                        // document.body.appendChild(link);
+                        // link.click();
+                        // document.body.removeChild(link);
+                        window.open(report.pdfUrl, '_blank');
+                    }}
                 >
-                    {report?.pdfUrl ? (
-                        <a href={report?.pdfUrl} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }} rel="noreferrer">
-                            Download report
-                        </a>
-                    ) : (
-                        'Download report'
-                    )}
+                    {/* {report?.pdfUrl ? (
+                                        <a
+                                            href={report?.pdfUrl}
+                                            target="_blank"
+                                            style={{ textDecoration: 'none', color: 'inherit' }}
+                                            rel="noreferrer"
+                                        >
+                                            Download report
+                                        </a>
+                                    ) : (
+                                        'Download report'
+                                    )} */}
+                    Download report
                 </BRButton>
             </CardContent>
         </Card>

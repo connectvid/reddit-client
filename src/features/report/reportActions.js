@@ -74,7 +74,7 @@ export const createReportLoadingStatus = (vals) => () => {
     dispatch(reportCreateLoading(vals));
 };
 export const createReportAPI =
-    ({ token, data = {} }) =>
+    ({ token, data = {}, setShowCreateModal, setIsCreatingReport }) =>
     async () => {
         try {
             createReportLoadingStatus(true)();
@@ -82,6 +82,8 @@ export const createReportAPI =
                 headers: { Authorization: `Bearer ${token}` }
             });
             createdReportSetter(respData)();
+            setShowCreateModal(false);
+            setIsCreatingReport(false);
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
             createReportLoadingStatus(true)();

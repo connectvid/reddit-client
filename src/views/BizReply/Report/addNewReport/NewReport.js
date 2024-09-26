@@ -27,6 +27,8 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 export default function ({ projects = [], project, showCreateModal, setShowCreateModal }) {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [keywordsData, setKeywordsData] = useState([]);
+    const [isCreatingReport, setIsCreatingReport] = useState(false);
+
     useEffect(() => {
         if (window.innerWidth < 1200) {
             setIsSmallScreen(true);
@@ -151,12 +153,15 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
 
         // console.log(values);
         try {
+            setIsCreatingReport(true);
             const token = await getAccessToken();
             const toPlusOneDay = to.clone().add(1, 'days');
             const bodyData = { ...values, dateRange: { from: from.format('YYYY-MM-DD'), to: toPlusOneDay.format('YYYY-MM-DD') } };
             console.log(bodyData);
-            createReportAPI({ token, data: bodyData })();
+            createReportAPI({ token, data: bodyData, setShowCreateModal, setIsCreatingReport })();
+            // setShowCreateModal(false);
         } catch (e) {
+            setIsCreatingReport(false);
             // console.log(e);
             const msg = errorMsgHelper(e);
             console.error(e, msg);
