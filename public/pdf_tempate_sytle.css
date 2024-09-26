@@ -51,8 +51,12 @@ body {
 .company_and_agency_header div {
     width: 50%;
 }
+.company_and_agency_header h1 {
+    margin-bottom: 18px;
+}
+
 .company_and_agency_header p {
-    margin: 15px 0 15px 0;
+    margin-bottom: 15px;
 }
 .mid_inner {
     border: 1px solid #0c22e5;
