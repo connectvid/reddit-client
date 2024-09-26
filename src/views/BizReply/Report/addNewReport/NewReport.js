@@ -39,10 +39,10 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
     }, [window.innerWidth]);
     const { getAccessToken } = useAuth();
     const initVals = {
-        companyName: '',
+        companyName: 'COMPANY',
         // companyWebsite: '',
         companyLogo: null,
-        agencyName: '',
+        agencyName: 'AGENCY',
         // agencyWebsite: '',
         agencyLogo: null,
         dateRange: { from: '', to: '' },
@@ -115,7 +115,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
             });
             return;
         }
-        if (!values.companyName || !values.companyLogo || !values.agencyName || !values.agencyLogo) {
+        if (!values.companyName || !values.agencyName) {
             toast('Please enter company/agency name and logo perperly.', {
                 autoClose: 2500,
                 type: 'warning'
@@ -231,7 +231,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                         width: '100%'
                     }}
                 >
-                    <p className="mr-2">Create a new project</p>
+                    <p className="mr-2">Create A New Report (Beta)</p>
                     <img
                         style={{
                             cursor: 'pointer'
@@ -280,8 +280,8 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                                             color: '#6E7478',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            marginTop: '4px',
-                                            fontSize: '18px'
+                                            marginTop: '12px',
+                                            fontSize: '12px'
                                         }}
                                     >
                                         Rec. size: 50*50 px
@@ -294,8 +294,8 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                                             color: '#6E7478',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            marginTop: '4px',
-                                            fontSize: '18px'
+                                            marginTop: '12px',
+                                            fontSize: '12px'
                                         }}
                                     >
                                         Rec. size: 50*50 px
