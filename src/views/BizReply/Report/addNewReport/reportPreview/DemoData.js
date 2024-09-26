@@ -8,27 +8,31 @@ const platformData = [
         category: 'PRODUCTIVITY',
         platform_url: 'reddit.com',
         color: '#C7FCEB',
+        title: 'The Shift to Outcome...',
         post_url: 'www.theposturlwillbehere.com/post',
-        generated_reply:
-            "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at https://Lemlist.com. Have you given Zoho a try for that purpose?"
+        generated_reply: `If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools.
+        
+For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at lemlist.com. Have you given Zoho a try for that purpose?`
     },
     {
         date: '14/09/2024',
         category: 'TASK MANAGEMENT',
         platform_url: 'linkedin.com',
-        color: '#52101A',
+        color: '#C7FCEB',
+        title: 'The Shift to Outcome...',
         post_url: 'www.theposturlwillbehere.com/post',
         generated_reply:
-            "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at https://Lemlist.com. Have you given Zoho a try for that purpose?"
+            "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at lemlist.com. Have you given Zoho a try for that purpose?"
     },
     {
         date: '14/09/2024',
         category: 'MAIL',
         platform_url: 'facebook.com',
-        color: '#0F3A4D',
+        color: '#C7FCEB',
+        title: 'The Shift to Outcome...',
         post_url: 'www.theposturlwillbehere.com/post',
         generated_reply:
-            "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at https://Lemlist.com. Have you given Zoho a try for that purpose?"
+            "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at lemlist.com. Have you given Zoho a try for that purpose?"
     }
 ];
 
@@ -50,10 +54,15 @@ const DemoData = () => {
                         </div>
 
                         <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '10px' }}>Post URL</Typography>
-                        <Typography style={{}}>{item.post_url}</Typography>
+                        <Typography>
+                            {item.title}{' '}
+                            <a target="_blank" href={item.post_url} rel="noreferrer">
+                                {item.post_url}
+                            </a>
+                        </Typography>
 
                         <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '15px' }}>Generated Reply</Typography>
-                        <Typography style={{}}>{item.generated_reply}</Typography>
+                        <Typography style={{ whiteSpace: 'break-spaces' }}>{item.generated_reply}</Typography>
                     </CardContent>
                 </Card>
             ))}

@@ -37,14 +37,24 @@ const ReportPreview = ({ values, keywordsData }) => {
                         <Box>
                             <Typography style={{ color: '#6e7478' }}>COMPANY</Typography>
                             {values.companyLogo && (
-                                <img style={{ maxWidth: '50px', maxHeight: '50px' }} src={values.companyLogo} alt="companyLogo" />
+                                <img
+                                    style={{ maxWidth: '50px', maxHeight: '50px', margin: '10px 0' }}
+                                    src={values.companyLogo}
+                                    alt="companyLogo"
+                                />
                             )}
+                            <Typography style={{ color: '#6e7478' }}>{values.companyName}</Typography>
                         </Box>
                         <Box>
                             <Typography style={{ color: '#6e7478' }}>AGENCY</Typography>
                             {values.agencyLogo && (
-                                <img style={{ maxWidth: '50px', maxHeight: '50px' }} src={values.agencyLogo} alt="agencyLogo" />
+                                <img
+                                    style={{ maxWidth: '50px', maxHeight: '50px', margin: '10px 0' }}
+                                    src={values.agencyLogo}
+                                    alt="agencyLogo"
+                                />
                             )}
+                            <Typography style={{ color: '#6e7478' }}>{values.agencyName}</Typography>
                         </Box>
                     </Box>
                     <Box
@@ -58,26 +68,27 @@ const ReportPreview = ({ values, keywordsData }) => {
                     >
                         <Box
                             style={{
-                                display: 'flex'
+                                display: 'flex',
+                                flexWrap: 'wrap'
                             }}
                         >
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '30%', marginRight: '3.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Project Name</Typography>
                                 <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px' }}>
                                     {values.projectName}
                                 </Typography>
                             </Box>
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '30%', marginRight: '3.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Project Domain</Typography>
                                 <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px' }}>
-                                    {values.projectDomain}
+                                    {values.projectDomain.startsWith('https://')
+                                        ? values.projectDomain.replace('https://', '')
+                                        : values.projectDomain}
                                 </Typography>
                             </Box>
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '33.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Date Ranges</Typography>
                                 <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px' }}>
-                                    {/* {values.dateRange?.from?.toISOString()?.split('T')[0]} -{' '}
-                                    {values.dateRange.to?.toISOString()?.split('T')[0]} */}
                                     <DateRangeDisplay values={values} />
                                 </Typography>
                             </Box>
@@ -91,22 +102,23 @@ const ReportPreview = ({ values, keywordsData }) => {
                         <Box
                             style={{
                                 display: 'flex',
-                                marginTop: '10px'
+                                marginTop: '10px',
+                                flexWrap: 'wrap'
                             }}
                         >
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '30%', marginRight: '3.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Socials</Typography>
                                 <ShowSocialIcons platforms={values.platforms} />
                             </Box>
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '30%', marginRight: '3.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Keywords</Typography>
-                                <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px' }}>
+                                <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px', flexWrap: 'wrap' }}>
                                     {values?.keywords?.map((keyword, index) => (
                                         <span key={index}>{getTitleById(keyword)}, </span>
                                     ))}
                                 </Typography>
                             </Box>
-                            <Box style={{ width: '33.3333%' }}>
+                            <Box style={{ width: '33.3333%', overflow: 'auto', flexWrap: 'wrap' }}>
                                 <Typography style={{ color: '#6E7478' }}>Replies Generated</Typography>
                                 <Typography style={{ color: '#000', fontWeight: 'bold', marginTop: '5px' }}>30</Typography>
                             </Box>

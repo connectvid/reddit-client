@@ -34,14 +34,15 @@ const PlatformSelection = ({ options, selectedPlatforms, handlePlatformSelection
                             sx={{
                                 cursor: 'pointer',
                                 p: 0,
-                                width: '70px',
+                                width: '60px',
                                 border: `1px solid ${selectedPlatforms?.includes(platform) ? '#0C22E5' : '#CCD3D9'}`,
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 borderRadius: '10px',
                                 position: 'relative',
-                                height: '64px'
+                                height: '60px',
+                                flexWrap: 'wrap'
                             }}
                             onClick={() => {
                                 handlePlatformSelection?.(platform);

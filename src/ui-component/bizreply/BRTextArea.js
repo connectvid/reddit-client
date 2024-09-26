@@ -25,6 +25,7 @@ const BRTextArea = ({
                 disabled={disabled}
                 rows={rows}
                 style={{
+                    fontFamily: 'inherit',
                     width: '100%',
                     height: 'auto',
                     padding: '10px',
