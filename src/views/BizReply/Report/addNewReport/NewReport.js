@@ -343,7 +343,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                             }}
                         />
                         <BRTextArea
-                            // style={{ height: '20px' }}
+                            // style={{ fontFa: '20px' }}
                             rows={4}
                             label="Description"
                             placeholder="Enter description"
