@@ -16,7 +16,7 @@ const platformData = [
         date: '14/09/2024',
         category: 'TASK MANAGEMENT',
         platform_url: 'linkedin.com',
-        color: '#52101A',
+        color: '#C7FCEB',
         post_url: 'www.theposturlwillbehere.com/post',
         generated_reply:
             "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at https://Lemlist.com. Have you given Zoho a try for that purpose?"
@@ -25,7 +25,7 @@ const platformData = [
         date: '14/09/2024',
         category: 'MAIL',
         platform_url: 'facebook.com',
-        color: '#0F3A4D',
+        color: '#C7FCEB',
         post_url: 'www.theposturlwillbehere.com/post',
         generated_reply:
             "If you're exploring alternatives to Microsoft 365 or Google, you might want to consider how your chosen email provider integrates with other tools. For example, Lemlist offers seamless outreach features that can enhance your email strategy without the bloat of larger services. Check out more at https://Lemlist.com. Have you given Zoho a try for that purpose?"

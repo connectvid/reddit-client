@@ -256,7 +256,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                         <Box sx={{ width: '100%', display: 'block', mb: 2 }}>
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <BRInput
-                                    label="You company name"
+                                    label="Company name"
                                     placeholder="bizreply"
                                     name="companyName"
                                     value={values.companyName}
@@ -275,11 +275,31 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="companyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 50*50 px</i>
+                                    <i
+                                        style={{
+                                            color: '#6E7478',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginTop: '4px',
+                                            fontSize: '18px'
+                                        }}
+                                    >
+                                        Rec. size: 50*50 px
+                                    </i>
                                 </Box>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="agencyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 50*50 px</i>
+                                    <i
+                                        style={{
+                                            color: '#6E7478',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginTop: '4px',
+                                            fontSize: '18px'
+                                        }}
+                                    >
+                                        Rec. size: 50*50 px
+                                    </i>
                                 </Box>
                             </Box>
                             <Box sx={{ width: '100%', display: 'block', mb: 2, mt: 2 }}>
