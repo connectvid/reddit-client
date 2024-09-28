@@ -12,11 +12,14 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import NewProject from 'views/BizReply/projects/NewProject';
 import socket from 'socket';
+import useAuth from 'hooks/useAuth';
+import { updateSucceedReport } from 'features/report/reportActions';
 
 const Header = () => {
     const {
         project: { error, showProjectCreateModal, project }
     } = useSelector((state) => state);
+    const { dbUser, user } = useAuth();
     React.useEffect(() => {
         if (error) {
             toast.warning(error);
@@ -37,6 +40,29 @@ const Header = () => {
             });
         }
     }, [project?._id]);
+
+    const userId = dbUser?._id || user?.id;
+    // console.log({ userId });
+    React.useEffect(() => {
+        socket.connect();
+        if (userId) {
+            const reportStatus = `report:${userId}`;
+            // console.log(`Socket is connected pdf status---------------------`, reportStatus);
+            socket.on(
+                reportStatus,
+                ({
+                    message: {
+                        userId,
+                        reportId,
+                        item: { pdfUrl, pageCount }
+                    }
+                }) => {
+                    // console.log('==========Alhamdu lillah');
+                    updateSucceedReport({ _id: reportId, userId, pageCount, pdfUrl })();
+                }
+            );
+        }
+    }, [userId]);
 
     return (
         <>

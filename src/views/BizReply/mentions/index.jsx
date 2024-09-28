@@ -370,7 +370,12 @@ const Mentions = () => {
                             ! */}
 
             {loading ? (
-                <PostPlaceholder />
+                <>
+                    <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
+                        Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                    </Typography>
+                    <PostPlaceholder />
+                </>
             ) : (
                 <>
                     {currentPosts?.length ? (

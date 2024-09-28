@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { Box } from '@mui/system';
 import filterIcon from '../../../../assets/images/svgIcons/reports/filter.svg';
@@ -6,8 +5,7 @@ import searchIcon from '../../../../assets/images/svgIcons/reports/search.svg';
 import gridViewIcon from '../../../../assets/images/svgIcons/reports/gridView.svg';
 import listViewIcon from '../../../../assets/images/svgIcons/reports/listView.svg';
 
-const SearchBar = ({ setShowComponent, reports, setFilteredReports }) => {
-    const [searchInput, setSearchInput] = useState('');
+const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput, setSearchInput }) => {
     let timeoutId;
     const handleChangeSearchInput = (e) => {
         const value = e.target.value;

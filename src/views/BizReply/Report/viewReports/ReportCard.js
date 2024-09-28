@@ -24,6 +24,9 @@ export default function ({ report }) {
                 // padding: '20px',
                 borderRadius: '15px'
             }}
+            sx={{
+                boxShadow: 3
+            }}
         >
             <CardContent>
                 {/* Project Name and Date Range */}
@@ -56,7 +59,7 @@ export default function ({ report }) {
                     <Typography variant="caption" color="textSecondary">
                         PROJECT STATUS
                     </Typography>
-                    <Typography variant="body1">{report.status}</Typography>
+                    <Typography variant="body1">{report.status === 'succeed' ? 'Successful' : report.status}</Typography>
                 </Box>
 
                 {/* Description */}
@@ -70,29 +73,40 @@ export default function ({ report }) {
                 {/* Social Media */}
                 <Box style={{ marginTop: '10px' }}>
                     <Typography variant="caption" color="textSecondary">
-                        SOCIAL MEDIA
+                        SOCIALS
                     </Typography>
                     <ShowSocialIcons platforms={report.platforms} />
                 </Box>
 
                 {/* Download Report Button */}
-                <BRButton
-                    variant="contained"
-                    fullWidth
-                    startIcon={<LuDownloadCloud />}
-                    sx={{
-                        marginTop: '20px',
-                        opacity: report?.pdfUrl ? 1 : 0.7
-                    }}
-                >
-                    {report?.pdfUrl ? (
-                        <a href={report?.pdfUrl} target="_blank" style={{ textDecoration: 'none', color: 'inherit' }} rel="noreferrer">
-                            Download report
-                        </a>
-                    ) : (
-                        'Download report'
-                    )}
-                </BRButton>
+                {report.pdfUrl ? (
+                    <BRButton
+                        variant="contained"
+                        fullWidth
+                        startIcon={<LuDownloadCloud />}
+                        sx={{
+                            marginTop: '20px',
+                            opacity: report?.pdfUrl ? 1 : 0.7
+                        }}
+                        disabled={!report.pdfUrl}
+                        onClick={() => {
+                            window.open(report.pdfUrl, '_blank');
+                        }}
+                    >
+                        Download report
+                    </BRButton>
+                ) : (
+                    <BRButton
+                        variant="contained"
+                        fullWidth
+                        sx={{
+                            marginTop: '20px',
+                            opacity: report?.pdfUrl ? 1 : 0.7
+                        }}
+                    >
+                        Processing...
+                    </BRButton>
+                )}
             </CardContent>
         </Card>
     );

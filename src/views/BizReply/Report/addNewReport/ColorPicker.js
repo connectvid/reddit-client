@@ -1,8 +1,10 @@
+/* eslint-disable react/button-has-type */
 import { Box, Typography, TextField, InputAdornment } from '@mui/material';
+import React from 'react';
 
 const ColorPicker = ({ values, handleChange }) => {
     // const [color, setColor] = useState('#0A0626');
-
+    const colorRef = React.useRef();
     const handleColorChange = (event) => {
         // setColor(event.target.value);
         handleChange({ target: { name: 'reportColor', value: event.target.value } });
@@ -20,7 +22,7 @@ const ColorPicker = ({ values, handleChange }) => {
             }}
         >
             <Typography variant="subtitle2" sx={{ color: 'black', fontSize: '16px', fontWeight: 'bold' }}>
-                Choose report header colour
+                Choose Report Header Color
             </Typography>
 
             <TextField
@@ -29,28 +31,26 @@ const ColorPicker = ({ values, handleChange }) => {
                 onChange={handleColorChange}
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position="start">
-                            {/* <input
-                                type="color"
-                                value={color}
-                                onChange={handleColorChange}
-                                style={{
-                                    border: 'none',
-                                    width: '24px',
-                                    height: '24px',
-                                    cursor: 'pointer',
-                                    padding: 0,
-                                    background: 'transparent',
-                                    borderRadius: '50%'
-                                }}
-                            /> */}
+                        <InputAdornment
+                            position="start"
+                            onClick={() => {
+                                colorRef.current.click();
+                            }}
+                            sx={{
+                                width: '26px',
+                                height: '23px',
+                                borderRadius: '50%',
+                                background: values.reportColor,
+                                m: 0,
+                                cursor: 'pointer'
+                            }}
+                        >
                             <input
+                                ref={colorRef}
                                 style={{
-                                    height: '24px',
-                                    width: '24px',
-                                    borderRadius: '50%',
-                                    background: values.reportColor,
-                                    border: 'none'
+                                    height: 0,
+                                    width: 0,
+                                    zIndex: -1
                                 }}
                                 type="color"
                                 id="colorPicker"

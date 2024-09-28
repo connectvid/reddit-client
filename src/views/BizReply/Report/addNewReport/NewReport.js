@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable consistent-return */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -27,6 +28,8 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 export default function ({ projects = [], project, showCreateModal, setShowCreateModal }) {
     const [isSmallScreen, setIsSmallScreen] = useState(false);
     const [keywordsData, setKeywordsData] = useState([]);
+    const [isCreatingReport, setIsCreatingReport] = useState(false);
+
     useEffect(() => {
         if (window.innerWidth < 1200) {
             setIsSmallScreen(true);
@@ -36,10 +39,10 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
     }, [window.innerWidth]);
     const { getAccessToken } = useAuth();
     const initVals = {
-        companyName: '',
+        companyName: 'COMPANY',
         // companyWebsite: '',
         companyLogo: null,
-        agencyName: '',
+        agencyName: 'CLIENT',
         // agencyWebsite: '',
         agencyLogo: null,
         dateRange: { from: '', to: '' },
@@ -112,7 +115,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
             });
             return;
         }
-        if (!values.companyName || !values.companyLogo || !values.agencyName || !values.agencyLogo) {
+        if (!values.companyName || !values.agencyName) {
             toast('Please enter company/agency name and logo perperly.', {
                 autoClose: 2500,
                 type: 'warning'
@@ -151,16 +154,19 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
 
         // console.log(values);
         try {
+            setIsCreatingReport(true);
             const token = await getAccessToken();
             const toPlusOneDay = to.clone().add(1, 'days');
             const bodyData = { ...values, dateRange: { from: from.format('YYYY-MM-DD'), to: toPlusOneDay.format('YYYY-MM-DD') } };
             console.log(bodyData);
-            createReportAPI({ token, data: bodyData })();
+            createReportAPI({ token, data: bodyData, setShowCreateModal, setIsCreatingReport })();
+            // setShowCreateModal(false);
         } catch (e) {
             // console.log(e);
             const msg = errorMsgHelper(e);
             console.error(e, msg);
-            toast.warn('Faild to create report');
+            toast.warn(msg || 'Faild to create report');
+            // setIsCreatingReport(false);
         }
     };
 
@@ -225,7 +231,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                         width: '100%'
                     }}
                 >
-                    <p className="mr-2">Create a new project</p>
+                    <p className="mr-2">Create A New Report (Beta)</p>
                     <img
                         style={{
                             cursor: 'pointer'
@@ -250,7 +256,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                         <Box sx={{ width: '100%', display: 'block', mb: 2 }}>
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <BRInput
-                                    label="You company name"
+                                    label="Company name"
                                     placeholder="bizreply"
                                     name="companyName"
                                     value={values.companyName}
@@ -258,7 +264,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                                     required
                                 />
                                 <BRInput
-                                    label="Agency name"
+                                    label="Client name"
                                     placeholder="Bizreply"
                                     name="agencyName"
                                     value={values.agencyName}
@@ -269,11 +275,31 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                             <Box style={{ display: 'flex', gap: '10px' }}>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="companyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
+                                    <i
+                                        style={{
+                                            color: '#6E7478',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginTop: '12px',
+                                            fontSize: '12px'
+                                        }}
+                                    >
+                                        Rec. size: 50*50 px
+                                    </i>
                                 </Box>
                                 <Box style={{ display: 'flex', gap: '10px', flex: 1 }}>
                                     <ImageUpload name="agencyLogo" handleFormInputChange={handleChange} />
-                                    <i style={{ color: '#6E7478', justifyContent: 'center', alignItems: 'center' }}>Rec. size: 24*24 px</i>
+                                    <i
+                                        style={{
+                                            color: '#6E7478',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            marginTop: '12px',
+                                            fontSize: '12px'
+                                        }}
+                                    >
+                                        Rec. size: 50*50 px
+                                    </i>
                                 </Box>
                             </Box>
                             <Box sx={{ width: '100%', display: 'block', mb: 2, mt: 2 }}>
@@ -317,7 +343,7 @@ export default function ({ projects = [], project, showCreateModal, setShowCreat
                             }}
                         />
                         <BRTextArea
-                            // style={{ height: '20px' }}
+                            // style={{ fontFa: '20px' }}
                             rows={4}
                             label="Description"
                             placeholder="Enter description"

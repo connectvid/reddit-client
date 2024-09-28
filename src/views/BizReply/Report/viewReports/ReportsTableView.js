@@ -55,8 +55,18 @@ export default function ({ reports }) {
                                         marginTop: '20px',
                                         opacity: report?.pdfUrl ? 1 : 0.7
                                     }}
+                                    disabled={!report.pdfUrl}
+                                    onClick={() => {
+                                        // const link = document.createElement('a');
+                                        // link.href = report.pdfUrl;
+                                        // link.download = 'report.pdf';
+                                        // document.body.appendChild(link);
+                                        // link.click();
+                                        // document.body.removeChild(link);
+                                        window.open(report.pdfUrl, '_blank');
+                                    }}
                                 >
-                                    {report?.pdfUrl ? (
+                                    {/* {report?.pdfUrl ? (
                                         <a
                                             href={report?.pdfUrl}
                                             target="_blank"
@@ -67,7 +77,8 @@ export default function ({ reports }) {
                                         </a>
                                     ) : (
                                         'Download report'
-                                    )}
+                                    )} */}
+                                    Download report
                                 </BRButton>
                             </TableCell>
                         </TableRow>
