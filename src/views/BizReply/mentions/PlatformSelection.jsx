@@ -3,7 +3,12 @@ import { changePlatform } from 'features/project/projectActions';
 import { FaCheck } from 'react-icons/fa6';
 import { platformsSrc } from 'data';
 
-export default function ({ platforms = [], selectedPlatform, loading, haveData, initFirstPage }) {
+export default function ({
+    platforms = [],
+    selectedPlatform,
+    loading, // haveData,
+    initFirstPage
+}) {
     return (
         <Card sx={{ mb: 3 }}>
             <CardContent sx={{ p: 3 }}>
@@ -28,7 +33,8 @@ export default function ({ platforms = [], selectedPlatform, loading, haveData, 
                                 height: '64px'
                             }}
                             onClick={() => {
-                                if (selectedPlatform !== platform && loading === false && haveData) {
+                                if (selectedPlatform !== platform && loading === false) {
+                                    // if (selectedPlatform !== platform && loading === false && haveData) {
                                     changePlatform(platform)();
                                     initFirstPage?.();
                                 }
