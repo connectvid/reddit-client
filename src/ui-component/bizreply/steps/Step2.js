@@ -31,7 +31,7 @@ const Step2 = ({
     }, []);
 
     return (
-        <div>
+        <Box>
             <Stepper2 />
             <Box
                 sx={{
@@ -60,7 +60,7 @@ const Step2 = ({
                     Next Step
                 </BRButton>
             </Grid>
-        </div>
+        </Box>
     );
 };
 

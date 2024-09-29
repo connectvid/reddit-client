@@ -152,7 +152,9 @@ export default function () {
                 borderRadius: '12px',
                 width: '50%',
                 minWidth: '300px',
-                color: '#000'
+                color: '#000',
+                overflowY: 'scroll !important',
+                maxHeight: '100vh'
             }}
         >
             {pathname === ONBOARDING_PATH ? (
