@@ -322,7 +322,14 @@ const Mentions = () => {
                     );
                 }
             } else if (project?.mentionsStatus === 'progress') {
-                Ele = <PostPlaceholder />;
+                Ele = (
+                    <>
+                        <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
+                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+                        </Typography>
+                        <PostPlaceholder />
+                    </>
+                );
             }
         } else {
             Ele = <EmptyProject {...{ description: '' }} />;
