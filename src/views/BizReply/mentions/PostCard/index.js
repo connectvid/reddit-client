@@ -26,12 +26,17 @@ import { random } from 'lodash';
 // import { display } from '@mui/system';
 import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 import { useSelector } from 'react-redux';
+import GradinentText from 'ui-component/GradinentText';
+import classes from './postcard.module.css';
+import isNew from 'utils/isNew';
+import BRButton from 'ui-component/bizreply/BRButton';
 
 const PostCard = ({
     project,
     platform,
     date = 'Recenty Found',
     // postAt,
+    createdAt,
     title,
     keyword,
     snippet,
@@ -251,35 +256,46 @@ const PostCard = ({
                                 </Typography>
                             </Box>
                             <Box display="flex" alignItems="center" gap="14px">
-                                <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }}>{date}</Typography>
+                                <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }} title={createdAt}>
+                                    {date}
+                                </Typography>
                                 <Typography>
                                     <SocialIcons platform={platform} />
                                 </Typography>
                             </Box>
                         </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
+                                {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
+                                    part.toLowerCase() === keyword.toLowerCase() ? (
+                                        <strong key={index}>{part}</strong> // Bold the matching keyword
+                                    ) : (
+                                        <React.Fragment key={index}>{part}</React.Fragment>
+                                    )
+                                )}
+                            </Typography>
 
-                        <Typography sx={{ mb: '10px', lineHeight: '19.54px', fontSize: '20px' }}>
-                            {title.split(new RegExp(`(${keyword})`, 'i')).map((part, index) =>
-                                part.toLowerCase() === keyword.toLowerCase() ? (
-                                    <strong key={index}>{part}</strong> // Bold the matching keyword
-                                ) : (
-                                    <React.Fragment key={index}>{part}</React.Fragment>
-                                )
+                            {isNew({ createdAt }) ? (
+                                <BRButton
+                                    variant="outlined"
+                                    sx={{
+                                        height: '40px',
+                                        // width: '183px',
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        fontSize: '14px',
+                                        fontWeight: 500
+                                    }}
+                                    childSx={{ justifyContent: 'center' }}
+                                >
+                                    <GradinentText className={classes.post_card}>New</GradinentText>
+                                </BRButton>
+                            ) : (
+                                ''
                             )}
-                        </Typography>
+                        </Box>
 
-                        {/* <Typography sx={{ mb: '10px', fontWeight: 700, lineHeight: '19.54px', fontSize: '20px' }}>{title}</Typography> */}
-
-                        {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
-                        {removeLastSentenceIfEllipsis(snippet)
-                            .split(keyword)
-                            .map((part, index, arr) => (
-                                <React.Fragment key={index}>
-                                    {part}
-                                    {index < arr.length - 1 && <strong>{keyword}</strong>}
-                                </React.Fragment>
-                            ))}
-                    </Typography> */}
                         <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
                             {removeLastSentenceIfEllipsis(snippet)
                                 .split(new RegExp(`(${keyword})`, 'i')) // Case-insensitive split
@@ -291,59 +307,6 @@ const PostCard = ({
                                     )
                                 )}
                         </Typography>
-
-                        {/* <Typography sx={{ color: '#000', fontSize: '16px', fontWeight: 500, lineHeight: '22px' }} title={snippet}>
-                        {removeLastSentenceIfEllipsis(snippet)}
-                    </Typography> */}
-                        {/* <Box>
-                        <Box
-                            style={{
-                                fontSize: '15px',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                marginBottom: '-20px'
-                            }}
-                        >
-                            <p>Enter Custom Prompt:</p>
-                            <Box style={{ display: 'flex', gap: '10px' }}>
-                                <div style={{ fontSize: '15px', cursor: 'pointer' }} onClick={() => setShowVariableModal(true)}>
-                                    Variables
-                                </div>
-                                <img
-                                    style={{
-                                        cursor: 'pointer',
-                                        float: 'right',
-                                        height: '20px',
-                                        marginTop: '5px'
-                                    }}
-                                    onClick={() => setShowCustomPromptInput(false)}
-                                    src={crossIcon}
-                                    alt="icon"
-                                />
-                            </Box>
-                        </Box>
-
-                        {showCustomPromptInput && (
-                            <TextField
-                                value={customPrompt}
-                                required
-                                fullWidth
-                                multiline
-                                onChange={(e) => setCustomPrompt(e.target.value || '')}
-                                sx={{
-                                    mb: 2,
-                                    borderRadius: `0 !important`,
-                                    textarea: {
-                                        borderRadius: `0 !important`,
-                                        fontSize: '16px',
-                                        lineHeight: '22px',
-                                        minHeight: '50px',
-                                        maxHeight: '80px'
-                                    }
-                                }}
-                            />
-                        )}
-                    </Box> */}
 
                         {editReply && (
                             <GeneretedReply
@@ -372,7 +335,8 @@ const PostCard = ({
                                 platform,
                                 repliesCredits,
                                 handleDeletePost,
-                                deletePost
+                                deletePost,
+                                createdAt
                             }}
                         />
                         {/* <VariableModal {...{ showVariableModal, setShowVariableModal }} /> */}
