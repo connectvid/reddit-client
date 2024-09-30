@@ -312,8 +312,8 @@ const Mentions = () => {
                                 <Typography variant="h3" sx={{ textAlign: 'center' }}>
                                     Sorry, there seems to be no posts
                                     {selectedKeyword?.title && selectedKeyword?.title !== 'All Keywords'
-                                        ? ` for this keyword ${selectedKeyword.title} `
-                                        : ''}
+                                        ? ` for this keyword ${selectedKeyword.title}`
+                                        : ''}{' '}
                                     on {selectedPlatform}
                                     {/* Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
                                 </Typography>

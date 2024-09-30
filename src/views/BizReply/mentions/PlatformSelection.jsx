@@ -6,7 +6,8 @@ import { platformsSrc } from 'data';
 export default function ({
     platforms = [],
     selectedPlatform,
-    loading, // haveData,
+    // loading,
+    // haveData,
     initFirstPage
 }) {
     return (
@@ -33,11 +34,13 @@ export default function ({
                                 height: '64px'
                             }}
                             onClick={() => {
-                                if (selectedPlatform !== platform && loading === false) {
-                                    // if (selectedPlatform !== platform && loading === false && haveData) {
-                                    changePlatform(platform)();
-                                    initFirstPage?.();
-                                }
+                                changePlatform(platform)();
+                                initFirstPage?.();
+                                // if (selectedPlatform !== platform && loading === false) {
+                                //     // if (selectedPlatform !== platform && loading === false && haveData) {
+                                //     changePlatform(platform)();
+                                //     initFirstPage?.();
+                                // }
                             }}
                         >
                             <Typography sx={{ position: 'absolute', top: '-5px', right: '-5px' }}>
