@@ -1,0 +1,22 @@
+.post_card {
+    background: linear-gradient(92.84deg, rgb(12, 34, 229) 0%, rgb(42, 152, 213) 96.82%) text;
+    animation: colorChange 4s infinite;
+}
+
+@keyframes colorChange {
+    0% {
+        background: linear-gradient(92.84deg, rgb(12, 34, 229) 0%, rgb(42, 152, 213) 96.82%) text;
+    }
+    25% {
+        background: linear-gradient(92.84deg, rgb(190, 42, 213) 0%, rgb(12, 34, 229) 96.82%) text;
+    }
+    50% {
+        background: linear-gradient(92.84deg, rgb(12, 34, 229) 0%, rgb(42, 213, 147) 96.82%) text;
+    }
+    75% {
+        background: linear-gradient(92.84deg, rgb(12, 34, 229) 0%, rgb(213, 79, 42) 96.82%) text;
+    }
+    100% {
+        background: linear-gradient(92.84deg, rgb(229, 12, 59) 0%, rgb(42, 152, 213) 96.82%) text;
+    }
+}

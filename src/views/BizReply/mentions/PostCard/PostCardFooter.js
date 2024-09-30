@@ -1,8 +1,15 @@
 import { Box, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import BRButton from 'ui-component/bizreply/BRButton';
+// import GradinentText from 'ui-component/GradinentText';
 
-const PostCardFooter = ({ generatingReply, handleGenerateReply, link, handleDeletePost, deletePost }) => {
+const PostCardFooter = ({
+    generatingReply,
+    handleGenerateReply,
+    link,
+    handleDeletePost,
+    deletePost // , createdAt
+}) => {
     const { subscription } = useSelector((state) => state.subscription);
     const repliesCredits = subscription?.remainingCredit?.replies;
 
@@ -47,6 +54,7 @@ const PostCardFooter = ({ generatingReply, handleGenerateReply, link, handleDele
             >
                 Skip {(deletePost && <CircularProgress sx={{ maxWidth: '20px', maxHeight: '20px' }} />) || ''}
             </BRButton>
+            {/* <GradinentText>New</GradinentText> */}
         </Box>
     );
 };
