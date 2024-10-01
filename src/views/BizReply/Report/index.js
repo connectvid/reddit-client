@@ -4,9 +4,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 // material-ui
-import { Card } from '@mui/material';
-import { Box } from '@mui/system';
-
+import { Card, Box } from '@mui/material';
 // import useAuth from 'hooks/useAuth';
 // // import { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';

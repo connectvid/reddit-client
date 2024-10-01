@@ -37,7 +37,13 @@ const Keywords = () => {
         modalClose();
     }, [createKeywordSuccess, createNegativeKeywordSuccess]);
     // console.log({ createNegativeKeywordSuccess, createKeywordSuccess });
-    const handleModal = () => setOpenModal((p) => !p);
+    const handleModal = () => {
+        if (!projects?.length) {
+            toast.warn(`Please create a new project first to create a keyword!`);
+            return;
+        }
+        setOpenModal((p) => !p);
+    };
 
     return (
         <>

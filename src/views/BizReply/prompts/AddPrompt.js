@@ -275,8 +275,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                                     </Typography>
 
                                     <Typography sx={{ mb: 1, color: 'black', fontSize: '16px', fontWeight: 400 }}>
-                                        {`Use {Brand_Name}, {Brand_Description} & {Brand_Domain} to use for writing persoalized
-                                        replies`}
+                                        {`Use {Social_Media}, {Brand_Name}, {Brand_Description} & {Brand_Domain} to use for writing persoalized replies`}
                                     </Typography>
 
                                     <BRInput2
