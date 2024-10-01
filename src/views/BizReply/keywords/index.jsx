@@ -36,7 +36,7 @@ const Keywords = () => {
         }
         modalClose();
     }, [createKeywordSuccess, createNegativeKeywordSuccess]);
-    console.log({ createNegativeKeywordSuccess, createKeywordSuccess });
+    // console.log({ createNegativeKeywordSuccess, createKeywordSuccess });
     const handleModal = () => setOpenModal((p) => !p);
 
     return (

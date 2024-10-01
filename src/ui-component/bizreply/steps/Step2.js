@@ -15,7 +15,8 @@ const Step2 = ({
     isEditProject,
     fetchKeywords,
     negativeKeywords,
-    handleNegativeKeyword
+    handleNegativeKeyword,
+    handleNegativeKeywordExistChecker
     // editProject
 }) => {
     const handleNextButton = () => {
@@ -45,7 +46,7 @@ const Step2 = ({
                         Generating Keywords...
                     </Typography>
                 )}
-                <AddNegativeKeywords {...{ negativeKeywords, handleNegativeKeyword }} />
+                <AddNegativeKeywords {...{ negativeKeywords, handleNegativeKeyword, handleNegativeKeywordExistChecker }} />
             </Box>
             <Grid sx={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
                 <BRButton

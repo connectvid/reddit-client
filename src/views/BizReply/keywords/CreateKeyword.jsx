@@ -10,6 +10,7 @@ import { LiaTimesCircle } from 'react-icons/lia';
 import BRButton from 'ui-component/bizreply/BRButton';
 import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
+import checkNegativeKeywordInKeywords from 'utils/checkNegativeKeywordInKeywords';
 
 export default function ({ modalClose }) {
     const { getAccessToken } = useAuth();
@@ -26,8 +27,14 @@ export default function ({ modalClose }) {
     }, []);
 
     const [negativeKeywords, setNegativeKeywords] = React.useState([]);
-
+    const dbExistedkeywords = project?.Suggestedkeywords?.map?.(({ title }) => title) || [];
+    console.log({ dbExistedkeywords });
     const handleNegativeKeyword = (keyword) => {
+        const check = checkNegativeKeywordInKeywords({ keywords: [...dbExistedkeywords, ...addedKeywords], negativeKeyword: keyword });
+        if (check.matchedExistingKeyword.length) {
+            toast.warn(`The requested negative keyword exists in keywords!`);
+            return;
+        }
         if (negativeKeywords.includes(keyword)) {
             setNegativeKeywords((p) => p.filter((item) => item !== keyword));
         } else {

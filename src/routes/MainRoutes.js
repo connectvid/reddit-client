@@ -14,7 +14,7 @@ import {
     REPORTS_PATH,
     PROMPT_PATH
 } from 'config';
-import SetKeywords from 'views/BizReply/projects/SetKeywords';
+// import SetKeywords from 'views/BizReply/projects/SetKeywords';
 
 const Projects = Loadable(lazy(() => import('views/BizReply/projects')));
 const Keywords = Loadable(lazy(() => import('views/BizReply/keywords')));
@@ -82,10 +82,10 @@ const MainRoutes = {
         //     path: `${SUBSCRIPTION_PATH}/paddle`,
         //     element: <PaddleSubscription />
         // },
-        {
-            path: '/setkeywords',
-            element: <SetKeywords />
-        },
+        // {
+        //     path: '/setkeywords',
+        //     element: <SetKeywords />
+        // },
         {
             path: ONBOARDING_PATH,
             element: <OnBoarding />

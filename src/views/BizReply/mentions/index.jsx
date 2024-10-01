@@ -235,11 +235,11 @@ const Mentions = () => {
                 // });
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
-                        const allData = [...(p?.[selectedPlatform] || []), ...items];
+                        const allData = [...items, ...(p?.[selectedPlatform] || [])];
                         p[selectedPlatform] = allData;
                         // p[selectedPlatform] = postSorting({ data: allData });
                     } else {
-                        const allData = [...p, ...items];
+                        const allData = [...items, ...p];
                         p = allData;
                         // p = postSorting({ data: allData });
                     }

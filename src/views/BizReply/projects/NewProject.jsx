@@ -23,6 +23,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { DASHBOARD_PATH, ONBOARDING_PATH } from 'config';
 import axios from 'utils/axios';
 import { FaRegTimesCircle } from 'react-icons/fa';
+import checkNegativeKeywordInKeywords from 'utils/checkNegativeKeywordInKeywords';
 
 export default function () {
     const initVals = {
@@ -42,14 +43,31 @@ export default function () {
     } = useSelector((state) => state);
     const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
+    // const handleNegativeKeyword = (keyword) => {
+    //     if (negativeKeywords.includes(keyword)) {
+    //         setNegativeKeywords((p) => p.filter((item) => item !== keyword));
+    //     } else {
+    //         setNegativeKeywords((p) => [...p, keyword]);
+    //     }
+    // };
+
     const handleNegativeKeyword = (keyword) => {
         if (negativeKeywords.includes(keyword)) {
             setNegativeKeywords((p) => p.filter((item) => item !== keyword));
         } else {
+            const check = checkNegativeKeywordInKeywords({ keywords: addedKeywords, negativeKeyword: keyword });
+            if (check.matchedExistingKeyword.length) {
+                toast.warn(`The requested negative keyword exists in keywords!`);
+                return;
+            }
             setNegativeKeywords((p) => [...p, keyword]);
         }
     };
 
+    const handleNegativeKeywordExistChecker = (keyword) => {
+        const check = checkNegativeKeywordInKeywords({ keywords: addedKeywords, negativeKeyword: keyword });
+        return check.matchedExistingKeyword.length;
+    };
     const [values, setValues] = useState(initVals);
 
     useEffect(() => {
@@ -214,7 +232,8 @@ export default function () {
                             editProject,
                             fetchKeywords,
                             negativeKeywords,
-                            handleNegativeKeyword
+                            handleNegativeKeyword,
+                            handleNegativeKeywordExistChecker
                         }}
                     />
                 </Box>

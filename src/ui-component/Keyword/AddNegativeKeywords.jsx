@@ -4,8 +4,12 @@ import React from 'react';
 // import ProjectsTable from './ProjectsTable';
 import { IconX } from '@tabler/icons';
 import BRInput from 'ui-component/bizreply/BRInput';
+// import { toast } from 'react-toastify';
 
-export default function ({ negativeKeywords, handleNegativeKeyword }) {
+export default function ({
+    negativeKeywords,
+    handleNegativeKeyword //, handleNegativeKeywordExistChecker
+}) {
     const [value, setValue] = React.useState('');
     return (
         <>
@@ -45,6 +49,11 @@ export default function ({ negativeKeywords, handleNegativeKeyword }) {
                     }}
                     onClick={() => {
                         if (!value) return;
+                        // if (handleNegativeKeywordExistChecker(value)) {
+                        //     toast.warn(`The requested negative keyword exists in keywords!`)
+                        //     return;
+                        // }
+
                         handleNegativeKeyword(value);
                         setValue('');
                     }}
