@@ -15,14 +15,14 @@ import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
 import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
-import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
 import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
+import BRButton from 'ui-component/bizreply/BRButton';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -68,7 +68,7 @@ const Mentions = () => {
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
-    const postsPerPage = 10;
+    // const postsPerPage = 10;
 
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
     // const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
@@ -223,31 +223,18 @@ const Mentions = () => {
                 }
             });
             if (items?.length) {
-                // setMentionsDataObj?.((p) => {
-                //     if (selectedPlatform) {
-                //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
-                //         p[selectedPlatform] = postSorting({ data: allData });
-                //     } else {
-                //         const allData = [...items, ...p];
-                //         p = postSorting({ data: allData });
-                //     }
-                //     return p;
-                // });
                 setMentionsDataObj?.((p) => {
                     if (selectedPlatform) {
-                        const allData = [...items, ...(p?.[selectedPlatform] || [])];
+                        const allData = [...(p?.[selectedPlatform] || []), ...items];
                         p[selectedPlatform] = allData;
                         // p[selectedPlatform] = postSorting({ data: allData });
                     } else {
-                        const allData = [...items, ...p];
+                        const allData = [...p, ...items];
                         p = allData;
                         // p = postSorting({ data: allData });
                     }
                     return p;
                 });
-                if (currentPosts?.length < postsPerPage) {
-                    setCurrentPage((p) => p + 1);
-                }
             }
 
             setMoreLoading?.(false);
@@ -258,48 +245,6 @@ const Mentions = () => {
         }
     };
 
-    // const mentionFetchAgain = async () => {
-    //     setLoading(true);
-    //     // const first = project?.Suggestedkeywords?.[0];
-    //     // if (first) setSelectedKeyword(first);
-    //     try {
-    //         const token = await getAccessToken();
-    //         setFilteredData([]);
-    //         const body = { project };
-    //         const {
-    //             data: { items }
-    //         } = await axios.post(`mentions/projects/${project?._id}/refresh-scrap`, body, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         const len = items.length;
-    //         setHaveData(Boolean(len));
-    //         //   ////////////////////
-    //         const reduced = dataGrouppingInPlatform({ data: items, platforms });
-    //         setMentionsDataObj(reduced);
-    //         const [platform] = platforms || [];
-    //         // const title = first?.title;
-    //         // console.log(reduced, first);
-
-    //         // if (platform && title) {
-    //         //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
-    //         //     setFilteredData(filtered);
-    //         // }
-    //         const filtered = reduced[platform];
-    //         setFilteredData(filtered);
-    //         setLoading(false);
-    //         // if (!state?.socket || len) {
-    //         //     setLoading(false);
-    //         // }
-    //         if (!state?.socket) {
-    //             // navigate(`${pathname}${search}`, { state: null });
-    //         }
-    //     } catch (e) {
-    //         console.log(e);
-    //         setLoading(false);
-    //     }
-    // };
     let Ele = <></>;
     // {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
     if (!loading && !filteredData?.length) {
@@ -335,6 +280,7 @@ const Mentions = () => {
             Ele = <EmptyProject {...{ description: '' }} />;
         }
     }
+    console.log(filteredData, 'filteredData');
     return (
         <>
             {/* <OpenAikeyPopup /> */}
@@ -385,9 +331,9 @@ const Mentions = () => {
                 </>
             ) : (
                 <>
-                    {currentPosts?.length ? (
+                    {filteredData?.length ? (
                         <>
-                            {currentPosts?.map?.((item) => {
+                            {filteredData?.map?.((item) => {
                                 return (
                                     <PostCard
                                         key={item._id}
@@ -406,19 +352,11 @@ const Mentions = () => {
                     ) : (
                         ''
                     )}
-                    <Pagination
-                        {...{
-                            data: filteredData,
-                            setCurrentPosts,
-                            currentPosts,
-                            postsPerPage,
-                            currentPage,
-                            setCurrentPage,
-                            recall,
-                            loadMore,
-                            moreLoading
-                        }}
-                    />
+                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff' }}>
+                            Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
+                        </BRButton>
+                    </Box>
                 </>
             )}
         </>
