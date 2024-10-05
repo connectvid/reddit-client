@@ -43,6 +43,7 @@ import {
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
+import { addingAiNewModel, deletingAiNewModel, updatedaiModelSetter } from 'features/ai-model/aiModelActions';
 
 export const isEditProjectStatus =
     (v = true) =>
@@ -186,15 +187,25 @@ export const updateProjectAdvancedSettingAPI =
     async () => {
         try {
             dispatch(updateAdvancedProjectSettingLoading(true));
-            const response = await axios.put(`projects/${id}/advanced`, data, {
+            const { data: respData } = await axios.put(`projects/${id}/advanced`, data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            updateAdvancedSettingProjectData(response.data)();
+            updateAdvancedSettingProjectData(respData)();
+            if (respData?.model) {
+                const { actionType } = respData?.model;
+                if (actionType === 'add') {
+                    addingAiNewModel({ item: respData?.model })();
+                } else if (actionType === 'update') {
+                    updatedaiModelSetter({ item: respData?.model })();
+                } else if (actionType === 'delete') {
+                    deletingAiNewModel({ item: respData?.model })();
+                }
+            }
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
-            dispatch(updateAdvancedProjectSettingLoading(true));
+            dispatch(updateAdvancedProjectSettingLoading(false));
         }
     };
 

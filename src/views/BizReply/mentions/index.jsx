@@ -281,7 +281,6 @@ const Mentions = () => {
             Ele = <EmptyProject {...{ description: '' }} />;
         }
     }
-    console.log(project, 'filteredData');
     return (
         <>
             {/* <OpenAikeyPopup /> */}

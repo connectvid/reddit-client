@@ -126,14 +126,13 @@ const projectSlice = createSlice({
         updateAdvencedSettingOfProject(state, action) {
             const { item } = action.payload;
             console.log({ item });
-            // state.projects = state.projects.map((project) => {
-            //     if (project._id === item._id) {
-            //         return { ...project, ...item };
-            //     }
-            //     return project;
-            // });
-            state.project = item;
-            // state.project = { ...state.project, ...item };
+            state.projects = state.projects.map((project) => {
+                if (project._id === item._id) {
+                    return { ...project, ...item };
+                }
+                return project;
+            });
+            state.project = { ...state.project, ...item };
             state.updateProjectLoading = false;
             state.updatedAdvancedProjectSetting = true;
             state.updateAdvancedProjectSettingLoading = false;

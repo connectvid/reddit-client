@@ -2,8 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
-import { mentionErrorClear } from 'features/mention/mentionActions';
-import { updatedAdvancedProjectSettingStatus, updateProjectAdvancedSettingAPI } from 'features/project/projectActions';
+import { updatedAdvancedProjectSettingStatus, updateProjectAdvancedSettingAPI, clearingError } from 'features/project/projectActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -26,8 +25,7 @@ export default function ({
     switchSx = {}
 }) {
     const {
-        mention: { mentionSettingUpdateLoading, error },
-        project: { loading, project, projects, updatedAdvancedProjectSetting },
+        project: { loading, project, projects, updatedAdvancedProjectSetting, updateAdvancedProjectSettingLoading, error },
         subscription: { subscription },
         aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
@@ -62,12 +60,6 @@ export default function ({
         { label: 'Every year', value: 365 }
     ];
 
-    const fetchTimings2 = [
-        { label: 'Last 30 Days', value: 30 },
-        // { label: '24  Hours', value: 30 },
-        { label: 'Last 365 Days', value: 365 }
-    ];
-
     const postsPerRequests = [20, 30, 40, 50, 100];
     const [values, setValues] = useState({
         country: 'us',
@@ -94,7 +86,7 @@ export default function ({
     useEffect(() => {
         if (error) {
             toast.warn(error);
-            mentionErrorClear(null)();
+            clearingError(null)();
         }
     }, [error]);
 
@@ -121,6 +113,7 @@ export default function ({
                 setNeedAddAIkey(false);
                 setAIkey('');
             }
+            if (actionType) setActionType('');
         }
     }, [updatedAdvancedProjectSetting]);
 
@@ -131,7 +124,7 @@ export default function ({
         };
     }, [project?.platforms?.length]);
 
-    const updateMentionSettings = async () => {
+    const updateProjectAdvancedSettings = async () => {
         try {
             if (!projects?.length) {
                 toast.warn(`Please create a new project first to setup advance settings!`);
@@ -153,9 +146,19 @@ export default function ({
                 aIkey,
                 ...selectedModel
             };
-            if (!actionType && aiModelsString?.includes?.(ai_model?.model)) {
+            /*=============================================
+            =            seting actionType            =
+            =============================================*/
+            if (
+                (!actionType &&
+                    aiModelsGroup?.[selectedModel?.modelGroupName] &&
+                    ai_model?.model &&
+                    !aiModelsString?.includes?.(ai_model?.model)) ||
+                (aiModelsString?.includes?.(ai_model?.model) && aIkey && needAddAIkey)
+            ) {
                 ai_model.actionType = 'update';
             }
+            /*=====  End of seting actionType  ======*/
             const body = {
                 platforms,
                 // projectId: project?._id,
@@ -315,17 +318,16 @@ export default function ({
                     }}
                 />
                 <AiModels {...{ selectedModel, setSelectedModel, aIkey, setAIkey, needAddAIkey, setNeedAddAIkey, setActionType }} />
-                {/* <Box sx={{ width: '50%', mt: 2 }}></Box> */}
             </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'right', my: 2, ...submitButtonSx }}>
                 <BRButton
                     sx={{ height: '40px', width: '180px' }}
-                    disabled={mentionSettingUpdateLoading}
+                    disabled={updateAdvancedProjectSettingLoading}
                     variant="contained"
-                    onClick={updateMentionSettings}
+                    onClick={updateProjectAdvancedSettings}
                 >
-                    {mentionSettingUpdateLoading ? (
+                    {updateAdvancedProjectSettingLoading ? (
                         <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} />
                     ) : (
                         'Save Changes'
