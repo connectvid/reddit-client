@@ -2,7 +2,8 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
-import { mentionErrorClear, mentionSettingCretedOrUpdatedStatus, updateMentionSettingAPI } from 'features/mention/mentionActions';
+import { mentionErrorClear } from 'features/mention/mentionActions';
+import { updatedAdvancedProjectSettingStatus, updateProjectAdvancedSettingAPI } from 'features/project/projectActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -25,12 +26,11 @@ export default function ({
     switchSx = {}
 }) {
     const {
-        mention: { mentionSetting, loading, mentionSettingUpdateLoading, mentionSettingCretedOrUpdated, error },
-        project: { project, projects },
+        mention: { mentionSettingUpdateLoading, error },
+        project: { loading, project, projects, updatedAdvancedProjectSetting },
         subscription: { subscription },
         aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
-    console.log({ error });
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
     const [selectedPlatforms, setSelectedPlatforms] = useState([]);
@@ -39,7 +39,7 @@ export default function ({
     const [needAddAIkey, setNeedAddAIkey] = useState(false);
     const [actionType, setActionType] = useState(''); // add, update
 
-    console.log({ needAddAIkey });
+    // console.log({ needAddAIkey });
 
     const handleChange = (event) => {
         setChecked(event.target.checked);
@@ -76,21 +76,21 @@ export default function ({
         postsPerRequest: postsPerRequests[0]
     });
 
-    // console.log({ values });
     useEffect(() => {
-        if (mentionSetting) {
+        if (project) {
             setValues({
-                country: mentionSetting?.country,
-                language: mentionSetting?.language,
-                fetchTiming: mentionSetting?.fetchTiming,
-                postsPerRequest: mentionSetting?.postsPerRequest
+                country: project?.country,
+                language: project?.language,
+                fetchTiming: project?.fetchTiming,
+                postsPerRequest: project?.postsPerRequest
             });
-            setChecked(mentionSetting?.isActive);
+            setChecked(project?.autoFetch);
         }
         if (selectedAiModel) {
             setSelectedModel(selectedAiModel);
         }
     }, []);
+
     useEffect(() => {
         if (error) {
             toast.warn(error);
@@ -114,15 +114,15 @@ export default function ({
     }, [selectedModel?.model]);
 
     useEffect(() => {
-        if (mentionSettingCretedOrUpdated) {
+        if (updatedAdvancedProjectSetting) {
             toast.success(`Data has been updated`);
-            mentionSettingCretedOrUpdatedStatus(false)();
+            updatedAdvancedProjectSettingStatus(false)();
             if (needAddAIkey) {
                 setNeedAddAIkey(false);
                 setAIkey('');
             }
         }
-    }, [mentionSettingCretedOrUpdated]);
+    }, [updatedAdvancedProjectSetting]);
 
     useEffect(() => {
         if (project?.platforms?.length) setSelectedPlatforms(project?.platforms);
@@ -158,13 +158,13 @@ export default function ({
             }
             const body = {
                 platforms,
-                projectId: project?._id,
+                // projectId: project?._id,
                 ...values,
-                isActive: checked,
+                autoFetch: checked,
                 ai_model
             };
-            updateMentionSettingAPI({ token, data: body })();
-            console.log(body);
+            updateProjectAdvancedSettingAPI({ token, data: body, id: project?._id })();
+            // console.log(body);
         } catch (e) {
             console.error(e);
             toast.warn(errorMsgHelper(e));
@@ -214,15 +214,7 @@ export default function ({
                                             return data;
                                         }}
                                         getOptionLabel={(item) => item.name}
-                                        defaultValue={(() => {
-                                            for (const im of countries) {
-                                                if (im.code === mentionSetting?.country) {
-                                                    return im;
-                                                    break;
-                                                }
-                                            }
-                                            return null;
-                                        })()}
+                                        defaultValue={countries.find((im) => im.code === project?.country)}
                                         disablePortal
                                         options={countries}
                                         sx={{
@@ -244,15 +236,7 @@ export default function ({
                                             if (data) setValues((p) => ({ ...p, language: data.value }));
                                             return data;
                                         }}
-                                        defaultValue={(() => {
-                                            for (const im of languages) {
-                                                if (im.value === mentionSetting?.language) {
-                                                    return im;
-                                                    break;
-                                                }
-                                            }
-                                            return null;
-                                        })()}
+                                        defaultValue={languages.find((im) => im.value === project?.language)}
                                         disablePortal
                                         options={languages}
                                         sx={{ mt: 1, mb: 2 }}
@@ -270,15 +254,7 @@ export default function ({
                                         if (data) setValues((p) => ({ ...p, fetchTiming: data?.value }));
                                         return data;
                                     }}
-                                    // defaultValue={(() => {
-                                    //     for (const im of fetchTimings) {
-                                    //         if (im.value === mentionSetting?.fetchTiming) {
-                                    //             return im;
-                                    //         }
-                                    //     }
-                                    //     return null;
-                                    // })()}
-                                    defaultValue={fetchTimings?.find?.((im) => im.value === mentionSetting?.fetchTiming)}
+                                    defaultValue={fetchTimings?.find?.((im) => im.value === project?.fetchTiming)}
                                     options={fetchTimings}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
@@ -296,7 +272,7 @@ export default function ({
                                         if (data) setValues((p) => ({ ...p, postsPerRequest: data }));
                                         return data;
                                     }}
-                                    defaultValue={mentionSetting?.postsPerRequest}
+                                    defaultValue={project?.postsPerRequest}
                                     getOptionLabel={(item) => item}
                                     disablePortal
                                     options={postsPerRequests}
@@ -339,8 +315,7 @@ export default function ({
                     }}
                 />
                 <AiModels {...{ selectedModel, setSelectedModel, aIkey, setAIkey, needAddAIkey, setNeedAddAIkey, setActionType }} />
-                {/* <Box sx={{ width: '50%', mt: 2 }}>
-                </Box> */}
+                {/* <Box sx={{ width: '50%', mt: 2 }}></Box> */}
             </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'right', my: 2, ...submitButtonSx }}>

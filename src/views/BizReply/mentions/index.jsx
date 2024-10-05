@@ -60,11 +60,11 @@ const Mentions = () => {
     const [filteredData, setFilteredData] = useState([]);
     // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
-    const [currentPosts, setCurrentPosts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    // const [currentPosts, setCurrentPosts] = useState([]);
+    // const [currentPage, setCurrentPage] = useState(1);
     // const [filterAgain, setFilterAgain] = useState(0);
-    const [recall, setRecall] = useState(false);
-    const handleRecall = () => setRecall((p) => !p);
+    // const [recall, setRecall] = useState(false);
+    // const handleRecall = () => setRecall((p) => !p);
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
@@ -83,6 +83,7 @@ const Mentions = () => {
         }
         setOpenAdvancedSettingModal(true);
     };
+
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
     // console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
@@ -198,10 +199,10 @@ const Mentions = () => {
         });
         setFilteredData(filtered);
         // setCurrentPage(1);
-        handleRecall();
+        // handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
 
-    const initFirstPage = () => setCurrentPage(1);
+    // const initFirstPage = () => setCurrentPage(1);
 
     const loadMore = async () => {
         const firstKeyword = project?.Suggestedkeywords?.[0];
@@ -250,7 +251,7 @@ const Mentions = () => {
     if (!loading && !filteredData?.length) {
         if (project) {
             if (project?.mentionsStatus === 'succeed') {
-                if (!currentPosts?.length) {
+                if (!filteredData?.length) {
                     Ele = (
                         <Card sx={{ mb: 1 }}>
                             <CardContent>
@@ -280,7 +281,7 @@ const Mentions = () => {
             Ele = <EmptyProject {...{ description: '' }} />;
         }
     }
-    console.log(filteredData, 'filteredData');
+    console.log(project, 'filteredData');
     return (
         <>
             {/* <OpenAikeyPopup /> */}
@@ -294,13 +295,20 @@ const Mentions = () => {
                     moreLoading,
                     // firstKeyword: project?.Suggestedkeywords?.[0],
                     handleModal,
-                    initFirstPage,
+                    // initFirstPage,
                     handleASModal: handleASOpenModal
                 }}
             />
 
             {(project?.platforms && (
-                <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform, initFirstPage }} />
+                <PlatformSelection
+                    {...{
+                        haveData,
+                        platforms: project?.platforms,
+                        loading,
+                        selectedPlatform // , initFirstPage
+                    }}
+                />
             )) ||
                 ''}
             {(openMentionSettionModal && <ManageMentions {...{ modalClose }} />) || ''}

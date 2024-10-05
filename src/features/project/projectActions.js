@@ -35,7 +35,10 @@ import {
     projectUpdated,
     updateMentionFetchStatusOfProject,
     createNegativeKeywordSuccess,
-    negativeKeywordRemove
+    negativeKeywordRemove,
+    updateAdvencedSettingOfProject,
+    updateAdvancedProjectSettingLoading,
+    updatedAdvancedProjectSetting
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
@@ -170,6 +173,31 @@ export const updateProjectAPI =
         }
     };
 
+export const updatedAdvancedProjectSettingStatus = (value) => () => {
+    dispatch(updatedAdvancedProjectSetting(value));
+};
+
+export const updateAdvancedSettingProjectData = (v) => () => {
+    dispatch(updateAdvencedSettingOfProject(v));
+};
+
+export const updateProjectAdvancedSettingAPI =
+    ({ token, id, data = {} }) =>
+    async () => {
+        try {
+            dispatch(updateAdvancedProjectSettingLoading(true));
+            const response = await axios.put(`projects/${id}/advanced`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            updateAdvancedSettingProjectData(response.data)();
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+            dispatch(updateAdvancedProjectSettingLoading(true));
+        }
+    };
+
 export const addingKeywords = (data) => () => {
     dispatch(createKeywords(data));
 };
@@ -209,8 +237,6 @@ export const deleteKeywordAPI = (token, id) => async () => {
         keywordRemoving({ id })();
     } catch (e) {
         dispatch(hasError(errorMsgHelper(e)));
-    } finally {
-        // dispatch(createKeywordsLoading(false));
     }
 };
 

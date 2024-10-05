@@ -27,6 +27,8 @@ const initialState = {
     keywordDeleted: false,
     negativeKeywordDeleted: false,
     updateLoading: false,
+    updateAdvancedProjectSettingLoading: false,
+    updatedAdvancedProjectSetting: false,
     createKeywordSuccess: false,
     createNegativeKeywordSuccess: false,
     showProjectsList: false,
@@ -80,6 +82,7 @@ const projectSlice = createSlice({
         addProjectLoading(state, action) {
             state.addProjectLoading = action.payload;
         },
+
         addNewProject(state, action) {
             const { item } = action.payload;
             state.project = item;
@@ -113,6 +116,27 @@ const projectSlice = createSlice({
             state.projectUpdated = true;
             state.editProject = null;
             state.isEditProject = false;
+        },
+        updateAdvancedProjectSettingLoading(state, action) {
+            state.updateAdvancedProjectSettingLoading = action.payload;
+        },
+        updatedAdvancedProjectSetting(state, action) {
+            state.updatedAdvancedProjectSetting = action.payload;
+        },
+        updateAdvencedSettingOfProject(state, action) {
+            const { item } = action.payload;
+            console.log({ item });
+            // state.projects = state.projects.map((project) => {
+            //     if (project._id === item._id) {
+            //         return { ...project, ...item };
+            //     }
+            //     return project;
+            // });
+            state.project = item;
+            // state.project = { ...state.project, ...item };
+            state.updateProjectLoading = false;
+            state.updatedAdvancedProjectSetting = true;
+            state.updateAdvancedProjectSettingLoading = false;
         },
         updateMentionFetchStatusOfProject(state, { payload }) {
             const item = payload;
@@ -363,7 +387,10 @@ export const {
     projectUpdated,
     updateMentionFetchStatusOfProject,
     createNegativeKeywordSuccess,
-    negativeKeywordRemove
+    negativeKeywordRemove,
+    updateAdvencedSettingOfProject,
+    updateAdvancedProjectSettingLoading,
+    updatedAdvancedProjectSetting
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

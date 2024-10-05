@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import { Box, Typography } from '@mui/material';
 import { FaTimes } from 'react-icons/fa';
-import MentionSettings from 'views/BizReply/Settings/MentionSettings';
+import MentionSettingsForAdvancedSetting from 'views/BizReply/Settings/MentionSettingsForAdvancedSetting';
 
 export default function ({ modalClose }) {
     return (
@@ -28,7 +28,7 @@ export default function ({ modalClose }) {
                     px: 2.5
                 }}
             >
-                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>Mention Settings</Typography>
+                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>Advanced Settings</Typography>
                 <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
                     <FaTimes color="#757B89" size={14} />
                 </Typography>
@@ -42,7 +42,7 @@ export default function ({ modalClose }) {
                     // pb: 3
                 }}
             >
-                <MentionSettings
+                <MentionSettingsForAdvancedSetting
                     formContentSx={{ width: '100%' }}
                     submitButtonSx={{ mt: 2, justifyContent: 'start' }}
                     wrapperSx={{}}
