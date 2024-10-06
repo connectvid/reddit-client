@@ -23,6 +23,8 @@ import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
 import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
+import BRAC from '../BRAC';
+import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
@@ -60,18 +62,14 @@ const Mentions = () => {
     const [filteredData, setFilteredData] = useState([]);
     // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
-    // const [currentPosts, setCurrentPosts] = useState([]);
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const [filterAgain, setFilterAgain] = useState(0);
-    // const [recall, setRecall] = useState(false);
-    // const handleRecall = () => setRecall((p) => !p);
+    const [selectedLoadMoreKeyword, setSelectedLoadMoreKeyword] = useState({ title: 'All Keywords' });
+
+    const [open, setOpen] = useState(true);
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
-    // const postsPerPage = 10;
 
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-    // const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
     const handleASOpenModal = () => {
         if (!projects?.length) {
             toast.warn(`Please create a new project first to setup advance settings!`);
@@ -86,7 +84,6 @@ const Mentions = () => {
 
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
-    // console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
     // SOCKET
     function mentionsUpdate({ message: { items, percentage }, purposeName }) {
         if (items?.length) {
@@ -141,6 +138,16 @@ const Mentions = () => {
         };
     }, []);
 
+    useEffect(() => {
+        if (selectedKeyword?._id === selectedLoadMoreKeyword?._id) return;
+        setSelectedLoadMoreKeyword(selectedKeyword);
+
+        setOpen(false);
+        setTimeout(() => {
+            setOpen(true);
+        }, 500);
+    }, [selectedKeyword?._id]);
+    console.log({ selectedLoadMoreKeyword });
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -205,14 +212,14 @@ const Mentions = () => {
     // const initFirstPage = () => setCurrentPage(1);
 
     const loadMore = async () => {
-        const firstKeyword = project?.Suggestedkeywords?.[0];
-        const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+        // const firstKeyword = project?.Suggestedkeywords?.[0];
+        // const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
         // console.log({ selectedKeyword });
-        if (!keyword?._id || !selectedPlatform) {
-            toast.warning(`Failed to load more posts. Please refresh and try again.`);
-            return;
-        }
-        const body = { keywordId: keyword._id, platform: selectedPlatform };
+        // if (!keyword?._id || !selectedPlatform) {
+        //     toast.warning(`Failed to load more posts. Please refresh and try again.`);
+        //     return;
+        // }
+        const body = { keywordId: selectedLoadMoreKeyword?._id, platform: selectedPlatform, projectId: project._id };
         setMoreLoading?.(true);
         try {
             const token = await getAccessToken();
@@ -359,11 +366,7 @@ const Mentions = () => {
                     ) : (
                         ''
                     )}
-                    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                        <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff' }}>
-                            Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
-                        </BRButton>
-                    </Box>
+                    <LoadMore {...{ loadMore, moreLoading, selectedLoadMoreKeyword, setSelectedLoadMoreKeyword, loading, open }} />
                 </>
             )}
         </>
@@ -371,3 +374,67 @@ const Mentions = () => {
 };
 
 export default Mentions;
+
+const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, initFirstPage, selectedLoadMoreKeyword, open }) => {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px'
+                }}
+            >
+                <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff', height: '35px', ml: 0.5 }}>
+                    Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
+                </BRButton>
+                <Typography sx={{ mx: 1, fontWeight: 700 }}>posts from</Typography>
+                {open ? (
+                    <PostFilter
+                        {...{
+                            setSelectedKeyword: setSelectedLoadMoreKeyword,
+                            defaultKeyword: selectedLoadMoreKeyword,
+                            loading,
+                            initFirstPage,
+                            width: '205px',
+                            placeholder: '',
+                            wrapperSx: { minWidth: '150px', border: 0, background: 'transparent' }
+                        }}
+                    />
+                ) : (
+                    ''
+                )}
+                {/* <BRAC
+                    {...{
+                        placeholder: 'Select keyword',
+                        options: [{ title: 'All Keywords' }, ...options],
+                        getOptionLabel: (item) => item.title,
+                        disableClearable: true,
+                        disablePortal: true,
+                        defaultValue: { title: 'All Keywords' },
+                        wrapperSx: {
+                            minWidth: '180px',
+                            border: 0,
+                            background: 'transparent'
+                        },
+                        titleSx: { pl: 0 },
+                        onChange: (_, v) => {
+                            // const title = v || defaultKeyword;
+                            // setSelectedKeyword(title);
+                            // initFirstPage?.();
+                        },
+                        titleSeparator: false
+                    }}
+                /> */}
+            </Box>
+        </Box>
+    );
+};
