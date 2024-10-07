@@ -1,10 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
-// import { Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -23,7 +16,7 @@ import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
 import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
-import BRAC from '../BRAC';
+// import BRAC from '../BRAC';
 import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
 // import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
@@ -63,13 +56,12 @@ const Mentions = () => {
     // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
     const [selectedLoadMoreKeyword, setSelectedLoadMoreKeyword] = useState({ title: 'All Keywords' });
-
     const [open, setOpen] = useState(true);
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
-
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
+
     const handleASOpenModal = () => {
         if (!projects?.length) {
             toast.warn(`Please create a new project first to setup advance settings!`);
@@ -92,17 +84,23 @@ const Mentions = () => {
             const reduced = dataGrouppingInPlatform({ data: items, platforms });
             console.log(reduced, 'reduced');
             setMentionsDataObj((p) => {
+                // const upObj = {};
+                // for (const platform of platforms || []) {
+                //     // console.log({ platform });
+                //     if (reduced[platform]?.length) {
+                //         const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
+                //         upObj[platform] = postSorting({ data: allData });
+                //     } else {
+                //         const allData = p?.[platform];
+                //         upObj[platform] = postSorting({ data: allData });
+                //     }
+                // }
+                // return upObj;
                 const upObj = {};
-                for (const platform of platforms || []) {
-                    // console.log({ platform });
-                    if (reduced[platform]?.length) {
-                        const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
-                        upObj[platform] = postSorting({ data: allData });
-                    } else {
-                        const allData = p?.[platform];
-                        upObj[platform] = postSorting({ data: allData });
-                    }
-                }
+                (platforms || []).forEach((platform) => {
+                    const allData = reduced[platform]?.length ? [...(reduced[platform] || []), ...(p?.[platform] || [])] : p?.[platform];
+                    upObj[platform] = postSorting({ data: allData });
+                });
                 return upObj;
             });
             // console.log('socket', reduced);
@@ -146,8 +144,8 @@ const Mentions = () => {
         setTimeout(() => {
             setOpen(true);
         }, 500);
-    }, [selectedKeyword?._id]);
-    console.log({ selectedLoadMoreKeyword });
+    }, [selectedKeyword?._id, project?._id]);
+    console.log({ selectedPlatform });
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -196,17 +194,10 @@ const Mentions = () => {
     }, [project?._id]);
 
     useEffect(() => {
-        const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
-            if (selectedKeyword?.title === 'All Keywords') {
-                return item;
-            }
-            if (selectedKeyword?.title === item.keyword) {
-                return item;
-            }
-        });
+        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
+            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
+        );
         setFilteredData(filtered);
-        // setCurrentPage(1);
-        // handleRecall();
     }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
 
     // const initFirstPage = () => setCurrentPage(1);
@@ -321,20 +312,6 @@ const Mentions = () => {
             {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose }} />) || ''}
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
-
-            {/* 
-            )} {!loading && showEmpty && !filteredData?.length ? (
-                <Card sx={{ mb: 1 }}>
-                    <CardContent>
-                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
-            {/* Sorry, there seems to be no posts
-                            {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
-                                <strong> for your suggested {selectedKeyword?.title}</strong>
-                            ) : (
-                                ''
-                            )}
-                            ! */}
 
             {loading ? (
                 <>
