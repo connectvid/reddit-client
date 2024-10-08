@@ -69,7 +69,7 @@ export default function ({
         country: 'us',
         language: 'en',
         fetchTiming: fetchTimings[0].value,
-        defaultFetch: defaultFetchTimings[3].value,
+        defaultFetch: defaultFetchTimings[0].value,
         postsPerRequest: postsPerRequests[0]
     });
 
