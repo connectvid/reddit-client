@@ -166,11 +166,29 @@ const PostCard = ({
             } else {
                 setObjItems((p) => {
                     if (update_on === 'markReply') {
-                        const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
-                        return { ...p, [selectedPlatform]: filtered };
+                        if (selectedPlatform) {
+                            const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                            return { ...p, [selectedPlatform]: filtered };
+                        }
+                        const filtered = [...p]?.filter?.((item) => item._id !== _id) || [];
+                        return filtered;
+                    }
+                    if (selectedPlatform) {
+                        const changed =
+                            p[selectedPlatform]?.map?.((item) => {
+                                if (item._id === _id) {
+                                    if (isDelete) {
+                                        upData.reply = '';
+                                    } else if (update_on === 'reply') {
+                                        upData.reply = editVal;
+                                    }
+                                }
+                                return item;
+                            }) || [];
+                        return { ...p, [selectedPlatform]: changed };
                     }
                     const changed =
-                        p[selectedPlatform]?.map?.((item) => {
+                        p?.map?.((item) => {
                             if (item._id === _id) {
                                 if (isDelete) {
                                     upData.reply = '';
@@ -180,7 +198,7 @@ const PostCard = ({
                             }
                             return item;
                         }) || [];
-                    return { ...p, [selectedPlatform]: changed };
+                    return changed;
                 });
             }
             let successMsg = '';
@@ -213,8 +231,12 @@ const PostCard = ({
                 });
             } else {
                 setObjItems((p) => {
-                    const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
-                    return { ...p, [selectedPlatform]: filtered };
+                    if (selectedPlatform) {
+                        const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                        return { ...p, [selectedPlatform]: filtered };
+                    }
+                    const filtered = p?.filter?.((item) => item._id !== _id) || [];
+                    return filtered;
                 });
             }
 

@@ -26,7 +26,7 @@ export default function ({
 }) {
     const {
         mention: { mentionSetting, loading, mentionSettingUpdateLoading, mentionSettingCretedOrUpdated, error },
-        project: { project, projects },
+        project: { project },
         // subscription: { subscription },
         aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
