@@ -1,10 +1,3 @@
-/* eslint-disable no-nested-ternary */
-/* eslint-disable no-plusplus */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable prefer-const */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
-// import { Card, CardContent, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -15,15 +8,15 @@ import socket from 'socket';
 import PlatformSelection from './PlatformSelection';
 import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
-import Pagination from './Pagination';
 import ManageMentions from 'ui-component/ManageMentions';
 import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
-import { Card, CardContent, Typography } from '@mui/material';
-// import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
+import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
+import BRButton from 'ui-component/bizreply/BRButton';
+import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -60,18 +53,15 @@ const Mentions = () => {
     const [filteredData, setFilteredData] = useState([]);
     // const [allDatas, setAllDatas] = useState([]);
     const [selectedKeyword, setSelectedKeyword] = useState({ title: 'All Keywords' });
-    const [currentPosts, setCurrentPosts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    // const [filterAgain, setFilterAgain] = useState(0);
-    const [recall, setRecall] = useState(false);
-    const handleRecall = () => setRecall((p) => !p);
+    const [selectedLoadMoreKeyword, setSelectedLoadMoreKeyword] = useState({ title: 'All Keywords' });
+    const [open, setOpen] = useState(true);
     const [openMentionSettionModal, setOpenMentionSettingModal] = useState(false);
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
-    const postsPerPage = 10;
-
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-    // const handleASModal = () => setOpenAdvancedSettingModal((p) => !p);
+    const [init, setInit] = useState(false);
+    const toggleInit = () => setInit((p) => !p);
+    // console.log(mentionsDataObj, 'mentionsDataObj');
     const handleASOpenModal = () => {
         if (!projects?.length) {
             toast.warn(`Please create a new project first to setup advance settings!`);
@@ -83,9 +73,9 @@ const Mentions = () => {
         }
         setOpenAdvancedSettingModal(true);
     };
+
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
-    // console.log(currentPosts, 'currentPosts', mentionsDataObj, platforms);
     // SOCKET
     function mentionsUpdate({ message: { items, percentage }, purposeName }) {
         if (items?.length) {
@@ -94,17 +84,23 @@ const Mentions = () => {
             const reduced = dataGrouppingInPlatform({ data: items, platforms });
             console.log(reduced, 'reduced');
             setMentionsDataObj((p) => {
+                // const upObj = {};
+                // for (const platform of platforms || []) {
+                //     // console.log({ platform });
+                //     if (reduced[platform]?.length) {
+                //         const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
+                //         upObj[platform] = postSorting({ data: allData });
+                //     } else {
+                //         const allData = p?.[platform];
+                //         upObj[platform] = postSorting({ data: allData });
+                //     }
+                // }
+                // return upObj;
                 const upObj = {};
-                for (const platform of platforms || []) {
-                    // console.log({ platform });
-                    if (reduced[platform]?.length) {
-                        const allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
-                        upObj[platform] = postSorting({ data: allData });
-                    } else {
-                        const allData = p?.[platform];
-                        upObj[platform] = postSorting({ data: allData });
-                    }
-                }
+                (platforms || []).forEach((platform) => {
+                    const allData = reduced[platform]?.length ? [...(reduced[platform] || []), ...(p?.[platform] || [])] : p?.[platform];
+                    upObj[platform] = postSorting({ data: allData });
+                });
                 return upObj;
             });
             // console.log('socket', reduced);
@@ -141,6 +137,16 @@ const Mentions = () => {
     }, []);
 
     useEffect(() => {
+        if (selectedKeyword?._id === selectedLoadMoreKeyword?._id) return;
+        setSelectedLoadMoreKeyword(selectedKeyword);
+
+        setOpen(false);
+        setTimeout(() => {
+            setOpen(true);
+        }, 500);
+    }, [selectedKeyword?._id, project?._id]);
+    // console.log({ selectedPlatform });
+    useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
             setLoading(true);
@@ -161,11 +167,14 @@ const Mentions = () => {
                 //   ////////////////////
                 const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj(reduced);
-                const [platform] = platforms || [];
+                // const [platform] = platforms || [];
 
-                const filtered = reduced[platform];
-                setFilteredData(filtered);
-                setLoading(false);
+                // const filtered = reduced[platform];
+                setFilteredData(reduced);
+                setInit((p) => !p);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }
@@ -188,30 +197,28 @@ const Mentions = () => {
     }, [project?._id]);
 
     useEffect(() => {
-        const filtered = mentionsDataObj[selectedPlatform]?.filter?.((item) => {
-            if (selectedKeyword?.title === 'All Keywords') {
-                return item;
-            }
-            if (selectedKeyword?.title === item.keyword) {
-                return item;
-            }
-        });
+        const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
+        const filtered = datas?.filter?.((item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword);
+        console.log(init, '===========Filtered==========');
         setFilteredData(filtered);
-        // setCurrentPage(1);
-        handleRecall();
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length, init]);
 
-    const initFirstPage = () => setCurrentPage(1);
+    // const initFirstPage = () => setCurrentPage(1);
 
     const loadMore = async () => {
-        const firstKeyword = project?.Suggestedkeywords?.[0];
-        const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+        // const firstKeyword = project?.Suggestedkeywords?.[0];
+        // const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
         // console.log({ selectedKeyword });
-        if (!keyword?._id || !selectedPlatform) {
+        // if (!keyword?._id || !selectedPlatform) {
+        //     toast.warning(`Failed to load more posts. Please refresh and try again.`);
+        //     return;
+        // }
+
+        if (!selectedPlatform) {
             toast.warning(`Failed to load more posts. Please refresh and try again.`);
             return;
         }
-        const body = { keywordId: keyword._id, platform: selectedPlatform };
+        const body = { keywordId: selectedLoadMoreKeyword?._id, platform: selectedPlatform, projectId: project._id };
         setMoreLoading?.(true);
         try {
             const token = await getAccessToken();
@@ -223,31 +230,27 @@ const Mentions = () => {
                 }
             });
             if (items?.length) {
-                // setMentionsDataObj?.((p) => {
-                //     if (selectedPlatform) {
-                //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
-                //         p[selectedPlatform] = postSorting({ data: allData });
-                //     } else {
-                //         const allData = [...items, ...p];
-                //         p = postSorting({ data: allData });
-                //     }
-                //     return p;
-                // });
+                const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj?.((p) => {
-                    if (selectedPlatform) {
-                        const allData = [...items, ...(p?.[selectedPlatform] || [])];
-                        p[selectedPlatform] = allData;
-                        // p[selectedPlatform] = postSorting({ data: allData });
-                    } else {
-                        const allData = [...items, ...p];
-                        p = allData;
-                        // p = postSorting({ data: allData });
-                    }
-                    return p;
+                    // if (selectedPlatform) {
+                    //     const allData = [...(p?.[selectedPlatform] || []), ...items];
+                    //     p[selectedPlatform] = allData;
+                    //     // p[selectedPlatform] = postSorting({ data: allData });
+                    // } else {
+                    //     const allData = [...p, ...items];
+                    //     p = allData;
+                    //     // p = postSorting({ data: allData });
+                    // }
+                    // return p;
+                    const upObj = {};
+                    (platforms || []).forEach((platform) => {
+                        const allData = reduced[platform]?.length
+                            ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
+                            : p?.[platform];
+                        upObj[platform] = postSorting({ data: allData });
+                    });
+                    return upObj;
                 });
-                if (currentPosts?.length < postsPerPage) {
-                    setCurrentPage((p) => p + 1);
-                }
             }
 
             setMoreLoading?.(false);
@@ -258,54 +261,12 @@ const Mentions = () => {
         }
     };
 
-    // const mentionFetchAgain = async () => {
-    //     setLoading(true);
-    //     // const first = project?.Suggestedkeywords?.[0];
-    //     // if (first) setSelectedKeyword(first);
-    //     try {
-    //         const token = await getAccessToken();
-    //         setFilteredData([]);
-    //         const body = { project };
-    //         const {
-    //             data: { items }
-    //         } = await axios.post(`mentions/projects/${project?._id}/refresh-scrap`, body, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         const len = items.length;
-    //         setHaveData(Boolean(len));
-    //         //   ////////////////////
-    //         const reduced = dataGrouppingInPlatform({ data: items, platforms });
-    //         setMentionsDataObj(reduced);
-    //         const [platform] = platforms || [];
-    //         // const title = first?.title;
-    //         // console.log(reduced, first);
-
-    //         // if (platform && title) {
-    //         //     const filtered = reduced[platform]?.filter?.((item) => title === item.keyword);
-    //         //     setFilteredData(filtered);
-    //         // }
-    //         const filtered = reduced[platform];
-    //         setFilteredData(filtered);
-    //         setLoading(false);
-    //         // if (!state?.socket || len) {
-    //         //     setLoading(false);
-    //         // }
-    //         if (!state?.socket) {
-    //             // navigate(`${pathname}${search}`, { state: null });
-    //         }
-    //     } catch (e) {
-    //         console.log(e);
-    //         setLoading(false);
-    //     }
-    // };
     let Ele = <></>;
     // {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
     if (!loading && !filteredData?.length) {
         if (project) {
             if (project?.mentionsStatus === 'succeed') {
-                if (!currentPosts?.length) {
+                if (!filteredData?.length) {
                     Ele = (
                         <Card sx={{ mb: 1 }}>
                             <CardContent>
@@ -348,33 +309,26 @@ const Mentions = () => {
                     moreLoading,
                     // firstKeyword: project?.Suggestedkeywords?.[0],
                     handleModal,
-                    initFirstPage,
+                    // initFirstPage,
                     handleASModal: handleASOpenModal
                 }}
             />
 
             {(project?.platforms && (
-                <PlatformSelection {...{ haveData, platforms: project?.platforms, loading, selectedPlatform, initFirstPage }} />
+                <PlatformSelection
+                    {...{
+                        haveData,
+                        platforms: project?.platforms,
+                        loading,
+                        selectedPlatform // , initFirstPage
+                    }}
+                />
             )) ||
                 ''}
             {(openMentionSettionModal && <ManageMentions {...{ modalClose }} />) || ''}
-            {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose }} />) || ''}
+            {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose, projectName: project?.brandName }} />) || ''}
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
-
-            {/* 
-            )} {!loading && showEmpty && !filteredData?.length ? (
-                <Card sx={{ mb: 1 }}>
-                    <CardContent>
-                        <Typography variant="h3" sx={{ textAlign: 'center' }}>
-                            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords */}
-            {/* Sorry, there seems to be no posts
-                            {selectedKeyword?.title && selectedKeyword.title !== 'All Keywords' ? (
-                                <strong> for your suggested {selectedKeyword?.title}</strong>
-                            ) : (
-                                ''
-                            )}
-                            ! */}
 
             {loading ? (
                 <>
@@ -385,9 +339,9 @@ const Mentions = () => {
                 </>
             ) : (
                 <>
-                    {currentPosts?.length ? (
+                    {filteredData?.length ? (
                         <>
-                            {currentPosts?.map?.((item) => {
+                            {filteredData?.map?.((item) => {
                                 return (
                                     <PostCard
                                         key={item._id}
@@ -395,6 +349,7 @@ const Mentions = () => {
                                         {...{
                                             project,
                                             setObjItems: setMentionsDataObj,
+                                            toggleInit,
                                             selectedPlatform,
                                             showMarkRepliedBtn: true,
                                             selectedPrompt
@@ -406,19 +361,11 @@ const Mentions = () => {
                     ) : (
                         ''
                     )}
-                    <Pagination
-                        {...{
-                            data: filteredData,
-                            setCurrentPosts,
-                            currentPosts,
-                            postsPerPage,
-                            currentPage,
-                            setCurrentPage,
-                            recall,
-                            loadMore,
-                            moreLoading
-                        }}
-                    />
+                    {projects?.length ? (
+                        <LoadMore {...{ loadMore, moreLoading, selectedLoadMoreKeyword, setSelectedLoadMoreKeyword, loading, open }} />
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </>
@@ -426,3 +373,67 @@ const Mentions = () => {
 };
 
 export default Mentions;
+
+const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, initFirstPage, selectedLoadMoreKeyword, open }) => {
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px'
+                }}
+            >
+                <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff', height: '35px', ml: 0.5 }}>
+                    Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
+                </BRButton>
+                <Typography sx={{ mx: 1, fontWeight: 700 }}>posts from</Typography>
+                {open ? (
+                    <PostFilter
+                        {...{
+                            setSelectedKeyword: setSelectedLoadMoreKeyword,
+                            defaultKeyword: selectedLoadMoreKeyword,
+                            loading,
+                            initFirstPage,
+                            width: '205px',
+                            placeholder: '',
+                            wrapperSx: { minWidth: '150px', border: 0, background: 'transparent' }
+                        }}
+                    />
+                ) : (
+                    ''
+                )}
+                {/* <BRAC
+                    {...{
+                        placeholder: 'Select keyword',
+                        options: [{ title: 'All Keywords' }, ...options],
+                        getOptionLabel: (item) => item.title,
+                        disableClearable: true,
+                        disablePortal: true,
+                        defaultValue: { title: 'All Keywords' },
+                        wrapperSx: {
+                            minWidth: '180px',
+                            border: 0,
+                            background: 'transparent'
+                        },
+                        titleSx: { pl: 0 },
+                        onChange: (_, v) => {
+                            // const title = v || defaultKeyword;
+                            // setSelectedKeyword(title);
+                            // initFirstPage?.();
+                        },
+                        titleSeparator: false
+                    }}
+                /> */}
+            </Box>
+        </Box>
+    );
+};

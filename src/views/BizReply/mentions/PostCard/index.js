@@ -56,6 +56,7 @@ const PostCard = ({
     brandLogo,
     markReplyPosition = 'reply-section', // generate-reply-top
     selectedPrompt
+    // toggleInit
 }) => {
     const { getAccessToken, dbUser } = useAuth();
     const { aiModels } = useSelector((s) => s.aiModel);
@@ -117,6 +118,11 @@ const PostCard = ({
                     }) || [];
                 return changed;
             });
+            // if (!selectedPlatform) {
+            //     setTimeout(() => {
+            //         toggleInit();
+            //     }, 1500);
+            // }
             subsctriptionCreditsSetter({ replies: -1 })();
             toast.success(`Reply has been generated!`);
         } catch (e) {
@@ -163,6 +169,11 @@ const PostCard = ({
                         }) || [];
                     return changed;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit();
+                //     }, 1500);
+                // }
             } else {
                 setObjItems((p) => {
                     if (update_on === 'markReply') {
@@ -198,8 +209,14 @@ const PostCard = ({
                             }
                             return item;
                         }) || [];
+
                     return changed;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit();
+                //     }, 1500);
+                // }
             }
             let successMsg = '';
             if (update_on === 'markReply') {
@@ -227,17 +244,27 @@ const PostCard = ({
 
             if (pathname === REPLY_PATH) {
                 setObjItems((p) => {
-                    return p?.filter?.((item) => item._id !== _id) || [];
+                    return JSON.parse(JSON.stringify(p))?.filter?.((item) => item._id !== _id) || [];
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit?.();
+                //     }, 1500);
+                // }
             } else {
                 setObjItems((p) => {
                     if (selectedPlatform) {
                         const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
                         return { ...p, [selectedPlatform]: filtered };
                     }
-                    const filtered = p?.filter?.((item) => item._id !== _id) || [];
+                    const filtered = JSON.parse(JSON.stringify(p))?.filter?.((item) => item._id !== _id) || [];
                     return filtered;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit?.();
+                //     }, 1500);
+                // }
             }
 
             toast.success('Post has been skipped');
