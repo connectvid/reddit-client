@@ -72,7 +72,7 @@ const projectSlice = createSlice({
             const firstItem = getDefault || items?.[0];
             if (firstItem) {
                 state.project = firstItem;
-                state.selectedPlatform = firstItem.platforms?.[0];
+                // state.selectedPlatform = firstItem.platforms?.[0];
                 // if (firstItem.suggestedKeywords?.length) {
                 //     state.suggestedKeywords = firstItem.suggestedKeywords;
                 // }
@@ -90,7 +90,7 @@ const projectSlice = createSlice({
                 state.suggestedKeywords = [];
             }
             state.projects.push(item);
-            state.selectedPlatform = item?.platforms?.[0];
+            // state.selectedPlatform = item?.platforms?.[0];
             state.addProjectLoading = false;
         },
         isEditProject(state, { payload }) {
@@ -195,7 +195,7 @@ const projectSlice = createSlice({
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
             state.project = project;
-            state.selectedPlatform = project.platforms?.[0];
+            // state.selectedPlatform = project.platforms?.[0];
         },
 
         setSingleProjectDiselectSuccess(state) {
@@ -288,7 +288,7 @@ const projectSlice = createSlice({
             if (id === state.project?._id) {
                 const firstItem = items?.[0];
                 state.project = firstItem || null;
-                state.selectedPlatform = firstItem?.platforms?.[0] || '';
+                // state.selectedPlatform = firstItem?.platforms?.[0] || '';
                 // const { search, replace, origin, pathname } = window.location;
                 // const qs = new URLSearchParams(search);
                 // const findKey = qs.get('dp');

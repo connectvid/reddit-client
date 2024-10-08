@@ -16,9 +16,7 @@ import { toast } from 'react-toastify';
 import AdvancedSetting from 'ui-component/AdvancedSetting';
 import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
-// import BRAC from '../BRAC';
 import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
-// import OpenAikeyPopup from 'ui-component/OpenAikeyPopup';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -145,7 +143,7 @@ const Mentions = () => {
             setOpen(true);
         }, 500);
     }, [selectedKeyword?._id, project?._id]);
-    console.log({ selectedPlatform });
+    // console.log({ selectedPlatform });
     useEffect(() => {
         const projectId = project?._id;
         const fetchProjectMentions = async (projectid) => {
@@ -210,6 +208,11 @@ const Mentions = () => {
         //     toast.warning(`Failed to load more posts. Please refresh and try again.`);
         //     return;
         // }
+
+        if (!selectedPlatform) {
+            toast.warning(`Failed to load more posts. Please refresh and try again.`);
+            return;
+        }
         const body = { keywordId: selectedLoadMoreKeyword?._id, platform: selectedPlatform, projectId: project._id };
         setMoreLoading?.(true);
         try {
