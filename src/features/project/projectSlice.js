@@ -103,7 +103,11 @@ const projectSlice = createSlice({
             const { item } = action.payload;
             state.projects = state.projects.map((project) => {
                 if (project._id === item._id) {
-                    return { ...project, ...item };
+                    return {
+                        ...project,
+                        ...item,
+                        Suggestedkeywords: [...(project.Suggestedkeywords || []), ...(item.Suggestedkeywords || [])]
+                    };
                     // project.shortDescription = item.shortDescription;
                     // if (project._id === state.project?._id) {
                     //     state.project.shortDescription = item.shortDescription;
@@ -111,7 +115,11 @@ const projectSlice = createSlice({
                 }
                 return project;
             });
-            state.project = { ...state.project, ...item };
+            state.project = {
+                ...state.project,
+                ...item,
+                Suggestedkeywords: [...(state.project?.Suggestedkeywords || []), ...(item?.Suggestedkeywords || [])]
+            };
             state.updateProjectLoading = false;
             state.projectUpdated = true;
             state.editProject = null;
