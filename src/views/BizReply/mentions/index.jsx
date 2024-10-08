@@ -167,14 +167,11 @@ const Mentions = () => {
                 //   ////////////////////
                 const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj(reduced);
-                // const [platform] = platforms || [];
+                const [platform] = platforms || [];
 
-                // const filtered = reduced[platform];
-                setFilteredData(reduced);
-                setInit((p) => !p);
-                setTimeout(() => {
-                    setLoading(false);
-                }, 1500);
+                const filtered = reduced[platform];
+                setFilteredData(filtered);
+                setLoading(false);
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }
@@ -197,12 +194,20 @@ const Mentions = () => {
     }, [project?._id]);
 
     useEffect(() => {
-        const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
-        const filtered = datas?.filter?.((item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword);
-        console.log(init, '===========Filtered==========');
+        // const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
+        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
+            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
+        );
+        // console.log(init, '===========Filtered==========');
         setFilteredData(filtered);
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length, init]);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
 
+    useEffect(() => {
+        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
+            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
+        );
+        setFilteredData(filtered);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
     // const initFirstPage = () => setCurrentPage(1);
 
     const loadMore = async () => {
@@ -230,26 +235,26 @@ const Mentions = () => {
                 }
             });
             if (items?.length) {
-                const reduced = dataGrouppingInPlatform({ data: items, platforms });
+                // const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj?.((p) => {
-                    // if (selectedPlatform) {
-                    //     const allData = [...(p?.[selectedPlatform] || []), ...items];
-                    //     p[selectedPlatform] = allData;
-                    //     // p[selectedPlatform] = postSorting({ data: allData });
-                    // } else {
-                    //     const allData = [...p, ...items];
-                    //     p = allData;
-                    //     // p = postSorting({ data: allData });
-                    // }
-                    // return p;
-                    const upObj = {};
-                    (platforms || []).forEach((platform) => {
-                        const allData = reduced[platform]?.length
-                            ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
-                            : p?.[platform];
-                        upObj[platform] = postSorting({ data: allData });
-                    });
-                    return upObj;
+                    if (selectedPlatform) {
+                        const allData = [...(p?.[selectedPlatform] || []), ...items];
+                        p[selectedPlatform] = allData;
+                        // p[selectedPlatform] = postSorting({ data: allData });
+                    } else {
+                        const allData = [...p, ...items];
+                        p = allData;
+                        // p = postSorting({ data: allData });
+                    }
+                    return p;
+                    // const upObj = {};
+                    // (platforms || []).forEach((platform) => {
+                    //     const allData = reduced[platform]?.length
+                    //         ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
+                    //         : p?.[platform];
+                    //     upObj[platform] = postSorting({ data: allData });
+                    // });
+                    // return upObj;
                 });
             }
 
@@ -261,6 +266,60 @@ const Mentions = () => {
         }
     };
 
+    // const loadMore2 = async () => {
+    //     const firstKeyword = project?.Suggestedkeywords?.[0];
+    //     const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
+    //     // console.log({ selectedKeyword });
+    //     if (!keyword?._id || !selectedPlatform) {
+    //         toast.warning(`Failed to load more posts. Please refresh and try again.`);
+    //         return;
+    //     }
+    //     const body = { keywordId: keyword._id, platform: selectedPlatform };
+    //     setMoreLoading?.(true);
+    //     try {
+    //         const token = await getAccessToken();
+    //         const {
+    //             data: { items }
+    //         } = await axios.post(`mentions/load-more`, body, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (items?.length) {
+    //             // setMentionsDataObj?.((p) => {
+    //             //     if (selectedPlatform) {
+    //             //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
+    //             //         p[selectedPlatform] = postSorting({ data: allData });
+    //             //     } else {
+    //             //         const allData = [...items, ...p];
+    //             //         p = postSorting({ data: allData });
+    //             //     }
+    //             //     return p;
+    //             // });
+    //             setMentionsDataObj?.((p) => {
+    //                 if (selectedPlatform) {
+    //                     const allData = [...items, ...(p?.[selectedPlatform] || [])];
+    //                     p[selectedPlatform] = allData;
+    //                     // p[selectedPlatform] = postSorting({ data: allData });
+    //                 } else {
+    //                     const allData = [...items, ...p];
+    //                     p = allData;
+    //                     // p = postSorting({ data: allData });
+    //                 }
+    //                 return p;
+    //             });
+    //             if (currentPosts?.length < postsPerPage) {
+    //                 setCurrentPage((p) => p + 1);
+    //             }
+    //         }
+
+    //         setMoreLoading?.(false);
+    //     } catch (e) {
+    //         console.log(e);
+    //         toast.warning(errorMsgHelper(e));
+    //         setMoreLoading?.(false);
+    //     }
+    // };
     let Ele = <></>;
     // {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
     if (!loading && !filteredData?.length) {
