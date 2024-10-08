@@ -131,14 +131,14 @@ export default function ({
 
     const updateMentionSettings = async () => {
         try {
-            if (!projects?.length) {
-                toast.warn(`Please create a new project first to setup advance settings!`);
-                return;
-            }
-            if (!project) {
-                toast.warn(`Please select a project first to setup advance settings!`);
-                return;
-            }
+            // if (!projects?.length) {
+            //     toast.warn(`Please create a new project first to setup advance settings!`);
+            //     return;
+            // }
+            // if (!project) {
+            //     toast.warn(`Please select a project first to setup advance settings!`);
+            //     return;
+            // }
             if (needAddAIkey && !aIkey?.trim?.()) {
                 toast.warn(`Please enter ${selectedModel?.modelGroupName} API key!`);
                 return;
