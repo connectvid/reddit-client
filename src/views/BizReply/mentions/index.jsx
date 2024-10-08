@@ -9,7 +9,7 @@ import PlatformSelection from './PlatformSelection';
 import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import ManageMentions from 'ui-component/ManageMentions';
-import postSorting from 'utils/postSorting';
+// import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
@@ -59,8 +59,8 @@ const Mentions = () => {
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-    const [init, setInit] = useState(false);
-    const toggleInit = () => setInit((p) => !p);
+    // const [init, setInit] = useState(false);
+    // const toggleInit = () => setInit((p) => !p);
     // console.log(mentionsDataObj, 'mentionsDataObj');
     const handleASOpenModal = () => {
         if (!projects?.length) {
@@ -99,7 +99,8 @@ const Mentions = () => {
                 const upObj = {};
                 (platforms || []).forEach((platform) => {
                     const allData = reduced[platform]?.length ? [...(reduced[platform] || []), ...(p?.[platform] || [])] : p?.[platform];
-                    upObj[platform] = postSorting({ data: allData });
+                    upObj[platform] = allData;
+                    // postSorting({ data: allData });
                 });
                 return upObj;
             });
@@ -408,7 +409,7 @@ const Mentions = () => {
                                         {...{
                                             project,
                                             setObjItems: setMentionsDataObj,
-                                            toggleInit,
+                                            // toggleInit,
                                             selectedPlatform,
                                             showMarkRepliedBtn: true,
                                             selectedPrompt
