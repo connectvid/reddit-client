@@ -229,17 +229,26 @@ const Mentions = () => {
                 }
             });
             if (items?.length) {
+                const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj?.((p) => {
-                    if (selectedPlatform) {
-                        const allData = [...(p?.[selectedPlatform] || []), ...items];
-                        p[selectedPlatform] = allData;
-                        // p[selectedPlatform] = postSorting({ data: allData });
-                    } else {
-                        const allData = [...p, ...items];
-                        p = allData;
-                        // p = postSorting({ data: allData });
-                    }
-                    return p;
+                    // if (selectedPlatform) {
+                    //     const allData = [...(p?.[selectedPlatform] || []), ...items];
+                    //     p[selectedPlatform] = allData;
+                    //     // p[selectedPlatform] = postSorting({ data: allData });
+                    // } else {
+                    //     const allData = [...p, ...items];
+                    //     p = allData;
+                    //     // p = postSorting({ data: allData });
+                    // }
+                    // return p;
+                    const upObj = {};
+                    (platforms || []).forEach((platform) => {
+                        const allData = reduced[platform]?.length
+                            ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
+                            : p?.[platform];
+                        upObj[platform] = postSorting({ data: allData });
+                    });
+                    return upObj;
                 });
             }
 
@@ -350,7 +359,11 @@ const Mentions = () => {
                     ) : (
                         ''
                     )}
-                    <LoadMore {...{ loadMore, moreLoading, selectedLoadMoreKeyword, setSelectedLoadMoreKeyword, loading, open }} />
+                    {projects?.length ? (
+                        <LoadMore {...{ loadMore, moreLoading, selectedLoadMoreKeyword, setSelectedLoadMoreKeyword, loading, open }} />
+                    ) : (
+                        ''
+                    )}
                 </>
             )}
         </>
