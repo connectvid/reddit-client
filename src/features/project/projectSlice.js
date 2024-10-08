@@ -278,8 +278,8 @@ const projectSlice = createSlice({
             state.projectDeleting = action.payload;
         },
 
-        selectedPlatform(state, action) {
-            state.selectedPlatform = action.payload;
+        selectedPlatform(state, { payload }) {
+            state.selectedPlatform = payload === state.selectedPlatform ? '' : payload;
         },
         projectRemove(state, { payload }) {
             const { id } = payload;

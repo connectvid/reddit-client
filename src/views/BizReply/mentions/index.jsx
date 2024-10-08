@@ -60,7 +60,7 @@ const Mentions = () => {
     const modalClose = () => setOpenMentionSettingModal(false);
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
     const [init, setInit] = useState(false);
-    console.log(mentionsDataObj, 'mentionsDataObj');
+    // console.log(mentionsDataObj, 'mentionsDataObj');
     const handleASOpenModal = () => {
         if (!projects?.length) {
             toast.warn(`Please create a new project first to setup advance settings!`);
@@ -170,8 +170,10 @@ const Mentions = () => {
 
                 // const filtered = reduced[platform];
                 setFilteredData(reduced);
-                setLoading(false);
                 setInit((p) => !p);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }

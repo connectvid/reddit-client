@@ -30,11 +30,14 @@ import GradinentText from 'ui-component/GradinentText';
 import classes from './postcard.module.css';
 import isNew from 'utils/isNew';
 import BRButton from 'ui-component/bizreply/BRButton';
+import moment from 'moment';
 
 const PostCard = ({
     project,
     platform,
-    date = 'Recenty Found',
+    date,
+    dateRange,
+    // date = 'Recenty Found',
     // postAt,
     createdAt,
     title,
@@ -65,7 +68,7 @@ const PostCard = ({
     const [updatingReply, setUpdatingReply] = useState(false);
     const [deletePost, setDeletePost] = useState(false);
     const { pathname } = useLocation();
-
+    // console.log(dateRange);
     const handleGenerateReply = async () => {
         if (dbUser?.needOpenAiKey === 'Yes' && !aiModels?.length) {
             setOpenAlert(true);
@@ -257,7 +260,10 @@ const PostCard = ({
                             </Box>
                             <Box display="flex" alignItems="center" gap="14px">
                                 <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }} title={createdAt}>
-                                    {date}
+                                    {date ||
+                                        `${dateRange?.start ? moment(dateRange?.start).format('DD MMM, YYYY') : ''} ${
+                                            dateRange?.end ? `- ${moment(dateRange?.end).format('DD MMM, YYYY')}` : ''
+                                        }`}
                                 </Typography>
                                 <Typography>
                                     <SocialIcons platform={platform} />
