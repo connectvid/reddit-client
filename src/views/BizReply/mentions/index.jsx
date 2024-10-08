@@ -309,7 +309,7 @@ const Mentions = () => {
             )) ||
                 ''}
             {(openMentionSettionModal && <ManageMentions {...{ modalClose }} />) || ''}
-            {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose }} />) || ''}
+            {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose, projectName: project?.brandName }} />) || ''}
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
 

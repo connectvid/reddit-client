@@ -32,3 +32,7 @@ const mergeData=[
 { title: "title 8" },
 { title: "title 2" },
 ];
+
+Advanced Settings (Project Name)
+
+When to fetch post (default every day) [Advanced Settings]

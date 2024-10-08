@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { FaTimes } from 'react-icons/fa';
 import MentionSettingsForAdvancedSetting from 'views/BizReply/Settings/MentionSettingsForAdvancedSetting';
 
-export default function ({ modalClose }) {
+export default function ({ modalClose, projectName }) {
     return (
         <Box
             sx={{
@@ -28,7 +28,9 @@ export default function ({ modalClose }) {
                     px: 2.5
                 }}
             >
-                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>Advanced Settings</Typography>
+                <Typography sx={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+                    Advanced Settings {projectName ? `(${projectName})` : ''}
+                </Typography>
                 <Typography onClick={modalClose} sx={{ cursor: 'pointer' }}>
                     <FaTimes color="#757B89" size={14} />
                 </Typography>

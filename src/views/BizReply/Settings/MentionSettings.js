@@ -42,6 +42,11 @@ export default function ({
         setChecked(event.target.checked);
     };
 
+    const defaultFetchTimings = [
+        { label: 'Last 30 Days', value: 30 },
+        { label: 'Last 365 Days', value: 365 }
+    ];
+
     const fetchTimings = [
         // { label: '1 day', value: 1 },
         // // { label: '24  Hours', value: 1 },
@@ -53,16 +58,19 @@ export default function ({
         // { label: '7 days', value: 7 },
         // { label: '15 days', value: 15 },
         // { label: '30 days', value: 30 }
-        { label: 'Last 30 Days', value: 30 },
-        { label: 'Last 365 Days', value: 365 }
+        { label: 'Every day', value: 1 },
+        { label: 'Every week', value: 7 },
+        { label: 'Every month', value: 30 },
+        { label: 'Every year', value: 365 }
     ];
 
-    // const postsPerRequests = [20, 30, 40, 50, 100];
+    const postsPerRequests = [20, 30, 40, 50, 100];
     const [values, setValues] = useState({
         country: 'us',
         language: 'en',
-        fetchTiming: fetchTimings[0].value
-        // ,        postsPerRequest: postsPerRequests[0]
+        fetchTiming: fetchTimings[0].value,
+        defaultFetch: defaultFetchTimings[0].value,
+        postsPerRequest: postsPerRequests[0]
     });
 
     // console.log({ values });
@@ -71,8 +79,8 @@ export default function ({
             setValues({
                 country: mentionSetting?.country,
                 language: mentionSetting?.language,
-                fetchTiming: mentionSetting?.fetchTiming
-                // ,postsPerRequest: mentionSetting?.postsPerRequest
+                fetchTiming: mentionSetting?.fetchTiming,
+                defaultFetch: mentionSetting?.defaultFetch
             });
             setChecked(mentionSetting?.autoFetch);
         }
@@ -215,7 +223,7 @@ export default function ({
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
-                                        Choose Country
+                                        Default Country
                                     </Typography>
                                     <Autocomplete
                                         fullWidth
@@ -232,13 +240,15 @@ export default function ({
                                             mb: 2
                                         }}
                                         disableClearable
-                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
+                                        renderInput={(params) => (
+                                            <TextField fullWidth {...params} required placeholder="Choose Default language" />
+                                        )}
                                     />
                                 </Box>
 
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
-                                        Choose language
+                                        Default language
                                     </Typography>
                                     <Autocomplete
                                         fullWidth
@@ -251,7 +261,9 @@ export default function ({
                                         options={languages}
                                         sx={{ mt: 1, mb: 2 }}
                                         disableClearable
-                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
+                                        renderInput={(params) => (
+                                            <TextField fullWidth {...params} required placeholder="Choose Default language" />
+                                        )}
                                     />
                                 </Box>
                             </Box>
@@ -271,7 +283,7 @@ export default function ({
                                     renderInput={(params) => <TextField fullWidth {...params} required placeholder="When to fetch posts" />}
                                 />
                             </Box>
-                            {/* <Box>
+                            <Box>
                                 <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>
                                     Number of posts to fetch on each request
                                 </Typography>
@@ -295,7 +307,7 @@ export default function ({
                                         <TextField fullWidth {...params} required placeholder="Number of posts to fetch on each request" />
                                     )}
                                 />
-                            </Box> */}
+                            </Box>
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -310,6 +322,22 @@ export default function ({
                                     <Switch checked={checked} onChange={handleChange} color="secondary" />
                                     On
                                 </Typography>
+                            </Box>
+                            <Box sx={{ mt: 1 }}>
+                                <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>Default fetch</Typography>
+                                <Autocomplete
+                                    id="defaultFetchTimings"
+                                    disablePortal
+                                    onChange={(_, data) => {
+                                        if (data) setValues((p) => ({ ...p, defaultFetch: data?.value }));
+                                        return data;
+                                    }}
+                                    defaultValue={defaultFetchTimings?.find?.((im) => im.value === mentionSetting?.defaultFetch)}
+                                    options={defaultFetchTimings}
+                                    sx={{ minWidth: 250, mt: 1, mb: 2 }}
+                                    disableClearable
+                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Default fetch" />}
+                                />
                             </Box>
                         </Box>
                     )}
