@@ -59,7 +59,8 @@ const Mentions = () => {
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-
+    const [init, setInit] = useState(false);
+    console.log(mentionsDataObj, 'mentionsDataObj');
     const handleASOpenModal = () => {
         if (!projects?.length) {
             toast.warn(`Please create a new project first to setup advance settings!`);
@@ -165,11 +166,12 @@ const Mentions = () => {
                 //   ////////////////////
                 const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj(reduced);
-                const [platform] = platforms || [];
+                // const [platform] = platforms || [];
 
-                const filtered = reduced[platform];
-                setFilteredData(filtered);
+                // const filtered = reduced[platform];
+                setFilteredData(reduced);
                 setLoading(false);
+                setInit((p) => !p);
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }
@@ -192,11 +194,11 @@ const Mentions = () => {
     }, [project?._id]);
 
     useEffect(() => {
-        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
-            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
-        );
+        const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
+        const filtered = datas?.filter?.((item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword);
+        // console.log(mentionsDataObj, '===========Filtered==========');
         setFilteredData(filtered);
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length, init]);
 
     // const initFirstPage = () => setCurrentPage(1);
 
