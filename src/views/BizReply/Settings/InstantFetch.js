@@ -86,7 +86,7 @@ export default function () {
                                     if (data) setValues((p) => ({ ...p, fetchTiming: data?.value }));
                                     return data;
                                 }}
-                                defaultValue={fetchTimings?.find?.((im) => im.value === project?.defaultFetch || fetchTimings[2].value)}
+                                defaultValue={fetchTimings?.find?.((im) => im.value === (project?.defaultFetch || fetchTimings[2].value))}
                                 options={fetchTimings}
                                 sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                 disableClearable
