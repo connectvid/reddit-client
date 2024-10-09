@@ -11,7 +11,7 @@ import {
     mentionSettingUpdateLoading
 } from './mentionSlice';
 import errorMsgHelper from 'utils/errorMsgHelper';
-import { updateProjectData } from 'features/project/projectActions';
+// import { updateProjectData } from 'features/project/projectActions';
 import { addingAiNewModel, deletingAiNewModel, updatedaiModelSetter } from 'features/ai-model/aiModelActions';
 
 export const mentionClear = () => () => {
@@ -67,8 +67,8 @@ export const updateMentionSettingAPI =
                 }
             }
             updatedMentionSetter(respData)();
-            const { platforms } = data;
-            updateProjectData({ item: { platforms } })();
+            // const { platforms } = data;
+            // updateProjectData({ item: { platforms } })();
         } catch (e) {
             dispatch(hasError(errorMsgHelper(e)));
             dispatch(mentionSettingUpdateLoading(false));

@@ -78,7 +78,8 @@ export default function ({
                     selectedModel,
                     selectedItemSx,
                     aiModelsGroup,
-                    needAddAIkey
+                    needAddAIkey,
+                    handleClose
                 }}
             />
             {needAddAIkey ? (

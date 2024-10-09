@@ -30,11 +30,14 @@ import GradinentText from 'ui-component/GradinentText';
 import classes from './postcard.module.css';
 import isNew from 'utils/isNew';
 import BRButton from 'ui-component/bizreply/BRButton';
+import moment from 'moment';
 
 const PostCard = ({
     project,
     platform,
-    date = 'Recenty Found',
+    date,
+    dateRange,
+    // date = 'Recenty Found',
     // postAt,
     createdAt,
     title,
@@ -53,6 +56,7 @@ const PostCard = ({
     brandLogo,
     markReplyPosition = 'reply-section', // generate-reply-top
     selectedPrompt
+    // toggleInit
 }) => {
     const { getAccessToken, dbUser } = useAuth();
     const { aiModels } = useSelector((s) => s.aiModel);
@@ -65,7 +69,7 @@ const PostCard = ({
     const [updatingReply, setUpdatingReply] = useState(false);
     const [deletePost, setDeletePost] = useState(false);
     const { pathname } = useLocation();
-
+    // console.log(dateRange);
     const handleGenerateReply = async () => {
         if (dbUser?.needOpenAiKey === 'Yes' && !aiModels?.length) {
             setOpenAlert(true);
@@ -114,6 +118,11 @@ const PostCard = ({
                     }) || [];
                 return changed;
             });
+            // if (!selectedPlatform) {
+            //     setTimeout(() => {
+            //         toggleInit();
+            //     }, 1500);
+            // }
             subsctriptionCreditsSetter({ replies: -1 })();
             toast.success(`Reply has been generated!`);
         } catch (e) {
@@ -160,14 +169,37 @@ const PostCard = ({
                         }) || [];
                     return changed;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit();
+                //     }, 1500);
+                // }
             } else {
                 setObjItems((p) => {
                     if (update_on === 'markReply') {
-                        const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
-                        return { ...p, [selectedPlatform]: filtered };
+                        if (selectedPlatform) {
+                            const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                            return { ...p, [selectedPlatform]: filtered };
+                        }
+                        const filtered = [...p]?.filter?.((item) => item._id !== _id) || [];
+                        return filtered;
+                    }
+                    if (selectedPlatform) {
+                        const changed =
+                            p[selectedPlatform]?.map?.((item) => {
+                                if (item._id === _id) {
+                                    if (isDelete) {
+                                        upData.reply = '';
+                                    } else if (update_on === 'reply') {
+                                        upData.reply = editVal;
+                                    }
+                                }
+                                return item;
+                            }) || [];
+                        return { ...p, [selectedPlatform]: changed };
                     }
                     const changed =
-                        p[selectedPlatform]?.map?.((item) => {
+                        p?.map?.((item) => {
                             if (item._id === _id) {
                                 if (isDelete) {
                                     upData.reply = '';
@@ -177,8 +209,14 @@ const PostCard = ({
                             }
                             return item;
                         }) || [];
-                    return { ...p, [selectedPlatform]: changed };
+
+                    return changed;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit();
+                //     }, 1500);
+                // }
             }
             let successMsg = '';
             if (update_on === 'markReply') {
@@ -206,13 +244,27 @@ const PostCard = ({
 
             if (pathname === REPLY_PATH) {
                 setObjItems((p) => {
-                    return p?.filter?.((item) => item._id !== _id) || [];
+                    return JSON.parse(JSON.stringify(p))?.filter?.((item) => item._id !== _id) || [];
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit?.();
+                //     }, 1500);
+                // }
             } else {
                 setObjItems((p) => {
-                    const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
-                    return { ...p, [selectedPlatform]: filtered };
+                    if (selectedPlatform) {
+                        const filtered = p[selectedPlatform]?.filter?.((item) => item._id !== _id) || [];
+                        return { ...p, [selectedPlatform]: filtered };
+                    }
+                    const filtered = JSON.parse(JSON.stringify(p))?.filter?.((item) => item._id !== _id) || [];
+                    return filtered;
                 });
+                // if (!selectedPlatform) {
+                //     setTimeout(() => {
+                //         toggleInit?.();
+                //     }, 1500);
+                // }
             }
 
             toast.success('Post has been skipped');
@@ -257,7 +309,10 @@ const PostCard = ({
                             </Box>
                             <Box display="flex" alignItems="center" gap="14px">
                                 <Typography sx={{ fontSize: '14px', fontWeight: 500, lineHeight: '18px' }} title={createdAt}>
-                                    {date}
+                                    {date ||
+                                        `${dateRange?.start ? moment(dateRange?.start).format('DD MMM, YYYY') : ''} ${
+                                            dateRange?.end ? `- ${moment(dateRange?.end).format('DD MMM, YYYY')}` : ''
+                                        }`}
                                 </Typography>
                                 <Typography>
                                     <SocialIcons platform={platform} />
