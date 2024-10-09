@@ -62,7 +62,7 @@ const Settings = () => {
                     )}
                 </Button>
                 <Button
-                    sx={{ flex: 1, width: '200px' }}
+                    sx={{ flex: 1, width: '250px' }}
                     onClick={() => setSelectedComponent('mention')}
                     style={selectedComponent === 'mention' ? selectedStyle : notSelectedStyle}
                 >
