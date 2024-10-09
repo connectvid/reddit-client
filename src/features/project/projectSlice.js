@@ -34,6 +34,7 @@ const initialState = {
     showProjectsList: false,
     showProjectCreateModal: false,
     projectRefetchingInitLoading: false,
+    projectRefetchingInitialized: false,
     selectedPlatform: ''
 };
 export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
@@ -342,6 +343,12 @@ const projectSlice = createSlice({
         },
         refetchInitProject(state, action) {
             // state.projectRefetchingInitLoading = action.payload;
+            state.projectRefetchingInitLoading = false;
+            state.projectRefetchingInitialized = true;
+        },
+        projectRefetchingInitialized(state, { payload }) {
+            // state.projectRefetchingInitLoading = action.payload;
+            state.projectRefetchingInitialized = payload;
         }
     }
 
@@ -408,7 +415,8 @@ export const {
     updateAdvancedProjectSettingLoading,
     updatedAdvancedProjectSetting,
     projectRefetchingInitLoading,
-    refetchInitProject
+    refetchInitProject,
+    projectRefetchingInitialized
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

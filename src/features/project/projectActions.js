@@ -40,13 +40,17 @@ import {
     updateAdvancedProjectSettingLoading,
     updatedAdvancedProjectSetting,
     projectRefetchingInitLoading,
-    refetchInitProject
+    refetchInitProject,
+    projectRefetchingInitialized
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { addingAiNewModel, deletingAiNewModel, updatedaiModelSetter } from 'features/ai-model/aiModelActions';
 
+export const projectRefetchingInitializedStatus = (status) => () => {
+    dispatch(projectRefetchingInitialized(status));
+};
 export const isEditProjectStatus =
     (v = true) =>
     () => {

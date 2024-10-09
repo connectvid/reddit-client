@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, TextField, Typography } from '@mui/material';
-import { refetchingProjectAPI, clearingError } from 'features/project/projectActions';
+import { refetchingProjectAPI, clearingError, projectRefetchingInitializedStatus } from 'features/project/projectActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 
 export default function () {
     const {
-        project: { project, error, projectRefetchingInitLoading }
+        project: { project, error, projectRefetchingInitLoading, projectRefetchingInitialized }
     } = useSelector((s) => s);
     const { getAccessToken } = useAuth();
 
@@ -44,6 +44,13 @@ export default function () {
             clearingError(null)();
         }
     }, [error]);
+
+    useEffect(() => {
+        if (projectRefetchingInitialized) {
+            toast.success(`Instant project fetch has been started!`);
+            projectRefetchingInitializedStatus(false)();
+        }
+    }, [projectRefetchingInitialized]);
 
     const handleInstantFetch = async () => {
         try {
@@ -86,7 +93,7 @@ export default function () {
                                 renderInput={(params) => <TextField fullWidth {...params} required placeholder="When to fetch posts" />}
                             />
                         </Box>
-                        <Box>
+                        {/*<Box>
                             <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>
                                 Number of posts to fetch on each request
                             </Typography>
@@ -110,7 +117,7 @@ export default function () {
                                     <TextField fullWidth {...params} required placeholder="Number of posts to fetch on each request" />
                                 )}
                             />
-                        </Box>
+                        </Box> */}
                     </Box>
                 </Box>
             </Box>
