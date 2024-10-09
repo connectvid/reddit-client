@@ -20,7 +20,7 @@ export default function ({
         p: 3,
         mt: 4
     },
-    title = 'Mention settings',
+    title = 'Global Mention settings',
     // platformCardSx = {},
     switchSx = {}
 }) {

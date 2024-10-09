@@ -69,7 +69,7 @@ const Settings = () => {
                     {selectedComponent === 'mention' ? (
                         <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Mention settings</span>
                     ) : (
-                        <span>Mention settings</span>
+                        <span>Global Mention settings</span>
                     )}
                 </Button>
                 <Button
