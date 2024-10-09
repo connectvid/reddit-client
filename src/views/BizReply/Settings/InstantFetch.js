@@ -71,7 +71,8 @@ export default function () {
             <Box
                 sx={{
                     background: '#fff',
-                    borderRadius: '10px'
+                    borderRadius: '10px',
+                    mt: 3
                     // ...wrapperSx
                 }}
             >
