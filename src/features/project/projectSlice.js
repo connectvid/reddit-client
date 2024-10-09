@@ -33,6 +33,7 @@ const initialState = {
     createNegativeKeywordSuccess: false,
     showProjectsList: false,
     showProjectCreateModal: false,
+    projectRefetchingInitLoading: false,
     selectedPlatform: ''
 };
 export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
@@ -191,6 +192,7 @@ const projectSlice = createSlice({
         createKeywordsLoading(state, action) {
             state.createKeywordsLoading = action.payload;
         },
+
         setSingleProjectSelectSuccess(state, action) {
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
@@ -334,6 +336,12 @@ const projectSlice = createSlice({
                 return item;
             });
             state.negativeKeywordDeleted = true;
+        },
+        projectRefetchingInitLoading(state, action) {
+            state.projectRefetchingInitLoading = action.payload;
+        },
+        refetchInitProject(state, action) {
+            // state.projectRefetchingInitLoading = action.payload;
         }
     }
 
@@ -398,7 +406,9 @@ export const {
     negativeKeywordRemove,
     updateAdvencedSettingOfProject,
     updateAdvancedProjectSettingLoading,
-    updatedAdvancedProjectSetting
+    updatedAdvancedProjectSetting,
+    projectRefetchingInitLoading,
+    refetchInitProject
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

@@ -113,10 +113,13 @@ export default function ({
                 setNeedAddAIkey(false);
                 setAIkey('');
             }
-            if (actionType) setActionType('');
+            if (actionType) {
+                console.log(`Clean actionType`);
+                setActionType('');
+            }
         }
     }, [updatedAdvancedProjectSetting]);
-
+    // console.log({ actionType });
     useEffect(() => {
         if (project?.platforms?.length) setSelectedPlatforms(project?.platforms);
         return () => {

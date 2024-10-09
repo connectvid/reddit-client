@@ -30,7 +30,6 @@ export default function ({
         // subscription: { subscription },
         aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
-    console.log({ error });
     const { getAccessToken } = useAuth();
     const [checked, setChecked] = useState(false);
     const [selectedPlatforms, setSelectedPlatforms] = useState([]);
