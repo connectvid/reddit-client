@@ -98,7 +98,7 @@ const Mentions = () => {
                 // return upObj;
                 const upObj = {};
                 (platforms || []).forEach((platform) => {
-                    const allData = reduced[platform]?.length ? [...(reduced[platform] || []), ...(p?.[platform] || [])] : p?.[platform];
+                    const allData = reduced[platform]?.length ? [...(p?.[platform] || []), ...(reduced[platform] || [])] : p?.[platform];
                     upObj[platform] = allData;
                     // postSorting({ data: allData });
                 });
