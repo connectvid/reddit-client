@@ -343,7 +343,7 @@ const projectSlice = createSlice({
         projectRefetchingInitLoading(state, action) {
             state.projectRefetchingInitLoading = action.payload;
         },
-        refetchInitProject(state, action) {
+        refetchInitProject(state) {
             // state.projectRefetchingInitLoading = action.payload;
             state.projectRefetchingInitLoading = false;
             state.projectRefetchingInitialized = true;
