@@ -80,6 +80,7 @@ export default function ({ modalClose, projectName }) {
                                 width: '100%',
                                 border: 'none',
                                 borderRadius: '25px',
+                                background: 'rgba(221, 221, 221, 0.2)',
                                 ':hover': {
                                     // background: 'transparent'
                                 },
