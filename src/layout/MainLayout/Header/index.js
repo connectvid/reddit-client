@@ -32,14 +32,13 @@ const Header = () => {
 
     React.useEffect(() => {
         socket.connect();
-
         if (project?._id) {
             const projectMentionStatus = `mentionsStatus:${project?._id}`;
             console.log(`Socket is connected mentionsStatus`, projectMentionStatus);
-            socket.on(projectMentionStatus, ({ message: { mentionsStatus } }) => {
+            socket.on(projectMentionStatus, ({ message: { mentionsStatus }, purposeName }) => {
                 // "succeed"
-                updateMentionFetchStatusChangerOfProject({ _id: project._id, mentionsStatus })();
-                console.log({ mentionsStatus });
+                updateMentionFetchStatusChangerOfProject({ _id: project._id, mentionsStatus, purposeName })();
+                console.log({ mentionsStatus, purposeName });
             });
         }
     }, [project?._id]);

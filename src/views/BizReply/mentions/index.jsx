@@ -38,7 +38,7 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
 
 const Mentions = () => {
     const {
-        project: { project, selectedPlatform, projects },
+        project: { project, selectedPlatform, projects, projectMentionFetchType },
         prompt: { selectedPrompt },
         subscription: { subscription }
     } = useSelector((state) => state);
@@ -77,13 +77,14 @@ const Mentions = () => {
 
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
+    const purpose_name = 'refetchProjectWithAllPlatformAllKeywrod';
     // SOCKET
     function mentionsUpdate({ message: { items, percentage }, purposeName }) {
         if (items?.length) {
             // setAllDatas(items);
             console.log(`Get new Data by socket`, platforms);
             const reduced = dataGrouppingInPlatform({ data: items, platforms });
-            console.log(reduced, 'reduced');
+            // console.log(reduced, 'reduced');
             setMentionsDataObj((p) => {
                 // const upObj = {};
                 // for (const platform of platforms || []) {
@@ -99,9 +100,17 @@ const Mentions = () => {
                 // return upObj;
                 const upObj = {};
                 (platforms || []).forEach((platform) => {
-                    const allData = reduced[platform]?.length ? [...(p?.[platform] || []), ...(reduced[platform] || [])] : p?.[platform];
+                    const platfromData = reduced[platform];
+                    let allData = p?.[platform];
+                    if (platfromData?.length) {
+                        if (purpose_name === purposeName) {
+                            allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
+                        } else {
+                            allData = [...(p?.[platform] || []), ...(reduced[platform] || [])];
+                        }
+                    }
+                    // allData = reduced[platform]?.length ? [...(p?.[platform] || []), ...(reduced[platform] || [])] : p?.[platform];
                     upObj[platform] = allData;
-                    // postSorting({ data: allData });
                 });
                 return upObj;
             });
@@ -132,18 +141,25 @@ const Mentions = () => {
         // setTimeout(() => {
         //     setShowEmpty(true);
         // }, 2500);
-        window.onscroll = function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-                //   mybutton.style.display = "block";
-                console.log('block');
+        function scrollFunction() {
+            const ele = document.querySelector('#scroolToTop');
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                // console.log('block', ele.style.display === 'none');
+                if (ele.style.display === 'none') {
+                    ele.style.display = 'flex';
+                }
             } else {
-                //   mybutton.style.display = "none";
-                console.log('block');
+                ele.style.display = 'none';
+                // console.log('none', document.body.scrollTop);
             }
-        };
+        }
+
+        window.addEventListener('scroll', scrollFunction);
+
         return () => {
             socket.disconnect();
             setMentionsDataObj({});
+            window.removeEventListener('scroll', scrollFunction);
         };
     }, []);
 
@@ -312,15 +328,23 @@ const Mentions = () => {
             Ele = <EmptyProject {...{ description: '' }} />;
         }
     }
+    const topFunction = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth' // Smooth scroll
+        });
+    };
     return (
         <>
             {/* <OpenAikeyPopup /> */}
             <Typography
+                id="scroolToTop"
+                onClick={topFunction}
                 sx={{
                     border: '2px solid rgb(12, 34, 229)',
                     width: '45px',
                     height: '45px',
-                    display: 'flex',
+                    display: 'none',
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
@@ -332,7 +356,7 @@ const Mentions = () => {
                     cursor: 'pointer'
                 }}
             >
-                <IconArrowBigUpLine color="rgb(12, 34, 229)" size={25} />
+                <IconArrowBigUpLine color="#0c22e5" size={25} />
             </Typography>
             <MentionBreadcrumb
                 {...{
@@ -348,7 +372,6 @@ const Mentions = () => {
                     handleASModal: handleASOpenModal
                 }}
             />
-
             {(project?.platforms && (
                 <PlatformSelection
                     {...{
@@ -364,7 +387,7 @@ const Mentions = () => {
             {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose, projectName: project?.brandName }} />) || ''}
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
-
+            {projectMentionFetchType === purpose_name && project?.mentionsStatus === 'progress' ? <IncommigPlaceholder /> : ''}
             {loading ? (
                 <>
                     <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
@@ -430,7 +453,7 @@ const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, 
                 <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff', height: '35px', ml: 0.5 }}>
                     Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
                 </BRButton>
-                <Typography sx={{ mx: 1, fontWeight: 700 }}>posts from</Typography>
+                <Typography sx={{ ml: 2, mr: 1, fontWeight: 700 }}>Posts From</Typography>
                 {open ? (
                     <PostFilter
                         {...{
@@ -472,3 +495,14 @@ const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, 
         </Box>
     );
 };
+
+const IncommigPlaceholder = () => (
+    <Box>
+        <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
+            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+        </Typography>
+        <Typography sx={{ textAlign: 'center', mb: 2 }}>
+            <CircularProgress sx={{ maxHeight: '30px', maxWidth: '30px', color: '#0c22e5' }} />
+        </Typography>
+    </Box>
+);

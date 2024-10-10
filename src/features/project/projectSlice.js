@@ -35,6 +35,7 @@ const initialState = {
     showProjectCreateModal: false,
     projectRefetchingInitLoading: false,
     projectRefetchingInitialized: false,
+    projectMentionFetchType: '', // refetchProjectWithAllPlatformAllKeywrod
     selectedPlatform: ''
 };
 export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
@@ -158,6 +159,7 @@ const projectSlice = createSlice({
                 }
                 return project;
             });
+            state.projectMentionFetchType = payload?.purposeName;
         },
         createKeywords(state, { payload }) {
             const { items: dItems = [], negativeKeywords = [] } = payload;
