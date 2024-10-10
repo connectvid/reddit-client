@@ -17,6 +17,7 @@ import AdvancedSetting from 'ui-component/AdvancedSetting';
 import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
 import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
+import { IconArrowBigUpLine } from '@tabler/icons';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -131,6 +132,15 @@ const Mentions = () => {
         // setTimeout(() => {
         //     setShowEmpty(true);
         // }, 2500);
+        window.onscroll = function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                //   mybutton.style.display = "block";
+                console.log('block');
+            } else {
+                //   mybutton.style.display = "none";
+                console.log('block');
+            }
+        };
         return () => {
             socket.disconnect();
             setMentionsDataObj({});
@@ -267,60 +277,6 @@ const Mentions = () => {
         }
     };
 
-    // const loadMore2 = async () => {
-    //     const firstKeyword = project?.Suggestedkeywords?.[0];
-    //     const keyword = selectedKeyword?._id ? selectedKeyword : firstKeyword;
-    //     // console.log({ selectedKeyword });
-    //     if (!keyword?._id || !selectedPlatform) {
-    //         toast.warning(`Failed to load more posts. Please refresh and try again.`);
-    //         return;
-    //     }
-    //     const body = { keywordId: keyword._id, platform: selectedPlatform };
-    //     setMoreLoading?.(true);
-    //     try {
-    //         const token = await getAccessToken();
-    //         const {
-    //             data: { items }
-    //         } = await axios.post(`mentions/load-more`, body, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`
-    //             }
-    //         });
-    //         if (items?.length) {
-    //             // setMentionsDataObj?.((p) => {
-    //             //     if (selectedPlatform) {
-    //             //         const allData = [...items, ...(p?.[selectedPlatform] || [])];
-    //             //         p[selectedPlatform] = postSorting({ data: allData });
-    //             //     } else {
-    //             //         const allData = [...items, ...p];
-    //             //         p = postSorting({ data: allData });
-    //             //     }
-    //             //     return p;
-    //             // });
-    //             setMentionsDataObj?.((p) => {
-    //                 if (selectedPlatform) {
-    //                     const allData = [...items, ...(p?.[selectedPlatform] || [])];
-    //                     p[selectedPlatform] = allData;
-    //                     // p[selectedPlatform] = postSorting({ data: allData });
-    //                 } else {
-    //                     const allData = [...items, ...p];
-    //                     p = allData;
-    //                     // p = postSorting({ data: allData });
-    //                 }
-    //                 return p;
-    //             });
-    //             if (currentPosts?.length < postsPerPage) {
-    //                 setCurrentPage((p) => p + 1);
-    //             }
-    //         }
-
-    //         setMoreLoading?.(false);
-    //     } catch (e) {
-    //         console.log(e);
-    //         toast.warning(errorMsgHelper(e));
-    //         setMoreLoading?.(false);
-    //     }
-    // };
     let Ele = <></>;
     // {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''}
     if (!loading && !filteredData?.length) {
@@ -359,6 +315,25 @@ const Mentions = () => {
     return (
         <>
             {/* <OpenAikeyPopup /> */}
+            <Typography
+                sx={{
+                    border: '2px solid rgb(12, 34, 229)',
+                    width: '45px',
+                    height: '45px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    position: 'fixed',
+                    bottom: '25px',
+                    right: '100px',
+                    background: '#fff',
+                    zIndex: 5,
+                    cursor: 'pointer'
+                }}
+            >
+                <IconArrowBigUpLine color="rgb(12, 34, 229)" size={25} />
+            </Typography>
             <MentionBreadcrumb
                 {...{
                     setSelectedKeyword,
