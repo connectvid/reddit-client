@@ -62,14 +62,14 @@ const Settings = () => {
                     )}
                 </Button>
                 <Button
-                    sx={{ flex: 1, width: '200px' }}
+                    sx={{ flex: 1, width: '250px' }}
                     onClick={() => setSelectedComponent('mention')}
                     style={selectedComponent === 'mention' ? selectedStyle : notSelectedStyle}
                 >
                     {selectedComponent === 'mention' ? (
                         <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#fff' }}>Mention settings</span>
                     ) : (
-                        <span>Mention settings</span>
+                        <span>Global Mention settings</span>
                     )}
                 </Button>
                 <Button

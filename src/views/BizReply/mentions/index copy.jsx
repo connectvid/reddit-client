@@ -9,7 +9,7 @@ import PlatformSelection from './PlatformSelection';
 import { useLocation } from 'react-router-dom';
 import MentionBreadcrumb from 'ui-component/MentionBreadcrumb';
 import ManageMentions from 'ui-component/ManageMentions';
-// import postSorting from 'utils/postSorting';
+import postSorting from 'utils/postSorting';
 import EmptyProject from '../projects/EmptyProject';
 import errorMsgHelper from 'utils/errorMsgHelper';
 import { toast } from 'react-toastify';
@@ -17,7 +17,6 @@ import AdvancedSetting from 'ui-component/AdvancedSetting';
 import { Box, Card, CardContent, CircularProgress, Typography } from '@mui/material';
 import BRButton from 'ui-component/bizreply/BRButton';
 import PostFilter from 'ui-component/MentionBreadcrumb/PostFilter';
-import { IconArrowBigUpLine } from '@tabler/icons';
 
 const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
     const platfms = platforms?.reduce((a, c) => {
@@ -38,7 +37,7 @@ const dataGrouppingInPlatform = ({ data = [], platforms = [] }) => {
 
 const Mentions = () => {
     const {
-        project: { project, selectedPlatform, projects, projectMentionFetchType },
+        project: { project, selectedPlatform, projects },
         prompt: { selectedPrompt },
         subscription: { subscription }
     } = useSelector((state) => state);
@@ -60,8 +59,8 @@ const Mentions = () => {
     const handleModal = () => setOpenMentionSettingModal((p) => !p);
     const modalClose = () => setOpenMentionSettingModal(false);
     const [openAdvancedSettingModal, setOpenAdvancedSettingModal] = useState(false);
-    // const [init, setInit] = useState(false);
-    // const toggleInit = () => setInit((p) => !p);
+    const [init, setInit] = useState(false);
+    const toggleInit = () => setInit((p) => !p);
     // console.log(mentionsDataObj, 'mentionsDataObj');
     const handleASOpenModal = () => {
         if (!projects?.length) {
@@ -77,14 +76,13 @@ const Mentions = () => {
 
     const modalASClose = () => setOpenAdvancedSettingModal(false);
 
-    const purpose_name = 'refetchProjectWithAllPlatformAllKeywrod';
     // SOCKET
     function mentionsUpdate({ message: { items, percentage }, purposeName }) {
         if (items?.length) {
             // setAllDatas(items);
             console.log(`Get new Data by socket`, platforms);
             const reduced = dataGrouppingInPlatform({ data: items, platforms });
-            // console.log(reduced, 'reduced');
+            console.log(reduced, 'reduced');
             setMentionsDataObj((p) => {
                 // const upObj = {};
                 // for (const platform of platforms || []) {
@@ -100,17 +98,8 @@ const Mentions = () => {
                 // return upObj;
                 const upObj = {};
                 (platforms || []).forEach((platform) => {
-                    const platfromData = reduced[platform];
-                    let allData = p?.[platform];
-                    if (platfromData?.length) {
-                        if (purpose_name === purposeName) {
-                            allData = [...(reduced[platform] || []), ...(p?.[platform] || [])];
-                        } else {
-                            allData = [...(p?.[platform] || []), ...(reduced[platform] || [])];
-                        }
-                    }
-                    // allData = reduced[platform]?.length ? [...(p?.[platform] || []), ...(reduced[platform] || [])] : p?.[platform];
-                    upObj[platform] = allData;
+                    const allData = reduced[platform]?.length ? [...(reduced[platform] || []), ...(p?.[platform] || [])] : p?.[platform];
+                    upObj[platform] = postSorting({ data: allData });
                 });
                 return upObj;
             });
@@ -141,25 +130,9 @@ const Mentions = () => {
         // setTimeout(() => {
         //     setShowEmpty(true);
         // }, 2500);
-        function scrollFunction() {
-            const ele = document.querySelector('#scroolToTop');
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                // console.log('block', ele.style.display === 'none');
-                if (ele.style.display === 'none') {
-                    ele.style.display = 'flex';
-                }
-            } else {
-                ele.style.display = 'none';
-                // console.log('none', document.body.scrollTop);
-            }
-        }
-
-        window.addEventListener('scroll', scrollFunction);
-
         return () => {
             socket.disconnect();
             setMentionsDataObj({});
-            window.removeEventListener('scroll', scrollFunction);
         };
     }, []);
 
@@ -194,11 +167,14 @@ const Mentions = () => {
                 //   ////////////////////
                 const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj(reduced);
-                const [platform] = platforms || [];
+                // const [platform] = platforms || [];
 
-                const filtered = reduced[platform];
-                setFilteredData(filtered);
-                setLoading(false);
+                // const filtered = reduced[platform];
+                setFilteredData(reduced);
+                setInit((p) => !p);
+                setTimeout(() => {
+                    setLoading(false);
+                }, 1500);
                 // if (!state?.socket || len) {
                 //     setLoading(false);
                 // }
@@ -221,20 +197,12 @@ const Mentions = () => {
     }, [project?._id]);
 
     useEffect(() => {
-        // const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
-        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
-            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
-        );
-        // console.log(init, '===========Filtered==========');
+        const datas = selectedPlatform ? mentionsDataObj[selectedPlatform] : Object.values(mentionsDataObj).flat();
+        const filtered = datas?.filter?.((item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword);
+        console.log(init, '===========Filtered==========');
         setFilteredData(filtered);
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
+    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length, init]);
 
-    useEffect(() => {
-        const filtered = mentionsDataObj[selectedPlatform]?.filter?.(
-            (item) => selectedKeyword?.title === 'All Keywords' || selectedKeyword?.title === item.keyword
-        );
-        setFilteredData(filtered);
-    }, [selectedKeyword?.title, selectedPlatform, mentionsDataObj?.[selectedPlatform]?.length, platforms?.length]);
     // const initFirstPage = () => setCurrentPage(1);
 
     const loadMore = async () => {
@@ -262,26 +230,26 @@ const Mentions = () => {
                 }
             });
             if (items?.length) {
-                // const reduced = dataGrouppingInPlatform({ data: items, platforms });
+                const reduced = dataGrouppingInPlatform({ data: items, platforms });
                 setMentionsDataObj?.((p) => {
-                    if (selectedPlatform) {
-                        const allData = [...(p?.[selectedPlatform] || []), ...items];
-                        p[selectedPlatform] = allData;
-                        // p[selectedPlatform] = postSorting({ data: allData });
-                    } else {
-                        const allData = [...p, ...items];
-                        p = allData;
-                        // p = postSorting({ data: allData });
-                    }
-                    return p;
-                    // const upObj = {};
-                    // (platforms || []).forEach((platform) => {
-                    //     const allData = reduced[platform]?.length
-                    //         ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
-                    //         : p?.[platform];
-                    //     upObj[platform] = postSorting({ data: allData });
-                    // });
-                    // return upObj;
+                    // if (selectedPlatform) {
+                    //     const allData = [...(p?.[selectedPlatform] || []), ...items];
+                    //     p[selectedPlatform] = allData;
+                    //     // p[selectedPlatform] = postSorting({ data: allData });
+                    // } else {
+                    //     const allData = [...p, ...items];
+                    //     p = allData;
+                    //     // p = postSorting({ data: allData });
+                    // }
+                    // return p;
+                    const upObj = {};
+                    (platforms || []).forEach((platform) => {
+                        const allData = reduced[platform]?.length
+                            ? [...(reduced[platform] || []), ...(p?.[platform] || [])]
+                            : p?.[platform];
+                        upObj[platform] = postSorting({ data: allData });
+                    });
+                    return upObj;
                 });
             }
 
@@ -328,36 +296,9 @@ const Mentions = () => {
             Ele = <EmptyProject {...{ description: '' }} />;
         }
     }
-    const topFunction = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth' // Smooth scroll
-        });
-    };
     return (
         <>
             {/* <OpenAikeyPopup /> */}
-            <Typography
-                id="scroolToTop"
-                onClick={topFunction}
-                sx={{
-                    border: '2px solid rgb(12, 34, 229)',
-                    width: '45px',
-                    height: '45px',
-                    display: 'none',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '50%',
-                    position: 'fixed',
-                    bottom: '25px',
-                    right: '100px',
-                    background: '#fff',
-                    zIndex: 5,
-                    cursor: 'pointer'
-                }}
-            >
-                <IconArrowBigUpLine color="#0c22e5" size={25} />
-            </Typography>
             <MentionBreadcrumb
                 {...{
                     setSelectedKeyword,
@@ -372,6 +313,7 @@ const Mentions = () => {
                     handleASModal: handleASOpenModal
                 }}
             />
+
             {(project?.platforms && (
                 <PlatformSelection
                     {...{
@@ -387,7 +329,7 @@ const Mentions = () => {
             {(openAdvancedSettingModal && <AdvancedSetting {...{ modalClose: modalASClose, projectName: project?.brandName }} />) || ''}
             {/* {!loading && !filteredData?.length ? project ? <PostPlaceholder /> : <EmptyProject {...{ description: '' }} /> : ''} */}
             {Ele}
-            {projectMentionFetchType === purpose_name && project?.mentionsStatus === 'progress' ? <IncommigPlaceholder /> : ''}
+
             {loading ? (
                 <>
                     <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
@@ -407,7 +349,7 @@ const Mentions = () => {
                                         {...{
                                             project,
                                             setObjItems: setMentionsDataObj,
-                                            // toggleInit,
+                                            toggleInit,
                                             selectedPlatform,
                                             showMarkRepliedBtn: true,
                                             selectedPrompt
@@ -453,7 +395,7 @@ const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, 
                 <BRButton onClick={loadMore} disabled={moreLoading} sx={{ px: 2, color: '#fff', height: '35px', ml: 0.5 }}>
                     Load More {moreLoading ? <CircularProgress sx={{ maxHeight: '16px', maxWidth: '16px', ml: 1 }} /> : ''}
                 </BRButton>
-                <Typography sx={{ ml: 2, mr: 1, fontWeight: 700 }}>Posts From</Typography>
+                <Typography sx={{ mx: 1, fontWeight: 700 }}>posts from</Typography>
                 {open ? (
                     <PostFilter
                         {...{
@@ -495,14 +437,3 @@ const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, 
         </Box>
     );
 };
-
-const IncommigPlaceholder = () => (
-    <Box>
-        <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
-            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
-        </Typography>
-        <Typography sx={{ textAlign: 'center', mb: 2 }}>
-            <CircularProgress sx={{ maxHeight: '30px', maxWidth: '30px', color: '#0c22e5' }} />
-        </Typography>
-    </Box>
-);

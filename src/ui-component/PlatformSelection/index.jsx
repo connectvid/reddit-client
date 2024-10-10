@@ -5,8 +5,8 @@ import { FaCheck, FaRegSquare } from 'react-icons/fa6';
 export default function ({ platforms = [], selectedPlatforms = [], handleSelectedPlatform, sx = {}, platformsSx = {}, cardSx = {} }) {
     return (
         <Box sx={{ ...sx }}>
-            <Typography sx={{ color: '#000', fontWeight: 500, fontSize: '16px', mb: 3 }}>
-                Select social profile (s) where you want to see posts from.
+            <Typography sx={{ color: '#000', fontWeight: 500, fontSize: '16px', mb: 2 }}>
+                Select social profile(s) where you want to see posts from
             </Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 4, flexWrap: 'wrap', ...platformsSx }}>

@@ -27,10 +27,15 @@ const initialState = {
     keywordDeleted: false,
     negativeKeywordDeleted: false,
     updateLoading: false,
+    updateAdvancedProjectSettingLoading: false,
+    updatedAdvancedProjectSetting: false,
     createKeywordSuccess: false,
     createNegativeKeywordSuccess: false,
     showProjectsList: false,
     showProjectCreateModal: false,
+    projectRefetchingInitLoading: false,
+    projectRefetchingInitialized: false,
+    projectMentionFetchType: '', // refetchProjectWithAllPlatformAllKeywrod
     selectedPlatform: ''
 };
 export const getItem = ({ findBy = '_id', findKey = '', datas = [] }) => {
@@ -80,6 +85,7 @@ const projectSlice = createSlice({
         addProjectLoading(state, action) {
             state.addProjectLoading = action.payload;
         },
+
         addNewProject(state, action) {
             const { item } = action.payload;
             state.project = item;
@@ -100,7 +106,11 @@ const projectSlice = createSlice({
             const { item } = action.payload;
             state.projects = state.projects.map((project) => {
                 if (project._id === item._id) {
-                    return { ...project, ...item };
+                    return {
+                        ...project,
+                        ...item,
+                        Suggestedkeywords: [...(project.Suggestedkeywords || []), ...(item.Suggestedkeywords || [])]
+                    };
                     // project.shortDescription = item.shortDescription;
                     // if (project._id === state.project?._id) {
                     //     state.project.shortDescription = item.shortDescription;
@@ -108,11 +118,35 @@ const projectSlice = createSlice({
                 }
                 return project;
             });
-            state.project = { ...state.project, ...item };
+            state.project = {
+                ...state.project,
+                ...item,
+                Suggestedkeywords: [...(state.project?.Suggestedkeywords || []), ...(item?.Suggestedkeywords || [])]
+            };
             state.updateProjectLoading = false;
             state.projectUpdated = true;
             state.editProject = null;
             state.isEditProject = false;
+        },
+        updateAdvancedProjectSettingLoading(state, action) {
+            state.updateAdvancedProjectSettingLoading = action.payload;
+        },
+        updatedAdvancedProjectSetting(state, action) {
+            state.updatedAdvancedProjectSetting = action.payload;
+        },
+        updateAdvencedSettingOfProject(state, action) {
+            const { item } = action.payload;
+            console.log({ item });
+            state.projects = state.projects.map((project) => {
+                if (project._id === item._id) {
+                    return { ...project, ...item };
+                }
+                return project;
+            });
+            state.project = { ...state.project, ...item };
+            state.updateProjectLoading = false;
+            state.updatedAdvancedProjectSetting = true;
+            state.updateAdvancedProjectSettingLoading = false;
         },
         updateMentionFetchStatusOfProject(state, { payload }) {
             const item = payload;
@@ -125,6 +159,7 @@ const projectSlice = createSlice({
                 }
                 return project;
             });
+            state.projectMentionFetchType = payload?.purposeName;
         },
         createKeywords(state, { payload }) {
             const { items: dItems = [], negativeKeywords = [] } = payload;
@@ -160,6 +195,7 @@ const projectSlice = createSlice({
         createKeywordsLoading(state, action) {
             state.createKeywordsLoading = action.payload;
         },
+
         setSingleProjectSelectSuccess(state, action) {
             const { id } = action.payload;
             const project = state.projects.find((item) => item._id === id);
@@ -247,8 +283,9 @@ const projectSlice = createSlice({
             state.projectDeleting = action.payload;
         },
 
-        selectedPlatform(state, action) {
-            state.selectedPlatform = action.payload;
+        selectedPlatform(state, { payload }) {
+            state.selectedPlatform = payload;
+            // state.selectedPlatform = payload === state.selectedPlatform ? '' : payload;
         },
         projectRemove(state, { payload }) {
             const { id } = payload;
@@ -302,6 +339,18 @@ const projectSlice = createSlice({
                 return item;
             });
             state.negativeKeywordDeleted = true;
+        },
+        projectRefetchingInitLoading(state, action) {
+            state.projectRefetchingInitLoading = action.payload;
+        },
+        refetchInitProject(state) {
+            // state.projectRefetchingInitLoading = action.payload;
+            state.projectRefetchingInitLoading = false;
+            state.projectRefetchingInitialized = true;
+        },
+        projectRefetchingInitialized(state, { payload }) {
+            // state.projectRefetchingInitLoading = action.payload;
+            state.projectRefetchingInitialized = payload;
         }
     }
 
@@ -363,7 +412,13 @@ export const {
     projectUpdated,
     updateMentionFetchStatusOfProject,
     createNegativeKeywordSuccess,
-    negativeKeywordRemove
+    negativeKeywordRemove,
+    updateAdvencedSettingOfProject,
+    updateAdvancedProjectSettingLoading,
+    updatedAdvancedProjectSetting,
+    projectRefetchingInitLoading,
+    refetchInitProject,
+    projectRefetchingInitialized
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

@@ -13,11 +13,18 @@ export default function ({
     selectedModel,
     selectedItemSx,
     aiModelsGroup,
-    needAddAIkey
+    needAddAIkey,
+    handleClose
 }) {
     return (
         <Box sx={{ position: 'relative', mt: 3 }}>
-            <ModelList {...{ aiImages, aiModelsString, handleAPIKeyEdit, handleAPIKeyEditCancel, handleSelectedModel, open, options }} />
+            {open ? (
+                <ModelList
+                    {...{ aiImages, aiModelsString, handleAPIKeyEdit, handleAPIKeyEditCancel, handleSelectedModel, open, options }}
+                />
+            ) : (
+                ''
+            )}
             <Typography sx={{ fontSize: '16px', fontWeight: 700, color: '#000', mb: 2 }}>Choose language model</Typography>
             <Box
                 sx={{
@@ -46,6 +53,14 @@ export default function ({
                             ...selectedItemSx
                         }}
                         onClick={handleToggle}
+                        tabIndex={0}
+                        onBlur={() => {
+                            if (open) {
+                                setTimeout(() => {
+                                    handleClose?.();
+                                }, 500);
+                            }
+                        }}
                     >
                         <img src={aiImages?.[selectedModel?.modelGroupName]} alt={selectedModel?.model} style={{ maxWidth: '20px' }} />
                         <Typography sx={{ fontSize: '14px', fontWeight: 400, ml: 1, width: '100%' }}>
@@ -105,10 +120,6 @@ export default function ({
 
 const ModelList = ({ open, options, aiModelsString, handleSelectedModel, aiImages }) => (
     <Box
-        onBlur={() => {
-            // if (open) handleClose();
-            console.log('Blur');
-        }}
         sx={{
             overflowY: 'scroll',
             height: '254px',

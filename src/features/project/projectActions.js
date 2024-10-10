@@ -35,12 +35,22 @@ import {
     projectUpdated,
     updateMentionFetchStatusOfProject,
     createNegativeKeywordSuccess,
-    negativeKeywordRemove
+    negativeKeywordRemove,
+    updateAdvencedSettingOfProject,
+    updateAdvancedProjectSettingLoading,
+    updatedAdvancedProjectSetting,
+    projectRefetchingInitLoading,
+    refetchInitProject,
+    projectRefetchingInitialized
 } from './projectSlice'; // Import actions from the slice
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { subsctriptionCreditsSetter } from 'features/subscription/subscriptionActions';
 import errorMsgHelper from 'utils/errorMsgHelper';
+import { addingAiNewModel, deletingAiNewModel, updatedaiModelSetter } from 'features/ai-model/aiModelActions';
 
+export const projectRefetchingInitializedStatus = (status) => () => {
+    dispatch(projectRefetchingInitialized(status));
+};
 export const isEditProjectStatus =
     (v = true) =>
     () => {
@@ -170,6 +180,41 @@ export const updateProjectAPI =
         }
     };
 
+export const updatedAdvancedProjectSettingStatus = (value) => () => {
+    dispatch(updatedAdvancedProjectSetting(value));
+};
+
+export const updateAdvancedSettingProjectData = (v) => () => {
+    dispatch(updateAdvencedSettingOfProject(v));
+};
+
+export const updateProjectAdvancedSettingAPI =
+    ({ token, id, data = {} }) =>
+    async () => {
+        try {
+            dispatch(updateAdvancedProjectSettingLoading(true));
+            const { data: respData } = await axios.put(`projects/${id}/advanced`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            updateAdvancedSettingProjectData(respData)();
+            if (respData?.model) {
+                const { actionType } = respData?.model;
+                if (actionType === 'add') {
+                    addingAiNewModel({ item: respData?.model })();
+                } else if (actionType === 'update') {
+                    updatedaiModelSetter({ item: respData?.model })();
+                } else if (actionType === 'delete') {
+                    deletingAiNewModel({ item: respData?.model })();
+                }
+            }
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+            dispatch(updateAdvancedProjectSettingLoading(false));
+        }
+    };
+
 export const addingKeywords = (data) => () => {
     dispatch(createKeywords(data));
 };
@@ -209,8 +254,6 @@ export const deleteKeywordAPI = (token, id) => async () => {
         keywordRemoving({ id })();
     } catch (e) {
         dispatch(hasError(errorMsgHelper(e)));
-    } finally {
-        // dispatch(createKeywordsLoading(false));
     }
 };
 
@@ -260,6 +303,26 @@ export const removingNegativeCustomKeywordForSave =
     (index = '') =>
     () => {
         dispatch(removeNegativeCustomKeywordForSave(index));
+    };
+
+export const refetchedInitProjectData = (v) => () => {
+    dispatch(refetchInitProject(v));
+};
+export const refetchingProjectAPI =
+    ({ token, id, data = {} }) =>
+    async () => {
+        try {
+            dispatch(projectRefetchingInitLoading(true));
+            const { data: respData } = await axios.post(`projects/${id}/refetch`, data, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            refetchedInitProjectData(respData)();
+        } catch (e) {
+            dispatch(hasError(errorMsgHelper(e)));
+            dispatch(projectRefetchingInitLoading(false));
+        }
     };
 
 export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', async (_, { getState, dispatch }) => {

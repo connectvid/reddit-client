@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-use-before-define */
 import { Autocomplete, Box, CircularProgress, Switch, TextField, Typography } from '@mui/material';
-import { mentionErrorClear, mentionSettingCretedOrUpdatedStatus, updateMentionSettingAPI } from 'features/mention/mentionActions';
+import { updatedAdvancedProjectSettingStatus, updateProjectAdvancedSettingAPI, clearingError } from 'features/project/projectActions';
 import useAuth from 'hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import AiModels from 'ui-component/AiModels';
 import BRButton from 'ui-component/bizreply/BRButton';
-// import PlatformSelection from 'ui-component/PlatformSelection';
+import PlatformSelection from 'ui-component/PlatformSelection';
 import errorMsgHelper from 'utils/errorMsgHelper';
 
 export default function ({
@@ -20,14 +20,13 @@ export default function ({
         p: 3,
         mt: 4
     },
-    title = 'Global Mention settings',
-    // platformCardSx = {},
+    title = 'Mention settings',
+    platformCardSx = {},
     switchSx = {}
 }) {
     const {
-        mention: { mentionSetting, loading, mentionSettingUpdateLoading, mentionSettingCretedOrUpdated, error },
-        project: { project },
-        // subscription: { subscription },
+        project: { loading, project, projects, updatedAdvancedProjectSetting, updateAdvancedProjectSettingLoading, error },
+        subscription: { subscription },
         aiModel: { selectedAiModel, aiModelsGroup, aiModelsString }
     } = useSelector((s) => s);
     const { getAccessToken } = useAuth();
@@ -37,14 +36,12 @@ export default function ({
     const [aIkey, setAIkey] = useState('');
     const [needAddAIkey, setNeedAddAIkey] = useState(false);
     const [actionType, setActionType] = useState(''); // add, update
+
+    // console.log({ needAddAIkey });
+
     const handleChange = (event) => {
         setChecked(event.target.checked);
     };
-
-    const defaultFetchTimings = [
-        { label: 'Last 30 Days', value: 30 },
-        { label: 'Last 365 Days', value: 365 }
-    ];
 
     const fetchTimings = [
         // { label: '1 day', value: 1 },
@@ -57,10 +54,10 @@ export default function ({
         // { label: '7 days', value: 7 },
         // { label: '15 days', value: 15 },
         // { label: '30 days', value: 30 }
-        { label: 'Last 24 hours', value: 1 },
-        { label: 'Last 7 days', value: 7 },
-        { label: 'Last 30 days', value: 30 },
-        { label: 'Last 365 days', value: 365 }
+        { label: 'Every day', value: 1 },
+        { label: 'Every week', value: 7 },
+        { label: 'Every month', value: 30 },
+        { label: 'Every year', value: 365 }
     ];
 
     const postsPerRequests = [20, 30, 40, 50, 100];
@@ -68,29 +65,28 @@ export default function ({
         country: 'us',
         language: 'en',
         fetchTiming: fetchTimings[0].value,
-        defaultFetch: defaultFetchTimings[0].value,
         postsPerRequest: postsPerRequests[0]
     });
 
-    // console.log({ values });
     useEffect(() => {
-        if (mentionSetting) {
+        if (project) {
             setValues({
-                country: mentionSetting?.country,
-                language: mentionSetting?.language,
-                fetchTiming: mentionSetting?.fetchTiming,
-                defaultFetch: mentionSetting?.defaultFetch
+                country: project?.country,
+                language: project?.language,
+                fetchTiming: project?.fetchTiming,
+                postsPerRequest: project?.postsPerRequest
             });
-            setChecked(mentionSetting?.autoFetch);
+            setChecked(project?.autoFetch);
         }
         if (selectedAiModel) {
             setSelectedModel(selectedAiModel);
         }
     }, []);
+
     useEffect(() => {
         if (error) {
             toast.warn(error);
-            mentionErrorClear(null)();
+            clearingError(null)();
         }
     }, [error]);
 
@@ -110,17 +106,20 @@ export default function ({
     }, [selectedModel?.model]);
 
     useEffect(() => {
-        if (mentionSettingCretedOrUpdated) {
+        if (updatedAdvancedProjectSetting) {
             toast.success(`Data has been updated`);
-            mentionSettingCretedOrUpdatedStatus(false)();
+            updatedAdvancedProjectSettingStatus(false)();
             if (needAddAIkey) {
                 setNeedAddAIkey(false);
                 setAIkey('');
             }
-            if (actionType) setActionType('');
+            if (actionType) {
+                console.log(`Clean actionType`);
+                setActionType('');
+            }
         }
-    }, [mentionSettingCretedOrUpdated]);
-
+    }, [updatedAdvancedProjectSetting]);
+    // console.log({ actionType });
     useEffect(() => {
         if (project?.platforms?.length) setSelectedPlatforms(project?.platforms);
         return () => {
@@ -128,16 +127,16 @@ export default function ({
         };
     }, [project?.platforms?.length]);
 
-    const updateMentionSettings = async () => {
+    const updateProjectAdvancedSettings = async () => {
         try {
-            // if (!projects?.length) {
-            //     toast.warn(`Please create a new project first to setup advance settings!`);
-            //     return;
-            // }
-            // if (!project) {
-            //     toast.warn(`Please select a project first to setup advance settings!`);
-            //     return;
-            // }
+            if (!projects?.length) {
+                toast.warn(`Please create a new project first to setup advance settings!`);
+                return;
+            }
+            if (!project) {
+                toast.warn(`Please select a project first to setup advance settings!`);
+                return;
+            }
             if (needAddAIkey && !aIkey?.trim?.()) {
                 toast.warn(`Please enter ${selectedModel?.modelGroupName} API key!`);
                 return;
@@ -150,13 +149,6 @@ export default function ({
                 aIkey,
                 ...selectedModel
             };
-
-            /**
-             *  modelGroupName exist and model not exist
-                or
-                apiKey exist && modelGroupName's apiKey not equal newAPI key
-             */
-
             /*=============================================
             =            seting actionType            =
             =============================================*/
@@ -167,13 +159,9 @@ export default function ({
                     !aiModelsString?.includes?.(ai_model?.model)) ||
                 (aiModelsString?.includes?.(ai_model?.model) && aIkey && needAddAIkey)
             ) {
-                console.log(`Match  ai_model.actionType = 'update';`);
                 ai_model.actionType = 'update';
-            } else {
-                console.log(ai_model.actionType, 'else ai_model.actionType ');
             }
             /*=====  End of seting actionType  ======*/
-
             const body = {
                 platforms,
                 // projectId: project?._id,
@@ -181,20 +169,21 @@ export default function ({
                 autoFetch: checked,
                 ai_model
             };
-            updateMentionSettingAPI({ token, data: body })();
+            updateProjectAdvancedSettingAPI({ token, data: body, id: project?._id })();
+            // console.log(body);
         } catch (e) {
             console.error(e);
             toast.warn(errorMsgHelper(e));
         }
     };
 
-    // const handleSelectedPlatform = (platform) => {
-    //     if (!selectedPlatforms.includes(platform)) {
-    //         setSelectedPlatforms((p) => [...p, platform]);
-    //     } else {
-    //         setSelectedPlatforms(selectedPlatforms.filter((item) => item !== platform));
-    //     }
-    // };
+    const handleSelectedPlatform = (platform) => {
+        if (!selectedPlatforms.includes(platform)) {
+            setSelectedPlatforms((p) => [...p, platform]);
+        } else {
+            setSelectedPlatforms(selectedPlatforms.filter((item) => item !== platform));
+        }
+    };
 
     return (
         <>
@@ -222,7 +211,7 @@ export default function ({
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
-                                        Default Country
+                                        Choose Country
                                     </Typography>
                                     <Autocomplete
                                         fullWidth
@@ -231,7 +220,7 @@ export default function ({
                                             return data;
                                         }}
                                         getOptionLabel={(item) => item.name}
-                                        defaultValue={countries?.find?.((im) => im.code === mentionSetting?.country)}
+                                        defaultValue={countries.find((im) => im.code === project?.country)}
                                         disablePortal
                                         options={countries}
                                         sx={{
@@ -239,15 +228,13 @@ export default function ({
                                             mb: 2
                                         }}
                                         disableClearable
-                                        renderInput={(params) => (
-                                            <TextField fullWidth {...params} required placeholder="Choose Default language" />
-                                        )}
+                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                     />
                                 </Box>
 
                                 <Box sx={{ width: '100%' }}>
                                     <Typography style={{ marginTop: '20px', fontWeight: 'bold', fontSize: '16px' }}>
-                                        Default language
+                                        Choose language
                                     </Typography>
                                     <Autocomplete
                                         fullWidth
@@ -255,14 +242,12 @@ export default function ({
                                             if (data) setValues((p) => ({ ...p, language: data.value }));
                                             return data;
                                         }}
-                                        defaultValue={languages?.find?.((im) => im.value === mentionSetting?.language)}
+                                        defaultValue={languages.find((im) => im.value === project?.language)}
                                         disablePortal
                                         options={languages}
                                         sx={{ mt: 1, mb: 2 }}
                                         disableClearable
-                                        renderInput={(params) => (
-                                            <TextField fullWidth {...params} required placeholder="Choose Default language" />
-                                        )}
+                                        renderInput={(params) => <TextField fullWidth {...params} required placeholder="Choose language" />}
                                     />
                                 </Box>
                             </Box>
@@ -275,7 +260,7 @@ export default function ({
                                         if (data) setValues((p) => ({ ...p, fetchTiming: data?.value }));
                                         return data;
                                     }}
-                                    defaultValue={fetchTimings?.find?.((im) => im.value === mentionSetting?.fetchTiming)}
+                                    defaultValue={fetchTimings?.find?.((im) => im.value === project?.fetchTiming)}
                                     options={fetchTimings}
                                     sx={{ minWidth: 250, mt: 1, mb: 2 }}
                                     disableClearable
@@ -293,7 +278,7 @@ export default function ({
                                         if (data) setValues((p) => ({ ...p, postsPerRequest: data }));
                                         return data;
                                     }}
-                                    defaultValue={mentionSetting?.postsPerRequest}
+                                    defaultValue={project?.postsPerRequest}
                                     getOptionLabel={(item) => item}
                                     disablePortal
                                     options={postsPerRequests}
@@ -322,26 +307,10 @@ export default function ({
                                     On
                                 </Typography>
                             </Box>
-                            <Box sx={{ mt: 1 }}>
-                                <Typography style={{ fontWeight: 'bold', fontSize: '16px' }}>Default fetch</Typography>
-                                <Autocomplete
-                                    id="defaultFetchTimings"
-                                    disablePortal
-                                    onChange={(_, data) => {
-                                        if (data) setValues((p) => ({ ...p, defaultFetch: data?.value }));
-                                        return data;
-                                    }}
-                                    defaultValue={defaultFetchTimings?.find?.((im) => im.value === mentionSetting?.defaultFetch)}
-                                    options={defaultFetchTimings}
-                                    sx={{ minWidth: 250, mt: 1, mb: 2 }}
-                                    disableClearable
-                                    renderInput={(params) => <TextField fullWidth {...params} required placeholder="Default fetch" />}
-                                />
-                            </Box>
                         </Box>
                     )}
                 </Box>
-                {/* <PlatformSelection
+                <PlatformSelection
                     {...{
                         platforms: subscription?.platforms,
                         selectedPlatforms,
@@ -350,20 +319,18 @@ export default function ({
                         cardSx: { ...platformCardSx },
                         platformsSx: { gap: 1 }
                     }}
-                /> */}
+                />
                 <AiModels {...{ selectedModel, setSelectedModel, aIkey, setAIkey, needAddAIkey, setNeedAddAIkey, setActionType }} />
-                {/* <Box sx={{ width: '50%', mt: 2 }}>
-                </Box> */}
             </Box>
 
             <Box sx={{ display: 'flex', justifyContent: 'right', my: 2, ...submitButtonSx }}>
                 <BRButton
                     sx={{ height: '40px', width: '180px' }}
-                    disabled={mentionSettingUpdateLoading}
+                    disabled={updateAdvancedProjectSettingLoading}
                     variant="contained"
-                    onClick={updateMentionSettings}
+                    onClick={updateProjectAdvancedSettings}
                 >
-                    {mentionSettingUpdateLoading ? (
+                    {updateAdvancedProjectSettingLoading ? (
                         <CircularProgress sx={{ maxHeight: '20px', maxWidth: '20px', ml: 1 }} />
                     ) : (
                         'Save Changes'

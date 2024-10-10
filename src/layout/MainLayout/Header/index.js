@@ -7,9 +7,12 @@ import { Box, Modal } from '@mui/material';
 import MobileSection from './MobileSection';
 import ProfileSection from './ProfileSection';
 import { useSelector } from 'react-redux';
-import { clearingError, updateMentionFetchStatusChangerOfProject } from 'features/project/projectActions';
+import {
+    // clearingError,
+    updateMentionFetchStatusChangerOfProject
+} from 'features/project/projectActions';
 import React from 'react';
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import NewProject from 'views/BizReply/projects/NewProject';
 import socket from 'socket';
 import useAuth from 'hooks/useAuth';
@@ -17,26 +20,25 @@ import { updateSucceedReport } from 'features/report/reportActions';
 
 const Header = () => {
     const {
-        project: { error, showProjectCreateModal, project }
+        project: { showProjectCreateModal, project }
     } = useSelector((state) => state);
     const { dbUser, user } = useAuth();
-    React.useEffect(() => {
-        if (error) {
-            toast.warning(error);
-            clearingError()();
-        }
-    }, [error]);
+    // React.useEffect(() => {
+    //     if (error) {
+    //         toast.warning(error);
+    //         clearingError()();
+    //     }
+    // }, [error]);
 
     React.useEffect(() => {
         socket.connect();
-
         if (project?._id) {
             const projectMentionStatus = `mentionsStatus:${project?._id}`;
             console.log(`Socket is connected mentionsStatus`, projectMentionStatus);
-            socket.on(projectMentionStatus, ({ message: { mentionsStatus } }) => {
+            socket.on(projectMentionStatus, ({ message: { mentionsStatus }, purposeName }) => {
                 // "succeed"
-                updateMentionFetchStatusChangerOfProject({ _id: project._id, mentionsStatus })();
-                console.log({ mentionsStatus });
+                updateMentionFetchStatusChangerOfProject({ _id: project._id, mentionsStatus, purposeName })();
+                console.log({ mentionsStatus, purposeName });
             });
         }
     }, [project?._id]);

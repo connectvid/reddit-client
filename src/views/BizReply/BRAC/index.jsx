@@ -1,7 +1,7 @@
 import { Autocomplete, Box, TextField, Typography } from '@mui/material';
 import { IconChevronDown } from '@tabler/icons';
 
-export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {}, title, ...rest }) {
+export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {}, title, titleSx = {}, titleSeparator = true, ...rest }) {
     return (
         <Box
             sx={{
@@ -14,11 +14,17 @@ export default function ({ placeholder, wrapperSx = {}, sx = {}, textFieldSx = {
                 ...wrapperSx
             }}
         >
-            <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', pl: 1.5 }}>
-                <Typography sx={{ color: '#BFBFBF', fontSize: '14px', fontWeight: 400, width: '100%' }}>
-                    {title} <span style={{ marginLeft: '5px' }}>|</span>{' '}
-                </Typography>
-            </Box>
+            {title ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', pl: 1.5, ...titleSx }}>
+                    <Typography
+                        sx={{ color: '#BFBFBF', fontSize: '14px', fontWeight: 400, width: '100%', display: 'flex', alignItems: 'center' }}
+                    >
+                        {title} {titleSeparator ? <span style={{ marginLeft: '5px' }}>|</span> : ''}{' '}
+                    </Typography>
+                </Box>
+            ) : (
+                ''
+            )}
 
             <Autocomplete
                 popupIcon={<IconChevronDown size={20} />}

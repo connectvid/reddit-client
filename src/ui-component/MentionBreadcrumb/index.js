@@ -31,7 +31,15 @@ export default function ({
                 {/* <MoreMentions {...{ selectedKeyword, setMentionsDataObj, setMoreLoading, moreLoading, firstKeyword }} /> */}
                 <AllPrompts width="260px" />
                 <AllProjects width="260px" />
-                <PostFilter {...{ setSelectedKeyword, loading, initFirstPage, width: '275px' }} />
+                <PostFilter
+                    {...{
+                        setSelectedKeyword,
+                        loading,
+                        initFirstPage,
+                        width: '275px'
+                        // wrapperSx: { minWidth: '180px', border: 0, background: 'transparent' }
+                    }}
+                />
                 <BRButton
                     variant="outlined"
                     sx={{ width: '170px', height: '40px' }}
