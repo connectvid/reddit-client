@@ -57,10 +57,10 @@ export default function ({
         // { label: '7 days', value: 7 },
         // { label: '15 days', value: 15 },
         // { label: '30 days', value: 30 }
-        { label: 'Every day', value: 1 },
-        { label: 'Every week', value: 7 },
-        { label: 'Every month', value: 30 },
-        { label: 'Every year', value: 365 }
+        { label: 'Last 24 hours', value: 1 },
+        { label: 'Last 7 days', value: 7 },
+        { label: 'Last 30 days', value: 30 },
+        { label: 'Last 365 days', value: 365 }
     ];
 
     const postsPerRequests = [20, 30, 40, 50, 100];
