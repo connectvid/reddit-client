@@ -143,7 +143,7 @@ const plans = [
     //     // product: 'prod_QavnUqEY4bSjcu',
     //     stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146'
     // }
-    {
+    /* {
         active: false,
         icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
         title: 'Solopreneur Plan',
@@ -186,6 +186,50 @@ const plans = [
         stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
         mongoId: '66cdd68ba02760d37fe4932e'
     }
+        */
+    {
+        active: false,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'Solopreneur Plan',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 69,
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        plan_id: 1,
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j6927kh2tgcm45tg0gn662rv',
+        // stripePayLink: 'https://buy.stripe.com/7sI3fc0Hr8R690c5kl',
+        mongoId: '67095e9621392ff919e0aae8'
+    },
+
+    {
+        active: false,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'Startup Plan',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 149,
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+        plan_id: 2,
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jww55h1rdcvem88hcwpkr',
+        // stripePayLink: 'https://buy.stripe.com/cN2aHE2Pz1oEcco8ww',
+        mongoId: '67095e9621392ff919e0aae9'
+    },
+    {
+        active: true,
+        icon: <Avatar src="logo-only.svg" sx={{ bgcolor: 'white', width: 50, height: 50 }} />,
+        title: 'Agency Plan',
+        type: 'Month',
+        description: 'Lifetime Deal',
+        price: 299,
+        permission: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        plan_id: 3,
+        product: 'pro_01j6926n5vbgstxd73dkde9gq3',
+        id: 'pri_01j69jxvygzs7z303wz22wg4jm',
+        stripePayLink: 'https://buy.stripe.com/eVaaHE4XH8R6foA146',
+        mongoId: '67095e9621392ff919e0aaea'
+    }
 ];
 
 const planList = [
@@ -193,7 +237,7 @@ const planList = [
         '5 Keywords Track',
         '200 AI Replies/Month',
         '50,000 Mentions',
-        'Reddit, X, Linkedin & Quora',
+        'All 8 Social Medias',
         '1 Brand Projects',
         '1 Team Member (Coming)',
         '1 Year History Storage',
@@ -206,7 +250,7 @@ const planList = [
         '25 Keywords Track',
         '500 AI Replies/Month',
         '150,000 Mentions',
-        'Reddit, X, Linkedin & Quora',
+        'All 8 Social Medias',
         '5 Brand Projects',
         '3 Team Members (Coming)',
         '2 Year History Storage',
@@ -217,16 +261,16 @@ const planList = [
     ],
     [
         '100 Keywords Track',
-        'Unlimited Replies/Month',
+        '2,500 AI Replies/Month',
         '450,000 Mentions',
-        'Reddit, X, LinkedIn & Quora',
+        'All 8 Social Medias',
         '20 Brand Projects',
         '10 Team Members (Coming)',
         '2 Year History Storage',
         'Bring Your GPT API Key',
         'Multi-Language',
         'Custom-Prompts (Coming)',
-        'Client Report Builder (5000 p)'
+        'Client Report Builder (2,500 p)'
     ]
 ];
 // const selectedPlans = [
