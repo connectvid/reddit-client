@@ -391,7 +391,7 @@ const Mentions = () => {
             {loading ? (
                 <>
                     <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
-                        Please Wait For 1-2 Minutes. We Are Working To Bring You New Posts Based On Your Keywords
+                        Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
                     </Typography>
                     <PostPlaceholder />
                 </>
@@ -499,7 +499,7 @@ const LoadMore = ({ loadMore, moreLoading, setSelectedLoadMoreKeyword, loading, 
 const IncommigPlaceholder = () => (
     <Box>
         <Typography variant="h3" sx={{ textAlign: 'center', mb: 2 }}>
-            Please Wait For A Few Seconds We Are Working To Bring You New Posts Based On Your Keywords
+            Please Wait For 1-2 Minutes. We Are Working To Bring You New Posts Based On Your Keywords
         </Typography>
         <Typography sx={{ textAlign: 'center', mb: 2 }}>
             <CircularProgress sx={{ maxHeight: '30px', maxWidth: '30px', color: '#0c22e5' }} />
