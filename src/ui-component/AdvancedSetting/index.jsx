@@ -98,18 +98,3 @@ export default function ({ modalClose, projectName }) {
         </Box>
     );
 }
-
-{
-    /* <Dialog
-open
-onClose={modalClose}
-sx={{
-    '.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm': {
-        p: 0,
-        m: 0,
-        width: '600px'
-    }
-    // p: 0
-}}
-></Dialog> */
-}

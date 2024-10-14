@@ -20,13 +20,13 @@ export default function ({ navigate, editProject, deleteProject, ...item }) {
     } = item;
     return (
         <Grid item xs={12} sm={12} md={6} lg={4}>
-            <Card sx={{ p: 0, m: 0 }}>
+            <Card sx={{ p: 0, m: 0, width: '100%' }}>
                 <CardContent sx={{ p: 0, fontWeight: '500', m: 0 }}>
                     <Box sx={{ position: 'relative', p: 1.5 }}>
                         <img src={thumbnail} alt="Reddit Feeds" style={{ maxWidth: '100%', borderRadius: '8px' }} />
                         <Box sx={{ display: 'flex', alignItems: 'center', position: 'absolute', bottom: 25, right: 25, gap: 1 }}>
                             <Typography
-                                style={{
+                                sx={{
                                     cursor: 'pointer',
                                     display: 'flex',
                                     justifyContent: 'center',
@@ -45,7 +45,7 @@ export default function ({ navigate, editProject, deleteProject, ...item }) {
                                 <IconTrash size={20} />
                             </Typography>
                             <Typography
-                                style={{
+                                sx={{
                                     cursor: 'pointer',
                                     display: 'flex',
                                     justifyContent: 'center',

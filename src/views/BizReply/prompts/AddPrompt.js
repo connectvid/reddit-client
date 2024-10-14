@@ -98,8 +98,9 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                         initialValues={initialValues}
                         validationSchema={Yup.object().shape({
                             name: Yup.string()
-                                // .min(3, 'Name must be at least 3 characters')
-                                // .max(100, 'Name must be at most 100 characters')
+                                .trim()
+                                .min(3, 'Name must be at least 3 characters')
+                                .max(100, 'Name must be at most 100 characters')
                                 .required('Name is required'),
                             // prompt: Yup.string()
                             //     // .min(10, 'Prompt must be at least 10 characters')
@@ -107,7 +108,7 @@ export default function ({ modalClose, initVals, isUpdate = false }) {
                             //     .required('Prompt is required')
                             description: Yup.string()
                                 // .min(10, 'Description must be at least 10 characters')
-                                // .max(500, 'Description must be at most 500 characters')
+                                .max(1800, 'Description must be at most 1800 characters')
                                 .required('Description is required')
                         })}
                         onSubmit={handleSubmit}

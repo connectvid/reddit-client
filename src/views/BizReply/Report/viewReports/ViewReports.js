@@ -28,7 +28,7 @@ const ViewReports = ({ reports, loading, handleModal, PDFReportStatusChange }) =
                 <Empty
                     {...{
                         handleModal,
-                        description: `Currently you don’t have any reports yet. Let’s create a report'`,
+                        description: `Currently you don’t have any reports yet. Let’s create a report!`,
                         buttonTitle: 'Create a New Report'
                     }}
                 />

@@ -18,14 +18,11 @@ export default function ({ report }) {
     return (
         <Card
             variant="outlined"
-            style={{
-                // maxWidth: 400,
-                margin: '20px auto',
-                // padding: '20px',
-                borderRadius: '15px'
-            }}
             sx={{
-                boxShadow: 3
+                margin: '20px auto',
+                boxShadow: 3,
+                borderRadius: '15px',
+                width: '100%'
             }}
         >
             <CardContent>

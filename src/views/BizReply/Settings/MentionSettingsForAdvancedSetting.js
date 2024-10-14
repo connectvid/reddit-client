@@ -141,6 +141,10 @@ export default function ({
                 toast.warn(`Please enter ${selectedModel?.modelGroupName} API key!`);
                 return;
             }
+            if (!selectedPlatforms?.length) {
+                toast.warn(`Please check at least one social media!`);
+                return;
+            }
             const token = await getAccessToken();
             const platforms = selectedPlatforms;
             const ai_model = {
