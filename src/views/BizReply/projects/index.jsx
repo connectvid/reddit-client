@@ -4,11 +4,14 @@ import ProjectBreadcrumb from 'ui-component/Project/ProjectBreadcrumb';
 import EmptyProject from './EmptyProject';
 
 const Projects = () => {
-    const { projects, loading } = useSelector((state) => state.project);
+    const {
+        project: { projects, loading },
+        subscription: { subscription = {} }
+    } = useSelector((state) => state);
 
     return (
         <>
-            <ProjectBreadcrumb />
+            <ProjectBreadcrumb {...{ remainingProject: subscription?.remainingCredit?.projects }} />
             {!projects?.length && !loading ? <EmptyProject /> : ``}
             <ProjectsTable {...{ projects }} />
         </>

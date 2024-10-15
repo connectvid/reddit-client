@@ -1,6 +1,5 @@
-import { TextField, Button, IconButton, InputAdornment } from '@mui/material';
-import { Box } from '@mui/system';
-import filterIcon from '../../../../assets/images/svgIcons/reports/filter.svg';
+import { TextField, IconButton, InputAdornment, Box } from '@mui/material';
+// import filterIcon from '../../../../assets/images/svgIcons/reports/filter.svg';
 import searchIcon from '../../../../assets/images/svgIcons/reports/search.svg';
 import gridViewIcon from '../../../../assets/images/svgIcons/reports/gridView.svg';
 import listViewIcon from '../../../../assets/images/svgIcons/reports/listView.svg';
@@ -24,7 +23,7 @@ const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput,
 
     return (
         <Box
-            style={{
+            sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -33,11 +32,11 @@ const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput,
             }}
         >
             {/* Search and Filter Section */}
-            <div style={{ display: 'flex', flex: 1, maxWidth: '50%', gap: '10px' }}>
+            <Box sx={{ display: 'flex', flex: 1, maxWidth: '50%', gap: '10px' }}>
                 {/* Search Field */}
                 <TextField
                     variant="outlined"
-                    placeholder="Search reports"
+                    placeholder="Search Reports"
                     size="small"
                     fullWidth
                     value={searchInput}
@@ -54,7 +53,7 @@ const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput,
                 />
 
                 {/* Filter Button */}
-                <Button
+                {/* <Button
                     variant="outlined"
                     startIcon={<img style={{ width: '20px' }} src={filterIcon} alt="text" />}
                     size="small"
@@ -66,12 +65,12 @@ const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput,
                     }}
                 >
                     Filter
-                </Button>
-            </div>
+                </Button> */}
+            </Box>
 
             {/* View Mode Icons Section */}
-            <div
-                style={{
+            <Box
+                sx={{
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'flex-end',
@@ -90,7 +89,7 @@ const SearchBar = ({ setShowComponent, reports, setFilteredReports, searchInput,
                     {/* <ViewListIcon /> */}
                     <img style={{ background: '#F5F6FA', padding: '5px', borderRadius: '3px' }} src={listViewIcon} alt="list" />
                 </IconButton>
-            </div>
+            </Box>
         </Box>
     );
 };

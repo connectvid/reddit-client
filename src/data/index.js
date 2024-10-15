@@ -87,8 +87,8 @@ export const STRAICO_MODELS = [
     'openai/gpt-4o',
     'openai/gpt-4o-mini',
     'perplexity/llama-3.1-sonar-huge-128k-online',
-    'perplexity/llama-3-sonar-large-32k-online',
+    // 'perplexity/llama-3-sonar-large-32k-online',
     // '    /llama-3-sonar-small-32k-online',
-    'qwen/qwen-2-72b-instruct',
-    'mattshumer/reflection-70b'
+    'qwen/qwen-2-72b-instruct'
+    // 'mattshumer/reflection-70b'
 ];

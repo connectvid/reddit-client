@@ -63,6 +63,7 @@ const PostCard = ({
     // console.log(dbUser, 'dbUser');
     const filteredReply = reply ? replaceDomainWithLink(reply.replace(/[*#]/g, '')) : reply;
     const [editReply, setEditReply] = useState(filteredReply);
+    const [REPLY, SET_REPLY] = useState(filteredReply);
     const [generatingReply, setGeneratingReply] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
     const [openAlert, setOpenAlert] = useState(false);
@@ -131,6 +132,7 @@ const PostCard = ({
         }
         setGeneratingReply(false);
     };
+
     const handleUpdateReply = async ({ update_on = 'reply', isDelete = false, markReply }) => {
         setUpdatingReply(true);
         const editVal = isDelete ? '' : editReply;
@@ -150,6 +152,7 @@ const PostCard = ({
                 setEditReply('');
             } else if (update_on === 'reply') {
                 setEditReply(editVal);
+                SET_REPLY(editVal);
             }
             if (pathname === REPLY_PATH) {
                 setObjItems((p) => {
@@ -233,6 +236,7 @@ const PostCard = ({
         }
         setUpdatingReply(false);
     };
+
     const handleDeletePost = async () => {
         setDeletePost(true);
 
@@ -368,7 +372,7 @@ const PostCard = ({
                                 {...{
                                     editReply,
                                     setEditReply,
-                                    reply: editReply,
+                                    reply: REPLY,
                                     updatingReply,
                                     handleUpdateReply,
                                     editOpen,
@@ -377,7 +381,8 @@ const PostCard = ({
                                     link,
                                     showMarkRepliedBtn,
                                     markReply,
-                                    markReplyPosition
+                                    markReplyPosition,
+                                    filteredReply
                                 }}
                             />
                         )}

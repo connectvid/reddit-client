@@ -49,6 +49,7 @@ const styles = {
     cursor: 'pointer'
 };
 const GeneretedReply = ({
+    // filteredReply,
     editReply,
     setEditReply,
     reply,
@@ -83,9 +84,7 @@ const GeneretedReply = ({
                 {(editReply && (
                     <>
                         {editOpen ? (
-                            <>
-                                <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
-                            </>
+                            <EditReply {...{ editReply, setEditReply, updatingReply, handleUpdateReply }} />
                         ) : (
                             <Typography
                                 sx={{

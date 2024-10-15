@@ -50,10 +50,11 @@ export default function ({ reports }) {
                                 <BRButton
                                     variant="contained"
                                     fullWidth
-                                    startIcon={<LuDownloadCloud />}
-                                    style={{
+                                    startIcon={report?.pdfUrl ? <LuDownloadCloud /> : <></>}
+                                    sx={{
                                         marginTop: '20px',
-                                        opacity: report?.pdfUrl ? 1 : 0.7
+                                        opacity: report?.pdfUrl ? 1 : 0.7,
+                                        color: '#fff !important'
                                     }}
                                     disabled={!report.pdfUrl}
                                     onClick={() => {
@@ -63,6 +64,7 @@ export default function ({ reports }) {
                                         // document.body.appendChild(link);
                                         // link.click();
                                         // document.body.removeChild(link);
+                                        if (!report.pdfUrl) return;
                                         window.open(report.pdfUrl, '_blank');
                                     }}
                                 >
@@ -78,7 +80,7 @@ export default function ({ reports }) {
                                     ) : (
                                         'Download report'
                                     )} */}
-                                    Download report
+                                    {report?.pdfUrl ? 'Download report' : 'Processing...'}
                                 </BRButton>
                             </TableCell>
                         </TableRow>

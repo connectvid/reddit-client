@@ -79,9 +79,9 @@ const SetKeywords = () => {
                     <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
                         Add Keywords
                     </Typography>
-                    <Typography variant="subtitle1" sx={{ color: 'blue', cursor: 'pointer' }}>
+                    {/* <Typography variant="subtitle1" sx={{ color: 'blue', cursor: 'pointer' }}>
                         +Add new keywords
-                    </Typography>
+                    </Typography> */}
                 </Box>
 
                 <Box sx={{ mb: 2 }}>

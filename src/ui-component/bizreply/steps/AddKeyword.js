@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { IconPlus } from 'tabler-icons';
 import BRInput from 'ui-component/bizreply/BRInput';
-import GradinentText from 'ui-component/GradinentText';
+// import GradinentText from 'ui-component/GradinentText';
 import { IconX } from '@tabler/icons';
 import { toast } from 'react-toastify';
 // import { useLocation, useNavigate } from 'react-router-dom';
@@ -69,7 +69,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                 <Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
                         <Typography sx={{ fontWeight: 700, fontSize: '16px', color: '#000' }}>Add Keywords</Typography>
-                        <GradinentText sx={{ display: 'flex', alignItems: 'center' }}>
+                        {/* <GradinentText sx={{ display: 'flex', alignItems: 'center' }}>
                             <IconPlus size={16} color="#0C22E5" />
                             <Typography
                                 sx={{ fontWeight: 500, fontSize: '14px', cursor: 'pointer' }}
@@ -77,7 +77,7 @@ const AddKeyword = ({ suggestedKeywords, addedKeywords, setAddedKeywords }) => {
                             >
                                 Add new keywords
                             </Typography>
-                        </GradinentText>
+                        </GradinentText> */}
                     </Box>
                     <Box>
                         <BRInput

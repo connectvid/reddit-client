@@ -19,7 +19,6 @@ export default function ({ report }) {
         <Card
             variant="outlined"
             sx={{
-                margin: '20px auto',
                 boxShadow: 3,
                 borderRadius: '15px',
                 width: '100%'

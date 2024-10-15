@@ -3,9 +3,10 @@ import BRButton from 'ui-component/bizreply/BRButton';
 import Breadcrumb from '../../Breadcrumb';
 import { toggleProjectCreateModalCtrl } from 'features/project/projectActions';
 import { Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 // import AllProjects from '../AllProjects';
 
-export default function () {
+export default function ({ remainingProject }) {
     return (
         <Breadcrumb title="Projects">
             <Typography
@@ -22,7 +23,18 @@ export default function () {
                 All Projects
             </Typography>
             {/* <AllProjects {...{ projectListWidth: '210px' }} /> */}
-            <BRButton sx={{ height: '40px', width: '180px' }} variant="contained" onClick={toggleProjectCreateModalCtrl()}>
+            <BRButton
+                sx={{ height: '40px', width: '180px' }}
+                variant="contained"
+                onClick={() => {
+                    if (!remainingProject || remainingProject < 1) {
+                        console.log({ remainingProject });
+                        toast.warn(`Project limit is over!`);
+                        return;
+                    }
+                    toggleProjectCreateModalCtrl()();
+                }}
+            >
                 Add Project
             </BRButton>
         </Breadcrumb>
