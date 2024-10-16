@@ -63,7 +63,7 @@ export default function ({
             </Box>
             <Divider sx={{ borderColor: '#CCD3D9', my: 1 }} />
             <Typography sx={{ fontSize: '16px', fontWeight: 700 }}>Selected Negative Keywords</Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, pt: 2 }}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, my: 2 }}>
                 {negativeKeywords?.map?.((keyword, i) => (
                     <Typography
                         onClick={() => {

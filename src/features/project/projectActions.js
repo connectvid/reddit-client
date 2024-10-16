@@ -341,3 +341,8 @@ export const fetchAllProjects = createAsyncThunk('project/fetchAllProjects', asy
         throw e;
     }
 });
+
+export const domainCheckerAPI = async ({ data = {} }) => {
+    const resp = await axios.post(`projects/domain-checker`, data);
+    return resp.data;
+};

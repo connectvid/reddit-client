@@ -4,29 +4,30 @@ import Stepper1 from './stepper/Stepper1';
 import BRButton from '../BRButton';
 import { toast } from 'react-toastify';
 import { domainRegex } from 'config';
-import dns from 'dns';
+// import { domainCheckerAPI } from 'features/project/projectActions';
 
 const Step1 = ({ values, handleChange, setStep, isEditProject }) => {
-    // console.log(editProject, 'editProject');
-    const handleNextStep = () => {
+    const handleNextStep = async () => {
         const { brandName, domain, shortDescription } = values;
         if (!brandName?.trim?.() || !domain?.trim?.() || !shortDescription?.trim?.()) {
             toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'warning' });
         } else if (!domainRegex.test(domain)) {
             toast.warn('Please Enter a domain!');
-        } else if (!isEditProject) {
-            dns.lookup(domain, (err, addresses, family) => {
-                if (err) {
-                    toast.warn('Please Enter a domain!');
-                } else {
-                    // setStep(2);
-                }
-                console.log(addresses, family);
-            });
-        } else {
+        }
+
+        // else if (!isEditProject) {
+        //     try {
+        //         await domainCheckerAPI({ data: { domain } });
+        //         setStep(2);
+        //     } catch (e) {
+        //         toast.warn('Please Enter a domain!');
+        //     }
+        // }
+        else {
             setStep(2);
         }
     };
+
     return (
         <Box>
             <Stepper1 />
