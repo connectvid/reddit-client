@@ -60,6 +60,7 @@ export const PRIMARY_GREY_COLOR = '#6e7478';
 export const NEW_POST_RAG_PAST_DAYS = 7;
 
 export const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=[\]{}|\\;:'",.<>?/`~]).{8,32}$/;
+export const domainRegex = /^(https?:\/\/)?(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/;
 
 const config = {
     fontFamily: `Inter, sans-serif`,

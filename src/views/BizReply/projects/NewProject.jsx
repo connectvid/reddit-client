@@ -37,6 +37,7 @@ export default function () {
     const [addedKeywords, setAddedKeywords] = useState([]);
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
     const [negativeKeywords, setNegativeKeywords] = useState([]);
+    const [values, setValues] = useState(initVals);
 
     const {
         project: { addProjectLoading, updateProjectLoading, projectCreated, projectUpdated, isEditProject, editProject }
@@ -50,7 +51,6 @@ export default function () {
     //         setNegativeKeywords((p) => [...p, keyword]);
     //     }
     // };
-
     const handleNegativeKeyword = (keyword) => {
         if (negativeKeywords.includes(keyword)) {
             setNegativeKeywords((p) => p.filter((item) => item !== keyword));
@@ -68,8 +68,8 @@ export default function () {
         const check = checkNegativeKeywordInKeywords({ keywords: addedKeywords, negativeKeyword: keyword });
         return check.matchedExistingKeyword.length;
     };
-    const [values, setValues] = useState(initVals);
 
+    const handleChange = ({ target: { name, value = '' } }) => setValues((p = {}) => ({ ...p, [name]: value }));
     useEffect(() => {
         if (projectCreated) {
             setStep(4);
@@ -126,9 +126,9 @@ export default function () {
             domainValue = `https://${domainValue}`;
         }
         const body = {
-            brandName: values.brandName,
-            domain: domainValue,
-            shortDescription: values.shortDescription,
+            brandName: values.brandName.trim(),
+            domain: domainValue.trim(),
+            shortDescription: values.shortDescription.trim(),
             platforms: selectedPlatforms,
             suggestedKeywords: addedKeywords,
             keywords: suggestedKeywords,
@@ -215,7 +215,7 @@ export default function () {
 
             {step === 1 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step1 {...{ values, setValues, setStep, editProject, isEditProject }} />
+                    <Step1 {...{ values, handleChange, setStep, editProject, isEditProject }} />
                 </Box>
             )}
             {step === 2 && (
