@@ -6,6 +6,7 @@ import errorMsgHelper from 'utils/errorMsgHelper';
 import useAuth from 'hooks/useAuth';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { passwordRegex } from 'config';
 
 export default function () {
     const { changePassword } = useAuth();
@@ -41,12 +42,23 @@ export default function () {
                             confirmPassword: ''
                         }}
                         validationSchema={Yup.object().shape({
-                            oldPassword: Yup.string().min(8).max(30).required('Old Password is required'),
-                            password: Yup.string().min(8).max(30).required('Password is required'),
+                            oldPassword: Yup.string().min(8).max(32).required('Old Password is required'),
+                            password: Yup.string()
+                                .min(8)
+                                .max(32)
+                                .matches(
+                                    passwordRegex,
+                                    'Password at least one uppercase letter, one lowercase letter, one number, and one symbol!'
+                                )
+                                .required('Password is required'),
                             confirmPassword: Yup.string()
                                 .oneOf([Yup.ref('password'), null], 'Passwords must match')
                                 .min(8)
-                                .max(30)
+                                .max(32)
+                                .matches(
+                                    passwordRegex,
+                                    'Confirm Password at least one uppercase letter, one lowercase letter, one number, and one symbol!'
+                                )
                                 .required('Confirm password Password is required')
                         })}
                         onSubmit={handleSubmit}
