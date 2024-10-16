@@ -81,6 +81,7 @@ const PostCard = ({
             return;
         }
         setGeneratingReply(true);
+
         const body = {
             title,
             snippet,
@@ -99,6 +100,7 @@ const PostCard = ({
             const { reply: responseReply, apiPrompt } = response.data;
             console.log(apiPrompt);
             setEditReply(responseReply);
+            SET_REPLY(responseReply);
             setObjItems((p) => {
                 if (selectedPlatform) {
                     const changed =
