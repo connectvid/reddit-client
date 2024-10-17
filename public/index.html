@@ -76,8 +76,18 @@
                 token: 'live_5b1a280953dd21dd048c5b7a5ea' // replace with a client-side token
             });
         </script>
-
-        <!-- 199798  bizreply-->
-        <!-- 140124  tweetsy-->
+        <script>
+            const fpPromise = import('https://openfpcdn.io/fingerprintjs/v4').then((FingerprintJS) => FingerprintJS.load());
+            fpPromise
+                .then((fp) => fp.get())
+                .then((result) => {
+                    const brVisitorId = result.visitorId;
+                    window.brVisitorId = brVisitorId;
+                    document.cookie = `brVisitorId=${brVisitorId}`;
+                    const brTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                    window.brTimeZone = brTimeZone;
+                    document.cookie = `brTimeZone=${brTimeZone}`;
+                });
+        </script>
     </body>
 </html>
