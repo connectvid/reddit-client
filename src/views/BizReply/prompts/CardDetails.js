@@ -77,7 +77,6 @@ const CardDetails = ({ language, tone, reply_character_limit, description, name,
                 }}
             >
                 {str.split('\n').map((item, i) => {
-                    console.log(item);
                     return (
                         <Box
                             key={i}

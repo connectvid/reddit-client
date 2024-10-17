@@ -4,19 +4,12 @@ import { Link, useLocation } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import {
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Typography // , useMediaQuery
-} from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import useConfig from 'hooks/useConfig';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    activeItem // , openDrawer
-} from 'features/menu/menuSlice';
+import { activeItem, openDrawer } from 'features/menu/menuSlice';
 
 // assets
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
@@ -24,9 +17,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
 const NavItem = ({ item, level }) => {
-    const { search, pathname } = useLocation();
+    const { search } = useLocation();
     const theme = useTheme();
-    // const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
+    const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
     const { grey } = theme.palette;
     const { borderRadius } = useConfig();
     const dispatch = useDispatch();
@@ -57,10 +50,10 @@ const NavItem = ({ item, level }) => {
         listItemProps = { component: 'a', href: item.url, target: itemTarget };
     }
 
-    // const itemHandler = (id) => {
-    //     dispatch(activeItem([id]));
-    //     if (matchesSM) dispatch(openDrawer(false));
-    // };
+    const itemHandler = (id) => {
+        dispatch(activeItem([id]));
+        if (matchesSM) dispatch(openDrawer(false));
+    };
 
     // active menu item on page load
     useEffect(() => {
@@ -73,6 +66,7 @@ const NavItem = ({ item, level }) => {
         }
         // eslint-disable-next-line
     }, []);
+
     return (
         <ListItemButton
             {...listItemProps}
@@ -82,17 +76,16 @@ const NavItem = ({ item, level }) => {
                 mb: 0.5,
                 alignItems: 'flex-start',
                 // backgroundColor: level > 1 ? 'transparent !important' : 'inherit',
-                background: pathname.includes(item?.url) ? 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)' : 'inherit',
-                // background:openItem?.findIndex((id) => id === item.id) > -1 ? 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)' : 'inherit',
+                background:
+                    openItem?.findIndex((id) => id === item.id) > -1 ? 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)' : 'inherit',
                 py: level > 1 ? 1 : 1.25,
                 pl: `${level * 24}px`
                 // ,...(openItem?.findIndex((id) => id === item.id) > -1
                 //     ? { background: 'linear-gradient(92.84deg, #0c22e5 0%, #2a98d5 96.82%)', color: '#fff' }
                 //     : {})
             }}
-            selected={pathname.includes(item?.url)}
-            // selected={openItem?.findIndex((id) => id === item.id) > -1}
-            // onClick={() => itemHandler(item.id)}
+            selected={openItem?.findIndex((id) => id === item.id) > -1}
+            onClick={() => itemHandler(item.id)}
         >
             <ListItemIcon sx={{ my: 'auto', minWidth: !item?.icon ? 18 : 36, color: '#6E7478' }}>{itemIcon}</ListItemIcon>
             <ListItemText
