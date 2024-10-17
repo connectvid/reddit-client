@@ -20,11 +20,49 @@ import Step4 from 'ui-component/bizreply/steps/Step4';
 import useAuth from 'hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { DASHBOARD_PATH, ONBOARDING_PATH } from 'config';
+import { DASHBOARD_PATH, ONBOARDING_PATH, domainRegex } from 'config';
 import axios from 'utils/axios';
 import { FaRegTimesCircle } from 'react-icons/fa';
 import checkNegativeKeywordInKeywords from 'utils/checkNegativeKeywordInKeywords';
 
+const validationChecker = (touch, vls, touchSkip = false) => {
+    const { brandName = '', domain = '', shortDescription = '' } = vls;
+    const errors = {};
+    if (touch?.brandName || touchSkip) {
+        if (!brandName.trim()) {
+            errors.brandName = 'Brand name is mandatory!';
+        } else if (brandName.length < 3) {
+            errors.brandName = 'Brand name must be at least 3 characters!';
+        } else if (brandName.length > 100) {
+            errors.brandName = 'Brand name must be at most 100 characters!';
+        } else if (errors.brandName) {
+            delete errors.brandName;
+        }
+    }
+
+    if (touch?.domain || touchSkip) {
+        if (!domain.trim()) {
+            errors.domain = 'Domain is mandatory!';
+        } else if (!domainRegex.test(domain)) {
+            errors.domain = 'Invalid domain';
+        } else if (errors.domain) {
+            delete errors.domain;
+        }
+    }
+
+    if (touch?.shortDescription || touchSkip) {
+        if (!shortDescription.trim()) {
+            errors.shortDescription = 'Description is mandatory!';
+        } else if (shortDescription.length < 15) {
+            errors.shortDescription = 'Description must be at least 15 characters!';
+        } else if (shortDescription.length > 2000) {
+            errors.shortDescription = 'Description must be at most 2000 characters!';
+        } else if (errors.shortDescription) {
+            delete errors.shortDescription;
+        }
+    }
+    return errors;
+};
 export default function () {
     const initVals = {
         brandName: '',
@@ -38,19 +76,55 @@ export default function () {
     const [selectedPlatforms, setselectedPlatforms] = useState([]);
     const [negativeKeywords, setNegativeKeywords] = useState([]);
     const [values, setValues] = useState(initVals);
+    const [touch, setTouch] = useState({});
+    const [errors, setErrors] = useState({});
 
     const {
         project: { addProjectLoading, updateProjectLoading, projectCreated, projectUpdated, isEditProject, editProject }
     } = useSelector((state) => state);
     const { getAccessToken } = useAuth();
     const [step, setStep] = useState(1);
-    // const handleNegativeKeyword = (keyword) => {
-    //     if (negativeKeywords.includes(keyword)) {
-    //         setNegativeKeywords((p) => p.filter((item) => item !== keyword));
-    //     } else {
-    //         setNegativeKeywords((p) => [...p, keyword]);
-    //     }
-    // };
+
+    const { brandName = '', domain = '', shortDescription = '' } = values;
+
+    // console.log(values, 'values', touch);
+
+    const handleNextStep = async () => {
+        const errs = validationChecker(touch, values, true);
+        if (Object.keys(errs).length) {
+            setErrors(errs);
+            return;
+        }
+        setStep(2);
+        // if (!brandName?.trim?.() || !domain?.trim?.() || !shortDescription?.trim?.()) {
+        //     toast('Please Enter Project Name, domain and short description', { autoClose: 2500, type: 'warning' });
+        // } else if (!domainRegex.test(domain)) {
+        //     toast.warn('Please Enter a domain!');
+        // }
+        // // else if (!isEditProject) {
+        // //     try {
+        // //         await domainCheckerAPI({ data: { domain } });
+        // //         setStep(2);
+        // //     } catch (e) {
+        // //         toast.warn('Please Enter a domain!');
+        // //     }
+        // // }
+        // else {
+        //     setStep(2);
+        // }
+    };
+
+    const onBlur = ({ target: { name } }) => {
+        const t = { ...touch, [name]: true };
+        setTouch(t);
+        // setErrors(validationChecker(t));
+        console.log(t);
+    };
+
+    useEffect(() => {
+        setErrors(validationChecker(touch, values));
+    }, [brandName, domain, shortDescription]);
+
     const handleNegativeKeyword = (keyword) => {
         if (negativeKeywords.includes(keyword)) {
             setNegativeKeywords((p) => p.filter((item) => item !== keyword));
@@ -69,12 +143,18 @@ export default function () {
         return check.matchedExistingKeyword.length;
     };
 
-    const handleChange = ({ target: { name, value = '' } }) => setValues((p = {}) => ({ ...p, [name]: value }));
+    // const func = (name, value) => setValues((p) => ({ ...p, [name]: value }));
+
+    const handleChange = ({ target: { name, value = '' } }) => {
+        setValues((p) => ({ ...p, [name]: value }));
+    };
+
     useEffect(() => {
         if (projectCreated) {
             setStep(4);
             projectCreatedStatus(false)();
         }
+
         if (projectUpdated) {
             setStep(4);
             projectUpdatedStatus(false)();
@@ -215,7 +295,7 @@ export default function () {
 
             {step === 1 && (
                 <Box style={{ padding: '20px 30px', marginTop: '-10px' }}>
-                    <Step1 {...{ values, handleChange, setStep, editProject, isEditProject }} />
+                    <Step1 {...{ values, handleChange, setStep, editProject, isEditProject, handleBlur: onBlur, errors, handleNextStep }} />
                 </Box>
             )}
             {step === 2 && (
